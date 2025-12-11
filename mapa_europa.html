@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa de Europa - Capitales</title>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.18);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #020617 0, #000 60%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      padding: 1rem;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    header {
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    header p {
+      margin: 0.4rem 0 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .layout {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1.4fr 0.9fr;
+      align-items: stretch;
+    }
+
+    @media (max-width: 768px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .map-card {
+      background: radial-gradient(circle at top left, #020617, #000 70%);
+      border-radius: 1.25rem;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(15, 23, 42, 0.9);
+      min-height: 320px;
+    }
+
+    .map-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, var(--accent-soft), transparent 55%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    #map {
+      width: 100%;
+      height: min(70vh, 650px);
+      min-height: 320px;
+      z-index: 1;
+    }
+
+    .info-card {
+      background: radial-gradient(circle at top right, #020617, #000 80%);
+      border-radius: 1.25rem;
+      border: 1px solid var(--border);
+      padding: 1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      box-shadow:
+        0 14px 40px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(15, 23, 42, 0.9);
+    }
+
+    .info-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+    }
+
+    .info-header h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .pill {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.1rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.9);
+      margin-left: auto;
+    }
+
+    .info-body {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .info-body strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .info-extra {
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px dashed rgba(55, 65, 81, 0.85);
+      padding-top: 0.5rem;
+      margin-top: 0.3rem;
+    }
+
+    .info-extra ul {
+      padding-left: 1rem;
+      margin: 0.3rem 0 0;
+    }
+
+    .info-extra li {
+      margin: 0.1rem 0;
+    }
+
+    .legend {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      gap: 0.3rem;
+      align-items: center;
+      margin-top: 0.2rem;
+    }
+
+    .legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(56, 189, 248, 0.15);
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>Mapa de Europa</h1>
+      <p>Haz clic en un país para ver su capital.</p>
+    </header>
+
+    <section class="layout">
+      <!-- MAPA -->
+      <article class="map-card">
+        <div id="map"></div>
+      </article>
+
+      <!-- PANEL DE INFORMACIÓN -->
+      <aside class="info-card" id="infoPanel">
+        <div class="info-header">
+          <div class="dot"></div>
+          <h2>Explora el mapa</h2>
+          <span class="pill">Interactivo</span>
+        </div>
+        <div class="info-body">
+          Pulsa sobre un país de Europa en el mapa de la izquierda.
+          Te mostraré su <strong>capital</strong> y el nombre del país.
+        </div>
+        <div class="legend">
+          <span class="legend-swatch"></span>
+          <span>Zona resaltada al pasar el ratón.</span>
+        </div>
+        <div class="info-extra">
+          <strong>Consejos:</strong>
+          <ul>
+            <li>Haz zoom con la rueda del ratón o pellizcando en el móvil.</li>
+            <li>Arrastra el mapa para centrar mejor un país.</li>
+            <li>Si añades más países al GeoJSON, se incorporan automáticamente.</li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <script>
+    // Diccionario de países y capitales (clave = nombre del país en inglés tal y como aparece en el GeoJSON)
+    const capitalsByName = {
+      "Spain": { pais: "España", capital: "Madrid" },
+      "Portugal": { pais: "Portugal", capital: "Lisboa" },
+      "France": { pais: "Francia", capital: "París" },
+      "United Kingdom": { pais: "Reino Unido", capital: "Londres" },
+      "Ireland": { pais: "Irlanda", capital: "Dublín" },
+      "Germany": { pais: "Alemania", capital: "Berlín" },
+      "Italy": { pais: "Italia", capital: "Roma" },
+      "Switzerland": { pais: "Suiza", capital: "Berna" },
+      "Belgium": { pais: "Bélgica", capital: "Bruselas" },
+      "Netherlands": { pais: "Países Bajos", capital: "Ámsterdam" },
+      "Luxembourg": { pais: "Luxemburgo", capital: "Luxemburgo" },
+      "Denmark": { pais: "Dinamarca", capital: "Copenhague" },
+      "Norway": { pais: "Noruega", capital: "Oslo" },
+      "Sweden": { pais: "Suecia", capital: "Estocolmo" },
+      "Finland": { pais: "Finlandia", capital: "Helsinki" },
+      "Poland": { pais: "Polonia", capital: "Varsovia" },
+      "Czech Republic": { pais: "República Checa", capital: "Praga" },
+      "Austria": { pais: "Austria", capital: "Viena" },
+      "Hungary": { pais: "Hungría", capital: "Budapest" },
+      "Slovakia": { pais: "Eslovaquia", capital: "Bratislava" },
+      "Slovenia": { pais: "Eslovenia", capital: "Liubliana" },
+      "Croatia": { pais: "Croacia", capital: "Zagreb" },
+      "Bosnia and Herzegovina": { pais: "Bosnia y Herzegovina", capital: "Sarajevo" },
+      "Serbia": { pais: "Serbia", capital: "Belgrado" },
+      "Montenegro": { pais: "Montenegro", capital: "Podgorica" },
+      "Albania": { pais: "Albania", capital: "Tirana" },
+      "North Macedonia": { pais: "Macedonia del Norte", capital: "Skopie" },
+      "Greece": { pais: "Grecia", capital: "Atenas" },
+      "Bulgaria": { pais: "Bulgaria", capital: "Sofía" },
+      "Romania": { pais: "Rumanía", capital: "Bucarest" },
+      "Ukraine": { pais: "Ucrania", capital: "Kiev (Kyiv)" },
+      "Belarus": { pais: "Bielorrusia", capital: "Minsk" },
+      "Russia": { pais: "Rusia", capital: "Moscú" },
+      "Estonia": { pais: "Estonia", capital: "Tallin" },
+      "Latvia": { pais: "Letonia", capital: "Riga" },
+      "Lithuania": { pais: "Lituania", capital: "Vilna" },
+      "Iceland": { pais: "Islandia", capital: "Reikiavik" },
+      "Andorra": { pais: "Andorra", capital: "Andorra la Vieja" },
+      "Monaco": { pais: "Mónaco", capital: "Mónaco" },
+      "San Marino": { pais: "San Marino", capital: "San Marino" },
+      "Liechtenstein": { pais: "Liechtenstein", capital: "Vaduz" },
+      "Malta": { pais: "Malta", capital: "La Valeta" }
+    };
+
+    const infoPanel = document.getElementById("infoPanel");
+
+    // Crear mapa centrado en Europa
+    const map = L.map("map").setView([54, 15], 4);
+
+    // Capa base plana (sin relieve ni etiquetas) usando Carto light_nolabels
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
+      maxZoom: 19,
+      attribution:
+        '© OpenStreetMap contributors | Tiles © Carto'
+    }).addTo(map);
+
+    // Estilo por defecto de los países
+    function defaultStyle() {
+      return {
+        color: "#38bdf8",
+        weight: 1,
+        opacity: 0.7,
+        fillOpacity: 0.15,
+        fillColor: "#38bdf8"
+      };
+    }
+
+    // Estilo al resaltar
+    function highlightStyle() {
+      return {
+        color: "#38bdf8",
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.35,
+        fillColor: "#38bdf8"
+      };
+    }
+
+    // Actualizar panel con info de país
+    function updateInfoPanel(countryName, data) {
+      const pais = data?.pais || countryName || "País desconocido";
+      const capital = data?.capital || "Capital no disponible";
+
+      infoPanel.innerHTML = `
+        <div class="info-header">
+          <div class="dot"></div>
+          <h2>${pais}</h2>
+          <span class="pill">Capital</span>
+        </div>
+        <div class="info-body">
+          La capital de <strong>${pais}</strong> es
+          <strong>${capital}</strong>.
+        </div>
+        <div class="info-extra">
+          <strong>Tip:</strong>
+          <ul>
+            <li>Pulsa en otro país para seguir practicando.</li>
+            <li>Si tu GeoJSON incluye más países de Europa, también funcionarán.</li>
+          </ul>
+        </div>
+      `;
+    }
+
+    // Qué hacer con cada país (feature) del GeoJSON
+    function onEachCountry(feature, layer) {
+      const name =
+        feature.properties.name ||
+        feature.properties.NAME ||
+        feature.properties.admin ||
+        feature.properties.ADMIN;
+
+      // Eventos
+      layer.on({
+        mouseover: function (e) {
+          e.target.setStyle(highlightStyle());
+          if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            e.target.bringToFront();
+          }
+        },
+        mouseout: function (e) {
+          e.target.setStyle(defaultStyle());
+        },
+        click: function (e) {
+          const info = capitalsByName[name];
+          updateInfoPanel(name, info);
+        }
+      });
+    }
+
+    // Cargar el GeoJSON de Europa
+    fetch("europe.geojson")
+      .then((response) => response.json())
+      .then((data) => {
+        const layer = L.geoJSON(data, {
+          style: defaultStyle,
+          onEachFeature: onEachCountry
+        }).addTo(map);
+
+        // Ajustar el zoom a la extensión de Europa (lo que venga en el GeoJSON)
+        map.fitBounds(layer.getBounds());
+      })
+      .catch((error) => {
+        console.error("Error cargando europe.geojson:", error);
+        infoPanel.querySelector(".info-body").innerHTML =
+          "No se ha podido cargar el archivo <strong>europe.geojson</strong>. " +
+          "Asegúrate de que está en la misma carpeta que este HTML y que el nombre del archivo es correcto.";
+      });
+  </script>
+</body>
+</html>
