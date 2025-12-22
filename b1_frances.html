@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practica B1 Frances</title>
+  <style>
+    :root {
+      --bg: #f6f3ec;
+      --surface: #fffaf1;
+      --panel: #f1ece2;
+      --text: #1f2937;
+      --muted: #5b6470;
+      --accent: #d26b1f;
+      --accent-soft: rgba(210, 107, 31, 0.14);
+      --ok: #2c7a7b;
+      --bad: #b83280;
+      --shadow: 0 18px 40px rgba(31, 41, 55, 0.12);
+    }
+    [data-theme="dark"] {
+      --bg: #0c1014;
+      --surface: #12171c;
+      --panel: #1a2026;
+      --text: #e7edf5;
+      --muted: #9aa6b2;
+      --accent: #ffb74d;
+      --accent-soft: rgba(255, 183, 77, 0.16);
+      --ok: #60d394;
+      --bad: #ff6b6b;
+      --shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Space Grotesk", "Trebuchet MS", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, var(--accent-soft), transparent 45%),
+        radial-gradient(circle at 80% 0%, rgba(73, 123, 255, 0.14), transparent 40%),
+        linear-gradient(140deg, var(--bg), #e6e0d6 70%);
+      display: flex;
+      justify-content: center;
+      padding: 28px 18px 40px;
+    }
+    [data-theme="dark"] body {
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255, 183, 77, 0.08), transparent 45%),
+        radial-gradient(circle at 80% 0%, rgba(72, 122, 255, 0.1), transparent 40%),
+        linear-gradient(140deg, var(--bg), #0f1216 70%);
+    }
+    .page {
+      width: min(900px, 100%);
+      display: grid;
+      gap: 18px;
+    }
+    header {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.04);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .title {
+      display: grid;
+      gap: 6px;
+    }
+    .title h1 {
+      margin: 0;
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      font-size: clamp(26px, 4vw, 36px);
+      letter-spacing: 0.02em;
+    }
+    .title p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    button {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      background: var(--panel);
+      color: var(--text);
+    }
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+    .primary {
+      background: var(--accent);
+      color: #111;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.04);
+      display: grid;
+      gap: 18px;
+    }
+    .meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .meta span {
+      padding: 6px 12px;
+      background: var(--panel);
+      border-radius: 999px;
+    }
+    .question {
+      font-size: clamp(20px, 3vw, 24px);
+      line-height: 1.4;
+    }
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+    .option {
+      text-align: left;
+      padding: 14px 16px;
+      background: var(--panel);
+      border-radius: 14px;
+      border: 1px solid transparent;
+      font-size: 16px;
+    }
+    .option.correct {
+      border-color: var(--ok);
+      box-shadow: inset 0 0 0 1px var(--ok);
+    }
+    .option.wrong {
+      border-color: var(--bad);
+      box-shadow: inset 0 0 0 1px var(--bad);
+    }
+    .feedback {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: var(--panel);
+      display: none;
+      gap: 6px;
+    }
+    .feedback.show {
+      display: grid;
+    }
+    .feedback strong {
+      font-size: 16px;
+    }
+    .progress {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .progress div {
+      height: 100%;
+      width: 0;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .score {
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .end {
+      display: none;
+      text-align: center;
+      padding: 24px 16px;
+      border-radius: 16px;
+      background: var(--panel);
+    }
+    .end.show {
+      display: block;
+    }
+    @media (max-width: 640px) {
+      header, .card {
+        padding: 18px;
+      }
+      .options {
+        gap: 8px;
+      }
+      .option {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="title">
+        <h1>Practica B1 de Frances</h1>
+        <p>50 preguntas. Responde una por una y recibe explicacion inmediata.</p>
+      </div>
+      <div class="actions">
+        <button id="toggleTheme">Modo oscuro</button>
+        <button id="startBtn" class="primary">Empezar</button>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="meta">
+        <span id="counter">Pregunta 0/50</span>
+        <span id="status">Sin empezar</span>
+        <span class="score" id="score">Aciertos: 0</span>
+      </div>
+      <div class="progress"><div id="progressBar"></div></div>
+      <div class="question" id="question">Pulsa "Empezar" para iniciar el simulador.</div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="end" id="endMessage"></div>
+      <button id="nextBtn">Siguiente</button>
+    </section>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "Choisis la bonne forme: Je ___ au cinema ce soir.",
+        options: ["vais", "va", "vont", "allons"],
+        answer: 0,
+        explanation: "Con 'je' se usa 'vais'. Es el presente del verbo 'aller'."
+      },
+      {
+        q: "Quel mot complete: Nous avons reserve ___ table.",
+        options: ["une", "un", "des", "du"],
+        answer: 0,
+        explanation: "'Table' es femenino singular, por eso 'une'."
+      },
+      {
+        q: "Choisis: Il y a ___ etudiants dans la classe.",
+        options: ["beaucoup d'", "beaucoup de", "beaucoup des", "beaucoup du"],
+        answer: 1,
+        explanation: "Ante sustantivo plural, se usa 'beaucoup de'."
+      },
+      {
+        q: "Quelle est la bonne negation? Je ___ aime pas.",
+        options: ["ne", "n'", "pas", "plus"],
+        answer: 1,
+        explanation: "Antes de vocal se usa la elision: \"n'\" + verbo."
+      },
+      {
+        q: "Choisis le bon pronom: Marie parle a Paul. Elle ___ parle.",
+        options: ["le", "lui", "la", "les"],
+        answer: 1,
+        explanation: "Con 'parler a' se usa el pronombre indirecto 'lui'."
+      },
+      {
+        q: "Complete: Si j'avais le temps, je ___ en vacances.",
+        options: ["pars", "partirais", "partais", "partirai"],
+        answer: 1,
+        explanation: "Condicional con 'si' + imperfecto: 'je partirais'."
+      },
+      {
+        q: "Choisis la preposition: Je vais ___ France en ete.",
+        options: ["au", "a la", "en", "aux"],
+        answer: 2,
+        explanation: "Para pais femenino: 'en France'."
+      },
+      {
+        q: "Quel est le synonyme de 'rapide' ?",
+        options: ["lent", "vite", "fatigue", "triste"],
+        answer: 1,
+        explanation: "'Rapide' equivale a 'vite'."
+      },
+      {
+        q: "Choisis: Il fait froid, ___ je mets un manteau.",
+        options: ["mais", "donc", "parce que", "ou"],
+        answer: 1,
+        explanation: "La consecuencia se expresa con 'donc'."
+      },
+      {
+        q: "Complete: Elle ___ deja fini ses devoirs.",
+        options: ["a", "est", "a ete", "a ete en"],
+        answer: 0,
+        explanation: "'Finir' se conjuga con 'avoir' en pasado compuesto."
+      },
+      {
+        q: "Choisis la bonne option: Nous ___ arrives en retard.",
+        options: ["avons", "sommes", "etes", "ont"],
+        answer: 1,
+        explanation: "'Arriver' usa 'etre' en pasado compuesto con 'nous sommes'."
+      },
+      {
+        q: "Quel temps est utilise: Quand j'etais petit, je jouais dehors.",
+        options: ["Passe compose", "Imparfait", "Futur", "Conditionnel"],
+        answer: 1,
+        explanation: "Describe una accion habitual en el pasado: imperfecto."
+      },
+      {
+        q: "Complete: Il faut que tu ___ (venir) a l'heure.",
+        options: ["viennes", "vient", "venais", "viendras"],
+        answer: 0,
+        explanation: "Despues de 'il faut que' se usa subjuntivo: 'tu viennes'."
+      },
+      {
+        q: "Choisis: J'ai envie ___ manger une pizza.",
+        options: ["de", "a", "du", "des"],
+        answer: 0,
+        explanation: "'Avoir envie de' va seguido de infinitivo."
+      },
+      {
+        q: "Que signifie 'prendre soin de' ?",
+        options: ["ignorar", "s'occuper de", "s'eloigner", "oublier"],
+        answer: 1,
+        explanation: "'Prendre soin de' significa cuidar de."
+      },
+      {
+        q: "Choisis la bonne reponse: Tu viens avec nous? - Non, je ___ rester.",
+        options: ["vais", "suis", "ai", "fais"],
+        answer: 0,
+        explanation: "Para futuro cercano: 'je vais rester'."
+      },
+      {
+        q: "Complete: Je ne sais pas ___ il est.",
+        options: ["ou", "que", "qui", "quoi"],
+        answer: 0,
+        explanation: "Para lugar se usa 'ou'."
+      },
+      {
+        q: "Choisis le bon article: Je bois ___ eau.",
+        options: ["du", "de la", "des", "de"],
+        answer: 1,
+        explanation: "'Eau' es femenino: 'de la'."
+      },
+      {
+        q: "Complete: Ils ___ leur projet hier.",
+        options: ["finissent", "ont fini", "finissaient", "finiront"],
+        answer: 1,
+        explanation: "Accion terminada en el pasado: pasado compuesto."
+      },
+      {
+        q: "Choisis: J'attends ___ bus.",
+        options: ["le", "la", "les", "l'"],
+        answer: 0,
+        explanation: "'Bus' es masculino singular: 'le bus'."
+      },
+      {
+        q: "Quel est le contraire de 'facile' ?",
+        options: ["simple", "difficile", "clair", "marrant"],
+        answer: 1,
+        explanation: "El contrario de 'facile' es 'difficile'."
+      },
+      {
+        q: "Choisis: Si tu ___, on peut sortir.",
+        options: ["veux", "voudrais", "veuxais", "voudra"],
+        answer: 0,
+        explanation: "Presente con 'tu': 'tu veux'."
+      },
+      {
+        q: "Complete: Elle est plus grande ___ moi.",
+        options: ["que", "de", "a", "avec"],
+        answer: 0,
+        explanation: "Comparacion con 'plus ... que'."
+      },
+      {
+        q: "Choisis le bon pronom: Je regarde le film. Je ___ regarde.",
+        options: ["le", "lui", "leur", "y"],
+        answer: 0,
+        explanation: "El complemento directo 'le film' se sustituye por 'le'."
+      },
+      {
+        q: "Complete: Nous ___ la gare a 8h.",
+        options: ["arrivons", "arriverons", "arrivions", "arrives"],
+        answer: 0,
+        explanation: "Con 'nous' en presente: 'arrivons'."
+      },
+      {
+        q: "Choisis: Il a oublie ___ fermer la porte.",
+        options: ["de", "a", "du", "des"],
+        answer: 0,
+        explanation: "'Oublier de' + infinitivo."
+      },
+      {
+        q: "Que signifie 'se depêcher' ?",
+        options: ["se reposer", "se hâter", "se fâcher", "se perdre"],
+        answer: 1,
+        explanation: "'Se depêcher' es darse prisa."
+      },
+      {
+        q: "Complete: Il fait ___ que hier.",
+        options: ["plus chaud", "plus chaudement", "plus chaude", "plus chauffer"],
+        answer: 0,
+        explanation: "Comparativo correcto: 'plus chaud'."
+      },
+      {
+        q: "Choisis le bon temps: Demain, nous ___ au musee.",
+        options: ["allons", "irons", "allions", "allait"],
+        answer: 1,
+        explanation: "Futuro simple con 'nous': 'nous irons'."
+      },
+      {
+        q: "Complete: Tu peux m'aider ___ mes devoirs?",
+        options: ["à", "pour", "de", "par"],
+        answer: 0,
+        explanation: "'Aider à' es la construccion habitual."
+      },
+      {
+        q: "Choisis: Il travaille ___ bureau.",
+        options: ["au", "a la", "en", "aux"],
+        answer: 0,
+        explanation: "'Bureau' es masculino: 'au bureau'."
+      },
+      {
+        q: "Quel est le sens de 'rendez-vous' ?",
+        options: ["viaje", "cita", "comida", "clase"],
+        answer: 1,
+        explanation: "'Rendez-vous' significa cita o encuentro."
+      },
+      {
+        q: "Complete: Nous avons parle ___ professeur.",
+        options: ["au", "de", "du", "aux"],
+        answer: 0,
+        explanation: "'Parler a quelqu'un' se combina con 'au professeur'."
+      },
+      {
+        q: "Choisis: Il n'y a ___ lait.",
+        options: ["pas de", "pas du", "pas des", "pas la"],
+        answer: 0,
+        explanation: "Negacion con cantidad: 'pas de'."
+      },
+      {
+        q: "Complete: Je suis ___ de te voir.",
+        options: ["content", "contenter", "contenu", "contente"],
+        answer: 0,
+        explanation: "Con 'je' masculino: 'content'. (Si fuese mujer: 'contente')."
+      },
+      {
+        q: "Choisis la bonne option: Elle ___ en train de lire.",
+        options: ["est", "a", "fait", "va"],
+        answer: 0,
+        explanation: "La expresion es 'etre en train de'."
+      },
+      {
+        q: "Complete: J'ai besoin ___ ton aide.",
+        options: ["de", "du", "des", "a"],
+        answer: 0,
+        explanation: "'Avoir besoin de' siempre lleva 'de'."
+      },
+      {
+        q: "Choisis: Elles ___ au parc tous les dimanches.",
+        options: ["va", "vont", "allons", "vas"],
+        answer: 1,
+        explanation: "Con 'elles' se usa 'vont'."
+      },
+      {
+        q: "Que signifie 'faire la queue' ?",
+        options: ["hacer fila", "bailar", "llamar", "reir"],
+        answer: 0,
+        explanation: "'Faire la queue' es hacer fila."
+      },
+      {
+        q: "Complete: Je prefere le the ___ le cafe.",
+        options: ["a", "que", "de", "par"],
+        answer: 0,
+        explanation: "'Preferer A a B' para comparar gustos."
+      },
+      {
+        q: "Choisis: Elle habite ___ deux minutes d'ici.",
+        options: ["à", "en", "dans", "de"],
+        answer: 0,
+        explanation: "Para distancia/tiempo se usa 'à'."
+      },
+      {
+        q: "Complete: Nous ___ nos billets en ligne.",
+        options: ["achetons", "achetons pas", "achete", "acheter"],
+        answer: 0,
+        explanation: "Con 'nous' presente: 'achetons'."
+      },
+      {
+        q: "Choisis: Je ne mange ___ viande.",
+        options: ["pas de", "pas la", "pas des", "pas du"],
+        answer: 0,
+        explanation: "Negacion con cantidad: 'pas de'."
+      },
+      {
+        q: "Complete: Il a ___ peur des chiens.",
+        options: ["tres", "trop", "beaucoup", "assez"],
+        answer: 1,
+        explanation: "'Avoir trop peur' indica exceso."
+      },
+      {
+        q: "Choisis la bonne reponse: Tu as fini? - Oui, je ___ fini.",
+        options: ["suis", "ai", "vais", "etais"],
+        answer: 1,
+        explanation: "'J'ai fini' con auxiliar 'avoir'."
+      },
+      {
+        q: "Complete: On ___ visiter le chateau demain.",
+        options: ["va", "vais", "allons", "iras"],
+        answer: 0,
+        explanation: "Con 'on' se usa 'va' para futuro cercano."
+      },
+      {
+        q: "Choisis: Elle est la personne ___ je fais confiance.",
+        options: ["que", "qui", "a qui", "dont"],
+        answer: 2,
+        explanation: "Con 'faire confiance a', se usa 'a qui'."
+      },
+      {
+        q: "Complete: Je suis en retard parce que le bus ___ en panne.",
+        options: ["est", "a", "fait", "va"],
+        answer: 0,
+        explanation: "'Etre en panne' es la expresion correcta."
+      },
+      {
+        q: "Choisis la bonne preposition: Il travaille ___ lundi au vendredi.",
+        options: ["du", "a", "en", "par"],
+        answer: 0,
+        explanation: "Se dice 'du lundi au vendredi'."
+      },
+      {
+        q: "Complete: Je voudrais ___ informations.",
+        options: ["des", "de", "du", "la"],
+        answer: 0,
+        explanation: "'Informations' es plural: 'des informations'."
+      }
+    ];
+
+    const startBtn = document.getElementById("startBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const toggleTheme = document.getElementById("toggleTheme");
+    const counter = document.getElementById("counter");
+    const status = document.getElementById("status");
+    const scoreEl = document.getElementById("score");
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const feedbackEl = document.getElementById("feedback");
+    const progressBar = document.getElementById("progressBar");
+    const endMessage = document.getElementById("endMessage");
+
+    let order = [];
+    let current = 0;
+    let score = 0;
+    let locked = false;
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function resetGame() {
+      order = shuffle([...questions.keys()]);
+      current = 0;
+      score = 0;
+      locked = false;
+      endMessage.classList.remove("show");
+      feedbackEl.classList.remove("show");
+      status.textContent = "En curso";
+      scoreEl.textContent = "Aciertos: 0";
+      nextBtn.disabled = false;
+      updateProgress();
+      showQuestion();
+    }
+
+    function updateProgress() {
+      counter.textContent = `Pregunta ${Math.min(current + 1, questions.length)}/${questions.length}`;
+      progressBar.style.width = `${(current / questions.length) * 100}%`;
+    }
+
+    function showQuestion() {
+      locked = false;
+      feedbackEl.classList.remove("show");
+      optionsEl.innerHTML = "";
+      if (current >= questions.length) {
+        finishQuiz();
+        return;
+      }
+      const question = questions[order[current]];
+      questionEl.textContent = question.q;
+      question.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.textContent = option;
+        btn.addEventListener("click", () => selectOption(index));
+        optionsEl.appendChild(btn);
+      });
+      updateProgress();
+    }
+
+    function selectOption(index) {
+      if (locked) return;
+      locked = true;
+      const question = questions[order[current]];
+      const optionButtons = [...optionsEl.querySelectorAll(".option")];
+      optionButtons.forEach((btn, idx) => {
+        if (idx === question.answer) btn.classList.add("correct");
+        if (idx === index && idx !== question.answer) btn.classList.add("wrong");
+        btn.disabled = true;
+      });
+
+      const isCorrect = index === question.answer;
+      if (isCorrect) score += 1;
+      scoreEl.textContent = `Aciertos: ${score}`;
+
+      feedbackEl.innerHTML = `
+        <strong>${isCorrect ? "Correcto" : "Incorrecto"}</strong>
+        <span>${question.explanation}</span>
+      `;
+      feedbackEl.classList.add("show");
+    }
+
+    function finishQuiz() {
+      questionEl.textContent = "Has completado el simulador.";
+      optionsEl.innerHTML = "";
+      feedbackEl.classList.remove("show");
+      progressBar.style.width = "100%";
+      endMessage.innerHTML = `
+        <strong>Resultado final</strong>
+        <p>Has acertado ${score} de ${questions.length} preguntas. Puedes pulsar "Empezar" para intentar otra ronda con orden aleatorio.</p>
+      `;
+      endMessage.classList.add("show");
+      status.textContent = "Finalizado";
+      counter.textContent = `Pregunta ${questions.length}/${questions.length}`;
+      nextBtn.disabled = true;
+    }
+
+    startBtn.addEventListener("click", resetGame);
+    nextBtn.addEventListener("click", () => {
+      if (!order.length || current >= questions.length) return;
+      current += 1;
+      showQuestion();
+    });
+
+    toggleTheme.addEventListener("click", () => {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+      toggleTheme.textContent = isDark ? "Modo oscuro" : "Modo claro";
+    });
+
+    document.documentElement.setAttribute("data-theme", "light");
+    nextBtn.disabled = true;
+  </script>
+</body>
+</html>
