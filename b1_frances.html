@@ -52,29 +52,33 @@
     .page {
       width: min(900px, 100%);
       display: grid;
-      gap: 18px;
+      gap: 0;
     }
     header {
       background: var(--surface);
       border-radius: 20px;
-      padding: 22px 24px;
+      height: 300px;
+      padding: 12px 16px;
       box-shadow: var(--shadow);
       border: 1px solid rgba(0,0,0,0.04);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      display: grid;
+      gap: 6px;
+      justify-items: center;
+      text-align: center;
+      align-content: center;
     }
     .title {
       display: grid;
-      gap: 6px;
+      gap: 0;
     }
     .title h1 {
       margin: 0;
       font-family: "Cormorant Garamond", "Times New Roman", serif;
-      font-size: clamp(26px, 4vw, 36px);
+      font-size: clamp(18px, 2.2vw, 24px);
       letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-weight: 700;
+      text-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
     }
     .title p {
       margin: 0;
@@ -83,14 +87,21 @@
     }
     .actions {
       display: flex;
-      gap: 10px;
+      gap: 4px;
       flex-wrap: wrap;
+      justify-content: center;
     }
     button {
       border: none;
-      padding: 10px 16px;
+      padding: 2px 10px;
       border-radius: 999px;
       font-weight: 600;
+      font-size: 12px;
+      line-height: 1;
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       transition: transform 0.15s ease, box-shadow 0.15s ease;
       background: var(--panel);
@@ -207,17 +218,16 @@
     <header>
       <div class="title">
         <h1>Practica B1 de Frances</h1>
-        <p>50 preguntas. Responde una por una y recibe explicacion inmediata.</p>
       </div>
       <div class="actions">
-        <button id="toggleTheme">Modo oscuro</button>
+        <button id="toggleTheme">Modo claro</button>
         <button id="startBtn" class="primary">Empezar</button>
       </div>
     </header>
 
     <section class="card">
       <div class="meta">
-        <span id="counter">Pregunta 0/50</span>
+        <span id="counter">Pregunta 0/100</span>
         <span id="status">Sin empezar</span>
         <span class="score" id="score">Aciertos: 0</span>
       </div>
@@ -531,6 +541,306 @@
         options: ["des", "de", "du", "la"],
         answer: 0,
         explanation: "'Informations' es plural: 'des informations'."
+      },
+      {
+        q: "Choisis: Nous ___ deja vu ce film.",
+        options: ["avons", "sommes", "etions", "avions"],
+        answer: 0,
+        explanation: "'Voir' se conjuga con 'avoir' en pasado compuesto."
+      },
+      {
+        q: "Complete: Il y a ___ pommes sur la table.",
+        options: ["des", "du", "de la", "un"],
+        answer: 0,
+        explanation: "Plural indefinido: 'des pommes'."
+      },
+      {
+        q: "Choisis: Tu peux venir ___ 18h?",
+        options: ["a", "en", "dans", "de"],
+        answer: 0,
+        explanation: "Para hora se usa 'a'."
+      },
+      {
+        q: "Complete: Elle ___ de la musique en ce moment.",
+        options: ["ecoute", "ecoutait", "ecoutera", "a ecoute"],
+        answer: 0,
+        explanation: "Accion en curso: presente."
+      },
+      {
+        q: "Choisis le contraire de 'cher'.",
+        options: ["bon marche", "grand", "propre", "utile"],
+        answer: 0,
+        explanation: "El contrario de 'cher' es 'bon marche'."
+      },
+      {
+        q: "Complete: Nous partons ___ train.",
+        options: ["en", "a", "dans", "par"],
+        answer: 0,
+        explanation: "Transporte con 'en train'."
+      },
+      {
+        q: "Choisis: Il a peur ___ les araignees.",
+        options: ["de", "du", "des", "a"],
+        answer: 0,
+        explanation: "'Avoir peur de' siempre lleva 'de'."
+      },
+      {
+        q: "Complete: Je voudrais ___ cafe, s'il vous plait.",
+        options: ["un", "une", "des", "du"],
+        answer: 0,
+        explanation: "'Cafe' es masculino: 'un cafe'."
+      },
+      {
+        q: "Choisis: Elle est partie ___ Paris hier.",
+        options: ["a", "en", "au", "aux"],
+        answer: 0,
+        explanation: "Se dice 'partir a Paris'."
+      },
+      {
+        q: "Complete: Nous n'avons ___ temps.",
+        options: ["pas de", "pas du", "pas des", "pas la"],
+        answer: 0,
+        explanation: "Negacion con cantidad: 'pas de temps'."
+      },
+      {
+        q: "Choisis la bonne reponse: Il fait beau, ___ on sort.",
+        options: ["donc", "mais", "parce que", "ou"],
+        answer: 0,
+        explanation: "Consecuencia: 'donc'."
+      },
+      {
+        q: "Complete: J'ai ___ rendez-vous a 15h.",
+        options: ["un", "une", "des", "du"],
+        answer: 0,
+        explanation: "'Rendez-vous' es masculino: 'un rendez-vous'."
+      },
+      {
+        q: "Choisis: Ils ___ tres contents.",
+        options: ["sont", "ont", "font", "vont"],
+        answer: 0,
+        explanation: "Con 'ils' y adjetivo: 'ils sont'."
+      },
+      {
+        q: "Complete: Je pense ___ demain.",
+        options: ["a", "de", "en", "par"],
+        answer: 0,
+        explanation: "Se dice 'penser a' para alguien o algo concreto."
+      },
+      {
+        q: "Choisis: Tu as besoin ___ acheter un billet.",
+        options: ["de", "du", "des", "a"],
+        answer: 0,
+        explanation: "'Avoir besoin de' + infinitivo."
+      },
+      {
+        q: "Complete: Ils ___ partis en vacances.",
+        options: ["sont", "ont", "etions", "seront"],
+        answer: 0,
+        explanation: "'Partir' usa 'etre' en pasado compuesto."
+      },
+      {
+        q: "Choisis: C'est la fille ___ parle espagnol.",
+        options: ["qui", "que", "dont", "ou"],
+        answer: 0,
+        explanation: "Sujeto: 'qui'."
+      },
+      {
+        q: "Complete: On peut ___ ici?",
+        options: ["s'asseoir", "s'asseoit", "s'asseyaient", "assis"],
+        answer: 0,
+        explanation: "Despues de 'pouvoir' va infinitivo."
+      },
+      {
+        q: "Choisis: Nous sommes alles ___ cinema.",
+        options: ["au", "a la", "en", "aux"],
+        answer: 0,
+        explanation: "'Cinema' es masculino: 'au cinema'."
+      },
+      {
+        q: "Complete: Elle ___ telephone hier soir.",
+        options: ["a telephone", "telephone", "telephonait", "telephonera"],
+        answer: 0,
+        explanation: "Accion terminada en el pasado: pasado compuesto."
+      },
+      {
+        q: "Choisis: Je ___ d'accord avec toi.",
+        options: ["suis", "ai", "fais", "vais"],
+        answer: 0,
+        explanation: "La expresion es 'etre d'accord'."
+      },
+      {
+        q: "Complete: Il est plus jeune ___ sa soeur.",
+        options: ["que", "de", "a", "avec"],
+        answer: 0,
+        explanation: "Comparacion con 'plus ... que'."
+      },
+      {
+        q: "Choisis: Elle ne mange jamais ___ viande.",
+        options: ["de", "du", "des", "la"],
+        answer: 0,
+        explanation: "Negacion con cantidad: 'de'."
+      },
+      {
+        q: "Complete: Nous ___ souvent a la piscine.",
+        options: ["allons", "irons", "allions", "allait"],
+        answer: 0,
+        explanation: "Presente con 'nous': 'allons'."
+      },
+      {
+        q: "Choisis: Il faut ___ a l'heure.",
+        options: ["etre", "ete", "etait", "etes"],
+        answer: 0,
+        explanation: "Despues de 'il faut' va infinitivo."
+      },
+      {
+        q: "Complete: Tu veux ___ jus d'orange?",
+        options: ["du", "de la", "des", "un"],
+        answer: 0,
+        explanation: "Cantidad no contable: 'du jus'."
+      },
+      {
+        q: "Choisis: On se voit ___ samedi?",
+        options: ["samedi", "le samedi", "au samedi", "en samedi"],
+        answer: 0,
+        explanation: "Para dia concreto: 'samedi' sin articulo."
+      },
+      {
+        q: "Complete: Il y ___ beaucoup de monde ici.",
+        options: ["a", "est", "sont", "ont"],
+        answer: 0,
+        explanation: "Se usa 'il y a'."
+      },
+      {
+        q: "Choisis: Je viens ___ Espagne.",
+        options: ["d'", "de la", "du", "des"],
+        answer: 0,
+        explanation: "Pais femenino con vocal: 'd'Espagne'."
+      },
+      {
+        q: "Complete: Elle est fatiguee, elle ___ se reposer.",
+        options: ["va", "vais", "allons", "irons"],
+        answer: 0,
+        explanation: "Futuro cercano con 'elle va'."
+      },
+      {
+        q: "Choisis: Nous ___ finir a 16h.",
+        options: ["allons", "avons", "sommes", "faisons"],
+        answer: 0,
+        explanation: "Futuro cercano: 'nous allons'."
+      },
+      {
+        q: "Complete: Je ne comprends pas ___ tu dis.",
+        options: ["ce que", "que", "qui", "dont"],
+        answer: 0,
+        explanation: "Objeto directo: 'ce que tu dis'."
+      },
+      {
+        q: "Choisis: Il fait ___ aujourd'hui.",
+        options: ["soleil", "soleille", "soleillee", "soleiller"],
+        answer: 0,
+        explanation: "La expresion es 'il fait soleil'."
+      },
+      {
+        q: "Complete: Nous avons decide ___ partir.",
+        options: ["de", "a", "du", "des"],
+        answer: 0,
+        explanation: "'Decider de' + infinitivo."
+      },
+      {
+        q: "Choisis: Je me souviens ___ toi.",
+        options: ["de", "du", "des", "a"],
+        answer: 0,
+        explanation: "'Se souvenir de' siempre lleva 'de'."
+      },
+      {
+        q: "Complete: Il est interdit ___ entrer.",
+        options: ["d'", "de", "du", "des"],
+        answer: 0,
+        explanation: "Ante vocal: 'd'' entrer'."
+      },
+      {
+        q: "Choisis: Elle ___ a l'ecole a 8h.",
+        options: ["arrive", "arrives", "arrivons", "arrivez"],
+        answer: 0,
+        explanation: "Con 'elle' en presente: 'arrive'."
+      },
+      {
+        q: "Complete: Je ne veux ___ probleme.",
+        options: ["aucun", "pas", "plus", "des"],
+        answer: 0,
+        explanation: "Negacion total: 'aucun probleme'."
+      },
+      {
+        q: "Choisis: On a ___ de la chance.",
+        options: ["eu", "ete", "fait", "eu a"],
+        answer: 0,
+        explanation: "Pasado compuesto de 'avoir': 'on a eu'."
+      },
+      {
+        q: "Complete: Tu peux ___ la fenetre?",
+        options: ["fermer", "ferme", "fermees", "fermee"],
+        answer: 0,
+        explanation: "Despues de 'pouvoir' va infinitivo."
+      },
+      {
+        q: "Choisis: C'est un film tres ___ .",
+        options: ["interessant", "interesse", "interesser", "interessante"],
+        answer: 0,
+        explanation: "Adjetivo masculino singular: 'interessant'."
+      },
+      {
+        q: "Complete: Nous ___ en 2010.",
+        options: ["sommes nes", "sommes ne", "avons ne", "avons nes"],
+        answer: 0,
+        explanation: "'Naitre' usa 'etre' en pasado compuesto."
+      },
+      {
+        q: "Choisis: Je vais ___ boulangerie.",
+        options: ["a la", "au", "en", "aux"],
+        answer: 0,
+        explanation: "'Boulangerie' es femenino: 'a la'."
+      },
+      {
+        q: "Complete: Il faut que nous ___ plus tot.",
+        options: ["partions", "partons", "partirons", "partis"],
+        answer: 0,
+        explanation: "Despues de 'il faut que' se usa subjuntivo."
+      },
+      {
+        q: "Choisis: Je ne connais ___ personne ici.",
+        options: ["personne", "aucun", "pas", "plus"],
+        answer: 0,
+        explanation: "Negacion con 'ne ... personne'."
+      },
+      {
+        q: "Complete: Elle ___ fini avant moi.",
+        options: ["a", "est", "a ete", "aura"],
+        answer: 0,
+        explanation: "Pasado compuesto con 'avoir'."
+      },
+      {
+        q: "Choisis: Nous ___ en retard.",
+        options: ["sommes", "avons", "faisons", "allons"],
+        answer: 0,
+        explanation: "Se dice 'etre en retard'."
+      },
+      {
+        q: "Complete: Il prefere ___ dehors.",
+        options: ["rester", "reste", "restera", "restes"],
+        answer: 0,
+        explanation: "Despues de 'preferer' va infinitivo."
+      },
+      {
+        q: "Choisis: J'ai mal ___ la tete.",
+        options: ["a", "de", "du", "au"],
+        answer: 3,
+        explanation: "La expresion es 'avoir mal a la tete'."
+      },
+      {
+        q: "Complete: Tu dois ___ tes devoirs.",
+        options: ["faire", "fais", "fait", "faisons"],
+        answer: 0,
+        explanation: "Despues de 'devoir' va infinitivo."
       }
     ];
 
@@ -648,7 +958,7 @@
       toggleTheme.textContent = isDark ? "Modo oscuro" : "Modo claro";
     });
 
-    document.documentElement.setAttribute("data-theme", "light");
+    document.documentElement.setAttribute("data-theme", "dark");
     nextBtn.disabled = true;
   </script>
 </body>
