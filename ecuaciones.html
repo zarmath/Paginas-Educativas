@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧮 Repaso Ecuaciones</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e1a;
+    --card: #1a1830;
+    --card2: #221f3a;
+    --accent: #7c3aed;
+    --accent2: #06b6d4;
+    --accent3: #f59e0b;
+    --accent4: #10b981;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: rgba(124,58,237,0.3);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Starfield BG */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(124,58,237,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(6,182,212,0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 40px 20px 30px;
+    position: relative;
+  }
+  .header-emoji { font-size: 64px; display: block; margin-bottom: 10px; animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  header h1 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #a78bfa, #06b6d4, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+  header p { color: var(--muted); margin-top: 10px; font-size: 1.1rem; }
+
+  /* XP BAR */
+  .xp-bar-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .xp-label { font-weight: 800; color: var(--accent3); font-size: 0.9rem; white-space: nowrap; }
+  .xp-track { flex: 1; background: #2d2b4a; border-radius: 20px; height: 16px; overflow: hidden; }
+  .xp-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--accent), var(--accent2)); width: 0%; transition: width 0.8s cubic-bezier(.34,1.56,.64,1); }
+  .xp-score { font-family: 'Space Mono', monospace; font-weight: 700; color: var(--accent3); font-size: 1.1rem; }
+
+  /* NAV TABS */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .tab-btn {
+    background: var(--card);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 10px 18px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tab-btn:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* SECTIONS */
+  .section { display: none; animation: fadeIn 0.4s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 900;
+    font-family: 'Space Mono', monospace;
+  }
+  .badge-purple { background: var(--accent); }
+  .badge-cyan { background: var(--accent2); }
+  .badge-yellow { background: var(--accent3); color: #000; }
+  .badge-green { background: var(--accent4); color: #000; }
+  .badge-red { background: var(--red); }
+
+  /* THEORY */
+  .theory-box {
+    background: var(--card2);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 16px;
+    margin: 12px 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .theory-box.cyan { border-left-color: var(--accent2); }
+  .theory-box.yellow { border-left-color: var(--accent3); }
+  .theory-box.green { border-left-color: var(--accent4); }
+
+  .math-formula {
+    background: #0d0b1a;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 20px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    color: var(--accent2);
+    margin: 12px 0;
+    letter-spacing: 1px;
+  }
+  .math-formula.big { font-size: 1.4rem; color: var(--accent3); }
+
+  .example-block {
+    background: rgba(6,182,212,0.08);
+    border: 1px solid rgba(6,182,212,0.2);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 10px 0;
+    font-size: 0.9rem;
+  }
+  .example-block .step {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin: 6px 0;
+    padding: 4px 0;
+  }
+  .step-arrow { color: var(--accent3); font-weight: 700; }
+  .step-math { font-family: 'Space Mono', monospace; font-size: 0.9rem; color: var(--accent2); }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  @media(max-width:500px){ .info-grid { grid-template-columns: 1fr; } }
+  .info-item {
+    background: var(--card2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+  .info-item strong { color: var(--accent2); display: block; margin-bottom: 4px; }
+
+  /* QUIZ */
+  .quiz-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 24px;
+    transition: border-color 0.3s;
+  }
+  .quiz-card.correct-card { border-color: var(--accent4); background: rgba(16,185,129,0.05); }
+  .quiz-card.wrong-card { border-color: var(--red); background: rgba(239,68,68,0.05); }
+
+  .quiz-question {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .quiz-eq {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.3rem;
+    color: var(--accent3);
+    text-align: center;
+    padding: 14px;
+    background: #0d0b1a;
+    border-radius: 12px;
+    margin: 12px 0;
+  }
+  .quiz-hint {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  /* INPUT AREA */
+  .answer-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .answer-label { font-family: 'Space Mono', monospace; color: var(--accent3); font-weight: 700; font-size: 1rem; }
+  .answer-input {
+    background: var(--card2);
+    border: 2px solid rgba(124,58,237,0.4);
+    border-radius: 10px;
+    padding: 10px 16px;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    width: 130px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .answer-input:focus { border-color: var(--accent2); }
+  .answer-input.correct { border-color: var(--accent4); color: var(--accent4); }
+  .answer-input.wrong { border-color: var(--red); color: var(--red); }
+
+  .check-btn {
+    background: linear-gradient(135deg, var(--accent), #5b21b6);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 22px;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .check-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124,58,237,0.4); }
+  .check-btn:active { transform: translateY(0); }
+  .check-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .feedback {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .feedback.show { display: block; animation: popIn 0.3s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes popIn { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
+  .feedback.ok { background: rgba(16,185,129,0.15); color: var(--accent4); border: 1px solid rgba(16,185,129,0.3); }
+  .feedback.fail { background: rgba(239,68,68,0.1); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+
+  .solution-steps {
+    margin-top: 12px;
+    background: var(--card2);
+    border-radius: 12px;
+    padding: 14px;
+    display: none;
+    font-size: 0.9rem;
+  }
+  .solution-steps.show { display: block; animation: fadeIn 0.3s; }
+  .solution-steps h4 { color: var(--accent3); margin-bottom: 8px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+  .sol-step {
+    display: flex;
+    gap: 8px;
+    padding: 4px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent2);
+  }
+  .sol-num { color: var(--muted); min-width: 20px; }
+
+  /* PROGRESS */
+  .quiz-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .prog-text { font-size: 0.9rem; color: var(--muted); }
+  .prog-dots { display: flex; gap: 6px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--card2); border: 2px solid var(--border); transition: all 0.3s; }
+  .dot.done { background: var(--accent4); border-color: var(--accent4); }
+  .dot.wrong-dot { background: var(--red); border-color: var(--red); }
+  .dot.current { background: var(--accent3); border-color: var(--accent3); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.3)} }
+
+  /* MEMORY GAME */
+  .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  @media(max-width:480px){ .mem-grid { grid-template-columns: repeat(2, 1fr); } }
+  .mem-card {
+    aspect-ratio: 1;
+    background: var(--card2);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 8px;
+    transition: all 0.2s;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    color: transparent;
+    font-weight: 700;
+  }
+  .mem-card.revealed { color: var(--text); background: var(--card); }
+  .mem-card.eq-card.revealed { color: var(--accent3); border-color: var(--accent); }
+  .mem-card.sol-card.revealed { color: var(--accent2); border-color: var(--accent2); }
+  .mem-card.matched { background: rgba(16,185,129,0.15); border-color: var(--accent4); color: var(--accent4) !important; cursor: default; }
+  .mem-card:hover:not(.matched) { transform: translateY(-3px); border-color: var(--accent); }
+
+  .mem-card::before {
+    content: '?';
+    position: absolute;
+    font-size: 1.8rem;
+    color: var(--accent);
+    transition: opacity 0.2s;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+  }
+  .mem-card.revealed::before, .mem-card.matched::before { opacity: 0; }
+
+  /* CHALLENGES */
+  .challenge-list { display: flex; flex-direction: column; gap: 14px; }
+  .challenge-item {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .challenge-item:hover { border-color: var(--accent2); transform: translateX(4px); }
+  .challenge-icon { font-size: 2rem; min-width: 44px; text-align: center; }
+  .challenge-info h3 { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+  .challenge-info p { font-size: 0.85rem; color: var(--muted); }
+  .challenge-pts { margin-left: auto; background: var(--accent); color: white; border-radius: 8px; padding: 4px 10px; font-size: 0.8rem; font-weight: 800; white-space: nowrap; }
+
+  /* TROPHY */
+  .trophy-section { text-align: center; padding: 30px 20px; }
+  .trophy-emoji { font-size: 80px; animation: float 2s ease-in-out infinite; display: block; }
+  .total-score { font-size: 3rem; font-weight: 900; font-family: 'Space Mono', monospace; color: var(--accent3); margin: 10px 0; }
+  .rank-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 20px;
+    padding: 8px 24px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin-top: 10px;
+  }
+
+  /* CHIPS / TAGS */
+  .chip {
+    display: inline-block;
+    background: rgba(124,58,237,0.2);
+    border: 1px solid rgba(124,58,237,0.4);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 0.78rem;
+    color: #c4b5fd;
+    margin: 3px 2px;
+    font-weight: 700;
+  }
+
+  /* ACCORDION */
+  .accordion { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 12px; }
+  .acc-header {
+    background: var(--card2);
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    transition: background 0.2s;
+  }
+  .acc-header:hover { background: rgba(124,58,237,0.1); }
+  .acc-arrow { transition: transform 0.3s; color: var(--accent); }
+  .acc-body { padding: 0 18px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+  .acc-body.open { max-height: 600px; padding: 14px 18px; }
+
+  /* CONFETTI effect (pure CSS stars) */
+  .confetti-star {
+    position: fixed;
+    pointer-events: none;
+    font-size: 1.5rem;
+    animation: confettiFall 1.5s ease-in forwards;
+    z-index: 999;
+  }
+  @keyframes confettiFall {
+    0%{opacity:1;transform:translateY(-20px) rotate(0)}
+    100%{opacity:0;transform:translateY(200px) rotate(720deg)}
+  }
+
+  /* Reset btn */
+  .reset-btn {
+    background: transparent;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 16px;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 16px;
+  }
+  .reset-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+  .text-muted { color: var(--muted); font-size: 0.9rem; }
+  .text-center { text-align: center; }
+  .mt-8 { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  strong.hl { color: var(--accent2); }
+  strong.yl { color: var(--accent3); }
+  strong.gl { color: var(--accent4); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <span class="header-emoji">🧮</span>
+    <h1>Repaso: Ecuaciones</h1>
+    <p>¡Domina las ecuaciones y sube de nivel! Unidad 7 · 2º ESO</p>
+  </header>
+
+  <!-- XP BAR -->
+  <div class="xp-bar-wrap">
+    <span class="xp-label">⭐ XP</span>
+    <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+    <span class="xp-score" id="xpScore">0 / 200</span>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('teoria')">📖 Teoría</button>
+    <button class="tab-btn" onclick="showTab('practica')">✏️ Práctica</button>
+    <button class="tab-btn" onclick="showTab('memoria')">🃏 Memoria</button>
+    <button class="tab-btn" onclick="showTab('trofeos')">🏆 Trofeos</button>
+  </div>
+
+  <!-- =================== SECCIÓN TEORÍA =================== -->
+  <div class="section active" id="s-teoria">
+
+    <!-- 1. ¿Qué es una ecuación? -->
+    <div class="card">
+      <div class="card-title"><span class="badge badge-purple">1</span> ¿Qué es una ecuación?</div>
+      <div class="theory-box">
+        Una <strong class="hl">ecuación</strong> es una igualdad entre dos expresiones que contiene una o varias <strong class="yl">incógnitas</strong> (letras cuyo valor no conocemos). <br><br>
+        <strong>Resolver</strong> una ecuación significa encontrar el valor de la incógnita que hace la igualdad verdadera. A ese valor se le llama <strong class="gl">solución</strong>.
+      </div>
+      <div class="math-formula">3x + 1 = 9 − x &nbsp;→&nbsp; x = 2 ✓</div>
+      <div class="info-grid">
+        <div class="info-item"><strong>Miembros</strong>Lo que hay a la izquierda y derecha del signo =</div>
+        <div class="info-item"><strong>Términos</strong>Los sumandos que forman cada miembro</div>
+        <div class="info-item"><strong>Incógnita</strong>La letra que queremos encontrar (normalmente x)</div>
+        <div class="info-item"><strong>Grado</strong>El mayor exponente de la incógnita en la ecuación</div>
+      </div>
+    </div>
+
+    <!-- 2. Transposición de términos -->
+    <div class="card">
+      <div class="card-title"><span class="badge badge-cyan">2</span> Transposición de términos</div>
+      <div class="theory-box cyan">
+        La idea clave: <strong>lo que hacemos a un lado lo hacemos al otro</strong>. Así la ecuación sigue siendo equivalente (misma solución).
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          ➕ Caso 1: x + a = b <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          El número que suma en un lado, <strong>pasa restando</strong> al otro.<br>
+          <div class="math-formula">x + 3 = 7 &nbsp;→&nbsp; x = 7 − 3 &nbsp;→&nbsp; x = 4</div>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          ➖ Caso 2: x − a = b <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          El número que resta en un lado, <strong>pasa sumando</strong> al otro.<br>
+          <div class="math-formula">x − 5 = 3 &nbsp;→&nbsp; x = 3 + 5 &nbsp;→&nbsp; x = 8</div>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          ✖️ Caso 3: a·x = b <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          El número que multiplica, <strong>pasa dividiendo</strong> al otro.<br>
+          <div class="math-formula">4x = 20 &nbsp;→&nbsp; x = 20 ÷ 4 &nbsp;→&nbsp; x = 5</div>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          ➗ Caso 4: x/a = b <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          El número que divide, <strong>pasa multiplicando</strong> al otro.<br>
+          <div class="math-formula">x/3 = 4 &nbsp;→&nbsp; x = 4 · 3 &nbsp;→&nbsp; x = 12</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Ecuaciones de 1er grado -->
+    <div class="card">
+      <div class="card-title"><span class="badge badge-yellow">3</span> Resolver ecuaciones de 1er grado</div>
+      <div class="theory-box yellow">
+        Pasos para resolver cualquier ecuación de primer grado: <br>
+        <strong class="yl">1.</strong> Quitar paréntesis (distributiva) <br>
+        <strong class="yl">2.</strong> Quitar denominadores (multiplicar por el m.c.m.) <br>
+        <strong class="yl">3.</strong> Pasar términos con x a un lado, números al otro <br>
+        <strong class="yl">4.</strong> Reducir y despejar x
+      </div>
+      <div class="example-block">
+        <div style="font-weight:800;color:var(--accent3);margin-bottom:8px;">Ejemplo completo:</div>
+        <div class="step"><span class="step-arrow">▶</span><span class="step-math">3x − 8 = 4</span></div>
+        <div class="step"><span class="step-arrow">▶</span><span class="step-math">3x = 4 + 8 &nbsp;&nbsp;(transponer el −8)</span></div>
+        <div class="step"><span class="step-arrow">▶</span><span class="step-math">3x = 12</span></div>
+        <div class="step"><span class="step-arrow">▶</span><span class="step-math">x = 12/3 = 4 ✓</span></div>
+      </div>
+      <div class="example-block">
+        <div style="font-weight:800;color:var(--accent3);margin-bottom:8px;">Con paréntesis:</div>
+        <div class="step"><span class="step-arrow">▶</span><span class="step-math">5x − 2(2x − 2) = 8 − (3 + 2x)</span></div>
+        <div class="step"><span class="step-arrow">▶</span><span class="step-math">5x − 4x + 4 = 8 − 3 − 2x</span></div>
+        <div class="step"><span class="step-arrow">▶</span><span class="step-math">x + 4 = 5 − 2x</span></div>
+        <div class="step"><span class="step-arrow">▶</span><span class="step-math">3x = 1 → x = 1/3 ✓</span></div>
+      </div>
+      <div class="example-block">
+        <div style="font-weight:800;color:var(--accent3);margin-bottom:8px;">Con denominadores (m.c.m. = 20):</div>
+        <div class="step"><span class="step-arrow">▶</span><span class="step-math">x/4 + 2/5 = 1 + x/10</span></div>
+        <div class="step"><span class="step-arrow">▶</span><span class="step-math">5x + 8 = 20 + 2x</span></div>
+        <div class="step"><span class="step-arrow">▶</span><span class="step-math">3x = 12 → x = 4 ✓</span></div>
+      </div>
+    </div>
+
+    <!-- 4. Ecuaciones de 2do grado -->
+    <div class="card">
+      <div class="card-title"><span class="badge badge-red">4</span> Ecuaciones de 2º grado</div>
+      <div class="theory-box">
+        Tienen la forma general: <strong class="yl">ax² + bx + c = 0</strong><br>
+        Pueden tener <strong class="gl">2 soluciones</strong>, 1 solución doble, o ninguna.
+      </div>
+      <div class="math-formula big">x = (−b ± √(b²−4ac)) / 2a</div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          📌 Tipo 1: ax² + c = 0 <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          Despejamos x²:<br>
+          <div class="math-formula">2x² − 18 = 0 → x² = 9 → x = ±3</div>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          📌 Tipo 2: ax² + bx = 0 <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          Factor común con x:<br>
+          <div class="math-formula">x² − 5x = 0 → x(x−5) = 0 → x=0 o x=5</div>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          📌 Tipo 3: ax² + bx + c = 0 (fórmula) <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          Ejemplo: 5x² − 7x + 2 = 0 → a=5, b=−7, c=2<br>
+          <div class="math-formula">x = (7 ± √(49−40)) / 10 = (7±3)/10</div>
+          <div class="mt-8">→ x₁ = 10/10 = <strong class="gl">1</strong> &nbsp;&nbsp; x₂ = 4/10 = <strong class="gl">2/5</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Truco final -->
+    <div class="card" style="border-color:rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
+      <div class="card-title">💡 Tipos especiales</div>
+      <div class="info-grid">
+        <div class="info-item" style="border-left:3px solid var(--accent4)"><strong>Infinitas soluciones</strong>Si al resolver te queda <strong class="gl">0 = 0</strong></div>
+        <div class="info-item" style="border-left:3px solid var(--red)"><strong>Sin solución</strong>Si al resolver te queda <strong style="color:var(--red)">0 = 5</strong> (imposible)</div>
+      </div>
+    </div>
+
+  </div><!-- /teoria -->
+
+  <!-- =================== SECCIÓN PRÁCTICA =================== -->
+  <div class="section" id="s-practica">
+
+    <div class="quiz-progress">
+      <span class="prog-text" id="quizProgressText">Ejercicio 1 de 10</span>
+      <div class="prog-dots" id="progDots"></div>
+    </div>
+
+    <div id="quizContainer"></div>
+
+    <div class="text-center mt-16">
+      <button class="reset-btn" onclick="resetQuiz()">🔄 Reiniciar práctica</button>
+    </div>
+  </div>
+
+  <!-- =================== SECCIÓN MEMORIA =================== -->
+  <div class="section" id="s-memoria">
+    <div class="card">
+      <div class="card-title">🃏 Juego de Memoria — Ecuación ↔ Solución</div>
+      <p class="text-muted mt-8">Encuentra los pares: ecuación + su solución. ¡Dale la vuelta a las cartas!</p>
+      <hr class="divider">
+      <div class="mem-grid" id="memGrid"></div>
+      <div id="memResult" style="text-align:center;margin-top:20px;font-weight:800;font-size:1.2rem;min-height:30px;"></div>
+      <div class="text-center mt-16">
+        <button class="reset-btn" onclick="initMemory()">🔄 Barajar de nuevo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== SECCIÓN TROFEOS =================== -->
+  <div class="section" id="s-trofeos">
+    <div class="card">
+      <div class="card-title">🏆 Tu puntuación</div>
+      <div class="trophy-section">
+        <span class="trophy-emoji" id="trophyEmoji">🎯</span>
+        <div class="total-score" id="totalScoreDisplay">0</div>
+        <div class="text-muted">puntos de experiencia</div>
+        <div class="rank-badge" id="rankBadge">Principiante</div>
+      </div>
+      <hr class="divider">
+      <div class="challenge-list">
+        <div class="challenge-item" id="ach-1" style="opacity:0.5">
+          <div class="challenge-icon">✏️</div>
+          <div class="challenge-info"><h3>Primer paso</h3><p>Resuelve tu primer ejercicio</p></div>
+          <div class="challenge-pts">+10 XP</div>
+        </div>
+        <div class="challenge-item" id="ach-2" style="opacity:0.5">
+          <div class="challenge-icon">🔥</div>
+          <div class="challenge-info"><h3>En racha</h3><p>5 ejercicios correctos seguidos</p></div>
+          <div class="challenge-pts">+30 XP</div>
+        </div>
+        <div class="challenge-item" id="ach-3" style="opacity:0.5">
+          <div class="challenge-icon">🃏</div>
+          <div class="challenge-info"><h3>Maestro de la memoria</h3><p>Completa el juego de memoria</p></div>
+          <div class="challenge-pts">+50 XP</div>
+        </div>
+        <div class="challenge-item" id="ach-4" style="opacity:0.5">
+          <div class="challenge-icon">⭐</div>
+          <div class="challenge-info"><h3>Perfecto</h3><p>10/10 ejercicios correctos</p></div>
+          <div class="challenge-pts">+100 XP</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// ===== STATE =====
+let xp = 0;
+let quizAnswers = [];
+let correctStreak = 0;
+let memFlipped = [];
+let memMatched = [];
+let memLocked = false;
+let memMoves = 0;
+
+const MAX_XP = 200;
+
+const RANKS = [
+  {min:0, name:"Principiante", emoji:"🎯"},
+  {min:30, name:"Estudiante", emoji:"📚"},
+  {min:80, name:"Calculador", emoji:"🧮"},
+  {min:130, name:"Algebrista", emoji:"🔬"},
+  {min:180, name:"Maestro", emoji:"🏆"},
+  {min:200, name:"¡Genio!", emoji:"🌟"},
+];
+
+function addXP(amount) {
+  xp = Math.min(xp + amount, MAX_XP);
+  document.getElementById('xpFill').style.width = (xp/MAX_XP*100)+'%';
+  document.getElementById('xpScore').textContent = xp + ' / ' + MAX_XP;
+  document.getElementById('totalScoreDisplay').textContent = xp;
+  updateRank();
+  if(amount > 0) spawnConfetti();
+}
+
+function updateRank() {
+  let rank = RANKS[0];
+  for(let r of RANKS) if(xp >= r.min) rank = r;
+  document.getElementById('rankBadge').textContent = rank.name;
+  document.getElementById('trophyEmoji').textContent = rank.emoji;
+}
+
+function spawnConfetti() {
+  const emojis = ['⭐','✨','🎉','💫','🌟'];
+  for(let i=0;i<5;i++){
+    setTimeout(()=>{
+      const s = document.createElement('span');
+      s.className = 'confetti-star';
+      s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      s.style.left = (20+Math.random()*60)+'%';
+      s.style.top = '30%';
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(), 1600);
+    }, i*120);
+  }
+}
+
+// ===== TABS =====
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== ACCORDION =====
+function toggleAcc(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.acc-arrow');
+  body.classList.toggle('open');
+  arrow.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+
+// ===== QUIZ DATA =====
+const quizData = [
+  {
+    type: 'number',
+    q: "Resuelve la ecuación de primer grado:",
+    eq: "3x − 2 = 4",
+    hint: "Suma 2 a ambos lados, luego divide entre 3.",
+    answer: 2,
+    steps: ["3x − 2 = 4", "3x = 4 + 2 = 6", "x = 6 / 3 = 2"]
+  },
+  {
+    type: 'number',
+    q: "Transpón términos y resuelve:",
+    eq: "5x + 3 = x + 15",
+    hint: "Agrupa los términos con x a un lado y los números al otro.",
+    answer: 3,
+    steps: ["5x − x = 15 − 3", "4x = 12", "x = 12 / 4 = 3"]
+  },
+  {
+    type: 'number',
+    q: "Ecuación con paréntesis:",
+    eq: "2(x + 1) = 12",
+    hint: "Aplica la propiedad distributiva primero.",
+    answer: 5,
+    steps: ["2x + 2 = 12", "2x = 12 − 2 = 10", "x = 10 / 2 = 5"]
+  },
+  {
+    type: 'number',
+    q: "Resuelve eliminando denominadores:",
+    eq: "x/3 = 5",
+    hint: "Multiplica ambos lados por 3.",
+    answer: 15,
+    steps: ["x = 5 · 3", "x = 15"]
+  },
+  {
+    type: 'number',
+    q: "Ecuación con denominadores (m.c.m. = 6):",
+    eq: "x/2 − x/3 = 1",
+    hint: "Multiplica todo por el m.c.m. de 2 y 3, que es 6.",
+    answer: 6,
+    steps: ["3x − 2x = 6", "x = 6"]
+  },
+  {
+    type: 'number',
+    q: "Resuelve esta ecuación de 2º grado:",
+    eq: "x² − 25 = 0",
+    hint: "x² = 25 → x = ±5. Escribe la solución positiva.",
+    answer: 5,
+    steps: ["x² = 25", "x = ±√25", "x = 5 (o x = −5)"]
+  },
+  {
+    type: 'multi',
+    q: "¿Qué tipo de ecuación es?",
+    eq: "3x + 1 = 9 − x",
+    options: ["Primer grado", "Segundo grado", "Sin solución", "Infinitas soluciones"],
+    answer: 0,
+    steps: ["Ningún término tiene x²", "El grado máximo es 1 → ecuación de primer grado"]
+  },
+  {
+    type: 'number',
+    q: "Resuelve con paréntesis:",
+    eq: "4x − (x + 3) = 9",
+    hint: "Quita el paréntesis cambiando signos: −(x+3) = −x−3",
+    answer: 4,
+    steps: ["4x − x − 3 = 9", "3x − 3 = 9", "3x = 12", "x = 4"]
+  },
+  {
+    type: 'multi',
+    q: "¿Cuántas soluciones tiene?",
+    eq: "0 · x = 7",
+    options: ["Una solución", "Dos soluciones", "Infinitas soluciones", "Sin solución"],
+    answer: 3,
+    steps: ["0 · x siempre da 0, nunca 7", "→ No hay ningún x que lo cumpla → Sin solución"]
+  },
+  {
+    type: 'number',
+    q: "Usa la fórmula cuadrática:",
+    eq: "x² − 5x + 6 = 0",
+    hint: "a=1, b=−5, c=6. Escribe la solución mayor.",
+    answer: 3,
+    steps: ["a=1, b=−5, c=6", "Discriminante: 25 − 24 = 1", "x = (5 ± 1) / 2", "x₁ = 3, x₂ = 2"]
+  },
+];
+
+let currentQuiz = 0;
+
+function initQuiz() {
+  quizAnswers = new Array(quizData.length).fill(null);
+  currentQuiz = 0;
+  renderQuiz();
+  renderDots();
+}
+
+function renderDots() {
+  const dots = document.getElementById('progDots');
+  dots.innerHTML = '';
+  quizData.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === currentQuiz ? ' current' : '') +
+      (quizAnswers[i] === true ? ' done' : '') +
+      (quizAnswers[i] === false ? ' wrong-dot' : '');
+    dots.appendChild(d);
+  });
+}
+
+function renderQuiz() {
+  document.getElementById('quizProgressText').textContent = `Ejercicio ${currentQuiz+1} de ${quizData.length}`;
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  const q = quizData[currentQuiz];
+  const answered = quizAnswers[currentQuiz] !== null;
+
+  const card = document.createElement('div');
+  card.className = 'quiz-card' + (answered ? (quizAnswers[currentQuiz]?' correct-card':' wrong-card') : '');
+  card.innerHTML = `
+    <div class="quiz-question">❓ ${q.q}</div>
+    <div class="quiz-eq">${q.eq}</div>
+    <div class="quiz-hint">💡 Pista: ${q.hint || ''}</div>
+  `;
+
+  if(q.type === 'number') {
+    const row = document.createElement('div');
+    row.className = 'answer-row';
+    row.innerHTML = `
+      <span class="answer-label">x =</span>
+      <input class="answer-input ${answered ? (quizAnswers[currentQuiz]?'correct':'wrong') : ''}" 
+             type="number" id="ans-input" placeholder="?" 
+             ${answered ? 'disabled value="' + (answered ? q.answer : '') + '"' : ''}>
+      <button class="check-btn" id="check-btn" ${answered ? 'disabled' : ''} onclick="checkAnswer()">
+        ${answered ? (quizAnswers[currentQuiz]?'✅ Correcto':'❌ Incorrecto') : '¡Comprobar!'}
+      </button>
+    `;
+    card.appendChild(row);
+  } else {
+    const grid = document.createElement('div');
+    grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.style.cssText = `background:${answered&&i===q.answer?'rgba(16,185,129,0.2)':answered&&quizAnswers[currentQuiz]===false&&i!==q.answer?'rgba(239,68,68,0.1)':'var(--card2)'};border:2px solid ${answered&&i===q.answer?'var(--accent4)':'var(--border)'};border-radius:10px;padding:12px;color:var(--text);font-family:'Nunito',sans-serif;font-weight:700;font-size:0.9rem;cursor:${answered?'default':'pointer'};transition:all 0.2s;`;
+      if(!answered) btn.onmouseover = ()=>{btn.style.borderColor='var(--accent2)';};
+      if(!answered) btn.onmouseout = ()=>{btn.style.borderColor='var(--border)';};
+      if(!answered) btn.onclick = ()=>checkMulti(i);
+      grid.appendChild(btn);
+    });
+    card.appendChild(grid);
+  }
+
+  const fb = document.createElement('div');
+  fb.id = 'feedback-msg';
+  fb.className = 'feedback' + (answered ? ' show '+(quizAnswers[currentQuiz]?'ok':'fail') : '');
+  fb.textContent = answered ? (quizAnswers[currentQuiz] ? '🎉 ¡Correcto! +10 XP' : '❌ No es correcto. Revisa los pasos.') : '';
+  card.appendChild(fb);
+
+  const steps = document.createElement('div');
+  steps.className = 'solution-steps' + (answered ? ' show' : '');
+  steps.innerHTML = '<h4>📝 Resolución paso a paso</h4>' +
+    q.steps.map((s,i)=>`<div class="sol-step"><span class="sol-num">${i+1}.</span><span>${s}</span></div>`).join('');
+  card.appendChild(steps);
+
+  if(answered && currentQuiz < quizData.length - 1) {
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = '→ Siguiente';
+    nextBtn.className = 'check-btn';
+    nextBtn.style.marginTop = '16px';
+    nextBtn.onclick = () => { currentQuiz++; renderQuiz(); renderDots(); };
+    card.appendChild(nextBtn);
+  }
+
+  if(answered && currentQuiz === quizData.length - 1) {
+    const allCorrect = quizAnswers.every(a=>a===true);
+    const correct = quizAnswers.filter(a=>a===true).length;
+    const summary = document.createElement('div');
+    summary.style.cssText = 'margin-top:20px;padding:20px;background:rgba(124,58,237,0.1);border-radius:14px;text-align:center;';
+    summary.innerHTML = `<div style="font-size:3rem">${allCorrect?'🏆':'🎯'}</div><div style="font-size:1.3rem;font-weight:800;margin:8px 0">${correct}/10 respuestas correctas</div><div style="color:var(--muted)">${allCorrect?'¡Perfecto! Has dominado las ecuaciones.':correct>=7?'¡Muy bien! Repasa los que fallaste.':'Sigue practicando, ¡tú puedes!'}</div>`;
+    card.appendChild(summary);
+  }
+
+  container.appendChild(card);
+  renderDots();
+}
+
+function checkAnswer() {
+  const val = parseFloat(document.getElementById('ans-input').value);
+  const q = quizData[currentQuiz];
+  const correct = val === q.answer;
+  processResult(correct);
+}
+
+function checkMulti(idx) {
+  const q = quizData[currentQuiz];
+  const correct = idx === q.answer;
+  processResult(correct);
+}
+
+function processResult(correct) {
+  if(quizAnswers[currentQuiz] !== null) return;
+  quizAnswers[currentQuiz] = correct;
+
+  if(correct) {
+    correctStreak++;
+    addXP(10);
+    unlockAchievement('ach-1');
+    if(correctStreak >= 5) unlockAchievement('ach-2', 30);
+    if(quizAnswers.filter(a=>a===true).length === 10) unlockAchievement('ach-4', 100);
+  } else {
+    correctStreak = 0;
+  }
+  renderQuiz();
+}
+
+function resetQuiz() {
+  quizAnswers = new Array(quizData.length).fill(null);
+  currentQuiz = 0;
+  correctStreak = 0;
+  renderQuiz();
+  renderDots();
+}
+
+// ===== MEMORY GAME =====
+const memPairs = [
+  {eq:"3x = 12", sol:"x = 4"},
+  {eq:"x − 5 = 3", sol:"x = 8"},
+  {eq:"2x + 1 = 7", sol:"x = 3"},
+  {eq:"x² = 16", sol:"x = ±4"},
+  {eq:"x/4 = 3", sol:"x = 12"},
+  {eq:"5x − 3 = 2x+9", sol:"x = 4"},
+  {eq:"x² − 9 = 0", sol:"x = ±3"},
+  {eq:"3(x+1)=15", sol:"x = 4"},
+];
+
+function initMemory() {
+  memFlipped = []; memMatched = []; memMoves = 0; memLocked = false;
+  document.getElementById('memResult').textContent = '';
+  const cards = [];
+  memPairs.forEach((p, i) => {
+    cards.push({id: 'e'+i, text: p.eq, type: 'eq', pairId: i});
+    cards.push({id: 's'+i, text: p.sol, type: 'sol', pairId: i});
+  });
+  // shuffle
+  for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]];}
+
+  const grid = document.getElementById('memGrid');
+  grid.innerHTML = '';
+  cards.forEach(c => {
+    const div = document.createElement('div');
+    div.className = `mem-card ${c.type === 'eq' ? 'eq-card' : 'sol-card'}`;
+    div.dataset.id = c.id;
+    div.dataset.pairId = c.pairId;
+    div.dataset.type = c.type;
+    div.textContent = c.text;
+    div.onclick = () => flipMemCard(div, c);
+    grid.appendChild(div);
+  });
+}
+
+function flipMemCard(div, card) {
+  if(memLocked || memFlipped.includes(card.id) || memMatched.includes(card.pairId+'-eq') || memMatched.includes(card.pairId)) return;
+  div.classList.add('revealed');
+  memFlipped.push(card.id);
+
+  if(memFlipped.length === 2) {
+    memLocked = true; memMoves++;
+    setTimeout(() => checkMemMatch(), 700);
+  }
+}
+
+function checkMemMatch() {
+  const cards = document.querySelectorAll('.mem-card');
+  const flippedCards = [...cards].filter(c => memFlipped.includes(c.dataset.id));
+  if(flippedCards.length < 2) { memFlipped=[]; memLocked=false; return; }
+  const [a, b] = flippedCards;
+  if(a.dataset.pairId === b.dataset.pairId && a.dataset.type !== b.dataset.type) {
+    a.classList.add('matched'); b.classList.add('matched');
+    memMatched.push(a.dataset.pairId);
+    if(memMatched.length === memPairs.length) {
+      document.getElementById('memResult').innerHTML = `🎉 ¡Completado en ${memMoves} movimientos!`;
+      unlockAchievement('ach-3', 50);
+    }
+  } else {
+    a.classList.remove('revealed'); b.classList.remove('revealed');
+  }
+  memFlipped = []; memLocked = false;
+}
+
+// ===== ACHIEVEMENTS =====
+const unlockedAchs = {};
+function unlockAchievement(id, bonusXP=0) {
+  if(unlockedAchs[id]) return;
+  unlockedAchs[id] = true;
+  const el = document.getElementById(id);
+  if(el) el.style.opacity = '1';
+  if(bonusXP) addXP(bonusXP);
+}
+
+// ===== INIT =====
+initQuiz();
+initMemory();
+</script>
+</body>
+</html>

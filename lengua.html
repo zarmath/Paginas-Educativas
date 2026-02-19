@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repaso Sintaxis - Lengua</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e17;
+    --surface: #1a1828;
+    --surface2: #252338;
+    --accent: #ff6b35;
+    --accent2: #f7c59f;
+    --green: #3fcf8e;
+    --red: #ff4d6d;
+    --yellow: #ffd166;
+    --blue: #4cc9f0;
+    --purple: #c77dff;
+    --text: #fffffe;
+    --text-muted: #a7a9be;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background pattern */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(255,107,53,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(76,201,240,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    z-index: 1;
+    padding: 40px 30px 30px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(255,107,53,0.1);
+    border: 1px solid rgba(255,107,53,0.2);
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 60px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 30px;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+  }
+
+  /* PROGRESS */
+  .progress-container {
+    position: relative;
+    z-index: 1;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--yellow));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  .progress-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* NAV TABS */
+  .nav-tabs {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    padding: 16px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* MAIN CONTENT */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* SECTION */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 24px;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .question-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .q-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(255,107,53,0.1);
+    border: 1px solid rgba(255,107,53,0.2);
+    padding: 4px 12px;
+    border-radius: 50px;
+  }
+
+  .q-theme {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .q-sentence {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 3vw, 24px);
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 12px;
+    padding: 20px 24px;
+    background: var(--surface2);
+    border-radius: 12px;
+    border-left: 3px solid var(--accent);
+  }
+
+  .q-ask {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  /* OPTIONS */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .option-btn {
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    padding: 16px 20px;
+    border-radius: 12px;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .option-letter {
+    min-width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: rgba(255,107,53,0.07);
+    transform: translateX(4px);
+  }
+
+  .option-btn:hover:not(:disabled) .option-letter {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .option-btn.correct {
+    border-color: var(--green);
+    background: rgba(63,207,142,0.1);
+  }
+
+  .option-btn.correct .option-letter {
+    background: var(--green);
+    color: #0f0e17;
+    border-color: var(--green);
+  }
+
+  .option-btn.wrong {
+    border-color: var(--red);
+    background: rgba(255,77,109,0.1);
+  }
+
+  .option-btn.wrong .option-letter {
+    background: var(--red);
+    color: white;
+    border-color: var(--red);
+  }
+
+  .option-btn:disabled { cursor: default; }
+
+  /* FEEDBACK */
+  .feedback {
+    display: none;
+    padding: 20px 24px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    animation: feedbackIn 0.3s ease;
+  }
+
+  @keyframes feedbackIn {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .feedback.correct-fb {
+    background: rgba(63,207,142,0.1);
+    border: 1px solid rgba(63,207,142,0.3);
+    color: var(--green);
+  }
+
+  .feedback.wrong-fb {
+    background: rgba(255,77,109,0.1);
+    border: 1px solid rgba(255,77,109,0.3);
+    color: var(--red);
+  }
+
+  .feedback-title {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feedback p { color: var(--text); font-size: 14px; }
+  .feedback strong { color: var(--accent2); }
+
+  /* BUTTONS */
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary:hover { background: #ff8255; transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1.5px solid var(--border);
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .q-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* ANALYSIS INTERACTIVE */
+  .sentence-builder {
+    background: var(--surface2);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 24px;
+  }
+
+  .sentence-display {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--text);
+    line-height: 2;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .word-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .word-chip {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    background: var(--surface);
+    color: var(--text-muted);
+  }
+
+  .word-chip:hover { border-color: var(--accent); color: var(--text); }
+
+  .word-chip.selected-sujeto { background: rgba(76,201,240,0.15); border-color: var(--blue); color: var(--blue); }
+  .word-chip.selected-predicado { background: rgba(255,107,53,0.15); border-color: var(--accent); color: var(--accent); }
+  .word-chip.selected-cd { background: rgba(63,207,142,0.15); border-color: var(--green); color: var(--green); }
+  .word-chip.selected-ci { background: rgba(255,209,102,0.15); border-color: var(--yellow); color: var(--yellow); }
+  .word-chip.selected-cct { background: rgba(199,125,255,0.15); border-color: var(--purple); color: var(--purple); }
+
+  /* FUNCTION SELECTOR */
+  .function-selector {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+
+  .func-btn {
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 2px solid transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.5;
+  }
+
+  .func-btn:hover, .func-btn.active-func { opacity: 1; }
+
+  .func-btn.sujeto { background: rgba(76,201,240,0.1); border-color: var(--blue); color: var(--blue); }
+  .func-btn.predicado { background: rgba(255,107,53,0.1); border-color: var(--accent); color: var(--accent); }
+  .func-btn.cd { background: rgba(63,207,142,0.1); border-color: var(--green); color: var(--green); }
+  .func-btn.ci { background: rgba(255,209,102,0.1); border-color: var(--yellow); color: var(--yellow); }
+  .func-btn.cct { background: rgba(199,125,255,0.1); border-color: var(--purple); color: var(--purple); }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  /* TIPS SECTION */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .tip-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.2s;
+  }
+
+  .tip-card:hover { transform: translateY(-3px); }
+
+  .tip-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .tip-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--accent2);
+  }
+
+  .tip-content {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .tip-content strong { color: var(--accent); }
+  .tip-content .code {
+    background: var(--surface2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--green);
+    display: inline-block;
+    margin: 2px 0;
+  }
+
+  /* SCORE */
+  .score-display {
+    text-align: center;
+    padding: 50px 30px;
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    margin-bottom: 30px;
+  }
+
+  .score-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .score-label {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+  }
+
+  .score-breakdown {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 30px;
+  }
+
+  .score-item { text-align: center; }
+  .score-item-num { font-size: 28px; font-weight: 700; }
+  .score-item-lab { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+  .score-item-num.correct-color { color: var(--green); }
+  .score-item-num.wrong-color { color: var(--red); }
+
+  /* CHIP highlight animation */
+  @keyframes chipPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+    100% { transform: scale(1); }
+  }
+
+  .chip-pop { animation: chipPop 0.2s ease; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+
+  /* TROPHY */
+  .trophy { font-size: 60px; margin-bottom: 20px; }
+  .emoji-big { font-size: 48px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .question-card { padding: 24px; }
+    .score-breakdown { gap: 20px; }
+    header { padding: 30px 20px 20px; }
+  }
+
+  /* SMOOTH TRANSITIONS */
+  .fade-out {
+    animation: fadeOut 0.3s ease forwards;
+  }
+  @keyframes fadeOut {
+    to { opacity: 0; transform: translateY(-10px); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">📚 Lengua Española</div>
+  <h1>Análisis <span>Sintáctico</span></h1>
+  <p class="subtitle">Repasa todo el temario de forma interactiva antes del examen</p>
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-number" id="totalAnswered">0</span>
+      <span class="stat-label">Respondidas</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number" id="totalCorrect">0</span>
+      <span class="stat-label">Correctas</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number" id="totalPercent">0%</span>
+      <span class="stat-label">Acierto</span>
+    </div>
+  </div>
+</header>
+
+<div class="progress-container">
+  <span class="progress-text" id="progressText">Pregunta 0 de 0</span>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="showSection('test', this)">🎯 Test General</button>
+  <button class="tab-btn" onclick="showSection('cdci', this)">📌 CD y CI</button>
+  <button class="tab-btn" onclick="showSection('atrib', this)">⚖️ Atributo vs CPred</button>
+  <button class="tab-btn" onclick="showSection('pasiva', this)">🔄 Voz Pasiva</button>
+  <button class="tab-btn" onclick="showSection('formacion', this)">🔧 Formación Palabras</button>
+  <button class="tab-btn" onclick="showSection('trucos', this)">💡 Trucos</button>
+</div>
+
+<main>
+
+  <!-- ============ SECTION: TEST GENERAL ============ -->
+  <section class="section active" id="section-test">
+    <div class="section-title">Test General</div>
+    <p class="section-desc">Todas las preguntas mezcladas. Pon a prueba tu dominio del análisis sintáctico.</p>
+    <div id="quiz-container"></div>
+    <div id="quiz-score" style="display:none;"></div>
+  </section>
+
+  <!-- ============ SECTION: CD Y CI ============ -->
+  <section class="section" id="section-cdci">
+    <div class="section-title">Complementos: CD y CI</div>
+    <p class="section-desc">Practica identificando el Complemento Directo y el Complemento Indirecto.</p>
+    <div id="cdci-container"></div>
+  </section>
+
+  <!-- ============ SECTION: ATRIBUTO VS CPRED ============ -->
+  <section class="section" id="section-atrib">
+    <div class="section-title">Atributo vs Complemento Predicativo</div>
+    <p class="section-desc">El reto más difícil del examen. Domina la diferencia.</p>
+    <div id="atrib-container"></div>
+  </section>
+
+  <!-- ============ SECTION: VOZ PASIVA ============ -->
+  <section class="section" id="section-pasiva">
+    <div class="section-title">Voz Activa y Pasiva</div>
+    <p class="section-desc">Identifica, transforma y analiza oraciones pasivas con su complemento agente.</p>
+    <div id="pasiva-container"></div>
+  </section>
+
+  <!-- ============ SECTION: FORMACIÓN DE PALABRAS ============ -->
+  <section class="section" id="section-formacion">
+    <div class="section-title">Flexión y Formación de Palabras</div>
+    <p class="section-desc">Derivación, parasíntesis, composición y flexión verbal.</p>
+    <div id="formacion-container"></div>
+  </section>
+
+  <!-- ============ SECTION: TRUCOS ============ -->
+  <section class="section" id="section-trucos">
+    <div class="section-title">💡 Trucos para el Examen</div>
+    <p class="section-desc">Los atajos más útiles para identificar cada función sintáctica.</p>
+    <div class="tips-grid">
+
+      <div class="tip-card">
+        <div class="tip-icon">🎯</div>
+        <div class="tip-title">Sujeto</div>
+        <div class="tip-content">
+          <strong>¿Quién + verbo?</strong><br>
+          El verbo siempre concuerda con el sujeto.<br><br>
+          Con verbos tipo <em>gustar</em>: el sujeto es <strong>lo que gusta</strong>, no quien lo experimenta.<br><br>
+          <span class="code">"Me gusta la fruta" → sujeto: "la fruta"</span>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">📦</div>
+        <div class="tip-title">CD — Complemento Directo</div>
+        <div class="tip-content">
+          <strong>¿Qué + verbo?</strong><br>
+          Sustitución: <strong>lo / la / los / las</strong><br><br>
+          <span class="code">"Compré el libro" → "Lo compré" ✅</span><br><br>
+          Si la sustitución no funciona, no es CD.
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">👤</div>
+        <div class="tip-title">CI — Complemento Indirecto</div>
+        <div class="tip-content">
+          <strong>¿A quién / Para quién + verbo?</strong><br>
+          Sustitución: <strong>le / les</strong><br><br>
+          <span class="code">"Di el libro a Juan" → "Le di el libro" ✅</span><br><br>
+          Cuando CD + CI juntos: <strong>le + lo → se lo</strong>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">🔵</div>
+        <div class="tip-title">Atributo</div>
+        <div class="tip-content">
+          Verbo <strong>COPULATIVO</strong> obligatorio:<br>
+          <strong>ser / estar / parecer</strong><br><br>
+          Sustitución: <strong>lo</strong><br>
+          <span class="code">"Parece inteligente" → "Lo parece" ✅</span><br><br>
+          ⚠️ "Estar en casa" NO es copulativo (es lugar).
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">🟠</div>
+        <div class="tip-title">Complemento Predicativo</div>
+        <div class="tip-content">
+          Verbo <strong>NO copulativo</strong>.<br>
+          Concuerda en género y número con el sujeto.<br><br>
+          <span class="code">"Las atletas llegaron cansadas" → si cambia el sujeto, cambia "cansadas"</span><br><br>
+          Si concuerda = CPred. Si no concuerda = CC de Modo.
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">🔄</div>
+        <div class="tip-title">Voz Pasiva</div>
+        <div class="tip-content">
+          Estructura: <strong>sujeto paciente + ser + participio + por + C.Agente</strong><br><br>
+          <span class="code">"Pedro compró el libro"</span><br>
+          <span class="code">→ "El libro fue comprado por Pedro"</span><br><br>
+          El C. Agente <strong>siempre empieza por "por"</strong>.
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">🧬</div>
+        <div class="tip-title">Parasíntesis</div>
+        <div class="tip-content">
+          Prefijo + raíz + sufijo <strong>a la vez</strong>.<br><br>
+          Test: si quitas el prefijo <strong>O</strong> el sufijo, ¿existe la palabra?<br><br>
+          <span class="code">"abaratar" → ¿"abarato"? ❌ ¿"baratar"? ❌ → PARASÍNTESIS</span><br>
+          <span class="code">"desobedecer" → "obedecer" ✅ → PREFIJACIÓN</span>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">🧩</div>
+        <div class="tip-title">Tipos de CC</div>
+        <div class="tip-content">
+          <strong>Tiempo:</strong> ¿Cuándo? → "ayer", "el martes"<br>
+          <strong>Lugar:</strong> ¿Dónde? → "en el parque"<br>
+          <strong>Modo:</strong> ¿Cómo? → "con cuidado"<br>
+          <strong>Causa:</strong> ¿Por qué? → "por el tráfico"<br>
+          <strong>Instrumento:</strong> ¿Con qué? → "con un cuchillo"<br>
+          <strong>Compañía:</strong> ¿Con quién? → "con mi hermano"
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script>
+// ============================================================
+// DATA — PREGUNTAS
+// ============================================================
+
+const questions = {
+  general: [
+    {
+      sentence: "Me gusta la fruta",
+      question: "¿Cuál es el sujeto de la oración?",
+      options: ["Me", "la fruta", "gusta", "No tiene sujeto"],
+      correct: 1,
+      explanation: "<strong>'La fruta'</strong> es el sujeto. Aunque el orden es raro, es lo que gusta. El verbo concuerda con el sujeto: 'la fruta gusta' / 'las frutas gustan'.",
+      theme: "Sujeto"
+    },
+    {
+      sentence: "Los niños compraron un libro a la librera el martes",
+      question: "¿Cuál es el Complemento Directo (CD)?",
+      options: ["Los niños", "un libro", "a la librera", "el martes"],
+      correct: 1,
+      explanation: "<strong>'Un libro'</strong> es el CD. Prueba: '¿Qué compraron?' → un libro. Sustitución: 'Los niños <strong>lo</strong> compraron a la librera el martes'.",
+      theme: "CD"
+    },
+    {
+      sentence: "Presté el bolígrafo a Paco ayer",
+      question: "¿Cuál es el Complemento Indirecto (CI)?",
+      options: ["el bolígrafo", "a Paco", "ayer", "Presté"],
+      correct: 1,
+      explanation: "<strong>'A Paco'</strong> es el CI. Prueba: '¿A quién presté?' → a Paco. Sustitución: '<strong>Le</strong> presté el bolígrafo ayer'.",
+      theme: "CI"
+    },
+    {
+      sentence: "Pedro compró el libro",
+      question: "¿Cuál es la transformación correcta a voz pasiva?",
+      options: [
+        "El libro compró a Pedro",
+        "El libro fue comprado por Pedro",
+        "Pedro fue comprado por el libro",
+        "Fue comprado Pedro el libro"
+      ],
+      correct: 1,
+      explanation: "<strong>'El libro fue comprado por Pedro'</strong>. El CD ('el libro') pasa a ser sujeto paciente. El sujeto ('Pedro') pasa a ser complemento agente con 'por'.",
+      theme: "Voz Pasiva"
+    },
+    {
+      sentence: "Aquella señora parece inteligente",
+      question: "¿Qué función tiene 'inteligente'?",
+      options: ["Complemento Directo", "Atributo", "Complemento Predicativo", "CC de Modo"],
+      correct: 1,
+      explanation: "<strong>Atributo</strong>. 'Parecer' es verbo copulativo (como ser y estar). El atributo expresa una cualidad del sujeto a través del verbo copulativo.",
+      theme: "Atributo"
+    },
+    {
+      sentence: "Las atletas llegaron cansadas a la meta",
+      question: "¿Qué función tiene 'cansadas'?",
+      options: ["Atributo", "Complemento Predicativo", "CC de Modo", "Complemento Directo"],
+      correct: 1,
+      explanation: "<strong>Complemento Predicativo</strong>. 'Llegar' NO es verbo copulativo. 'Cansadas' concuerda con el sujeto 'las atletas' (femenino plural). Indica cómo estaban mientras llegaban.",
+      theme: "CPred"
+    },
+    {
+      sentence: "El incendio ha sido apagado por los bomberos",
+      question: "¿Cuál es el complemento agente?",
+      options: ["El incendio", "ha sido apagado", "por los bomberos", "No tiene"],
+      correct: 2,
+      explanation: "<strong>'Por los bomberos'</strong> es el complemento agente. En voz pasiva, el complemento agente siempre va introducido por la preposición 'por' e indica quién realiza la acción.",
+      theme: "C. Agente"
+    },
+    {
+      sentence: "Estábamos",
+      question: "¿Cuál es la raíz del verbo?",
+      options: ["Está", "Est", "Estábamos", "ábamos"],
+      correct: 1,
+      explanation: "La raíz es <strong>'Est-'</strong> (la parte que aporta el significado léxico, invariable). Las desinencias son '-ábamos' (indican persona, número, tiempo y modo).",
+      theme: "Flexión"
+    },
+    {
+      sentence: "abaratar (de 'barato')",
+      question: "¿Qué proceso de formación es?",
+      options: ["Prefijación", "Sufijación", "Parasíntesis", "Composición"],
+      correct: 2,
+      explanation: "<strong>Parasíntesis</strong>. Se añaden el prefijo 'a-' y el sufijo '-ar' simultáneamente. Si quitamos solo el prefijo: 'baratar' ❌ no existe. Si quitamos solo el sufijo: 'abarato' ❌ no existe.",
+      theme: "Parasíntesis"
+    },
+    {
+      sentence: "carricoche",
+      question: "¿Qué clase de palabras forman esta palabra compuesta?",
+      options: ["Verbo + nombre", "Nombre + nombre", "Adjetivo + nombre", "Nombre + verbo"],
+      correct: 1,
+      explanation: "<strong>Nombre + nombre</strong>. 'Carricoche' = 'carro' (nombre) + 'coche' (nombre). Es una palabra compuesta.",
+      theme: "Composición"
+    },
+    {
+      sentence: "Esa tela roja es muy suave",
+      question: "¿Cuál es el sujeto completo?",
+      options: ["Esa", "Esa tela", "Esa tela roja", "tela roja"],
+      correct: 2,
+      explanation: "<strong>'Esa tela roja'</strong> es el sujeto completo. Núcleo: 'tela'. Modificadores: 'Esa' (determinante demostrativo) + 'roja' (adjetivo / CN). El predicado nominal es 'es muy suave'.",
+      theme: "Sujeto"
+    },
+    {
+      sentence: "Los espectadores observaron atónitos la actuación de la cantante",
+      question: "¿Qué función tiene 'de la cantante'?",
+      options: ["Complemento Directo", "Complemento Indirecto", "Complemento del Nombre", "CC de Lugar"],
+      correct: 2,
+      explanation: "<strong>Complemento del Nombre (CN)</strong>. 'De la cantante' complementa al nombre 'actuación' (¿actuación de quién? → de la cantante). Pertenece al sintagma nominal 'la actuación de la cantante'.",
+      theme: "CN"
+    }
+  ],
+
+  cdci: [
+    {
+      sentence: "El cartero entregó el paquete a mi vecino esta mañana",
+      question: "¿Cuál es el CD?",
+      options: ["El cartero", "el paquete", "a mi vecino", "esta mañana"],
+      correct: 1,
+      explanation: "<strong>'El paquete'</strong> es el CD. Truco: '¿Qué entregó?' → el paquete. Sustitución: 'El cartero <strong>lo</strong> entregó a mi vecino esta mañana'.",
+      theme: "CD"
+    },
+    {
+      sentence: "El cartero entregó el paquete a mi vecino esta mañana",
+      question: "¿Cuál es el CI?",
+      options: ["El cartero", "el paquete", "a mi vecino", "esta mañana"],
+      correct: 2,
+      explanation: "<strong>'A mi vecino'</strong> es el CI. Truco: '¿A quién entregó?' → a mi vecino. Sustitución: 'El cartero <strong>le</strong> entregó el paquete esta mañana'.",
+      theme: "CI"
+    },
+    {
+      sentence: "María regaló un libro a Pedro",
+      question: "Si sustituimos CD y CI juntos, ¿cuál queda?",
+      options: ["María lo le regaló", "María se lo regaló", "María le lo regaló", "María la le regaló"],
+      correct: 1,
+      explanation: "<strong>'María se lo regaló'</strong>. Cuando coinciden le + lo/la/los/las, el 'le' se convierte en 'se'. 'Un libro' → 'lo' (CD). 'A Pedro' → 'le' → cambia a 'se' porque va seguido de 'lo'.",
+      theme: "CD + CI"
+    },
+    {
+      sentence: "Los niños compraron flores para su madre",
+      question: "Si sustituimos solo el CD, ¿cuál queda?",
+      options: [
+        "Los niños la compraron para su madre",
+        "Los niños las compraron para su madre",
+        "Los niños le compraron para su madre",
+        "Los niños los compraron para su madre"
+      ],
+      correct: 1,
+      explanation: "<strong>'Las compraron'</strong>. El CD es 'flores' (femenino plural). Sustitución: lo/la/los/<strong>las</strong> → 'las' (femenino plural). El pronombre concuerda en género y número con el CD.",
+      theme: "CD"
+    },
+    {
+      sentence: "A María le dieron los profesores un premio",
+      question: "¿Cuál es el análisis correcto?",
+      options: [
+        "CD = 'A María', CI = 'un premio'",
+        "CD = 'un premio', CI = 'A María'",
+        "CD = 'los profesores', CI = 'A María'",
+        "No tiene CD ni CI"
+      ],
+      correct: 1,
+      explanation: "<strong>CD = 'un premio', CI = 'A María'</strong>. El orden alterado no cambia las funciones. Sujeto: 'los profesores'. CD: '¿qué dieron?' → un premio. CI: '¿a quién?' → a María (ya aparece como 'le').",
+      theme: "CD + CI"
+    },
+    {
+      sentence: "Cuéntame la historia de ese viaje",
+      question: "¿Cuál es el CD de esta oración?",
+      options: ["me (implícito: a mí)", "la historia de ese viaje", "ese viaje", "Cuéntame"],
+      correct: 1,
+      explanation: "<strong>'La historia de ese viaje'</strong> es el CD. Prueba: '¿Qué cuéntame?' → la historia de ese viaje. Sustitución: 'Cuénta<strong>la</strong>me' / '<strong>Cuéntamela</strong>'. 'Me' es el CI (= a mí).",
+      theme: "CD"
+    }
+  ],
+
+  atrib: [
+    {
+      sentence: "Los niños están tranquilos",
+      question: "¿Qué función tiene 'tranquilos'?",
+      options: ["Complemento Predicativo", "Atributo", "CC de Modo", "Complemento Directo"],
+      correct: 1,
+      explanation: "<strong>Atributo</strong>. 'Estar' expresa aquí un estado → verbo copulativo. Prueba de sustitución: 'Los niños <strong>lo</strong> están' ✅. Si fuera CPred, el verbo no sería copulativo.",
+      theme: "Atributo"
+    },
+    {
+      sentence: "Los niños duermen tranquilos",
+      question: "¿Qué función tiene 'tranquilos'?",
+      options: ["Atributo", "Complemento Predicativo", "CC de Modo", "Sujeto"],
+      correct: 1,
+      explanation: "<strong>Complemento Predicativo</strong>. 'Dormir' NO es verbo copulativo. 'Tranquilos' concuerda con el sujeto (femenino: 'Las niñas duermen <u>tranquilas</u>'). Indica cómo están mientras duermen.",
+      theme: "CPred"
+    },
+    {
+      sentence: "Juan está en casa",
+      question: "¿Tiene esta oración atributo?",
+      options: ["Sí, 'en casa' es atributo", "No, 'en casa' es CCL (Lugar)", "Sí, 'en' es atributo", "No tiene predicado"],
+      correct: 1,
+      explanation: "<strong>No hay atributo</strong>. 'Estar' aquí indica <u>ubicación</u> (¿dónde está?), no un estado. 'En casa' es CCL. Prueba: '¿Juan <em>lo</em> está?' → no tiene sentido ❌. Solo es copulativo cuando expresa estado o cualidad.",
+      theme: "Atributo"
+    },
+    {
+      sentence: "La profesora llegó contenta a clase",
+      question: "Si el sujeto fuera 'Los profesores', ¿cómo cambia?",
+      options: [
+        "Los profesores llegó contenta a clase",
+        "Los profesores llegaron contenta a clase",
+        "Los profesores llegaron contentos a clase",
+        "No cambia nada"
+      ],
+      correct: 2,
+      explanation: "<strong>'Los profesores llegaron <u>contentos</u> a clase'</strong>. El CPred concuerda con el sujeto en género y número: 'la profesora → contenta' / 'los profesores → contentos'. Esa concordancia es la clave para identificarlo.",
+      theme: "CPred"
+    },
+    {
+      sentence: "Los espectadores observaron atónitos la actuación",
+      question: "¿Qué función tiene 'atónitos'?",
+      options: [
+        "Atributo (con verbo copulativo)",
+        "CC de Modo (indica cómo observaron)",
+        "Complemento Predicativo",
+        "Complemento Directo"
+      ],
+      correct: 2,
+      explanation: "<strong>Complemento Predicativo</strong>. 'Observar' NO es copulativo. 'Atónitos' concuerda con 'los espectadores' (masculino plural). Si fueran 'las espectadoras': '<u>atónitas</u>'. Los CC de Modo NO cambian con el sujeto ('rápidamente' no varía).",
+      theme: "CPred"
+    }
+  ],
+
+  pasiva: [
+    {
+      sentence: "Juan pintó la casa",
+      question: "¿Cuál es la transformación correcta a voz pasiva?",
+      options: [
+        "La casa pintó a Juan",
+        "La casa fue pintada por Juan",
+        "Juan fue pintado por la casa",
+        "La casa ha pintado Juan"
+      ],
+      correct: 1,
+      explanation: "<strong>'La casa fue pintada por Juan'</strong>. El CD activo ('la casa') → sujeto paciente. El sujeto activo ('Juan') → complemento agente ('por Juan'). El participio concuerda con el sujeto paciente: 'pintada' (femenino).",
+      theme: "Activa → Pasiva"
+    },
+    {
+      sentence: "El incendio ha sido apagado por los bomberos",
+      question: "¿Cuál es la voz activa correcta?",
+      options: [
+        "El incendio ha apagado a los bomberos",
+        "Los bomberos fueron apagados",
+        "Los bomberos han apagado el incendio",
+        "Ha apagado el incendio"
+      ],
+      correct: 2,
+      explanation: "<strong>'Los bomberos han apagado el incendio'</strong>. El complemento agente ('por los bomberos') → sujeto activo. El sujeto paciente ('el incendio') → CD. El tiempo verbal se mantiene: 'ha sido apagado' → 'han apagado'.",
+      theme: "Pasiva → Activa"
+    },
+    {
+      sentence: "Los estudiantes estudiarán la lección",
+      question: "¿Cuál es la voz pasiva correcta?",
+      options: [
+        "La lección es estudiada por los estudiantes",
+        "La lección fue estudiada por los estudiantes",
+        "La lección será estudiada por los estudiantes",
+        "La lección ha sido estudiada por los estudiantes"
+      ],
+      correct: 2,
+      explanation: "<strong>'La lección será estudiada por los estudiantes'</strong>. 'Estudiarán' es futuro → la pasiva usa futuro también: 'será estudiada'. Recuerda: el tiempo verbal debe mantenerse en la transformación.",
+      theme: "Activa → Pasiva"
+    },
+    {
+      sentence: "La carta fue enviada por Juan",
+      question: "¿Cuál es el complemento agente?",
+      options: ["La carta", "fue enviada", "por Juan", "No tiene"],
+      correct: 2,
+      explanation: "<strong>'Por Juan'</strong> es el complemento agente. En voz pasiva, el complemento agente: (1) siempre empieza por 'por', (2) indica quién realiza la acción, (3) en la activa sería el sujeto: 'Juan envió la carta'.",
+      theme: "C. Agente"
+    },
+    {
+      sentence: "¿Cuál de estas está en voz pasiva?",
+      question: "Identifica la oración en voz pasiva:",
+      options: [
+        "Pedro compró el libro",
+        "Los niños comen pizza",
+        "El libro fue comprado por Pedro",
+        "María escribe una carta"
+      ],
+      correct: 2,
+      explanation: "<strong>'El libro fue comprado por Pedro'</strong>. Pista para identificar la voz pasiva: verbo <strong>ser + participio</strong>. Las otras tres están en voz activa (el sujeto realiza la acción directamente).",
+      theme: "Identificar Pasiva"
+    }
+  ],
+
+  formacion: [
+    {
+      sentence: "amarillear",
+      question: "Viene de 'amarillo'. ¿Qué proceso es?",
+      options: ["Prefijación", "Sufijación (-ear)", "Parasíntesis", "Composición"],
+      correct: 1,
+      explanation: "<strong>Sufijación</strong>. 'Amarillo' + sufijo '<strong>-ear</strong>' = 'amarillear'. Solo se añade un sufijo para convertir el adjetivo en verbo. No hay prefijo.",
+      theme: "Derivación"
+    },
+    {
+      sentence: "desobedecer",
+      question: "Viene de 'obedecer'. ¿Qué proceso es?",
+      options: ["Parasíntesis", "Sufijación", "Prefijación (des-)", "Composición"],
+      correct: 2,
+      explanation: "<strong>Prefijación</strong>. '<strong>Des-</strong>' + 'obedecer' = 'desobedecer'. Solo se añade un prefijo. No es parasíntesis porque 'obedecer' ya existe sin el prefijo.",
+      theme: "Derivación"
+    },
+    {
+      sentence: "atardecer",
+      question: "Viene de 'tarde'. ¿Qué proceso es?",
+      options: ["Prefijación", "Sufijación", "Composición", "Parasíntesis"],
+      correct: 3,
+      explanation: "<strong>Parasíntesis</strong>. 'a-' + 'tarde' + '-cer' a la vez. Test: ¿'atarde' existe? ❌ ¿'tardecer' existe? ❌ → Como al quitar cualquiera de los dos afijos la palabra no existe, es parasíntesis.",
+      theme: "Parasíntesis"
+    },
+    {
+      sentence: "pasatiempo",
+      question: "¿Qué palabras forman esta palabra compuesta?",
+      options: [
+        "nombre + nombre",
+        "verbo + nombre",
+        "adjetivo + nombre",
+        "verbo + adjetivo"
+      ],
+      correct: 1,
+      explanation: "<strong>Verbo + nombre</strong>. 'Pasar' (verbo) + 'tiempo' (nombre) = 'pasatiempo'. Igual que 'limpiaparabrisas' (limpiar + parabrisas) o 'sacacorchos' (sacar + corchos).",
+      theme: "Composición"
+    },
+    {
+      sentence: "cantábamos",
+      question: "¿Cuál es la raíz del verbo?",
+      options: ["canta", "cant", "cantábamos", "ábamos"],
+      correct: 1,
+      explanation: "La raíz es <strong>'cant-'</strong>. Es la parte que aporta el significado léxico y no cambia. Las desinencias son '-ábamos', que indican: 1ª persona, plural, pretérito imperfecto, modo indicativo.",
+      theme: "Flexión"
+    }
+  ]
+};
+
+// ============================================================
+// STATE
+// ============================================================
+
+let state = {
+  currentSection: 'general',
+  questions: [],
+  currentIdx: 0,
+  answered: 0,
+  correct: 0,
+  answered_total: 0,
+  correct_total: 0
+};
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+
+function showSection(name, clickedBtn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const sectionEl = document.getElementById('section-' + name);
+  if (!sectionEl) return;
+  sectionEl.classList.add('active');
+
+  const activeBtn = clickedBtn || (typeof event !== 'undefined' ? event.target : null);
+  if (activeBtn && activeBtn.classList) activeBtn.classList.add('active');
+
+  if (name !== 'trucos') {
+    loadSection(name);
+  }
+}
+
+function loadSection(name) {
+  state.currentSection = name;
+  let qList;
+  if (name === 'test') qList = shuffle([...questions.general]);
+  else if (name === 'cdci') qList = shuffle([...questions.cdci]);
+  else if (name === 'atrib') qList = shuffle([...questions.atrib]);
+  else if (name === 'pasiva') qList = shuffle([...questions.pasiva]);
+  else if (name === 'formacion') qList = shuffle([...questions.formacion]);
+  else qList = [];
+
+  if (!qList.length) return;
+
+  state.questions = qList;
+  state.currentIdx = 0;
+  state.answered = 0;
+  state.correct = 0;
+
+  const containerId = name === 'test' ? 'quiz-container' : name + '-container';
+  const container = document.getElementById(containerId);
+  if (name === 'test') {
+    document.getElementById('quiz-score').style.display = 'none';
+    document.getElementById('quiz-container').style.display = 'block';
+  }
+  renderQuestion(container, name);
+  updateProgress(name);
+}
+
+// ============================================================
+// RENDER QUESTION
+// ============================================================
+
+function renderQuestion(container, sectionName) {
+  const q = state.questions[state.currentIdx];
+  if (!q) { showScore(container); return; }
+
+  const letters = ['A', 'B', 'C', 'D'];
+
+  container.innerHTML = `
+    <div class="question-card" id="qcard">
+      <div class="question-meta">
+        <span class="q-number">Pregunta ${state.currentIdx + 1} de ${state.questions.length}</span>
+        <span class="q-theme">${q.theme}</span>
+      </div>
+      ${q.question.includes('?') && !q.sentence.includes('?') && q.sentence.length > 3 && !q.question.startsWith('¿Cuál de estas')
+        ? `<div class="q-sentence">${q.sentence}</div><p class="q-ask">${q.question}</p>`
+        : `<p class="q-ask" style="font-size:17px;font-weight:600;color:var(--text);margin-bottom:24px;">${q.question.startsWith('¿') ? q.question : q.sentence + '<br><small style="font-size:14px;color:var(--text-muted);font-weight:400;">' + q.question + '</small>'}</p>`
+      }
+      <div class="options" id="options-${state.currentIdx}">
+        ${q.options.map((opt, i) => `
+          <button class="option-btn" onclick="selectAnswer(${i}, ${q.correct}, '${sectionName}')">
+            <span class="option-letter">${letters[i]}</span>
+            <span>${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="feedback" id="feedback-box"></div>
+      <div class="q-actions" id="q-actions" style="display:none;">
+        <button class="btn-primary" onclick="nextQuestion('${sectionName}')">
+          ${state.currentIdx + 1 < state.questions.length ? 'Siguiente pregunta →' : 'Ver resultados'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// SELECT ANSWER
+// ============================================================
+
+function selectAnswer(selected, correct, sectionName) {
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(b => b.disabled = true);
+  const currentQuestion = state.questions[state.currentIdx];
+  const explanation = currentQuestion ? currentQuestion.explanation : '';
+
+  const isCorrect = selected === correct;
+  state.answered++;
+  state.answered_total++;
+
+  if (isCorrect) {
+    state.correct++;
+    state.correct_total++;
+    buttons[selected].classList.add('correct');
+  } else {
+    buttons[selected].classList.add('wrong');
+    buttons[correct].classList.add('correct');
+  }
+
+  const fb = document.getElementById('feedback-box');
+  fb.style.display = 'block';
+  fb.className = `feedback ${isCorrect ? 'correct-fb' : 'wrong-fb'}`;
+  fb.innerHTML = `
+    <div class="feedback-title">
+      ${isCorrect ? '✅ ¡Correcto!' : '❌ Incorrecto'}
+    </div>
+    <p>${explanation}</p>
+  `;
+
+  document.getElementById('q-actions').style.display = 'flex';
+  updateProgress(sectionName);
+  updateGlobalStats();
+}
+
+// ============================================================
+// NEXT QUESTION
+// ============================================================
+
+function nextQuestion(sectionName) {
+  state.currentIdx++;
+  const containerId = sectionName === 'test' ? 'quiz-container' : sectionName + '-container';
+  const container = document.getElementById(containerId);
+  renderQuestion(container, sectionName);
+  updateProgress(sectionName);
+}
+
+// ============================================================
+// SHOW SCORE
+// ============================================================
+
+function showScore(container) {
+  const pct = Math.round((state.correct / state.questions.length) * 100);
+  let emoji = '🎉';
+  let msg = '¡Excelente dominio del tema!';
+  if (pct < 50) { emoji = '📚'; msg = 'Necesitas repasar más. ¡Tú puedes!'; }
+  else if (pct < 75) { emoji = '💪'; msg = 'Buen trabajo, pero puedes mejorar.'; }
+  else if (pct < 90) { emoji = '🌟'; msg = '¡Muy bien! Casi perfecto.'; }
+
+  container.innerHTML = `
+    <div class="score-display">
+      <div class="trophy">${emoji}</div>
+      <div class="score-number">${pct}%</div>
+      <div class="score-label">${msg}</div>
+      <div class="score-breakdown">
+        <div class="score-item">
+          <div class="score-item-num correct-color">${state.correct}</div>
+          <div class="score-item-lab">Correctas</div>
+        </div>
+        <div class="score-item">
+          <div class="score-item-num wrong-color">${state.questions.length - state.correct}</div>
+          <div class="score-item-lab">Incorrectas</div>
+        </div>
+        <div class="score-item">
+          <div class="score-item-num">${state.questions.length}</div>
+          <div class="score-item-lab">Total</div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="loadSection('${state.currentSection}')">🔄 Repetir sección</button>
+      &nbsp;
+    </div>
+  `;
+}
+
+// ============================================================
+// PROGRESS & STATS
+// ============================================================
+
+function updateProgress(sectionName) {
+  const total = state.questions.length;
+  const done = Math.min(state.currentIdx, total);
+  const pct = total > 0 ? (done / total) * 100 : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `Pregunta ${done} de ${total}`;
+}
+
+function updateGlobalStats() {
+  document.getElementById('totalAnswered').textContent = state.answered_total;
+  document.getElementById('totalCorrect').textContent = state.correct_total;
+  const pct = state.answered_total > 0
+    ? Math.round((state.correct_total / state.answered_total) * 100)
+    : 0;
+  document.getElementById('totalPercent').textContent = pct + '%';
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+
+loadSection('test');
+
+</script>
+</body>
+</html>
