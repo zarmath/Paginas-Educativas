@@ -324,45 +324,199 @@
   .dot.current { background: var(--accent3); border-color: var(--accent3); animation: pulse 1s infinite; }
   @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.3)} }
 
-  /* MEMORY GAME */
-  .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-  @media(max-width:480px){ .mem-grid { grid-template-columns: repeat(2, 1fr); } }
-  .mem-card {
-    aspect-ratio: 1;
-    background: var(--card2);
-    border: 2px solid var(--border);
+  /* CONNECT PAIRS GAME */
+  .mem-guide {
+    background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(6,182,212,0.08));
+    border: 1px solid var(--border);
     border-radius: 14px;
-    cursor: pointer;
-    display: flex;
+    padding: 14px;
+  }
+  .mem-guide-title { font-weight: 900; color: var(--accent3); margin-bottom: 6px; }
+  .mem-steps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .mem-step {
+    background: rgba(15,14,26,0.7);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #c4b5fd;
+  }
+  .eq-visual {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 10px;
     align-items: center;
-    justify-content: center;
+  }
+  .eq-pan {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px;
+    min-height: 82px;
+  }
+  .eq-pan h4 {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .eq-pan .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .eq-chip {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 9px;
     font-family: 'Space Mono', monospace;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: rgba(15,14,26,0.65);
+  }
+  .eq-left .eq-chip { color: var(--accent3); }
+  .eq-right .eq-chip { color: var(--accent2); }
+  .eq-sign {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.6rem;
+    color: var(--accent4);
+    font-weight: 900;
     text-align: center;
-    padding: 8px;
-    transition: all 0.2s;
-    user-select: none;
-    position: relative;
-    overflow: hidden;
-    color: transparent;
+  }
+  .eq-note {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #a7f3d0;
     font-weight: 700;
   }
-  .mem-card.revealed { color: var(--text); background: var(--card); }
-  .mem-card.eq-card.revealed { color: var(--accent3); border-color: var(--accent); }
-  .mem-card.sol-card.revealed { color: var(--accent2); border-color: var(--accent2); }
-  .mem-card.matched { background: rgba(16,185,129,0.15); border-color: var(--accent4); color: var(--accent4) !important; cursor: default; }
-  .mem-card:hover:not(.matched) { transform: translateY(-3px); border-color: var(--accent); }
-
-  .mem-card::before {
-    content: '?';
-    position: absolute;
-    font-size: 1.8rem;
-    color: var(--accent);
-    transition: opacity 0.2s;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
+  .mem-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 14px 0;
   }
-  .mem-card.revealed::before, .mem-card.matched::before { opacity: 0; }
+  @media(max-width:640px){ .mem-stats { grid-template-columns: 1fr; } }
+  .mem-stat {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+  }
+  .mem-stat strong {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    color: var(--accent2);
+    font-size: 1.1rem;
+  }
+  .mem-stat span { font-size: 0.8rem; color: var(--muted); }
+  .mem-coach {
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    border: 1px solid transparent;
+    margin-bottom: 14px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .mem-coach.info { background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); color: #a5f3fc; }
+  .mem-coach.warn { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.35); color: #fde68a; }
+  .mem-coach.success { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.35); color: #86efac; }
+  .connect-board {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 8px;
+  }
+  @media(max-width:700px){ .connect-board { grid-template-columns: 1fr; } }
+  .connect-col {
+    background: rgba(15,14,26,0.45);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px;
+    position: relative;
+    z-index: 2;
+  }
+  .connect-col h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .connect-col.eq h4 { color: var(--accent3); }
+  .connect-col.sol h4 { color: var(--accent2); }
+  .connect-list { display: grid; gap: 8px; }
+  .connect-item {
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: var(--card2);
+    color: var(--text);
+    text-align: left;
+    padding: 10px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.86rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .connect-item:hover:not(.matched) { border-color: var(--accent2); transform: translateY(-1px); }
+  .connect-item.eq { color: #fcd34d; }
+  .connect-item.sol { color: #67e8f9; }
+  .connect-item.selected { border-color: var(--accent3); box-shadow: 0 0 0 2px rgba(245,158,11,0.2); }
+  .connect-item.matched {
+    border-color: var(--accent4);
+    color: #86efac;
+    background: rgba(16,185,129,0.12);
+    cursor: default;
+  }
+  .connect-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .mem-result {
+    text-align: center;
+    margin-top: 16px;
+    font-weight: 800;
+    font-size: 1.05rem;
+    min-height: 24px;
+    color: var(--accent3);
+  }
+  .mem-worked {
+    margin-top: 14px;
+    background: rgba(6,182,212,0.08);
+    border: 1px solid rgba(6,182,212,0.3);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .mem-worked-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent2);
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .mem-worked-eq {
+    font-family: 'Space Mono', monospace;
+    color: var(--accent3);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+  .mem-worked-steps { display: grid; gap: 6px; }
+  .mem-worked-step {
+    display: flex;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.84rem;
+    color: #a5f3fc;
+  }
+  .mem-worked-num { color: var(--muted); min-width: 18px; }
 
   /* CHALLENGES */
   .challenge-list { display: flex; flex-direction: column; gap: 14px; }
@@ -493,7 +647,7 @@
   <div class="tabs">
     <button class="tab-btn active" onclick="showTab('teoria')">📖 Teoría</button>
     <button class="tab-btn" onclick="showTab('practica')">✏️ Práctica</button>
-    <button class="tab-btn" onclick="showTab('memoria')">🃏 Memoria</button>
+    <button class="tab-btn" onclick="showTab('parejas')">🔗 Parejas</button>
     <button class="tab-btn" onclick="showTab('trofeos')">🏆 Trofeos</button>
   </div>
 
@@ -656,16 +810,61 @@
     </div>
   </div>
 
-  <!-- =================== SECCIÓN MEMORIA =================== -->
-  <div class="section" id="s-memoria">
+  <!-- =================== SECCIÓN PAREJAS =================== -->
+  <div class="section" id="s-parejas">
     <div class="card">
-      <div class="card-title">🃏 Juego de Memoria — Ecuación ↔ Solución</div>
-      <p class="text-muted mt-8">Encuentra los pares: ecuación + su solución. ¡Dale la vuelta a las cartas!</p>
+      <div class="card-title">🧩 Conecta parejas — Ecuación ↔ Solución</div>
+      <div class="mem-guide">
+        <div class="mem-guide-title">Primero toca una ecuación, después su solución correcta</div>
+        <p class="text-muted">Si aciertas, se dibuja una conexión permanente. Si fallas, recibirás una pista útil.</p>
+        <div class="mem-steps">
+          <span class="mem-step">1) Elige una ecuación (izquierda)</span>
+          <span class="mem-step">2) Elige una solución (derecha)</span>
+          <span class="mem-step">3) Aprende con la pista y corrige</span>
+        </div>
+        <div class="eq-visual">
+          <div class="eq-pan eq-left">
+            <h4>Miembro izquierdo</h4>
+            <div class="chips">
+              <span class="eq-chip">3x</span>
+              <span class="eq-chip">− 2</span>
+            </div>
+          </div>
+          <div class="eq-sign">=</div>
+          <div class="eq-pan eq-right">
+            <h4>Miembro derecho</h4>
+            <div class="chips">
+              <span class="eq-chip">4</span>
+            </div>
+          </div>
+        </div>
+        <div class="eq-note">Una ecuación es una balanza: ambos lados deben valer lo mismo.</div>
+      </div>
+      <div class="mem-stats">
+        <div class="mem-stat"><strong id="memPairsDone">0/8</strong><span>Parejas</span></div>
+        <div class="mem-stat"><strong id="memMovesCount">0</strong><span>Intentos</span></div>
+        <div class="mem-stat"><strong id="memAccuracy">0%</strong><span>Precisión</span></div>
+      </div>
+      <div id="memCoach" class="mem-coach info">Empieza por una ecuación sencilla y busca su resultado exacto.</div>
       <hr class="divider">
-      <div class="mem-grid" id="memGrid"></div>
-      <div id="memResult" style="text-align:center;margin-top:20px;font-weight:800;font-size:1.2rem;min-height:30px;"></div>
+      <div class="connect-board" id="connectBoard">
+        <svg id="connectSvg" class="connect-svg"></svg>
+        <div class="connect-col eq">
+          <h4>Ecuaciones</h4>
+          <div id="eqList" class="connect-list"></div>
+        </div>
+        <div class="connect-col sol">
+          <h4>Soluciones</h4>
+          <div id="solList" class="connect-list"></div>
+        </div>
+      </div>
+      <div id="memResult" class="mem-result"></div>
+      <div id="memWorkedPanel" class="mem-worked">
+        <div class="mem-worked-title">Desarrollo de la ultima pareja correcta</div>
+        <div id="memWorkedBody" class="text-muted">Conecta una pareja correcta para ver el desarrollo paso a paso.</div>
+      </div>
       <div class="text-center mt-16">
-        <button class="reset-btn" onclick="initMemory()">🔄 Barajar de nuevo</button>
+        <button class="reset-btn" onclick="initMemory()">🔄 Mezclar y empezar</button>
       </div>
     </div>
   </div>
@@ -693,8 +892,8 @@
           <div class="challenge-pts">+30 XP</div>
         </div>
         <div class="challenge-item" id="ach-3" style="opacity:0.5">
-          <div class="challenge-icon">🃏</div>
-          <div class="challenge-info"><h3>Maestro de la memoria</h3><p>Completa el juego de memoria</p></div>
+          <div class="challenge-icon">🔗</div>
+          <div class="challenge-info"><h3>Maestro de conexiones</h3><p>Completa el tablero de parejas</p></div>
           <div class="challenge-pts">+50 XP</div>
         </div>
         <div class="challenge-item" id="ach-4" style="opacity:0.5">
@@ -713,10 +912,13 @@
 let xp = 0;
 let quizAnswers = [];
 let correctStreak = 0;
-let memFlipped = [];
 let memMatched = [];
-let memLocked = false;
 let memMoves = 0;
+let memHits = 0;
+let memEqOrder = [];
+let memSolOrder = [];
+let memSelectedEq = null;
+let memSelectedSol = null;
 
 const MAX_XP = 200;
 
@@ -766,6 +968,7 @@ function showTab(id) {
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('s-'+id).classList.add('active');
   event.target.classList.add('active');
+  if(id === 'parejas') requestAnimationFrame(drawConnections);
 }
 
 // ===== ACCORDION =====
@@ -997,69 +1200,176 @@ function resetQuiz() {
 
 // ===== MEMORY GAME =====
 const memPairs = [
-  {eq:"3x = 12", sol:"x = 4"},
-  {eq:"x − 5 = 3", sol:"x = 8"},
-  {eq:"2x + 1 = 7", sol:"x = 3"},
-  {eq:"x² = 16", sol:"x = ±4"},
-  {eq:"x/4 = 3", sol:"x = 12"},
-  {eq:"5x − 3 = 2x+9", sol:"x = 4"},
-  {eq:"x² − 9 = 0", sol:"x = ±3"},
-  {eq:"3(x+1)=15", sol:"x = 4"},
+  {eq:"3x = 12", sol:"x = 4", clue:"Divide ambos lados entre 3.", steps:["3x = 12","x = 12/3","x = 4"]},
+  {eq:"x − 5 = 3", sol:"x = 8", clue:"El −5 pasa sumando: x = 3 + 5.", steps:["x − 5 = 3","x = 3 + 5","x = 8"]},
+  {eq:"2x + 1 = 7", sol:"x = 3", clue:"Resta 1 y luego divide entre 2.", steps:["2x + 1 = 7","2x = 7 − 1 = 6","x = 6/2 = 3"]},
+  {eq:"x² = 16", sol:"x = ±4", clue:"Cuando x² = 16, hay dos valores: +4 y −4.", steps:["x² = 16","x = ±√16","x = ±4"]},
+  {eq:"x/4 = 3", sol:"x = 12", clue:"Multiplica ambos lados por 4.", steps:["x/4 = 3","x = 3 · 4","x = 12"]},
+  {eq:"5x − 3 = 2x + 12", sol:"x = 5", clue:"Pasa x a un lado y números al otro: 3x = 15.", steps:["5x − 3 = 2x + 12","5x − 2x = 12 + 3","3x = 15","x = 15/3 = 5"]},
+  {eq:"x² − 9 = 0", sol:"x = ±3", clue:"Pasa el 9: x² = 9, por tanto x = ±3.", steps:["x² − 9 = 0","x² = 9","x = ±3"]},
+  {eq:"2(x + 1) = 14", sol:"x = 6", clue:"Primero divide entre 2: x + 1 = 7.", steps:["2(x + 1) = 14","x + 1 = 14/2 = 7","x = 7 − 1 = 6"]},
 ];
 
-function initMemory() {
-  memFlipped = []; memMatched = []; memMoves = 0; memLocked = false;
-  document.getElementById('memResult').textContent = '';
-  const cards = [];
-  memPairs.forEach((p, i) => {
-    cards.push({id: 'e'+i, text: p.eq, type: 'eq', pairId: i});
-    cards.push({id: 's'+i, text: p.sol, type: 'sol', pairId: i});
-  });
-  // shuffle
-  for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]];}
-
-  const grid = document.getElementById('memGrid');
-  grid.innerHTML = '';
-  cards.forEach(c => {
-    const div = document.createElement('div');
-    div.className = `mem-card ${c.type === 'eq' ? 'eq-card' : 'sol-card'}`;
-    div.dataset.id = c.id;
-    div.dataset.pairId = c.pairId;
-    div.dataset.type = c.type;
-    div.textContent = c.text;
-    div.onclick = () => flipMemCard(div, c);
-    grid.appendChild(div);
-  });
-}
-
-function flipMemCard(div, card) {
-  if(memLocked || memFlipped.includes(card.id) || memMatched.includes(card.pairId+'-eq') || memMatched.includes(card.pairId)) return;
-  div.classList.add('revealed');
-  memFlipped.push(card.id);
-
-  if(memFlipped.length === 2) {
-    memLocked = true; memMoves++;
-    setTimeout(() => checkMemMatch(), 700);
+function shuffle(arr) {
+  const copy = [...arr];
+  for(let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
   }
+  return copy;
 }
 
-function checkMemMatch() {
-  const cards = document.querySelectorAll('.mem-card');
-  const flippedCards = [...cards].filter(c => memFlipped.includes(c.dataset.id));
-  if(flippedCards.length < 2) { memFlipped=[]; memLocked=false; return; }
-  const [a, b] = flippedCards;
-  if(a.dataset.pairId === b.dataset.pairId && a.dataset.type !== b.dataset.type) {
-    a.classList.add('matched'); b.classList.add('matched');
-    memMatched.push(a.dataset.pairId);
-    if(memMatched.length === memPairs.length) {
-      document.getElementById('memResult').innerHTML = `🎉 ¡Completado en ${memMoves} movimientos!`;
-      unlockAchievement('ach-3', 50);
-    }
+function updateMemoryStats() {
+  const done = memMatched.length;
+  const accuracy = memMoves ? Math.round((memHits / memMoves) * 100) : 0;
+  document.getElementById('memPairsDone').textContent = `${done}/${memPairs.length}`;
+  document.getElementById('memMovesCount').textContent = memMoves;
+  document.getElementById('memAccuracy').textContent = `${accuracy}%`;
+}
+
+function setMemCoach(message, tone='info') {
+  const coach = document.getElementById('memCoach');
+  coach.textContent = message;
+  coach.className = `mem-coach ${tone}`;
+}
+
+function showMemoryDevelopment(pairId) {
+  const pair = memPairs[pairId];
+  const body = document.getElementById('memWorkedBody');
+  if(!pair || !body) return;
+
+  body.innerHTML = `
+    <div class="mem-worked-eq">${pair.eq} &nbsp;→&nbsp; ${pair.sol}</div>
+    <div class="mem-worked-steps">
+      ${pair.steps.map((s, i) => `<div class="mem-worked-step"><span class="mem-worked-num">${i+1}.</span><span>${s}</span></div>`).join('')}
+    </div>
+  `;
+}
+
+function drawConnections() {
+  const board = document.getElementById('connectBoard');
+  const svg = document.getElementById('connectSvg');
+  if(!board || !svg) return;
+
+  const boardRect = board.getBoundingClientRect();
+  svg.setAttribute('viewBox', `0 0 ${boardRect.width} ${boardRect.height}`);
+  svg.innerHTML = '';
+
+  memMatched.forEach(pairId => {
+    const eqBtn = document.querySelector(`#eqList .connect-item[data-pair-id="${pairId}"]`);
+    const solBtn = document.querySelector(`#solList .connect-item[data-pair-id="${pairId}"]`);
+    if(!eqBtn || !solBtn) return;
+
+    const eqRect = eqBtn.getBoundingClientRect();
+    const solRect = solBtn.getBoundingClientRect();
+    const x1 = eqRect.right - boardRect.left;
+    const y1 = eqRect.top + eqRect.height / 2 - boardRect.top;
+    const x2 = solRect.left - boardRect.left;
+    const y2 = solRect.top + solRect.height / 2 - boardRect.top;
+    const mx = (x1 + x2) / 2;
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`);
+    path.setAttribute('stroke', '#10b981');
+    path.setAttribute('stroke-width', '3');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(path);
+  });
+}
+
+function renderConnectLists() {
+  const eqList = document.getElementById('eqList');
+  const solList = document.getElementById('solList');
+  const completed = memMatched.length === memPairs.length;
+
+  eqList.innerHTML = '';
+  solList.innerHTML = '';
+
+  memEqOrder.forEach(pairId => {
+    const btn = document.createElement('button');
+    btn.className = 'connect-item eq' +
+      (memSelectedEq === pairId ? ' selected' : '') +
+      (memMatched.includes(pairId) ? ' matched' : '');
+    btn.dataset.pairId = pairId;
+    btn.textContent = memPairs[pairId].eq;
+    btn.disabled = completed || memMatched.includes(pairId);
+    btn.onclick = () => {
+      if(completed || memMatched.includes(pairId)) return;
+      memSelectedEq = pairId;
+      renderConnectLists();
+      if(memSelectedSol !== null) tryConnect();
+    };
+    eqList.appendChild(btn);
+  });
+
+  memSolOrder.forEach(pairId => {
+    const btn = document.createElement('button');
+    btn.className = 'connect-item sol' +
+      (memSelectedSol === pairId ? ' selected' : '') +
+      (memMatched.includes(pairId) ? ' matched' : '');
+    btn.dataset.pairId = pairId;
+    btn.textContent = memPairs[pairId].sol;
+    btn.disabled = completed || memMatched.includes(pairId);
+    btn.onclick = () => {
+      if(completed || memMatched.includes(pairId)) return;
+      memSelectedSol = pairId;
+      renderConnectLists();
+      if(memSelectedEq !== null) tryConnect();
+    };
+    solList.appendChild(btn);
+  });
+
+  requestAnimationFrame(drawConnections);
+}
+
+function tryConnect() {
+  if(memSelectedEq === null || memSelectedSol === null) return;
+  if(memMatched.length === memPairs.length) return;
+
+  memMoves++;
+  if(memSelectedEq === memSelectedSol) {
+    const solvedPairId = memSelectedEq;
+    memHits++;
+    if(!memMatched.includes(solvedPairId)) memMatched.push(solvedPairId);
+    setMemCoach(`Correcto. ${memPairs[solvedPairId].clue}`, 'success');
+    showMemoryDevelopment(solvedPairId);
   } else {
-    a.classList.remove('revealed'); b.classList.remove('revealed');
+    setMemCoach(`No coincide. Pista: ${memPairs[memSelectedEq].clue}`, 'warn');
   }
-  memFlipped = []; memLocked = false;
+
+  memSelectedEq = null;
+  memSelectedSol = null;
+  updateMemoryStats();
+  renderConnectLists();
+
+  if(memMatched.length === memPairs.length) {
+    const accuracy = memMoves ? Math.round((memHits / memMoves) * 100) : 0;
+    const medal = accuracy >= 90 ? '🥇' : accuracy >= 75 ? '🥈' : '🥉';
+    document.getElementById('memResult').innerHTML = `${medal} ¡Completado! ${memMoves} intentos · Precisión: ${accuracy}%`;
+    setMemCoach('Excelente. Has conectado todas las parejas correctamente.', 'success');
+    unlockAchievement('ach-3', 50);
+    addXP(20);
+  }
 }
+
+function initMemory() {
+  memMatched = [];
+  memMoves = 0;
+  memHits = 0;
+  memSelectedEq = null;
+  memSelectedSol = null;
+  memEqOrder = shuffle(memPairs.map((_, i) => i));
+  memSolOrder = shuffle(memPairs.map((_, i) => i));
+
+  document.getElementById('memResult').textContent = '';
+  document.getElementById('memWorkedBody').innerHTML = 'Conecta una pareja correcta para ver el desarrollo paso a paso.';
+  setMemCoach('Empieza por una ecuación sencilla y conéctala con su solución.', 'info');
+  updateMemoryStats();
+  renderConnectLists();
+}
+
+window.addEventListener('resize', () => requestAnimationFrame(drawConnections));
 
 // ===== ACHIEVEMENTS =====
 const unlockedAchs = {};
