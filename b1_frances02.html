@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -268,7 +268,7 @@
       <h1>Practica B1 de Francés</h1>
       <p>Comprensión lectora y auditiva · 3 ejercicios × 10 preguntas</p>
     </div>
-    <button type="button" id="toggleTheme">Modo oscuro</button>
+    <button type="button" id="toggleTheme">Modo claro</button>
   </header>
 
   <!-- ═══ PESTAÑAS PRINCIPALES ═══ -->
@@ -629,7 +629,7 @@
      MODO OSCURO
   ════════════════════════════════════════════════════════ */
 
-  let dark = false;
+  let dark = true;
   document.getElementById('toggleTheme').addEventListener('click', () => {
     dark = !dark;
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : '');
