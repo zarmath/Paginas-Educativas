@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Repaso B1 Francés – Comprensión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f6f3ec;
+      --surface: #fffaf1;
+      --panel: #f1ece2;
+      --text: #1f2937;
+      --muted: #5b6470;
+      --accent: #d26b1f;
+      --accent-soft: rgba(210, 107, 31, 0.14);
+      --ok: #2c7a7b;
+      --ok-soft: rgba(44, 122, 123, 0.12);
+      --bad: #b83280;
+      --bad-soft: rgba(184, 50, 128, 0.12);
+      --shadow: 0 18px 40px rgba(31, 41, 55, 0.12);
+      --reading: #3b6cb7;
+      --reading-soft: rgba(59, 108, 183, 0.15);
+      --listening: #2e7d32;
+      --listening-soft: rgba(46, 125, 50, 0.15);
+    }
+    [data-theme="dark"] {
+      --bg: #0c1014; --surface: #12171c; --panel: #1a2026;
+      --text: #e7edf5; --muted: #9aa6b2; --accent: #ffb74d;
+      --accent-soft: rgba(255,183,77,0.16);
+      --ok: #60d394; --ok-soft: rgba(96,211,148,0.12);
+      --bad: #ff6b6b; --bad-soft: rgba(255,107,107,0.12);
+      --shadow: 0 18px 45px rgba(0,0,0,0.45);
+      --reading: #7eb3ff; --reading-soft: rgba(126,179,255,0.15);
+      --listening: #81c784; --listening-soft: rgba(129,199,132,0.15);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: "Space Grotesk","Trebuchet MS",sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, var(--accent-soft), transparent 45%),
+        radial-gradient(circle at 80% 0%, rgba(73,123,255,0.14), transparent 40%),
+        linear-gradient(140deg, var(--bg), #e6e0d6 70%);
+      display: flex; justify-content: center;
+      padding: 28px 18px 60px;
+    }
+    [data-theme="dark"] body {
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,183,77,0.08), transparent 45%),
+        radial-gradient(circle at 80% 0%, rgba(72,122,255,0.1), transparent 40%),
+        linear-gradient(140deg, var(--bg), #0f1216 70%);
+    }
+    .page { width: min(900px,100%); display: grid; gap: 16px; }
+
+    /* ── Header ── */
+    header {
+      background: var(--surface); border-radius: 20px;
+      padding: 24px 32px; box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.04);
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .title h1 {
+      margin: 0 0 4px;
+      font-family: "Cormorant Garamond","Times New Roman",serif;
+      font-size: clamp(20px,3vw,30px); font-weight: 700; letter-spacing: 0.02em;
+    }
+    .title p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    /* ── Buttons ── */
+    button {
+      border: none; padding: 10px 20px; border-radius: 999px;
+      font-weight: 600; font-size: 14px; cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      background: var(--panel); color: var(--text);
+      font-family: inherit; line-height: 1.4;
+    }
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ── Main tabs ── */
+    .tabs-wrapper {
+      background: var(--surface); border-radius: 20px;
+      box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+    .tab-bar {
+      display: grid; grid-template-columns: 1fr 1fr;
+      background: var(--panel);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    [data-theme="dark"] .tab-bar { border-bottom-color: rgba(255,255,255,0.07); }
+    .tab-btn {
+      padding: 16px 20px; border-radius: 0; font-size: 14px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: transparent; color: var(--muted);
+      border-bottom: 3px solid transparent;
+      transition: background 0.18s, color 0.18s, border-color 0.18s;
+    }
+    .tab-btn:hover:not(.active):not(:disabled) {
+      transform: none; box-shadow: none;
+      background: rgba(0,0,0,0.04); color: var(--text);
+    }
+    .tab-btn.active { background: var(--surface); color: var(--text); box-shadow: none; transform: none; }
+    .tab-btn[data-tab="reading"].active   { border-bottom-color: var(--reading); }
+    .tab-btn[data-tab="listening"].active { border-bottom-color: var(--listening); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: grid; gap: 22px; padding: 24px; }
+
+    /* ── Sub-tabs ── */
+    .sub-tab-bar { display: flex; gap: 6px; flex-wrap: wrap; }
+    .sub-tab-btn {
+      flex: 1; min-width: 110px; padding: 10px 14px; border-radius: 12px;
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--panel); color: var(--muted);
+      transition: background 0.18s, color 0.18s;
+    }
+    .sub-tab-btn:hover:not(.active):not(:disabled) {
+      transform: none; box-shadow: none;
+      background: rgba(0,0,0,0.06); color: var(--text);
+    }
+    .sub-tab-btn.active { transform: none; box-shadow: none; }
+    .sub-tab-btn[data-section="reading"].active   { background: var(--reading-soft); color: var(--reading); }
+    .sub-tab-btn[data-section="listening"].active { background: var(--listening-soft); color: var(--listening); }
+    .sub-score {
+      font-size: 10px; font-weight: 700; padding: 2px 7px;
+      border-radius: 999px; background: rgba(0,0,0,0.07); color: var(--muted);
+    }
+    [data-theme="dark"] .sub-score { background: rgba(255,255,255,0.1); }
+
+    /* ── Exercise panels ── */
+    .ex-panel { display: none; }
+    .ex-panel.active { display: grid; gap: 18px; }
+
+    /* ── Text box ── */
+    .text-box {
+      background: var(--panel); border-radius: 14px;
+      padding: 20px 22px; display: grid; gap: 12px;
+    }
+    .text-label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em;
+      color: var(--muted); font-weight: 700;
+    }
+    .text-content { font-size: 15px; line-height: 1.75; }
+    .text-content p { margin: 0 0 10px; }
+    .text-content p:last-child { margin-bottom: 0; }
+    .text-content.hidden { display: none; }
+
+    /* ── Audio box ── */
+    .audio-box {
+      background: var(--panel); border-radius: 14px;
+      padding: 20px 22px; display: grid; gap: 12px;
+    }
+    .audio-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .play-btn { background: var(--listening-soft); color: var(--listening); padding: 11px 20px; font-size: 13px; }
+    .audio-status { font-size: 13px; color: var(--muted); flex: 1; }
+    .waveform { display: flex; align-items: center; gap: 3px; height: 20px; }
+    .waveform span { display: block; width: 3px; background: var(--listening); border-radius: 3px; animation: wave 0.9s ease-in-out infinite; }
+    .waveform span:nth-child(1) { animation-delay: 0s;    height: 6px; }
+    .waveform span:nth-child(2) { animation-delay: 0.12s; height: 14px; }
+    .waveform span:nth-child(3) { animation-delay: 0.24s; height: 20px; }
+    .waveform span:nth-child(4) { animation-delay: 0.36s; height: 14px; }
+    .waveform span:nth-child(5) { animation-delay: 0.48s; height: 8px; }
+    .waveform.paused span { animation-play-state: paused; opacity: 0.3; }
+    @keyframes wave { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(0.35); } }
+    .text-toggle {
+      justify-self: start; font-size: 12px; padding: 6px 14px;
+      background: transparent; border: 1px solid var(--muted); color: var(--muted);
+    }
+
+    /* ── Quiz carousel ── */
+    .questions-container { display: grid; gap: 18px; }
+    .question-block { display: grid; gap: 10px; }
+    .quiz-top { display: flex; align-items: center; gap: 14px; }
+    .q-num { font-size: 12px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .quiz-progress-bar {
+      flex: 1; height: 5px; border-radius: 999px;
+      background: rgba(0,0,0,0.08); overflow: hidden;
+    }
+    [data-theme="dark"] .quiz-progress-bar { background: rgba(255,255,255,0.08); }
+    .quiz-progress-fill {
+      height: 100%; background: var(--accent);
+      border-radius: 999px; transition: width 0.4s ease;
+    }
+    .q-text { font-size: 15px; font-weight: 600; line-height: 1.45; }
+    .options { display: grid; gap: 8px; }
+    .option {
+      text-align: left; padding: 12px 16px;
+      background: var(--panel); border-radius: 12px;
+      border: 2px solid transparent; font-size: 14px;
+      font-family: inherit; transition: border-color 0.18s, background 0.18s;
+    }
+    .option:hover:not(:disabled) { border-color: rgba(0,0,0,0.18); }
+    .option.correct { border-color: var(--ok);  background: var(--ok-soft); }
+    .option.wrong   { border-color: var(--bad); background: var(--bad-soft); }
+    .explanation {
+      padding: 10px 14px; border-radius: 10px; background: var(--panel);
+      font-size: 13px; color: var(--muted); line-height: 1.55;
+      display: none; border-left: 3px solid var(--ok);
+    }
+    .explanation.show { display: block; }
+    .next-btn {
+      justify-self: end; background: var(--accent); color: #111;
+      padding: 12px 28px; font-size: 14px; font-weight: 700; display: none;
+    }
+    .next-btn.show { display: inline-flex; }
+    .complete-card {
+      text-align: center; padding: 36px 24px;
+      background: var(--panel); border-radius: 16px;
+      display: grid; gap: 6px;
+    }
+    .cc-title { font-size: 17px; font-weight: 700; }
+    .cc-score { font-size: 56px; font-weight: 700; color: var(--accent); line-height: 1.1; }
+    .cc-score span { font-size: 26px; color: var(--muted); font-weight: 400; }
+    .cc-pct { font-size: 15px; color: var(--muted); }
+
+    /* ── Section footer ── */
+    .section-footer {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding-top: 4px; border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    [data-theme="dark"] .section-footer { border-top-color: rgba(255,255,255,0.07); }
+    .result-banner {
+      flex: 1; font-size: 14px; font-weight: 600;
+      padding: 8px 14px; border-radius: 10px;
+      background: var(--panel); display: none;
+    }
+    .result-banner.show { display: block; }
+    .reset-btn { font-size: 13px; padding: 8px 18px; color: var(--muted); }
+
+    /* ── Final score ── */
+    .final-card {
+      background: var(--surface); border-radius: 20px; padding: 36px 32px;
+      box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.04);
+      text-align: center; display: none;
+      flex-direction: column; align-items: center; gap: 12px;
+    }
+    .final-card.show { display: flex; }
+    .final-card h2 {
+      margin: 0; font-family: "Cormorant Garamond",serif;
+      font-size: 28px; font-weight: 700;
+    }
+    .final-num { font-size: 52px; font-weight: 700; color: var(--accent); line-height: 1; }
+    .final-msg { color: var(--muted); font-size: 15px; }
+    .reload-btn { background: var(--accent); color: #111; padding: 12px 28px; font-size: 15px; margin-top: 4px; }
+
+    @media (max-width: 640px) {
+      header { padding: 18px 20px; }
+      .tab-panel.active { padding: 16px; }
+      .tab-btn { font-size: 13px; padding: 14px 10px; }
+      .sub-tab-btn { font-size: 11px; padding: 9px 10px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header>
+    <div class="title">
+      <h1>Practica B1 de Francés</h1>
+      <p>Comprensión lectora y auditiva · 3 ejercicios × 10 preguntas</p>
+    </div>
+    <button type="button" id="toggleTheme">Modo oscuro</button>
+  </header>
+
+  <!-- ═══ PESTAÑAS PRINCIPALES ═══ -->
+  <div class="tabs-wrapper">
+
+    <div class="tab-bar">
+      <button type="button" class="tab-btn active" data-tab="reading">📖 Compréhension écrite</button>
+      <button type="button" class="tab-btn" data-tab="listening">🎧 Compréhension orale</button>
+    </div>
+
+    <!-- ══ PANEL LECTURA ══ -->
+    <div class="tab-panel active" id="panel-reading">
+
+      <!-- Sub-tabs lectura -->
+      <div class="sub-tab-bar" id="reading-subtabs">
+        <button type="button" class="sub-tab-btn active" data-section="reading" data-ex="0">
+          Exercice 1 <span class="sub-score" id="score-reading-0">0 / 10</span>
+        </button>
+        <button type="button" class="sub-tab-btn" data-section="reading" data-ex="1">
+          Exercice 2 <span class="sub-score" id="score-reading-1">0 / 10</span>
+        </button>
+        <button type="button" class="sub-tab-btn" data-section="reading" data-ex="2">
+          Exercice 3 <span class="sub-score" id="score-reading-2">0 / 10</span>
+        </button>
+      </div>
+
+      <!-- Ejercicio lectura 1 -->
+      <div class="ex-panel active" id="reading-ex-0">
+        <div class="text-box">
+          <div class="text-label">Lisez la lettre suivante et répondez aux questions.</div>
+          <div class="text-content">
+            <p>Chère Claire,</p>
+            <p>Je t'écris depuis Paris où je suis arrivée il y a trois jours pour mon stage professionnel. La ville est magnifique et je commence à m'habituer à la vie parisienne. Mon appartement est petit mais très confortable, situé dans le 11ème arrondissement, à cinq minutes à pied du métro.</p>
+            <p>Le premier jour de mon stage était un peu stressant. J'ai rencontré mes collègues et j'ai découvert que je devais travailler sur un projet important concernant les réseaux sociaux. Mon responsable, Monsieur Dupont, est très sympathique et patient — il m'a expliqué tous les détails du projet avec beaucoup de clarté.</p>
+            <p>Le soir, j'ai décidé de visiter quelques quartiers du centre. J'ai marché le long de la Seine et je suis allée voir la Tour Eiffel illuminée. C'était vraiment impressionnant ! J'ai aussi goûté des crêpes dans une petite crêperie du quartier Montparnasse. Elles étaient délicieuses !</p>
+            <p>Est-ce que tu vas bien ? J'espère que tes examens se passent bien. Écris-moi vite pour me donner de tes nouvelles.</p>
+            <p>À très bientôt, <em>Sophie</em></p>
+          </div>
+        </div>
+        <div class="questions-container" id="reading-0-questions"></div>
+        <div class="section-footer">
+          <div class="result-banner" id="result-reading-0"></div>
+          <button type="button" class="reset-btn" id="reset-reading-0">↺ Reiniciar</button>
+        </div>
+      </div>
+
+      <!-- Ejercicio lectura 2 -->
+      <div class="ex-panel" id="reading-ex-1">
+        <div class="text-box">
+          <div class="text-label">Lisez l'article suivant et répondez aux questions.</div>
+          <div class="text-content">
+            <p>Chaque samedi matin, le marché de la place Victor Hugo, à Lyon, attire des centaines de personnes. Les habitants du quartier viennent acheter des légumes frais, du fromage et des produits régionaux.</p>
+            <p>Madame Fontaine, marchande de fruits et légumes depuis vingt ans, explique l'attrait du marché : « Les gens veulent savoir d'où viennent leurs aliments. Ici, nos produits viennent directement des producteurs locaux. »</p>
+            <p>Les jeunes aussi fréquentent le marché. Selon une récente enquête, 45 % des visiteurs ont moins de trente-cinq ans. Théo, étudiant en architecture, est un habitué : « Je viens ici pour la qualité des produits et aussi pour l'ambiance. C'est un moment de partage et de convivialité. »</p>
+            <p>Le marché est également un lieu de rencontre entre différentes cultures. On y trouve des spécialités du monde entier : des épices orientales, des fruits exotiques et des plats préparés d'origines variées.</p>
+            <p>Cependant, la mairie de Lyon souhaite agrandir le marché pour accueillir davantage de producteurs. Ce projet prévoit l'ajout de vingt nouveaux stands et la création d'un espace de dégustation.</p>
+          </div>
+        </div>
+        <div class="questions-container" id="reading-1-questions"></div>
+        <div class="section-footer">
+          <div class="result-banner" id="result-reading-1"></div>
+          <button type="button" class="reset-btn" id="reset-reading-1">↺ Reiniciar</button>
+        </div>
+      </div>
+
+      <!-- Ejercicio lectura 3 -->
+      <div class="ex-panel" id="reading-ex-2">
+        <div class="text-box">
+          <div class="text-label">Lisez l'article suivant et répondez aux questions.</div>
+          <div class="text-content">
+            <p>De plus en plus de Français adoptent un mode de vie plus écologique. Selon un sondage publié en 2023, 68 % des personnes interrogées déclarent avoir changé leurs habitudes pour réduire leur impact sur l'environnement.</p>
+            <p>Parmi les gestes les plus courants, on trouve la réduction des déchets, le recyclage et l'utilisation de transports en commun. La voiture électrique gagne aussi du terrain : les ventes ont augmenté de 30 % en un an.</p>
+            <p>Marine, professeure de sciences, a décidé de changer ses habitudes il y a deux ans. Elle n'utilise plus de plastique à usage unique et a installé des panneaux solaires sur le toit de sa maison. « Au début, c'était difficile de changer mes habitudes, mais maintenant je ne pourrais plus revenir en arrière », confie-t-elle.</p>
+            <p>Les jeunes générations sont particulièrement sensibles à la question écologique. De nombreuses écoles proposent désormais des cours sur le développement durable, et certains élèves s'engagent même dans des actions de sensibilisation dans leurs quartiers.</p>
+            <p>Malgré ces efforts individuels, les experts soulignent que des changements structurels au niveau des entreprises et des gouvernements sont indispensables pour lutter efficacement contre le changement climatique.</p>
+          </div>
+        </div>
+        <div class="questions-container" id="reading-2-questions"></div>
+        <div class="section-footer">
+          <div class="result-banner" id="result-reading-2"></div>
+          <button type="button" class="reset-btn" id="reset-reading-2">↺ Reiniciar</button>
+        </div>
+      </div>
+    </div><!-- /panel-reading -->
+
+    <!-- ══ PANEL ESCUCHA ══ -->
+    <div class="tab-panel" id="panel-listening">
+
+      <!-- Sub-tabs escucha -->
+      <div class="sub-tab-bar" id="listening-subtabs">
+        <button type="button" class="sub-tab-btn active" data-section="listening" data-ex="0">
+          Exercice 1 <span class="sub-score" id="score-listening-0">0 / 10</span>
+        </button>
+        <button type="button" class="sub-tab-btn" data-section="listening" data-ex="1">
+          Exercice 2 <span class="sub-score" id="score-listening-1">0 / 10</span>
+        </button>
+        <button type="button" class="sub-tab-btn" data-section="listening" data-ex="2">
+          Exercice 3 <span class="sub-score" id="score-listening-2">0 / 10</span>
+        </button>
+      </div>
+
+      <!-- Ejercicio escucha 1 -->
+      <div class="ex-panel active" id="listening-ex-0">
+        <div class="audio-box">
+          <div class="text-label">Écoutez le document audio et répondez aux questions.</div>
+          <div class="audio-controls">
+            <button type="button" class="play-btn" id="play-0">▶ Escuchar</button>
+            <button type="button" id="stop-0">■ Detener</button>
+            <div class="waveform paused" id="waveform-0"><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="audio-status" id="status-0">Listo para reproducir</div>
+          </div>
+          <button type="button" class="text-toggle" id="toggle-text-0">Ver el texto</button>
+          <div class="text-content hidden" id="ltext-0">
+            <p>Bonjour, je m'appelle Lucas et j'ai vingt-cinq ans. Je suis étudiant en informatique à l'Université de Lyon. Pendant mon temps libre, j'aime faire du sport, surtout du vélo et de la natation. Le week-end, je retrouve souvent mes amis pour jouer aux jeux vidéo ou regarder des films.</p>
+            <p>L'été dernier, je suis parti en voyage au Portugal avec ma famille. Nous avons visité Lisbonne et Porto. J'ai adoré la cuisine portugaise, surtout les pastéis de nata. La prochaine fois, je voudrais aller au Brésil pour pratiquer mon portugais.</p>
+            <p>En ce moment, je cherche un stage dans une entreprise de développement web. J'ai envoyé plusieurs candidatures mais je n'ai pas encore reçu de réponse. Je reste optimiste car mes notes sont bonnes et j'ai déjà de l'expérience grâce à des projets universitaires.</p>
+          </div>
+        </div>
+        <div class="questions-container" id="listening-0-questions"></div>
+        <div class="section-footer">
+          <div class="result-banner" id="result-listening-0"></div>
+          <button type="button" class="reset-btn" id="reset-listening-0">↺ Reiniciar</button>
+        </div>
+      </div>
+
+      <!-- Ejercicio escucha 2 -->
+      <div class="ex-panel" id="listening-ex-1">
+        <div class="audio-box">
+          <div class="text-label">Écoutez le document audio et répondez aux questions.</div>
+          <div class="audio-controls">
+            <button type="button" class="play-btn" id="play-1">▶ Escuchar</button>
+            <button type="button" id="stop-1">■ Detener</button>
+            <div class="waveform paused" id="waveform-1"><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="audio-status" id="status-1">Listo para reproducir</div>
+          </div>
+          <button type="button" class="text-toggle" id="toggle-text-1">Ver el texto</button>
+          <div class="text-content hidden" id="ltext-1">
+            <p>Bonjour, je m'appelle Emma et j'ai vingt-huit ans. Je suis graphiste dans une agence de publicité à Bordeaux. Mon travail est créatif mais parfois stressant, surtout quand les délais sont très courts.</p>
+            <p>Ce week-end, j'ai prévu de partir à la campagne avec mon compagnon, Julien. Nous allons rendre visite à ses parents qui habitent dans un petit village du Périgord. J'adore y aller car c'est très calme et la nature est magnifique. On mange toujours très bien là-bas — la cuisine périgourdine est délicieuse !</p>
+            <p>Le vendredi soir, nous prendrons le train depuis Bordeaux. Le trajet dure environ une heure et demie. Samedi matin, nous irons nous promener dans les bois et l'après-midi nous visiterons un château médiéval de la région. Dimanche, avant de rentrer, nous ferons des achats au marché local.</p>
+            <p>Je suis un peu fatiguée en ce moment à cause d'un grand projet au travail. Ce week-end va me faire beaucoup de bien !</p>
+          </div>
+        </div>
+        <div class="questions-container" id="listening-1-questions"></div>
+        <div class="section-footer">
+          <div class="result-banner" id="result-listening-1"></div>
+          <button type="button" class="reset-btn" id="reset-listening-1">↺ Reiniciar</button>
+        </div>
+      </div>
+
+      <!-- Ejercicio escucha 3 -->
+      <div class="ex-panel" id="listening-ex-2">
+        <div class="audio-box">
+          <div class="text-label">Écoutez le document audio et répondez aux questions.</div>
+          <div class="audio-controls">
+            <button type="button" class="play-btn" id="play-2">▶ Escuchar</button>
+            <button type="button" id="stop-2">■ Detener</button>
+            <div class="waveform paused" id="waveform-2"><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="audio-status" id="status-2">Listo para reproducir</div>
+          </div>
+          <button type="button" class="text-toggle" id="toggle-text-2">Ver el texto</button>
+          <div class="text-content hidden" id="ltext-2">
+            <p>Bonjour à tous ! Je m'appelle Antoine et je viens de Toulouse, mais j'habite à Paris depuis cinq ans. Aujourd'hui, je voudrais vous parler de la vie culturelle dans cette ville.</p>
+            <p>Paris est une ville extraordinaire pour les amateurs d'art et de culture. Il y a des musées partout : le Louvre, le musée d'Orsay, le Centre Pompidou... Je visite en moyenne deux ou trois musées par mois. Mon préféré est le musée d'Orsay pour ses collections d'art impressionniste.</p>
+            <p>Le soir, j'aime aller au théâtre ou à des concerts. Paris offre une programmation culturelle très variée et il y a des événements pour tous les goûts et tous les budgets. Beaucoup de musées proposent même des entrées gratuites le premier dimanche du mois.</p>
+            <p>J'ai aussi découvert les bibliothèques publiques de Paris, qui sont gratuites et très bien équipées. J'y vais souvent pour travailler ou lire tranquillement. Le seul inconvénient de vivre à Paris est le coût de la vie, qui est assez élevé. Mais pour quelqu'un qui aime la culture, c'est vraiment la ville idéale.</p>
+          </div>
+        </div>
+        <div class="questions-container" id="listening-2-questions"></div>
+        <div class="section-footer">
+          <div class="result-banner" id="result-listening-2"></div>
+          <button type="button" class="reset-btn" id="reset-listening-2">↺ Reiniciar</button>
+        </div>
+      </div>
+    </div><!-- /panel-listening -->
+
+  </div><!-- /tabs-wrapper -->
+
+  <!-- ═══ PUNTUACIÓN FINAL ═══ -->
+  <div class="final-card" id="finalScore">
+    <h2>Résultat final</h2>
+    <div class="final-num" id="finalNum">—</div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button type="button" class="reload-btn" onclick="location.reload()">Volver a empezar</button>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  /* ════════════════════════════════════════════════════════
+     DATOS
+  ════════════════════════════════════════════════════════ */
+
+  const readingExercises = [
+    /* ── Ejercicio 1: Lettre de Paris ── */
+    { questions: [
+      { q: "Pourquoi Sophie est-elle à Paris ?",
+        options: ["Pour visiter des monuments touristiques","Pour un stage professionnel","Pour rendre visite à Claire","Pour ses études universitaires"],
+        answer: 1, explanation: "Sophie viaja a París para hacer unas prácticas profesionales, como indica al inicio de la carta." },
+      { q: "Comment est l'appartement de Sophie ?",
+        options: ["Grand et moderne","Petit mais très confortable","Loin du métro","Dans le 8ème arrondissement"],
+        answer: 1, explanation: "Sophie describe su apartamento como «petit mais très confortable», en el barrio 11, a 5 min del metro." },
+      { q: "Comment s'appelle le responsable de Sophie ?",
+        options: ["Monsieur Martin","Monsieur Bernard","Monsieur Dupont","Monsieur Laurent"],
+        answer: 2, explanation: "El responsable de Sophie se llama Monsieur Dupont, descrito como simpático y paciente." },
+      { q: "Sur quel sujet porte le projet de Sophie ?",
+        options: ["Le tourisme parisien","Les réseaux sociaux","La cuisine française","Les nouvelles technologies"],
+        answer: 1, explanation: "El proyecto en el que debe trabajar Sophie trata sobre las redes sociales." },
+      { q: "Où Sophie a-t-elle mangé des crêpes ?",
+        options: ["Près de la Tour Eiffel","Au bord de la Seine","Dans le quartier Montparnasse","Dans le 11ème arrondissement"],
+        answer: 2, explanation: "Sophie comió crepes en una pequeña crepería del barrio de Montparnasse." },
+      { q: "Que demande Sophie à Claire dans sa lettre ?",
+        options: ["De venir la rejoindre à Paris","De lui envoyer un colis","De lui écrire pour donner de ses nouvelles","De l'aider avec son travail"],
+        answer: 2, explanation: "Sophie le pide a Claire que le escriba: «Écris-moi vite pour me donner de tes nouvelles.»" },
+      { q: "Dans quel arrondissement se trouve l'appartement de Sophie ?",
+        options: ["Le 8ème","Le 11ème","Le 16ème","Le 1er"],
+        answer: 1, explanation: "Sophie menciona que su apartamento está en el «11ème arrondissement»." },
+      { q: "Comment Sophie qualifie-t-elle son premier jour de stage ?",
+        options: ["Très agréable et reposant","Un peu stressant","Ennuyeux et long","Parfait et idéal"],
+        answer: 1, explanation: "Sophie dice que su primer día de prácticas fue «un peu stressant»." },
+      { q: "Qu'est-ce que Sophie a vu lors de sa promenade du soir ?",
+        options: ["Le musée du Louvre","Le Sacré-Cœur","La Tour Eiffel illuminée","L'Arc de Triomphe"],
+        answer: 2, explanation: "Sophie fue a ver la Torre Eiffel iluminada: «je suis allée voir la Tour Eiffel illuminée»." },
+      { q: "Quel adjectif Sophie utilise-t-elle pour décrire la Tour Eiffel la nuit ?",
+        options: ["Magnifique","Décevant","Impressionnant","Ordinaire"],
+        answer: 2, explanation: "Sophie exclama «C'était vraiment impressionnant !» al ver la Torre Eiffel iluminada." }
+    ]},
+
+    /* ── Ejercicio 2: Marché de Lyon ── */
+    { questions: [
+      { q: "Où se trouve le marché décrit dans l'article ?",
+        options: ["Place Bellecour, à Lyon","Place Victor Hugo, à Lyon","Place des Terreaux, à Lyon","Place Carnot, à Lyon"],
+        answer: 1, explanation: "El artículo sitúa el mercado en la «place Victor Hugo, à Lyon»." },
+      { q: "Quel jour a lieu le marché ?",
+        options: ["Le dimanche matin","Le vendredi matin","Le samedi matin","Tous les jours"],
+        answer: 2, explanation: "El texto dice «chaque samedi matin»." },
+      { q: "Depuis combien d'années Madame Fontaine est-elle marchande ?",
+        options: ["Dix ans","Quinze ans","Vingt ans","Trente ans"],
+        answer: 2, explanation: "Madame Fontaine es vendedora «depuis vingt ans»." },
+      { q: "Selon Madame Fontaine, d'où viennent les produits du marché ?",
+        options: ["De grands supermarchés","Des producteurs locaux","De l'étranger","Des entrepôts régionaux"],
+        answer: 1, explanation: "Madame Fontaine dice que sus productos «viennent directement des producteurs locaux»." },
+      { q: "Quel pourcentage des visiteurs a moins de 35 ans ?",
+        options: ["25 %","35 %","45 %","55 %"],
+        answer: 2, explanation: "La encuesta indica que el 45 % de los visitantes tiene menos de 35 años." },
+      { q: "Quelle est la profession de Théo ?",
+        options: ["Professeur","Médecin","Étudiant en architecture","Journaliste"],
+        answer: 2, explanation: "Théo es presentado como «étudiant en architecture»." },
+      { q: "Pourquoi Théo aime-t-il le marché ?",
+        options: ["Pour les prix bas","Pour la qualité des produits et l'ambiance","Pour la proximité de son domicile","Pour les animations musicales"],
+        answer: 1, explanation: "Théo dice que viene «pour la qualité des produits et aussi pour l'ambiance»." },
+      { q: "Quel type de produits du monde entier trouve-t-on au marché ?",
+        options: ["Des vêtements et des jouets","Des livres et des disques","Des épices orientales et des fruits exotiques","Des meubles et des antiquités"],
+        answer: 2, explanation: "El texto menciona «épices orientales, fruits exotiques et plats préparés»." },
+      { q: "Que souhaite faire la mairie de Lyon ?",
+        options: ["Fermer le marché pour rénovation","Le déplacer ailleurs","L'agrandir","Réduire sa taille"],
+        answer: 2, explanation: "La mairie de Lyon «souhaite agrandir le marché»." },
+      { q: "Combien de nouveaux stands le projet prévoit-il ?",
+        options: ["Dix","Quinze","Vingt","Trente"],
+        answer: 2, explanation: "El proyecto prevé «l'ajout de vingt nouveaux stands»." }
+    ]},
+
+    /* ── Ejercicio 3: L'écologie en France ── */
+    { questions: [
+      { q: "Quel pourcentage de Français a changé ses habitudes pour l'environnement ?",
+        options: ["48 %","58 %","68 %","78 %"],
+        answer: 2, explanation: "Según la encuesta, el 68 % de los encuestados declara haber cambiado sus hábitos." },
+      { q: "Parmi les gestes courants mentionnés, lequel figure dans l'article ?",
+        options: ["Planter des arbres","Réduire les déchets","Boycotter les grandes marques","Faire du jardinage"],
+        answer: 1, explanation: "El texto menciona «la réduction des déchets, le recyclage et l'utilisation de transports en commun»." },
+      { q: "De combien les ventes de voitures électriques ont-elles augmenté ?",
+        options: ["10 %","20 %","30 %","40 %"],
+        answer: 2, explanation: "Las ventas de coches eléctricos han aumentado un «30 % en un an»." },
+      { q: "Quelle est la profession de Marine ?",
+        options: ["Ingénieure environnementale","Professeure de sciences","Journaliste scientifique","Chercheuse en écologie"],
+        answer: 1, explanation: "Marine es «professeure de sciences»." },
+      { q: "Depuis combien de temps Marine a-t-elle changé ses habitudes ?",
+        options: ["Six mois","Un an","Deux ans","Cinq ans"],
+        answer: 2, explanation: "Marine cambió sus hábitos «il y a deux ans»." },
+      { q: "Qu'a installé Marine sur le toit de sa maison ?",
+        options: ["Une terrasse verte","Des capteurs de pluie","Des panneaux solaires","Un jardin potager"],
+        answer: 2, explanation: "Marine «a installé des panneaux solaires sur le toit de sa maison»." },
+      { q: "Comment Marine décrit-elle ses débuts vers un mode de vie écologique ?",
+        options: ["Facile et naturel","Difficile au début","Très coûteux","Peu efficace"],
+        answer: 1, explanation: "Marine confiesa: «Au début, c'était difficile de changer mes habitudes»." },
+      { q: "Que proposent de nombreuses écoles désormais ?",
+        options: ["Des cours de recyclage pratique","Des cours sur le développement durable","Des sorties en nature obligatoires","Des jardins potagers scolaires"],
+        answer: 1, explanation: "Muchos colegios proponen «des cours sur le développement durable»." },
+      { q: "Comment certains élèves s'engagent-ils pour l'environnement ?",
+        options: ["En boycottant les cours","En écrivant des pétitions","Dans des actions de sensibilisation dans leurs quartiers","En organisant des grèves scolaires"],
+        answer: 2, explanation: "Algunos alumnos se comprometen «dans des actions de sensibilisation dans leurs quartiers»." },
+      { q: "Que soulignent les experts pour lutter contre le changement climatique ?",
+        options: ["Que chaque individu adopte un mode de vie vegan","Que les gouvernements augmentent les taxes","Des changements structurels au niveau des entreprises et des gouvernements","Que les pays développés arrêtent leurs industries"],
+        answer: 2, explanation: "Los expertos señalan que hacen falta «des changements structurels au niveau des entreprises et des gouvernements»." }
+    ]}
+  ];
+
+  const listeningExercises = [
+    /* ── Ejercicio 1: Lucas, étudiant ── */
+    { ttsText: "Bonjour, je m'appelle Lucas et j'ai vingt-cinq ans. Je suis étudiant en informatique à l'Université de Lyon. Pendant mon temps libre, j'aime faire du sport, surtout du vélo et de la natation. Le week-end, je retrouve souvent mes amis pour jouer aux jeux vidéo ou regarder des films. L'été dernier, je suis parti en voyage au Portugal avec ma famille. Nous avons visité Lisbonne et Porto. J'ai adoré la cuisine portugaise, surtout les pastéis de nata. La prochaine fois, je voudrais aller au Brésil pour pratiquer mon portugais. En ce moment, je cherche un stage dans une entreprise de développement web. J'ai envoyé plusieurs candidatures mais je n'ai pas encore reçu de réponse. Je reste optimiste car mes notes sont bonnes et j'ai déjà de l'expérience grâce à des projets universitaires.",
+      questions: [
+        { q: "Qu'est-ce que Lucas étudie ?", options: ["La médecine","Le droit","L'informatique","L'architecture"], answer: 2, explanation: "Lucas estudia informática: «Je suis étudiant en informatique»." },
+        { q: "Dans quelle ville étudie Lucas ?", options: ["Paris","Marseille","Lyon","Bordeaux"], answer: 2, explanation: "Lucas estudia en la Universidad de Lyon." },
+        { q: "Quels sports pratique Lucas ?", options: ["Le tennis et le football","Le vélo et la natation","La course à pied et le ski","Le basketball et le volleyball"], answer: 1, explanation: "Lucas practica ciclismo y natación: «surtout du vélo et de la natation»." },
+        { q: "Où est parti Lucas en vacances l'été dernier ?", options: ["En Espagne","En Italie","Au Maroc","Au Portugal"], answer: 3, explanation: "Lucas fue a Portugal con su familia, visitando Lisboa y Oporto." },
+        { q: "Quel plat a-t-il particulièrement aimé au Portugal ?", options: ["Les sardines grillées","Les pastéis de nata","Le bacalhau","Les churros"], answer: 1, explanation: "Lucas menciona que le encantaron los pastéis de nata." },
+        { q: "Que cherche Lucas en ce moment ?", options: ["Un appartement en ville","Un stage en développement web","Un emploi à temps plein","Des cours de langue"], answer: 1, explanation: "Lucas busca unas prácticas en desarrollo web y ya ha enviado candidaturas." },
+        { q: "Quel âge a Lucas ?", options: ["Vingt-deux ans","Vingt-cinq ans","Trente ans","Vingt ans"], answer: 1, explanation: "Lucas se presenta diciendo «j'ai vingt-cinq ans»." },
+        { q: "Que fait Lucas le week-end avec ses amis ?", options: ["Il fait du sport en plein air","Il joue aux jeux vidéo ou regarde des films","Il part en voyage","Il travaille dans un café"], answer: 1, explanation: "Lucas queda con amigos para jugar a videojuegos o ver películas." },
+        { q: "Dans quel pays Lucas voudrait-il voyager à l'avenir ?", options: ["En Espagne","Au Mexique","Au Brésil","En Argentine"], answer: 2, explanation: "Lucas quiere ir a Brasil para practicar su portugués." },
+        { q: "Pourquoi Lucas reste-t-il optimiste pour trouver un stage ?", options: ["Car il connaît des personnes influentes","Car ses notes sont bonnes et il a de l'expérience","Car il a déjà reçu plusieurs offres","Car son stage commence bientôt"], answer: 1, explanation: "Lucas está optimista porque tiene buenas notas y experiencia a través de proyectos universitarios." }
+      ]
+    },
+
+    /* ── Ejercicio 2: Emma, graphiste ── */
+    { ttsText: "Bonjour, je m'appelle Emma et j'ai vingt-huit ans. Je suis graphiste dans une agence de publicité à Bordeaux. Mon travail est créatif mais parfois stressant, surtout quand les délais sont très courts. Ce week-end, j'ai prévu de partir à la campagne avec mon compagnon, Julien. Nous allons rendre visite à ses parents qui habitent dans un petit village du Périgord. J'adore y aller car c'est très calme et la nature est magnifique. On mange toujours très bien là-bas, la cuisine périgourdine est délicieuse ! Le vendredi soir, nous prendrons le train depuis Bordeaux. Le trajet dure environ une heure et demie. Samedi matin, nous irons nous promener dans les bois et l'après-midi nous visiterons un château médiéval de la région. Dimanche, avant de rentrer, nous ferons des achats au marché local. Je suis un peu fatiguée en ce moment à cause d'un grand projet au travail. Ce week-end va me faire beaucoup de bien !",
+      questions: [
+        { q: "Quelle est la profession d'Emma ?", options: ["Architecte","Graphiste","Photographe","Journaliste"], answer: 1, explanation: "Emma es «graphiste dans une agence de publicité»." },
+        { q: "Quel âge a Emma ?", options: ["Vingt-deux ans","Vingt-cinq ans","Vingt-huit ans","Trente ans"], answer: 2, explanation: "Emma dice «j'ai vingt-huit ans»." },
+        { q: "Dans quelle ville Emma travaille-t-elle ?", options: ["Paris","Marseille","Bordeaux","Toulouse"], answer: 2, explanation: "Emma trabaja en una agencia de publicidad en Bordeaux." },
+        { q: "Comment Emma décrit-elle son travail ?", options: ["Ennuyeux et répétitif","Créatif mais parfois stressant","Facile et bien payé","Intéressant mais mal payé"], answer: 1, explanation: "Emma describe su trabajo como «créatif mais parfois stressant»." },
+        { q: "Où Emma va-t-elle ce week-end ?", options: ["À la mer","À la montagne","À la campagne dans le Périgord","En voyage à l'étranger"], answer: 2, explanation: "Emma va a la campiña del Périgord a ver a los padres de Julien." },
+        { q: "Comment s'appelle le compagnon d'Emma ?", options: ["Thomas","Julien","Pierre","Antoine"], answer: 1, explanation: "El compañero de Emma se llama Julien." },
+        { q: "Quel moyen de transport Emma et Julien vont-ils prendre ?", options: ["La voiture","L'avion","Le train","Le bus"], answer: 2, explanation: "Emma dice «nous prendrons le train depuis Bordeaux»." },
+        { q: "Combien de temps dure le trajet ?", options: ["Trente minutes","Une heure","Une heure et demie","Deux heures"], answer: 2, explanation: "Emma menciona que el trayecto dura «environ une heure et demie»." },
+        { q: "Que feront-ils samedi après-midi ?", options: ["Se promener dans les bois","Visiter un château médiéval","Faire des achats au marché","Dîner au restaurant"], answer: 1, explanation: "El sábado por la tarde visitarán «un château médiéval de la région»." },
+        { q: "Pourquoi Emma a-t-elle besoin de ce week-end ?", options: ["Elle veut voir la famille de Julien","Elle est fatiguée à cause d'un grand projet au travail","Elle n'a pas eu de vacances depuis longtemps","Elle veut découvrir la cuisine périgourdine"], answer: 1, explanation: "Emma está un poco cansada a causa de un gran proyecto de trabajo." }
+      ]
+    },
+
+    /* ── Ejercicio 3: Antoine, vie culturelle à Paris ── */
+    { ttsText: "Bonjour à tous ! Je m'appelle Antoine et je viens de Toulouse, mais j'habite à Paris depuis cinq ans. Aujourd'hui, je voudrais vous parler de la vie culturelle dans cette ville. Paris est une ville extraordinaire pour les amateurs d'art et de culture. Il y a des musées partout : le Louvre, le musée d'Orsay, le Centre Pompidou... Je visite en moyenne deux ou trois musées par mois. Mon préféré est le musée d'Orsay pour ses collections d'art impressionniste. Le soir, j'aime aller au théâtre ou à des concerts. Paris offre une programmation culturelle très variée et il y a des événements pour tous les goûts et tous les budgets. Beaucoup de musées proposent même des entrées gratuites le premier dimanche du mois. J'ai aussi découvert les bibliothèques publiques de Paris, qui sont gratuites et très bien équipées. J'y vais souvent pour travailler ou lire tranquillement. Le seul inconvénient de vivre à Paris est le coût de la vie, qui est assez élevé. Mais pour quelqu'un qui aime la culture, c'est vraiment la ville idéale.",
+      questions: [
+        { q: "D'où vient Antoine originellement ?", options: ["De Lyon","De Marseille","De Toulouse","De Bordeaux"], answer: 2, explanation: "Antoine dice «je viens de Toulouse»." },
+        { q: "Depuis combien de temps Antoine habite-t-il à Paris ?", options: ["Deux ans","Trois ans","Cinq ans","Dix ans"], answer: 2, explanation: "Antoine vive en París «depuis cinq ans»." },
+        { q: "Combien de musées Antoine visite-t-il par mois en moyenne ?", options: ["Un","Deux ou trois","Quatre ou cinq","Tous les week-ends"], answer: 1, explanation: "Antoine visita «en moyenne deux ou trois musées par mois»." },
+        { q: "Quel est le musée préféré d'Antoine ?", options: ["Le Louvre","Le Centre Pompidou","Le musée d'Orsay","Le musée Picasso"], answer: 2, explanation: "El museo preferido de Antoine es el musée d'Orsay." },
+        { q: "Pourquoi Antoine préfère-t-il ce musée ?", options: ["Pour ses expositions temporaires","Pour son architecture moderne","Pour ses collections d'art impressionniste","Pour sa boutique de souvenirs"], answer: 2, explanation: "Antoine lo prefiere «pour ses collections d'art impressionniste»." },
+        { q: "Que fait Antoine le soir à Paris ?", options: ["Il travaille à domicile","Il sort avec ses amis dans des bars","Il va au théâtre ou à des concerts","Il regarde des films chez lui"], answer: 2, explanation: "Antoine dice «j'aime aller au théâtre ou à des concerts»." },
+        { q: "Quel avantage offrent certains musées le premier dimanche du mois ?", options: ["Des visites guidées gratuites","L'entrée gratuite","Des ateliers créatifs","Des concerts en live"], answer: 1, explanation: "Beaucoup de musées proponen «des entrées gratuites le premier dimanche du mois»." },
+        { q: "Où Antoine va-t-il pour travailler ou lire tranquillement ?", options: ["Dans un café","Dans un parc","À la bibliothèque publique","Dans une librairie"], answer: 2, explanation: "Antoine frecuenta las «bibliothèques publiques de Paris»." },
+        { q: "Quel est l'inconvénient de vivre à Paris selon Antoine ?", options: ["La pollution et le bruit","Les transports en commun","Le coût de la vie élevé","Le manque d'espaces verts"], answer: 2, explanation: "Según Antoine, el único inconveniente es «le coût de la vie, qui est assez élevé»." },
+        { q: "Comment Antoine qualifie-t-il Paris pour les amateurs de culture ?", options: ["Une ville surprenante","La ville idéale","Une ville impressionnante","Une ville unique"], answer: 1, explanation: "Antoine concluye que París es «vraiment la ville idéale» para los amantes de la cultura." }
+      ]
+    }
+  ];
+
+  /* ════════════════════════════════════════════════════════
+     ESTADO
+  ════════════════════════════════════════════════════════ */
+
+  const state = {
+    reading:   readingExercises.map(() => ({ answered: 0, correct: 0 })),
+    listening: listeningExercises.map(() => ({ answered: 0, correct: 0 }))
+  };
+
+  /* ════════════════════════════════════════════════════════
+     MODO OSCURO
+  ════════════════════════════════════════════════════════ */
+
+  let dark = false;
+  document.getElementById('toggleTheme').addEventListener('click', () => {
+    dark = !dark;
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : '');
+    document.getElementById('toggleTheme').textContent = dark ? 'Modo claro' : 'Modo oscuro';
+  });
+
+  /* ════════════════════════════════════════════════════════
+     CARRUSEL DE PREGUNTAS
+  ════════════════════════════════════════════════════════ */
+
+  function showQuestion(section, exIdx) {
+    const qi = state[section][exIdx].answered;
+    const exercises = section === 'reading' ? readingExercises : listeningExercises;
+    const q = exercises[exIdx].questions[qi];
+    const total = exercises[exIdx].questions.length;
+    const container = document.getElementById(`${section}-${exIdx}-questions`);
+    const isLast = qi === total - 1;
+
+    container.innerHTML = `
+      <div class="quiz-top">
+        <span class="q-num">Pregunta ${qi + 1} / ${total}</span>
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="${section}-${exIdx}-pfill"></div>
+        </div>
+      </div>
+      <div class="question-block">
+        <div class="q-text">${q.q}</div>
+        <div class="options" id="${section}-${exIdx}-opts">
+          ${q.options.map((opt, oi) => `
+            <button type="button" class="option"
+              data-section="${section}" data-exidx="${exIdx}"
+              data-qi="${qi}" data-oi="${oi}">
+              ${String.fromCharCode(65 + oi)}. ${opt}
+            </button>
+          `).join('')}
+        </div>
+        <div class="explanation" id="${section}-${exIdx}-exp"></div>
+        <button type="button" class="next-btn" id="${section}-${exIdx}-next">
+          ${isLast ? 'Ver resultado →' : 'Siguiente →'}
+        </button>
+      </div>
+    `;
+
+    document.getElementById(`${section}-${exIdx}-pfill`).style.width =
+      `${(qi / total) * 100}%`;
+
+    container.querySelectorAll('.option').forEach(btn => {
+      btn.addEventListener('click', handleAnswer);
+    });
+
+    document.getElementById(`${section}-${exIdx}-next`).addEventListener('click', () => {
+      if (isLast) {
+        onExerciseComplete(section, exIdx);
+        const { correct } = state[section][exIdx];
+        const pct = Math.round((correct / total) * 100);
+        container.innerHTML = `
+          <div class="complete-card">
+            <div class="cc-title">${pct >= 70 ? '¡Buen trabajo!' : 'Sigue practicando'}</div>
+            <div class="cc-score">${correct}<span> / ${total}</span></div>
+            <div class="cc-pct">${pct}%</div>
+          </div>
+        `;
+      } else {
+        showQuestion(section, exIdx);
+      }
+    });
+  }
+
+  function handleAnswer(e) {
+    const btn = e.currentTarget;
+    const section  = btn.dataset.section;
+    const exIdx    = parseInt(btn.dataset.exidx);
+    const qi       = parseInt(btn.dataset.qi);
+    const oi       = parseInt(btn.dataset.oi);
+    const exercises = section === 'reading' ? readingExercises : listeningExercises;
+    const q = exercises[exIdx].questions[qi];
+
+    document.getElementById(`${section}-${exIdx}-opts`).querySelectorAll('.option').forEach((opt, i) => {
+      opt.disabled = true;
+      if (i === q.answer) opt.classList.add('correct');
+      else if (i === oi)  opt.classList.add('wrong');
+    });
+
+    const expDiv = document.getElementById(`${section}-${exIdx}-exp`);
+    expDiv.innerHTML = `💡 ${q.explanation}`;
+    expDiv.classList.add('show');
+
+    state[section][exIdx].answered++;
+    if (oi === q.answer) state[section][exIdx].correct++;
+
+    updateScoreDisplay(section, exIdx);
+    document.getElementById(`${section}-${exIdx}-next`).classList.add('show');
+  }
+
+  function updateScoreDisplay(section, exIdx) {
+    const { correct } = state[section][exIdx];
+    const total = (section === 'reading' ? readingExercises : listeningExercises)[exIdx].questions.length;
+    document.getElementById(`score-${section}-${exIdx}`).textContent = `${correct} / ${total}`;
+  }
+
+  function onExerciseComplete(section, exIdx) {
+    const { correct } = state[section][exIdx];
+    const total = (section === 'reading' ? readingExercises : listeningExercises)[exIdx].questions.length;
+    const pct = Math.round((correct / total) * 100);
+    const banner = document.getElementById(`result-${section}-${exIdx}`);
+    const icon = pct >= 70 ? '✅' : '📝';
+    banner.innerHTML = `${icon} Resultado: <strong>${correct}/${total}</strong> (${pct}%) — ${
+      pct >= 80 ? 'Excellent !' : pct >= 60 ? 'Bien, continue !' : 'Sigue practicando.'
+    }`;
+    banner.classList.add('show');
+    checkFinalScore();
+  }
+
+  function checkFinalScore() {
+    const allDone =
+      readingExercises.every((ex, i)   => state.reading[i].answered   === ex.questions.length) &&
+      listeningExercises.every((ex, i) => state.listening[i].answered === ex.questions.length);
+    if (allDone) showFinalScore();
+  }
+
+  function showFinalScore() {
+    let totalCorrect = 0, totalQ = 0;
+    readingExercises.forEach((ex, i)   => { totalCorrect += state.reading[i].correct;   totalQ += ex.questions.length; });
+    listeningExercises.forEach((ex, i) => { totalCorrect += state.listening[i].correct; totalQ += ex.questions.length; });
+    const pct = Math.round((totalCorrect / totalQ) * 100);
+    const msg =
+      pct >= 85 ? '¡Excellent ! Estás muy bien preparado.' :
+      pct >= 70 ? '¡Bien ! Sigue repasando un poco más.' :
+      pct >= 50 ? 'Puede mejorar. Repasa los puntos fallidos.' :
+      'Sigue practicando. ¡Lo conseguirás!';
+    document.getElementById('finalNum').textContent = `${totalCorrect} / ${totalQ}`;
+    document.getElementById('finalMsg').textContent = `${pct}% — ${msg}`;
+    document.getElementById('finalScore').classList.add('show');
+    document.getElementById('finalScore').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* ════════════════════════════════════════════════════════
+     REINICIAR EJERCICIO
+  ════════════════════════════════════════════════════════ */
+
+  function resetExercise(section, exIdx) {
+    state[section][exIdx].answered = 0;
+    state[section][exIdx].correct  = 0;
+    updateScoreDisplay(section, exIdx);
+    showQuestion(section, exIdx);
+    const banner = document.getElementById(`result-${section}-${exIdx}`);
+    banner.classList.remove('show');
+    banner.innerHTML = '';
+    document.getElementById('finalScore').classList.remove('show');
+  }
+
+  /* ════════════════════════════════════════════════════════
+     PESTAÑAS PRINCIPALES
+  ════════════════════════════════════════════════════════ */
+
+  function switchTab(tabName) {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tabName);
+    });
+    document.querySelectorAll('.tab-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.id === `panel-${tabName}`);
+    });
+    if (tabName !== 'listening') stopAllAudio();
+  }
+
+  /* ════════════════════════════════════════════════════════
+     SUB-PESTAÑAS
+  ════════════════════════════════════════════════════════ */
+
+  function switchSubTab(section, exIdx) {
+    document.querySelectorAll(`#${section}-subtabs .sub-tab-btn`).forEach((btn, i) => {
+      btn.classList.toggle('active', i === exIdx);
+    });
+    document.querySelectorAll(`#panel-${section} .ex-panel`).forEach((panel, i) => {
+      panel.classList.toggle('active', i === exIdx);
+    });
+    if (section === 'listening') stopAllAudio();
+  }
+
+  /* ════════════════════════════════════════════════════════
+     TEXT-TO-SPEECH
+  ════════════════════════════════════════════════════════ */
+
+  let voices = [];
+  function loadVoices() { voices = speechSynthesis.getVoices(); }
+  speechSynthesis.onvoiceschanged = loadVoices;
+  loadVoices();
+
+  function getFrenchVoice() {
+    return voices.find(v => v.lang === 'fr-FR') ||
+           voices.find(v => v.lang.startsWith('fr')) || null;
+  }
+
+  function stopAllAudio() {
+    speechSynthesis.cancel();
+    for (let i = 0; i < listeningExercises.length; i++) {
+      const pb = document.getElementById(`play-${i}`);
+      const st = document.getElementById(`status-${i}`);
+      const wf = document.getElementById(`waveform-${i}`);
+      if (pb) pb.textContent = '▶ Escuchar';
+      if (st) st.textContent = 'Listo para reproducir';
+      if (wf) wf.classList.add('paused');
+    }
+  }
+
+  function setupListeningControls(exIdx) {
+    let speaking = false;
+    const playBtn = document.getElementById(`play-${exIdx}`);
+    const stopBtn = document.getElementById(`stop-${exIdx}`);
+    const wf      = document.getElementById(`waveform-${exIdx}`);
+    const status  = document.getElementById(`status-${exIdx}`);
+
+    function setAudioState(playing) {
+      speaking = playing;
+      playBtn.textContent = playing ? '⏸ Pausar' : '▶ Escuchar de nuevo';
+      status.textContent  = playing ? 'Reproduciendo...' : 'En pausa';
+      wf.classList.toggle('paused', !playing);
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (speechSynthesis.paused) { speechSynthesis.resume(); setAudioState(true); return; }
+      if (speaking)               { speechSynthesis.pause();  setAudioState(false); return; }
+      speechSynthesis.cancel();
+      const utt = new SpeechSynthesisUtterance(listeningExercises[exIdx].ttsText);
+      utt.lang = 'fr-FR'; utt.rate = 0.88; utt.pitch = 1;
+      const voice = getFrenchVoice(); if (voice) utt.voice = voice;
+      utt.onstart  = () => setAudioState(true);
+      utt.onresume = () => setAudioState(true);
+      utt.onpause  = () => setAudioState(false);
+      utt.onend    = () => { speaking = false; playBtn.textContent = '▶ Escuchar de nuevo'; status.textContent = 'Fin del audio'; wf.classList.add('paused'); };
+      utt.onerror  = () => { speaking = false; playBtn.textContent = '▶ Escuchar'; status.textContent = '⚠ Error al reproducir'; wf.classList.add('paused'); };
+      speechSynthesis.speak(utt);
+    });
+
+    stopBtn.addEventListener('click', () => {
+      speechSynthesis.cancel();
+      speaking = false;
+      playBtn.textContent = '▶ Escuchar';
+      status.textContent  = 'Detenido';
+      wf.classList.add('paused');
+    });
+
+    document.getElementById(`toggle-text-${exIdx}`).addEventListener('click', function () {
+      const txt = document.getElementById(`ltext-${exIdx}`);
+      const hidden = txt.classList.toggle('hidden');
+      this.textContent = hidden ? 'Ver el texto' : 'Ocultar el texto';
+    });
+  }
+
+  /* ════════════════════════════════════════════════════════
+     INIT
+  ════════════════════════════════════════════════════════ */
+
+  // Preguntas
+  readingExercises.forEach((_, i)   => showQuestion('reading',   i));
+  listeningExercises.forEach((_, i) => { showQuestion('listening', i); setupListeningControls(i); });
+
+  // Reset buttons
+  readingExercises.forEach((_, i) => {
+    document.getElementById(`reset-reading-${i}`).addEventListener('click', () => resetExercise('reading', i));
+  });
+  listeningExercises.forEach((_, i) => {
+    document.getElementById(`reset-listening-${i}`).addEventListener('click', () => resetExercise('listening', i));
+  });
+
+  // Sub-tabs
+  document.querySelectorAll('#reading-subtabs .sub-tab-btn').forEach((btn, i) => {
+    btn.addEventListener('click', () => switchSubTab('reading', i));
+  });
+  document.querySelectorAll('#listening-subtabs .sub-tab-btn').forEach((btn, i) => {
+    btn.addEventListener('click', () => switchSubTab('listening', i));
+  });
+
+  // Main tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+
+</script>
+</body>
+</html>
