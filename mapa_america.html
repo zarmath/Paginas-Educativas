@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asia · Geografía 2º ESO</title>
+<title>América · Geografía 2º ESO</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
@@ -372,12 +372,12 @@
 
   .hidden { display: none !important; }
 
-  .mode-container { 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    gap: 12px; 
-    width: 100%; 
+  .mode-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
   }
 
   .ornament {
@@ -430,7 +430,7 @@
 <body>
 
 <header>
-  <h1>✦ ASIA ✦</h1>
+  <h1>✦ AMÉRICA ✦</h1>
   <p>Geografía · 2.º de la ESO</p>
 </header>
 
@@ -514,55 +514,43 @@
 <script>
 // ---- Country data ----
 const COUNTRIES = {
-  4:   { es: 'Afganistán',        capital: 'Kabul' },
-  31:  { es: 'Azerbaiyán',         capital: 'Bakú' },
-  50:  { es: 'Bangladesh',         capital: 'Daca' },
-  64:  { es: 'Bután',              capital: 'Timbu' },
-  116: { es: 'Camboya',            capital: 'Nom Pen' },
-  156: { es: 'China',              capital: 'Pekín' },
-  268: { es: 'Georgia',            capital: 'Tiflis' },
-  356: { es: 'India',              capital: 'Nueva Delhi' },
-  360: { es: 'Indonesia',          capital: 'Yakarta' },
-  364: { es: 'Irán',               capital: 'Teherán' },
-  368: { es: 'Irak',               capital: 'Bagdad' },
-  376: { es: 'Israel',             capital: 'Jerusalén' },
-  392: { es: 'Japón',              capital: 'Tokio' },
-  400: { es: 'Jordania',           capital: 'Ammán' },
-  398: { es: 'Kazajistán',         capital: 'Astana' },
-  414: { es: 'Kuwait',             capital: 'Ciudad de Kuwait' },
-  417: { es: 'Kirguistán',         capital: 'Biskek' },
-  418: { es: 'Laos',               capital: 'Vientián' },
-  422: { es: 'Líbano',             capital: 'Beirut' },
-  458: { es: 'Malasia',            capital: 'Kuala Lumpur' },
-  496: { es: 'Mongolia',           capital: 'Ulán Bator' },
-  104: { es: 'Birmania (Myanmar)', capital: 'Naipyidó' },
-  524: { es: 'Nepal',              capital: 'Katmandú' },
-  408: { es: 'Corea del Norte',    capital: 'Pyongyang' },
-  512: { es: 'Omán',               capital: 'Mascate' },
-  586: { es: 'Pakistán',           capital: 'Islamabad' },
-  608: { es: 'Filipinas',          capital: 'Manila' },
-  634: { es: 'Catar',              capital: 'Doha' },
-  643: { es: 'Rusia',              capital: 'Moscú' },
-  682: { es: 'Arabia Saudí',       capital: 'Riad' },
-  702: { es: 'Singapur',           capital: 'Singapur' },
-  410: { es: 'Corea del Sur',      capital: 'Seúl' },
-  144: { es: 'Sri Lanka',          capital: 'Sri Jayawardenepura Kotte' },
-  760: { es: 'Siria',              capital: 'Damasco' },
-  158: { es: 'Taiwán',             capital: 'Taipéi' },
-  762: { es: 'Tayikistán',         capital: 'Dusambé' },
-  764: { es: 'Tailandia',          capital: 'Bangkok' },
-  792: { es: 'Turquía',            capital: 'Ankara' },
-  795: { es: 'Turkmenistán',       capital: 'Asjabad' },
-  784: { es: 'Emiratos Árabes Unidos', capital: 'Abu Dabi' },
-  860: { es: 'Uzbekistán',         capital: 'Taskent' },
-  704: { es: 'Vietnam',            capital: 'Hanói' },
-  887: { es: 'Yemen',              capital: 'Saná' },
-  48:  { es: 'Baréin',             capital: 'Manama' },
-  51:  { es: 'Armenia',            capital: 'Ereván' },
+  // América del Norte
+  124: { es: 'Canadá',                 capital: 'Ottawa' },
+  840: { es: 'Estados Unidos',         capital: 'Washington D.C.' },
+  484: { es: 'México',                 capital: 'Ciudad de México' },
+
+  // América Central
+  320: { es: 'Guatemala',              capital: 'Ciudad de Guatemala' },
+  340: { es: 'Honduras',               capital: 'Tegucigalpa' },
+  222: { es: 'El Salvador',            capital: 'San Salvador' },
+  558: { es: 'Nicaragua',              capital: 'Managua' },
+  188: { es: 'Costa Rica',             capital: 'San José' },
+  591: { es: 'Panamá',                 capital: 'Ciudad de Panamá' },
+
+  // Caribe
+  192: { es: 'Cuba',                   capital: 'La Habana' },
+  332: { es: 'Haití',                  capital: 'Puerto Príncipe' },
+  214: { es: 'República Dominicana',   capital: 'Santo Domingo' },
+  388: { es: 'Jamaica',                capital: 'Kingston' },
+  780: { es: 'Trinidad y Tobago',      capital: 'Puerto España' },
+  44:  { es: 'Bahamas',                capital: 'Nasáu' },
+
+  // América del Sur
+  170: { es: 'Colombia',               capital: 'Bogotá' },
+  862: { es: 'Venezuela',              capital: 'Caracas' },
+  328: { es: 'Guyana',                 capital: 'Georgetown' },
+  740: { es: 'Surinam',                capital: 'Paramaribo' },
+  76:  { es: 'Brasil',                 capital: 'Brasilia' },
+  218: { es: 'Ecuador',                capital: 'Quito' },
+  604: { es: 'Perú',                   capital: 'Lima' },
+  68:  { es: 'Bolivia',                capital: 'Sucre' },
+  600: { es: 'Paraguay',               capital: 'Asunción' },
+  32:  { es: 'Argentina',              capital: 'Buenos Aires' },
+  152: { es: 'Chile',                  capital: 'Santiago' },
+  858: { es: 'Uruguay',                capital: 'Montevideo' },
 };
 
-// Asia bounding box (lon/lat): roughly 25E-180E, -15N-80N
-const ASIA_IDS = new Set(Object.keys(COUNTRIES).map(Number));
+const AMERICA_IDS = new Set(Object.keys(COUNTRIES).map(Number));
 
 let currentTab = 'buscar';
 let mapReady = false;
@@ -573,8 +561,8 @@ const svgEl = document.getElementById('map');
 const W = 900, H = 560;
 
 const projection = d3.geoMercator()
-  .center([95, 25])
-  .scale(420)
+  .center([-80, 10])
+  .scale(260)
   .translate([W / 2, H / 2]);
 
 const path = d3.geoPath().projection(projection);
@@ -607,9 +595,9 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
   .then(r => r.json())
   .then(world => {
     const countries = topojson.feature(world, world.objects.countries);
-    
+
     mapG.selectAll('.country')
-      .data(countries.features.filter(d => ASIA_IDS.has(+d.id)))
+      .data(countries.features.filter(d => AMERICA_IDS.has(+d.id)))
       .enter()
       .append('path')
       .attr('class', 'country')
@@ -713,10 +701,10 @@ function nextBuscar() {
   if (!mapReady) return;
   // Un-highlight previous wrong
   document.querySelectorAll('.country.wrong-click').forEach(el => el.classList.remove('wrong-click'));
-  
+
   if (buscar.queue.length === 0) {
     document.getElementById('buscar-nombre').textContent = '¡Completado! 🎉';
-    document.getElementById('buscar-feedback').textContent = `Has encontrado todos los países de Asia.`;
+    document.getElementById('buscar-feedback').textContent = `Has encontrado todos los países de América.`;
     document.getElementById('buscar-feedback').className = 'feedback ok';
     return;
   }
@@ -730,7 +718,7 @@ function nextBuscar() {
 function handleBuscar(id, el) {
   if (!buscar.current) return;
   if (buscar.found.has(id)) return;
-  
+
   if (id === buscar.current) {
     el.classList.add('found');
     buscar.found.add(id);
@@ -784,7 +772,7 @@ const quiz = {
 function initQuiz() {
   document.getElementById('quiz-play').classList.remove('hidden');
   document.getElementById('quiz-result').classList.add('hidden');
-  
+
   const ids = Object.keys(COUNTRIES).map(Number);
   const shuffled = shuffle(ids);
   quiz.questions = shuffled.slice(0, 20);
@@ -802,10 +790,10 @@ function showQuestion() {
     return;
   }
   quiz.answered = false;
-  
+
   const qId = quiz.questions[quiz.current];
   const info = COUNTRIES[qId];
-  
+
   document.getElementById('quiz-pais').textContent = info.es;
   document.getElementById('quiz-counter').textContent = `Pregunta ${quiz.current + 1} / ${quiz.questions.length}`;
   document.getElementById('quiz-feedback').textContent = '';
@@ -823,15 +811,15 @@ function showQuestion() {
     countryPaths[qId].offsetHeight; // reflow
     countryPaths[qId].style.animation = '';
   }
-  
+
   const progress = (quiz.current / quiz.questions.length) * 100;
   document.getElementById('quiz-progress').style.width = progress + '%';
-  
+
   // Generate 4 options
   const allIds = Object.keys(COUNTRIES).map(Number);
   const wrong3 = shuffle(allIds.filter(id => id !== qId)).slice(0, 3);
   const options = shuffle([qId, ...wrong3]);
-  
+
   const container = document.getElementById('quiz-options');
   container.innerHTML = '';
   options.forEach(optId => {
@@ -846,13 +834,13 @@ function showQuestion() {
 function answerQuiz(isCorrect, clickedBtn, correctId, options, container) {
   if (quiz.answered) return;
   quiz.answered = true;
-  
+
   const btns = container.querySelectorAll('.opt-btn');
   btns.forEach(b => {
     b.disabled = true;
     if (b.textContent === COUNTRIES[correctId].capital) b.classList.add('correct');
   });
-  
+
   if (isCorrect) {
     clickedBtn.classList.add('correct');
     quiz.correct++;
@@ -864,10 +852,10 @@ function answerQuiz(isCorrect, clickedBtn, correctId, options, container) {
     document.getElementById('quiz-feedback').textContent = `✗ La capital correcta es ${COUNTRIES[correctId].capital}`;
     document.getElementById('quiz-feedback').className = 'feedback ko';
   }
-  
+
   updateQuizScore();
   quiz.current++;
-  
+
   setTimeout(() => {
     if (quiz.current < quiz.questions.length) showQuestion();
     else showResult();
@@ -883,14 +871,14 @@ function showResult() {
   setTimeout(() => {
     document.getElementById('quiz-play').classList.add('hidden');
     document.getElementById('quiz-result').classList.remove('hidden');
-    
+
     document.getElementById('result-score').textContent = quiz.correct;
     document.getElementById('result-label').textContent = `/ ${quiz.questions.length} correctas`;
-    
+
     const pct = quiz.correct / quiz.questions.length;
     let msg = '';
-    if (pct === 1) msg = '¡Perfecto! Eres un experto en geografía asiática 🌟';
-    else if (pct >= 0.8) msg = '¡Muy bien! Tienes un gran conocimiento de Asia.';
+    if (pct === 1) msg = '¡Perfecto! Eres un experto en geografía americana 🌟';
+    else if (pct >= 0.8) msg = '¡Muy bien! Tienes un gran conocimiento de América.';
     else if (pct >= 0.6) msg = 'Bien hecho. Sigue practicando y lo dominarás.';
     else if (pct >= 0.4) msg = 'Vas por buen camino. ¡Repasa las capitales!';
     else msg = 'Necesitas repasar más. ¡Prueba el modo Explorar!';
