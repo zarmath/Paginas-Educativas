@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 9: El origen y la evolución de la vida · 4º ESO</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222636;
+    --accent: #4ade80;
+    --accent2: #60a5fa;
+    --accent3: #f59e0b;
+    --text: #e8eaf0;
+    --muted: #8892a4;
+    --border: #2e3347;
+    --radius: 14px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15,17,23,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+    gap: 1rem;
+  }
+
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 0.3rem;
+  }
+
+  .nav-tab {
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-tab:hover { color: var(--text); background: var(--surface); }
+  .nav-tab.active { background: var(--surface2); color: var(--text); font-weight: 500; }
+
+  /* SECTIONS */
+  .section { display: none; padding: 2rem; max-width: 1100px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero p { color: var(--muted); font-size: 1rem; }
+
+  /* THEORY CARDS */
+  .theory-grid {
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .t-chapter {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .t-chapter-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .t-chapter-header:hover { background: var(--surface2); }
+
+  .t-chapter-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #22c55e);
+    color: #0f1117;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .t-chapter-title {
+    flex: 1;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .t-chapter-arrow {
+    color: var(--muted);
+    transition: transform 0.3s;
+    font-size: 1.1rem;
+  }
+
+  .t-chapter.open .t-chapter-arrow { transform: rotate(180deg); }
+
+  .t-chapter-body {
+    display: none;
+    padding: 0 1.4rem 1.4rem;
+  }
+
+  .t-chapter.open .t-chapter-body { display: block; }
+
+  .t-section {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .t-section:last-child { margin-bottom: 0; }
+
+  .t-section h3 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .t-section p {
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+
+  .t-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .t-section ul li {
+    font-size: 0.88rem;
+    padding: 0.2rem 0 0.2rem 1.2rem;
+    position: relative;
+    color: var(--text);
+  }
+
+  .t-section ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .highlight-box {
+    border-left: 3px solid var(--accent3);
+    background: rgba(245,158,11,0.08);
+    border-radius: 0 8px 8px 0;
+    padding: 0.7rem 1rem;
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.6rem;
+    font-size: 0.82rem;
+  }
+
+  .compare-table th {
+    background: rgba(96,165,250,0.15);
+    color: var(--accent2);
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .compare-table td {
+    padding: 0.45rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  .tag {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    margin-right: 0.3rem;
+  }
+
+  .tag-green { background: rgba(74,222,128,0.15); color: var(--accent); }
+  .tag-blue { background: rgba(96,165,250,0.15); color: var(--accent2); }
+  .tag-amber { background: rgba(245,158,11,0.15); color: var(--accent3); }
+
+  /* FLIP CARDS */
+  .fc-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .fc-info { color: var(--muted); font-size: 0.88rem; }
+  .fc-info span { color: var(--accent); font-weight: 500; }
+
+  .btn {
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+
+  .btn-primary { background: var(--accent); color: #0f1117; }
+  .btn-primary:hover { background: #22c55e; transform: translateY(-1px); }
+  .btn-ghost {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { background: var(--surface2); }
+
+  .fc-container {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto 1.5rem;
+    height: 280px;
+    cursor: pointer;
+  }
+
+  .fc-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .fc-card.flipped { transform: rotateY(180deg); }
+
+  .fc-face {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .fc-front {
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .fc-back {
+    background: var(--surface2);
+    border: 2px solid var(--accent);
+    transform: rotateY(180deg);
+  }
+
+  .fc-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1rem;
+    color: var(--muted);
+  }
+
+  .fc-front .fc-label { color: var(--accent2); }
+  .fc-back .fc-label { color: var(--accent); }
+
+  .fc-question {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .fc-answer {
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .fc-hint {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .fc-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .fc-counter {
+    font-size: 0.85rem;
+    color: var(--muted);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .fc-progress {
+    height: 4px;
+    background: var(--surface);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+
+  .fc-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.4s;
+  }
+
+  /* QUIZ */
+  .quiz-header {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: 1px solid var(--border);
+  }
+
+  .quiz-stat { text-align: center; }
+  .quiz-stat .val { font-size: 1.6rem; font-weight: 700; font-family: 'Playfair Display', serif; }
+  .quiz-stat .lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .quiz-stat.correct .val { color: var(--accent); }
+  .quiz-stat.wrong .val { color: #f87171; }
+  .quiz-stat.total .val { color: var(--accent2); }
+
+  .quiz-body {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 2rem;
+    border: 1px solid var(--border);
+    min-height: 400px;
+  }
+
+  .quiz-num {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+
+  .quiz-question {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    margin-bottom: 1.8rem;
+    line-height: 1.5;
+  }
+
+  .quiz-options {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .quiz-opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 0.9rem 1.1rem;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .quiz-opt:hover:not(:disabled) {
+    border-color: var(--accent2);
+    background: rgba(96,165,250,0.08);
+  }
+
+  .quiz-opt .letter {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: var(--muted);
+  }
+
+  .quiz-opt.correct {
+    background: rgba(74,222,128,0.12);
+    border-color: var(--accent);
+  }
+
+  .quiz-opt.correct .letter {
+    background: var(--accent);
+    color: #0f1117;
+    border-color: var(--accent);
+  }
+
+  .quiz-opt.wrong {
+    background: rgba(248,113,113,0.1);
+    border-color: #f87171;
+  }
+
+  .quiz-opt.wrong .letter {
+    background: #f87171;
+    color: #0f1117;
+    border-color: #f87171;
+  }
+
+  .quiz-opt:disabled { cursor: default; }
+
+  .quiz-feedback {
+    margin-top: 1.2rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    display: none;
+  }
+
+  .quiz-feedback.correct {
+    background: rgba(74,222,128,0.12);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    display: block;
+  }
+
+  .quiz-feedback.wrong {
+    background: rgba(248,113,113,0.1);
+    border: 1px solid #f87171;
+    color: #f87171;
+    display: block;
+  }
+
+  .quiz-next {
+    margin-top: 1.2rem;
+    display: none;
+  }
+
+  .quiz-progress {
+    height: 4px;
+    background: var(--surface);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+
+  .quiz-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 2px;
+    transition: width 0.4s;
+  }
+
+  .quiz-end {
+    text-align: center;
+    padding: 3rem 1rem;
+    display: none;
+  }
+
+  .quiz-end h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .quiz-score-big {
+    font-size: 4rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    margin: 1rem 0;
+  }
+
+  .quiz-score-big.good { color: var(--accent); }
+  .quiz-score-big.ok { color: var(--accent3); }
+  .quiz-score-big.bad { color: #f87171; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    nav { padding: 0 1rem; }
+    .section { padding: 1.2rem; }
+    .fc-container { height: 320px; }
+  }
+
+  /* SCROLL FADE */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .t-chapter {
+    animation: fadeUp 0.4s both;
+  }
+
+  .t-chapter:nth-child(1) { animation-delay: 0.05s; }
+  .t-chapter:nth-child(2) { animation-delay: 0.1s; }
+  .t-chapter:nth-child(3) { animation-delay: 0.15s; }
+  .t-chapter:nth-child(4) { animation-delay: 0.2s; }
+  .t-chapter:nth-child(5) { animation-delay: 0.25s; }
+  .t-chapter:nth-child(6) { animation-delay: 0.3s; }
+  .t-chapter:nth-child(7) { animation-delay: 0.35s; }
+  .t-chapter:nth-child(8) { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">🧬 Evolución · 4º ESO</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showTab('teoria')">📖 Teoría</button>
+    <button class="nav-tab" onclick="showTab('tarjetas')">🃏 Tarjetas</button>
+    <button class="nav-tab" onclick="showTab('quiz')">🎯 Quiz</button>
+  </div>
+</nav>
+
+<!-- ============================================================ TEORÍA -->
+<section id="tab-teoria" class="section active">
+  <div class="hero">
+    <h1>El origen y la evolución de la vida</h1>
+    <p>Repaso completo del Tema 9 · Biología y Geología 4º ESO</p>
+  </div>
+
+  <div class="theory-grid">
+
+    <!-- 1 -->
+    <div class="t-chapter open">
+      <div class="t-chapter-header" onclick="toggleChapter(this)">
+        <div class="t-chapter-num">1</div>
+        <div class="t-chapter-title">El origen de la vida y la generación espontánea</div>
+        <div class="t-chapter-arrow">▼</div>
+      </div>
+      <div class="t-chapter-body">
+        <div class="t-section">
+          <h3>💡 ¿De dónde viene la vida?</h3>
+          <p>Durante siglos, la humanidad explicó el origen de la vida mediante mitos y religión. Hasta el siglo XVII, la mayoría creía en la <strong>generación espontánea</strong>: la idea de que los seres vivos podían surgir directamente de la materia inerte (ratones del trigo, gusanos de la carne podrida…).</p>
+          <div class="highlight-box">⚗️ <strong>Van Helmont</strong> propuso una "receta" para crear ratones: ropa sucia + granos de trigo en un tonel = ratones en 21 días. ¡Idea completamente equivocada!</div>
+        </div>
+        <div class="t-section">
+          <h3>🔬 Pasteur destruye la generación espontánea (1864)</h3>
+          <ul>
+            <li>Demostró que los microorganismos <strong>están en el aire</strong>, no surgen solos.</li>
+            <li>Hirviendo el caldo de carne lo esterilizaba (mataba los microbios).</li>
+            <li>Si el frasco quedaba sellado, el caldo permanecía limpio. Si se abría o rompía, se contaminaba.</li>
+            <li>Inventó la <strong>pasteurización</strong>: calentar a >80ºC y cerrar herméticamente para conservar alimentos.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="t-chapter">
+      <div class="t-chapter-header" onclick="toggleChapter(this)">
+        <div class="t-chapter-num">2</div>
+        <div class="t-chapter-title">Teorías sobre el origen de la vida</div>
+        <div class="t-chapter-arrow">▼</div>
+      </div>
+      <div class="t-chapter-body">
+        <div class="t-section">
+          <h3>🌌 Panspermia</h3>
+          <p>La vida se originó en el espacio y llegó a la Tierra en meteoritos (virus, bacterias). <span class="tag tag-amber">⚠️ Problema</span> No explica el primer origen, solo lo traslada al espacio.</p>
+        </div>
+        <div class="t-section">
+          <h3>🧪 Síntesis prebiótica (la más aceptada)</h3>
+          <p>La vida surgió a partir de materia inanimada en dos etapas:</p>
+          <ul>
+            <li><strong>Evolución química precelular:</strong> moléculas inorgánicas → moléculas orgánicas sencillas → moléculas complejas (proteínas, ADN…)</li>
+            <li><strong>Evolución celular:</strong> virus → procariota → eucariota → pluricelular → con órganos y sistemas.</li>
+          </ul>
+        </div>
+        <div class="t-section">
+          <h3>🍲 Teoría de la sopa primordial (Oparin y Haldane, 1920)</h3>
+          <ul>
+            <li>Atmósfera primitiva sin O₂, con metano, amoniaco, hidrógeno y vapor de agua.</li>
+            <li>Abundante radiación UV y descargas eléctricas aportaban energía.</li>
+            <li>En mares poco profundos se formaron moléculas orgánicas.</li>
+            <li><strong>Stanley Miller (1953)</strong> reprodujo estas condiciones en laboratorio y obtuvo aminoácidos en 2 semanas. ✅</li>
+          </ul>
+        </div>
+        <div class="t-section">
+          <h3>🌋 Teoría de las fuentes hidrotermales</h3>
+          <ul>
+            <li>Origen cerca de <strong>chimeneas submarinas</strong> (dorsales oceánicas).</li>
+            <li>El mar filtraba la radiación UV y las emanaciones aportaban temperatura e iones.</li>
+            <li>Se han encontrado fósiles químicos que apoyan esta teoría.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="t-chapter">
+      <div class="t-chapter-header" onclick="toggleChapter(this)">
+        <div class="t-chapter-num">3</div>
+        <div class="t-chapter-title">Lamarck vs Darwin: dos visiones de la evolución</div>
+        <div class="t-chapter-arrow">▼</div>
+      </div>
+      <div class="t-chapter-body">
+        <div class="t-section">
+          <h3>📚 Lamarck (1809) — Teoría Transformista</h3>
+          <ul>
+            <li><strong>Ley del uso y desuso:</strong> los órganos que se usan mucho crecen; los que no, se atrofian.</li>
+            <li><strong>Herencia de los caracteres adquiridos:</strong> los cambios del individuo se transmiten a la descendencia.</li>
+            <li>Ejemplo: las jirafas estiraron el cuello para alcanzar hojas altas → el cuello creció → los hijos nacieron con el cuello más largo.</li>
+          </ul>
+          <div class="highlight-box">❌ <strong>Error de Lamarck:</strong> los caracteres adquiridos NO se heredan. La genética lo demostró. Sin embargo, fue el primer evolucionista y sus otros aportes (concepto de Biología, vertebrados/invertebrados) son valiosos.</div>
+        </div>
+        <div class="t-section">
+          <h3>🦅 Darwin y Wallace — Selección Natural</h3>
+          <ul>
+            <li>Todas las especies descienden de un <strong>antepasado común</strong>.</li>
+            <li>Las especies cambian de manera lenta y gradual.</li>
+            <li>El mecanismo del cambio es la <strong>selección natural</strong>.</li>
+          </ul>
+          <table class="compare-table">
+            <tr><th>Concepto</th><th>Lamarck</th><th>Darwin</th></tr>
+            <tr><td>¿Por qué cambia la jirafa?</td><td>Por esfuerzo al estirar el cuello</td><td>Las que nacieron con cuello largo sobrevivieron más</td></tr>
+            <tr><td>Mecanismo</td><td>Uso/desuso + herencia</td><td>Variación + selección natural</td></tr>
+            <tr><td>¿Válido hoy?</td><td>No (la herencia parte)</td><td>Sí (base de la biología moderna)</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="t-chapter">
+      <div class="t-chapter-header" onclick="toggleChapter(this)">
+        <div class="t-chapter-num">4</div>
+        <div class="t-chapter-title">Selección natural: cómo funciona</div>
+        <div class="t-chapter-arrow">▼</div>
+      </div>
+      <div class="t-chapter-body">
+        <div class="t-section">
+          <h3>🎯 Los 3 principios de la selección natural</h3>
+          <ul>
+            <li><strong>Variabilidad heredable:</strong> en una población hay individuos diferentes (variación en cada carácter), y esas diferencias se heredan.</li>
+            <li><strong>Descendencia con modificación:</strong> los hijos no son copias exactas: combinan características de ambos progenitores de forma aleatoria.</li>
+            <li><strong>Reproducción diferencial:</strong> los mejor adaptados al entorno sobreviven y se reproducen más → sus genes se propagan. Los menos adaptados reducen su número.</li>
+          </ul>
+        </div>
+        <div class="t-section">
+          <h3>🦋 La polilla del abedul: ejemplo perfecto</h3>
+          <ul>
+            <li>Antes de la Revolución Industrial: troncos blancos → sobrevivían más las polillas claras.</li>
+            <li>Durante la Revolución Industrial: troncos negros por contaminación → sobrevivían más las oscuras.</li>
+            <li>Al limpiar la contaminación: volvieron a dominar las claras.</li>
+          </ul>
+          <div class="highlight-box">💡 La <strong>diversidad</strong> garantiza la supervivencia de la especie. Sin ambas variedades, la polilla no habría sobrevivido a los cambios.</div>
+        </div>
+        <div class="t-section">
+          <h3>💕 Selección sexual</h3>
+          <p>Algunos organismos desarrollan colores llamativos, cantos o danzas que los exponen a depredadores, pero los hacen más atractivos para reproducirse. Es un "anuncio" de buena salud y buenos genes.</p>
+        </div>
+        <div class="t-section">
+          <h3>🐍 Coevolución — La carrera armamentística</h3>
+          <p>Especies relacionadas evolucionan juntas: la salamandra de piel rugosa produce veneno, la serpiente de jarretera desarrolla resistencia. La resistencia provoca más toxina, que provoca más resistencia… ¡una guerra sin fin! Por eso las enfermedades infecciosas no desaparecerán nunca.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="t-chapter">
+      <div class="t-chapter-header" onclick="toggleChapter(this)">
+        <div class="t-chapter-num">5</div>
+        <div class="t-chapter-title">Genética y mecanismos evolutivos</div>
+        <div class="t-chapter-arrow">▼</div>
+      </div>
+      <div class="t-chapter-body">
+        <div class="t-section">
+          <h3>🧬 Teoría Sintética (Neodarwinismo)</h3>
+          <p>Une Darwin con la genética: las <strong>mutaciones</strong> son cambios aleatorios en el ADN que generan nuevos alelos (variantes). Pueden ser beneficiosas, perjudiciales o neutras. La selección natural actúa sobre ellas.</p>
+        </div>
+        <div class="t-section">
+          <h3>🔀 Reproducción sexual y variabilidad</h3>
+          <ul>
+            <li><strong>Entrecruzamiento:</strong> cromosomas paternos y maternos intercambian genes al azar al formarse los gametos.</li>
+            <li><strong>Separación:</strong> da lugar a 4 combinaciones únicas de mezcla de genes.</li>
+            <li><strong>Fecundación:</strong> une combinaciones únicas del espermatozoide y el óvulo.</li>
+          </ul>
+        </div>
+        <div class="t-section">
+          <h3>⚙️ 3 Mecanismos evolutivos</h3>
+          <ul>
+            <li><span class="tag tag-green">Selección natural</span> Unos alelos se hacen más abundantes que otros según el entorno.</li>
+            <li><span class="tag tag-blue">Deriva genética</span> Cambios al azar en poblaciones pequeñas o aisladas: <em>efecto fundador</em> (grupo pequeño coloniza territorio nuevo) y <em>cuello de botella</em> (mortalidad masiva reduce diversidad).</li>
+            <li><span class="tag tag-amber">Flujo génico</span> Migración entre poblaciones: los emigrantes enriquecen genéticamente el destino y empobrecen el origen.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="t-chapter">
+      <div class="t-chapter-header" onclick="toggleChapter(this)">
+        <div class="t-chapter-num">6</div>
+        <div class="t-chapter-title">Pruebas de la evolución</div>
+        <div class="t-chapter-arrow">▼</div>
+      </div>
+      <div class="t-chapter-body">
+        <div class="t-section">
+          <h3>🦴 Pruebas Anatómicas</h3>
+          <ul>
+            <li><strong>Órganos homólogos:</strong> misma estructura, distinta función → mismo origen (brazo humano, pata de perro, ala de murciélago). Indica divergencia adaptativa.</li>
+            <li><strong>Órganos análogos:</strong> misma función, distinto origen (ala de insecto y de ave). Indica convergencia adaptativa.</li>
+            <li><strong>Órganos vestigiales:</strong> estructuras sin función clara, restos del pasado evolutivo (coxis humano, músculos de la oreja, apéndice, tercer molar).</li>
+          </ul>
+        </div>
+        <div class="t-section">
+          <h3>🗺️ Pruebas Biogeográficas</h3>
+          <p>La distribución de especies está determinada por barreras geográficas, la tectónica de placas y cambios del nivel del mar. Ejemplo: el Estrecho de Bering, seco durante glaciaciones, permitió que caballos y humanos colonizaran América.</p>
+        </div>
+        <div class="t-section">
+          <h3>🦕 Pruebas Paleontológicas</h3>
+          <ul>
+            <li><strong>Eslabones perdidos (formas transicionales):</strong> fósiles que conectan dos grupos (Archaeopteryx: dinosaurios ↔ aves; Indohyus: mamífero carnívoro ↔ ballena).</li>
+            <li><strong>Fósiles vivientes:</strong> especies actuales emparentadas con fósiles antiguos (equisetos).</li>
+            <li><strong>Árboles filogenéticos:</strong> esquemas que muestran relaciones evolutivas entre especies.</li>
+          </ul>
+        </div>
+        <div class="t-section">
+          <h3>🔬 Pruebas Bioquímicas y Embriológicas</h3>
+          <ul>
+            <li>Todos los seres vivos comparten las mismas biomoléculas (ADN, proteínas, glucosa…). Cuanto más parecidas, más emparentados.</li>
+            <li>El ADN actúa como un <strong>reloj biológico</strong>: comparando diferencias moleculares calculamos cuándo se separaron dos especies.</li>
+            <li>Los embriones de especies próximas son muy parecidos entre sí, más que los adultos.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="t-chapter">
+      <div class="t-chapter-header" onclick="toggleChapter(this)">
+        <div class="t-chapter-num">7</div>
+        <div class="t-chapter-title">Especiación, extinción y teorías actuales</div>
+        <div class="t-chapter-arrow">▼</div>
+      </div>
+      <div class="t-chapter-body">
+        <div class="t-section">
+          <h3>🌿 Especiación — Cómo nacen nuevas especies</h3>
+          <p>La <strong>especiación</strong> es el proceso por el que una especie nueva surge de otra. La causa principal es el <strong>aislamiento reproductivo</strong>.</p>
+          <ul>
+            <li><strong>Aislamiento precopulatorio:</strong> estacional (ciclos distintos), etológico (rituales distintos), ecológico (nichos distintos), mecánico (morfología incompatible).</li>
+            <li><strong>Aislamiento postcopulatorio:</strong> gamético (gametos incompatibles) o híbridos poco fértiles (ej: mulas).</li>
+            <li>Tipos de especiación: alopátrida (barrera geográfica), simpátrida (misma zona, aislamiento reproductivo), peripátrica (colonización de territorio nuevo).</li>
+          </ul>
+        </div>
+        <div class="t-section">
+          <h3>💀 Extinción y Radiación Adaptativa</h3>
+          <p>Ha habido 5 extinciones masivas. Cuando una especie se extingue deja un <strong>nicho ecológico vacante</strong>, que nuevas especies pueden ocupar. A esto se llama <strong>radiación adaptativa</strong>.</p>
+        </div>
+        <div class="t-section">
+          <h3>🧠 Teorías evolutivas actuales</h3>
+          <ul>
+            <li><span class="tag tag-green">Teoría Sintética</span> Darwin + Genética. Selección natural como mecanismo principal.</li>
+            <li><span class="tag tag-blue">Teoría Neutralista</span> (Kimura, 1968). La mayoría de mutaciones son neutras; el azar (deriva génica) impulsa la evolución.</li>
+            <li><span class="tag tag-amber">Equilibrio Puntuado</span> (Gould & Eldredge, 1972). Períodos de estasis + cambios bruscos rápidos.</li>
+            <li><span class="tag tag-green">Simbiogénesis</span> (Margulis, 1967). La simbiosis como motor evolutivo. Las mitocondrias y cloroplastos proceden de bacterias simbiontes.</li>
+            <li><span class="tag tag-blue">Teoría Hologenómica</span> (Rosenberg, 2006). Animales y plantas + su microbiota forman una unidad evolutiva (holobionte).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="t-chapter">
+      <div class="t-chapter-header" onclick="toggleChapter(this)">
+        <div class="t-chapter-num">8</div>
+        <div class="t-chapter-title">Hominización y evolución humana</div>
+        <div class="t-chapter-arrow">▼</div>
+      </div>
+      <div class="t-chapter-body">
+        <div class="t-section">
+          <h3>🚶 Bipedismo: la gran innovación</h3>
+          <p>El cambio climático en el Valle del Rift (África) convirtió bosques en sabana. Nuestros ancestros adoptaron el <strong>bipedismo</strong>.</p>
+          <table class="compare-table">
+            <tr><th>Ventajas</th><th>Inconvenientes</th></tr>
+            <tr><td>Manos libres para usar herramientas</td><td>Tensiones en columna y articulaciones</td></tr>
+            <tr><td>Mayor campo visual</td><td>Menos velocidad al correr</td></tr>
+            <tr><td>Menor exposición al sol</td><td>Parto más complicado y doloroso</td></tr>
+          </table>
+        </div>
+        <div class="t-section">
+          <h3>🦴 Línea de tiempo homínidos</h3>
+          <ul>
+            <li><strong>Ardipithecus ramidus</strong> (4,5 m.a.) — Primer homínido conocido. Selva de Etiopía, parecido al chimpancé.</li>
+            <li><strong>Australopithecus</strong> (4–2 m.a.) — Primer bípedo. 500 cm³ craneal. Frutos y brotes.</li>
+            <li><strong>Homo habilis</strong> (2,5–1,6 m.a.) — Primeras herramientas, incluye carne. 600 cm³.</li>
+            <li><strong>Homo ergaster</strong> (1,6–1,3 m.a.) — Usa el fuego. 800–900 cm³. Hasta 180 cm.</li>
+            <li><strong>Homo erectus</strong> (1,3 m.a.–50.000 a.) — Primera especie en salir de África. Coloniza Asia. 900–1280 cm³.</li>
+            <li><strong>Homo antecessor</strong> (800.000 a.) — Coloniza Europa. 1000 cm³.</li>
+            <li><strong>Homo heidelbergensis</strong> (500.000–180.000 a.) — Posibles enterramientos más antiguos. 1100–1390 cm³.</li>
+            <li><strong>Homo neanderthalensis</strong> (170.000–30.000 a.) — Dominaba el fuego, cuidaba enfermos, ritos funerarios. 1750 cm³ (¡mayor que el nuestro!).</li>
+            <li><strong>Homo sapiens</strong> (195.000 a.–hoy) — Única especie actual. 1400 cm³. Cultura compleja.</li>
+          </ul>
+        </div>
+        <div class="t-section">
+          <h3>🧬 Paleogenética e hibridación</h3>
+          <p>El ADN de fósiles revela que <em>H. sapiens</em> y <em>H. neanderthalensis</em> se cruzaron hace 55.000 años. Los euroasiáticos tenemos un <strong>1–5% de ADN neandertal</strong>. Hasta un 20% del genoma neandertal sobrevive en humanos actuales.</p>
+          <div class="highlight-box">Herencia neandertal: mejor sistema inmune (incluido frente al COVID-19), adaptación al frío, piel clara, pelo rojo, pecas… pero también: mayor riesgo de esquizofrenia, diabetes tipo 2, alergias y depresión.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- theory-grid -->
+</section>
+
+<!-- ============================================================ TARJETAS -->
+<section id="tab-tarjetas" class="section">
+  <div class="hero">
+    <h1>Tarjetas de estudio</h1>
+    <p>Haz clic en la tarjeta para ver la respuesta</p>
+  </div>
+
+  <div class="fc-controls">
+    <div class="fc-info">Tarjeta <span id="fc-cur">1</span> de <span id="fc-tot">1</span></div>
+    <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+      <button class="btn btn-ghost" onclick="shuffleCards()">🔀 Mezclar</button>
+      <button class="btn btn-ghost" onclick="resetCards()">↺ Reiniciar</button>
+    </div>
+  </div>
+
+  <div class="fc-progress">
+    <div class="fc-progress-bar" id="fc-prog-bar" style="width:0%"></div>
+  </div>
+
+  <div class="fc-container" id="fc-container" onclick="flipCard()">
+    <div class="fc-card" id="fc-card">
+      <div class="fc-face fc-front">
+        <div class="fc-label">❓ Pregunta</div>
+        <div class="fc-question" id="fc-q">Cargando...</div>
+        <div class="fc-hint">Toca para ver la respuesta</div>
+      </div>
+      <div class="fc-face fc-back">
+        <div class="fc-label">✅ Respuesta</div>
+        <div class="fc-answer" id="fc-a">...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-nav">
+    <button class="btn btn-ghost" onclick="prevCard()">← Anterior</button>
+    <div class="fc-counter" id="fc-count">1 / 30</div>
+    <button class="btn btn-primary" onclick="nextCard()">Siguiente →</button>
+  </div>
+</section>
+
+<!-- ============================================================ QUIZ -->
+<section id="tab-quiz" class="section">
+  <div class="hero">
+    <h1>Quiz de preguntas</h1>
+    <p>Selecciona la respuesta correcta entre las 4 opciones</p>
+  </div>
+
+  <div class="quiz-header">
+    <div class="quiz-stat correct">
+      <div class="val" id="q-correct">0</div>
+      <div class="lbl">Correctas</div>
+    </div>
+    <div class="quiz-stat wrong">
+      <div class="val" id="q-wrong">0</div>
+      <div class="lbl">Errores</div>
+    </div>
+    <div class="quiz-stat total">
+      <div class="val" id="q-total">0</div>
+      <div class="lbl">Respondidas</div>
+    </div>
+    <button class="btn btn-ghost" onclick="resetQuiz()">↺ Reiniciar</button>
+  </div>
+
+  <div class="quiz-progress">
+    <div class="quiz-progress-bar" id="q-prog-bar" style="width:0%"></div>
+  </div>
+
+  <div class="quiz-body" id="quiz-body">
+    <div class="quiz-num" id="q-num">Pregunta 1 de 30</div>
+    <div class="quiz-question" id="q-question">...</div>
+    <div class="quiz-options" id="q-options"></div>
+    <div class="quiz-feedback" id="q-feedback"></div>
+    <div class="quiz-next">
+      <button class="btn btn-primary" id="q-next-btn" onclick="nextQuestion()">Siguiente pregunta →</button>
+    </div>
+  </div>
+
+  <div class="quiz-end" id="quiz-end">
+    <h2>¡Quiz completado!</h2>
+    <div class="quiz-score-big" id="q-score-big">0/30</div>
+    <p id="q-score-msg" style="color:var(--muted); margin-bottom:1.5rem;"></p>
+    <button class="btn btn-primary" onclick="resetQuiz()">🔄 Volver a intentarlo</button>
+  </div>
+</section>
+
+<script>
+// ===================== TAB NAVIGATION =====================
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===================== ACCORDION =====================
+function toggleChapter(header) {
+  const chapter = header.parentElement;
+  chapter.classList.toggle('open');
+}
+
+// ===================== FLASHCARDS DATA =====================
+const flashcards = [
+  { q: "¿Qué es la generación espontánea y quién la refutó definitivamente?", a: "La idea de que los seres vivos pueden surgir espontáneamente de la materia inerte. La refutó Louis Pasteur en 1864 con su experimento del matraz de cuello de cisne." },
+  { q: "¿En qué consiste la pasteurización?", a: "Proceso de conservación que consiste en calentar los alimentos a más de 80ºC y cerrar herméticamente el envase, eliminando la mayoría de microorganismos." },
+  { q: "¿Qué es la panspermia y cuál es su principal problema?", a: "Teoría que afirma que la vida llegó a la Tierra desde el espacio en meteoritos. Su problema es que no explica el primer origen de la vida, solo lo traslada al espacio." },
+  { q: "¿Qué reprodujo Stanley Miller en 1953 y qué obtuvo?", a: "Reprodujo experimentalmente las condiciones de la atmósfera primitiva (sin O₂, con metano, amoniaco, hidrógeno, agua, descargas eléctricas) y obtuvo aminoácidos tras 2 semanas." },
+  { q: "¿Cuáles son las dos etapas de la síntesis prebiótica?", a: "1) Evolución química precelular: formación de moléculas orgánicas sencillas y luego complejas. 2) Evolución celular: de virus a procariotas, eucariotas, pluricelulares, etc." },
+  { q: "¿Cuál es la diferencia entre la teoría de la sopa primordial y la de las fuentes hidrotermales?", a: "La sopa primordial (Oparin-Haldane) sitúa el origen en mares poco profundos con atmósfera primitiva. Las fuentes hidrotermales lo sitúan en chimeneas submarinas, donde el mar filtra la radiación UV." },
+  { q: "¿Cuáles son las 3 leyes de la teoría transformista de Lamarck?", a: "1) Importancia del ambiente: el entorno impulsa cambios. 2) Ley del uso y desuso: los órganos usados crecen, los no usados se atrofian. 3) Herencia de caracteres adquiridos: esos cambios se transmiten a la descendencia." },
+  { q: "¿Por qué la teoría de Lamarck sobre la herencia es incorrecta?", a: "Porque la genética demostró que los caracteres adquiridos por un individuo a lo largo de su vida NO se transmiten a la descendencia. Solo se heredan los cambios en el ADN (mutaciones en la línea germinal)." },
+  { q: "¿Qué es la selección natural según Darwin y Wallace?", a: "Mecanismo por el cual los individuos con características que los hacen más adaptados al entorno sobreviven y se reproducen más. Generación tras generación, esas características se vuelven más frecuentes en la población." },
+  { q: "¿Cuáles son los 3 principios en los que se basa la selección natural?", a: "1) Variabilidad heredable (hay diferencias entre individuos que se heredan). 2) Descendencia con modificación (los hijos combinan aleatoriamente características de los padres). 3) Reproducción diferencial (los más adaptados se reproducen más)." },
+  { q: "¿Qué demuestra el ejemplo de la polilla del abedul?", a: "Que la selección natural actúa sobre variaciones ya existentes (claras/oscuras). La diversidad de una población es esencial: si solo hubiera un tipo, la especie no habría sobrevivido a los cambios ambientales." },
+  { q: "¿Qué es la selección sexual?", a: "Tipo de selección en la que los individuos desarrollan características (colores, cantos, danzas) que los hacen más atractivos para reproducirse, aunque puedan suponer un riesgo ante depredadores." },
+  { q: "¿Qué es la coevolución y qué es la 'carrera armamentística' evolutiva?", a: "Coevolución: species relacionadas evolucionan simultáneamente y en paralelo. La carrera armamentística ocurre entre depredador-presa o parásito-hospedador: cada mejora en ataque provoca mejora en defensa, en un ciclo sin fin." },
+  { q: "¿Qué son las mutaciones y cómo pueden ser?", a: "Alteraciones del material genético que generan nuevos alelos. Pueden ser: beneficiosas (aumentan supervivencia), perjudiciales (la reducen) o neutras (no influyen aparentemente)." },
+  { q: "¿Qué 3 procesos durante la formación de gametos generan variabilidad?", a: "1) Entrecruzamiento: intercambio aleatorio de genes entre cromosomas paternos y maternos. 2) Separación: cromosomas y cromátidas forman 4 combinaciones únicas. 3) Fecundación: unión de combinaciones únicas." },
+  { q: "¿Qué es el efecto fundador?", a: "Tipo de deriva genética que ocurre cuando un grupo pequeño de individuos coloniza un nuevo territorio. La proporción genética de ese grupo será diferente a la de la población original." },
+  { q: "¿Qué es el efecto cuello de botella?", a: "Tipo de deriva genética que ocurre cuando una catástrofe (guerra, pandemia) elimina gran parte de una población. Los supervivientes tienen una diversidad genética diferente y más reducida que la original." },
+  { q: "¿Qué es el flujo génico y qué efectos tiene?", a: "El flujo de genes por migración de individuos entre poblaciones. Enriquece genéticamente la población de destino y empobrece genéticamente la población de origen." },
+  { q: "¿Qué diferencia hay entre órganos análogos y homólogos?", a: "Homólogos: misma estructura/origen pero distinta función (brazo humano y ala de murciélago). Análogos: misma función pero distinto origen (ala de insecto y de ave). Los homólogos indican parentesco evolutivo." },
+  { q: "¿Qué son los órganos vestigiales? Pon 3 ejemplos en humanos.", a: "Estructuras sin función aparente, restos del pasado evolutivo. Ejemplos en humanos: coxis (vestigio de cola), apéndice vermiforme, músculos de la oreja, muela del juicio (tercer molar)." },
+  { q: "¿Qué es el Archaeopteryx y por qué es importante?", a: "Es una forma transicional (eslabón perdido) entre dinosaurios y aves. Es importante porque muestra físicamente cómo dos grupos distintos están relacionados evolutivamente." },
+  { q: "¿Qué es un árbol filogenético?", a: "Esquema arborescente que muestra las relaciones evolutivas entre varias especies u otras entidades, indicando su ascendencia común y cuándo se separaron." },
+  { q: "¿Qué son los fósiles vivientes? Pon un ejemplo.", a: "Organismos actuales emparentados con fósiles muy antiguos, representantes únicos de una rama evolutiva. Ejemplo: los equisetos, plantas presentes desde el Devónico que formaban bosques en el Carbonífero." },
+  { q: "¿Qué es la especiación y cuál es su principal causa?", a: "Es el proceso de aparición de una especie nueva a partir de una preexistente. La principal causa es el aislamiento reproductivo: la imposibilidad de que individuos de la misma especie se reproduzcan entre sí." },
+  { q: "¿Qué es la radiación adaptativa?", a: "Fenómeno que ocurre tras una extinción masiva: el nicho ecológico que dejan las especies extintas es ocupado por nuevas especies que se desarrollan rápidamente." },
+  { q: "¿En qué se diferencia la Teoría Sintética de la Teoría Neutralista?", a: "La Sintética (Huxley, Mayr): la selección natural es el principal motor evolutivo, actuando sobre mutaciones y recombinación. La Neutralista (Kimura, 1968): la mayoría de mutaciones son neutras y el azar (deriva génica) es el principal motor." },
+  { q: "¿Qué propone la Teoría del Equilibrio Puntuado (Gould y Eldredge)?", a: "Que las especies permanecen estables durante largos períodos (estasis) y que la evolución se produce en cambios rápidos y bruscos ante cambios ambientales intensos (saltacionismo), sin formas intermedias graduales." },
+  { q: "¿Qué propone Lynn Margulis en la teoría de la Simbiogénesis?", a: "Que la simbiosis (asociación entre organismos) es el principal motor de diversidad evolutiva. Demostró que mitocondrias y cloroplastos proceden de bacterias que se asociaron en simbiosis con otras células (endosimbiosis)." },
+  { q: "¿Qué ventajas e inconvenientes tiene el ADN neandertal en humanos actuales?", a: "Ventajas: mejor sistema inmune (incluso frente al COVID-19), adaptación al frío, piel resistente. Inconvenientes: mayor riesgo de esquizofrenia, diabetes tipo 2, autismo, alergias, depresión, menor fertilidad." },
+  { q: "¿Cuál es la diferencia entre Homo neanderthalensis y Homo sapiens en cuanto a capacidad craneal?", a: "El Homo neanderthalensis tenía 1750 cm³, mayor que el Homo sapiens que tiene 1400 cm³. Sin embargo, H. sapiens desarrolló mayor capacidad de comunicación, lenguaje y cultura compleja." },
+  { q: "¿Quiénes propusieron simultáneamente la teoría de la selección natural y dónde estudiaron?", a: "Darwin (Sudamérica) y Wallace (Asia) llegaron de forma independiente a la misma conclusión y publicaron sus ideas conjuntamente en 1858." },
+  { q: "¿Qué justificaba Cuvier para explicar la desaparición de especies y cuál era su fallo?", a: "Cuvier, creacionista, justificaba las extinciones por sucesivos Diluvios Universales. Su fallo: el registro fósil no mezcla especies de distintas épocas (no hay dinosaurios junto a mamíferos actuales)." },
+  { q: "¿Qué es la especiación simpátrida?", a: "Ocurre en la misma zona geográfica: una población se subdivide por aislamiento reproductivo (etológico, mecánico, estacional…) sin ninguna barrera física que la separe." },
+  { q: "¿Qué es el aislamiento mecánico como mecanismo precopulatorio?", a: "Diferencias morfológicas que impiden físicamente que los gametos se fusionen: penes de distinta forma en libélulas, o flores adaptadas a distintos polinizadores que no comparten." },
+  { q: "¿Qué es el aislamiento estacional?", a: "Mecanismo precopulatorio en el que dos subpoblaciones tienen ciclos reproductivos que no coinciden en el tiempo, por lo que nunca pueden cruzarse entre sí." },
+  { q: "¿Qué ocurre en el aislamiento gamético?", a: "Mecanismo postcopulatorio: la cópula ocurre pero los gametos son bioquímicamente incompatibles y no consiguen fusionarse para formar el cigoto." },
+  { q: "¿Qué son los híbridos menos viables? Pon un ejemplo.", a: "Se produce la cópula y nace descendencia, pero los híbridos son estériles o poco fértiles. Ejemplo: la mula, cruce de caballo y burro, que es estéril." },
+  { q: "¿En qué consiste la divergencia adaptativa y qué tipo de órganos produce?", a: "Un grupo con el mismo origen evolutivo se diversifica para distintos nichos, desarrollando funciones distintas. Produce órganos homólogos (brazo humano, ala de murciélago, aleta de ballena)." },
+  { q: "¿Qué es la convergencia adaptativa y qué tipo de órganos produce?", a: "Especies no emparentadas desarrollan características similares al adaptarse al mismo tipo de entorno. Produce órganos análogos: ala de insecto y ala de ave, cuerpo de tiburón y de delfín." },
+  { q: "¿Qué son las micorrizas y por qué son un ejemplo de simbiosis evolutiva?", a: "Asociación entre raíces de plantas y hongos: la planta alimenta al hongo con azúcares y el hongo amplía la absorción de agua y nutrientes. Ambos obtienen ventaja adaptativa." },
+  { q: "¿Cómo actúa el ADN como reloj biológico?", a: "Acumula mutaciones neutras a una tasa constante. Comparando las diferencias moleculares entre dos especies podemos estimar cuándo se separaron evolutivamente." },
+  { q: "¿Qué es la selección artificial y cómo la practica el ser humano?", a: "El ser humano selecciona individuos con características deseadas (más leche en vacas, más dulzura en frutas) para que se reproduzcan entre sí, acentuando esas características generación a generación." },
+  { q: "¿Qué revelan las pruebas embriológicas sobre el parentesco entre vertebrados?", a: "Los embriones de vertebrados son muy similares en fases tempranas, más que los adultos. Aparecen estructuras transitorias como arcos branquiales y cola en embriones humanos que luego se reabsorben." },
+  { q: "¿Qué es la Crisis Mesiniense y qué impacto biogeográfico tuvo?", a: "Hace 5,5 millones de años el Estrecho de Gibraltar se cerró. El Mediterráneo se evaporó y hubo un intenso intercambio de fauna entre Europa y África, modificando la biodiversidad de ambos continentes." },
+  { q: "¿Qué características físicas visibles en humanos actuales proceden del ADN neandertal?", a: "Bulto occipital, cráneo alargado, arco supraorbital prominente, nariz grande, mofletes sonrosados, manos grandes, piel clara, pecas y pelo rojo en algunas personas europeas." },
+  { q: "¿Qué especie de homínido colonizó Europa por primera vez y hace cuánto?", a: "Homo antecessor, hace unos 800.000 años. Habitaba zonas boscosas, era cazador-recolector, usaba herramientas de hueso y madera y tenía una capacidad craneal de 1000 cm³." },
+  { q: "¿Qué distingue a la Teoría Sintética del resto de teorías evolutivas actuales?", a: "Une el darwinismo con la genética mendeliana y molecular (Huxley y Mayr). Rechaza la herencia lamarckiana, defiende la selección natural como motor principal y considera la evolución un proceso gradual." },
+  { q: "¿Qué es la especiación peripátrica?", a: "Un grupo pequeño de individuos coloniza un nuevo territorio aislado y con el tiempo, por deriva génica y selección natural, origina una nueva especie distinta de la población de origen." },
+  { q: "¿Qué es un agente mutagénico? Pon dos ejemplos.", a: "Cualquier factor que aumenta la tasa de mutaciones en el ADN. Ejemplos: radiaciones ionizantes (rayos X, UV) y sustancias químicas tóxicas como ciertos pesticidas o los componentes del humo del tabaco." },
+  { q: "¿Qué es la especiación peripátrica?", a: "Un grupo pequeño de individuos coloniza un nuevo territorio aislado y con el tiempo, por deriva génica y selección natural, origina una nueva especie distinta de la población de origen." }
+];
+
+let fcDeck = [...flashcards];
+let fcIndex = 0;
+let fcFlipped = false;
+
+function updateFC() {
+  const card = fcDeck[fcIndex];
+  document.getElementById('fc-q').textContent = card.q;
+  document.getElementById('fc-a').textContent = card.a;
+  document.getElementById('fc-cur').textContent = fcIndex + 1;
+  document.getElementById('fc-tot').textContent = fcDeck.length;
+  document.getElementById('fc-count').textContent = (fcIndex + 1) + ' / ' + fcDeck.length;
+  document.getElementById('fc-prog-bar').style.width = ((fcIndex + 1) / fcDeck.length * 100) + '%';
+  const el = document.getElementById('fc-card');
+  el.classList.remove('flipped');
+  fcFlipped = false;
+}
+
+function flipCard() {
+  const el = document.getElementById('fc-card');
+  el.classList.toggle('flipped');
+  fcFlipped = !fcFlipped;
+}
+
+function nextCard() {
+  if (fcIndex < fcDeck.length - 1) {
+    fcIndex++;
+    updateFC();
+  }
+}
+
+function prevCard() {
+  if (fcIndex > 0) {
+    fcIndex--;
+    updateFC();
+  }
+}
+
+function shuffleCards() {
+  for (let i = fcDeck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [fcDeck[i], fcDeck[j]] = [fcDeck[j], fcDeck[i]];
+  }
+  fcIndex = 0;
+  updateFC();
+}
+
+function resetCards() {
+  fcDeck = [...flashcards];
+  fcIndex = 0;
+  updateFC();
+}
+
+// ===================== QUIZ DATA =====================
+const quizQuestions = [
+  {
+    q: "¿Quién refutó definitivamente la teoría de la generación espontánea?",
+    opts: ["Van Helmont", "Lamarck", "Louis Pasteur", "Darwin"],
+    correct: 2,
+    exp: "Louis Pasteur demostró en 1864 con su famoso experimento del matraz de cuello de cisne que los microorganismos vienen del aire, no surgen espontáneamente."
+  },
+  {
+    q: "¿Cuál de estos procesos inventó Pasteur para conservar alimentos?",
+    opts: ["Fermentación", "Pasteurización", "Panspermia", "Ebullición"],
+    correct: 1,
+    exp: "La pasteurización consiste en calentar a más de 80°C y cerrar herméticamente, eliminando la mayoría de microorganismos."
+  },
+  {
+    q: "Stanley Miller reprodujo en laboratorio las condiciones de la atmósfera primitiva. ¿Qué obtuvo?",
+    opts: ["Células completas", "ADN", "Aminoácidos", "Glucosa"],
+    correct: 2,
+    exp: "Tras 2 semanas, obtuvo aminoácidos (los bloques constructores de las proteínas), apoyando la teoría de la síntesis prebiótica."
+  },
+  {
+    q: "Según la Teoría de la Sopa Primordial, ¿qué tipo de atmósfera había en la Tierra primitiva?",
+    opts: ["Rica en oxígeno y nitrógeno", "Sin oxígeno, con metano, amoniaco e hidrógeno", "Rica en CO₂", "Idéntica a la actual"],
+    correct: 1,
+    exp: "Oparin y Haldane propusieron una atmósfera sin O₂, con metano, amoniaco, hidrógeno y vapor de agua, expuesta a intensa radiación UV."
+  },
+  {
+    q: "La Teoría de las Fuentes Hidrotermales sitúa el origen de la vida en…",
+    opts: ["Lagos de agua dulce", "La atmósfera alta", "Chimeneas submarinas cerca de dorsales oceánicas", "El interior de los volcanes terrestres"],
+    correct: 2,
+    exp: "Las chimeneas hidrotermales submarinas aportaban temperatura e iones, y el mar filtraba la radiación UV, creando condiciones favorables."
+  },
+  {
+    q: "¿Cuál es el error principal de la teoría de Lamarck?",
+    opts: ["Afirmar que las especies evolucionan", "La herencia de los caracteres adquiridos", "Distinguir entre vertebrados e invertebrados", "Proponer que el ambiente influye en los organismos"],
+    correct: 1,
+    exp: "La genética demostró que los cambios que un individuo adquiere a lo largo de su vida NO se transmiten a sus descendientes."
+  },
+  {
+    q: "Según Darwin, ¿cuál es el mecanismo que explica el cambio evolutivo?",
+    opts: ["La herencia de caracteres adquiridos", "La voluntad del organismo de adaptarse", "La selección natural", "Las mutaciones dirigidas"],
+    correct: 2,
+    exp: "Darwin propuso la selección natural: los más adaptados al entorno sobreviven y se reproducen más, propagando sus características."
+  },
+  {
+    q: "¿Cuál de estas afirmaciones es CORRECTA sobre los órganos homólogos?",
+    opts: ["Tienen la misma función pero distinto origen", "Tienen el mismo origen pero pueden tener distinta función", "No aportan información evolutiva", "Son exclusivos de las aves"],
+    correct: 1,
+    exp: "Los órganos homólogos (brazo humano, ala de murciélago, pata de caballo) tienen el mismo origen evolutivo pero se diversificaron en distintas funciones. Indican parentesco."
+  },
+  {
+    q: "¿Qué es el 'efecto cuello de botella'?",
+    opts: ["Una adaptación del cuello de las jirafas", "Reducción de la diversidad genética tras una mortalidad masiva", "La migración de individuos a nuevas poblaciones", "El flujo génico entre poblaciones"],
+    correct: 1,
+    exp: "Ocurre cuando una catástrofe (guerra, pandemia) elimina gran parte de una población y los supervivientes tienen una diversidad genética diferente y reducida."
+  },
+  {
+    q: "El Archaeopteryx es importante porque…",
+    opts: ["Es el primer mamífero conocido", "Es una forma transicional entre dinosaurios y aves", "Demuestra la convergencia adaptativa", "Es el primer homínido bípedo"],
+    correct: 1,
+    exp: "El Archaeopteryx es un eslabón perdido que muestra características tanto de dinosaurios como de aves, siendo evidencia fósil de esa transición evolutiva."
+  },
+  {
+    q: "¿Qué tipo de aislamiento reproductivo impide la reproducción por diferencias en los rituales de cortejo?",
+    opts: ["Aislamiento estacional", "Aislamiento mecánico", "Aislamiento etológico", "Aislamiento gamético"],
+    correct: 2,
+    exp: "El aislamiento etológico ocurre cuando dos subpoblaciones desarrollan distintos rituales de cortejo (danzas, plumaje, cantos) y no se reproducen entre sí."
+  },
+  {
+    q: "¿Cuánto ADN neandertal tienen los euroasiáticos aproximadamente?",
+    opts: ["0%", "1–5%", "20–30%", "50%"],
+    correct: 1,
+    exp: "Los euroasiáticos poseemos entre el 1 y el 5% de ADN neandertal, resultado de hibridaciones ocurridas hace unos 55.000 años en el Próximo Oriente."
+  },
+  {
+    q: "¿Cuál fue el primer homínido en salir de África?",
+    opts: ["Homo habilis", "Homo antecessor", "Homo erectus", "Homo sapiens"],
+    correct: 2,
+    exp: "Homo erectus fue la primera especie en abandonar África, colonizando Asia. Vivió entre hace 1,3 millones y 50.000 años."
+  },
+  {
+    q: "¿Qué es la radiación adaptativa?",
+    opts: ["La adaptación a la radiación ultravioleta", "El desarrollo de nuevas especies tras una extinción masiva", "La selección sexual en aves", "La mutación dirigida por el entorno"],
+    correct: 1,
+    exp: "Tras una extinción masiva, los nichos ecológicos vacíos son ocupados por nuevas especies que se diversifican rápidamente. Esto se llama radiación adaptativa."
+  },
+  {
+    q: "¿Qué propone la Teoría del Equilibrio Puntuado de Gould y Eldredge?",
+    opts: ["La evolución es siempre gradual y lenta", "Las especies cambian continuamente", "Períodos de estasis seguidos de cambios bruscos y rápidos", "La selección sexual es el único motor evolutivo"],
+    correct: 2,
+    exp: "Según el Equilibrio Puntuado, las especies permanecen estables durante largos períodos y la evolución ocurre en cambios rápidos ante presiones ambientales intensas."
+  },
+  {
+    q: "¿Qué demostró Lynn Margulis con la teoría de la Simbiogénesis?",
+    opts: ["Que el ADN mitocondrial es idéntico en todos los seres vivos", "Que mitocondrias y cloroplastos proceden de bacterias en endosimbiosis", "Que la selección natural actúa a nivel de genes", "Que todas las mutaciones son beneficiosas"],
+    correct: 1,
+    exp: "Margulis demostró que las mitocondrias y los cloroplastos son descendientes de bacterias que se asociaron en simbiosis con otras células, dando lugar a la célula eucariota."
+  },
+  {
+    q: "¿Qué proceso explica la evolución de ballenas a partir de mamíferos terrestres?",
+    opts: ["Generación espontánea", "Lamarckismo: los mamíferos quisieron adaptarse al mar", "Selección natural sobre variaciones heredables a lo largo de millones de años", "Diseño inteligente"],
+    correct: 2,
+    exp: "El fósil Indohyus muestra la transición. La selección natural favoreció a individuos con características útiles para el medio acuático generación tras generación."
+  },
+  {
+    q: "¿Cuál es la función del ADN como 'reloj biológico'?",
+    opts: ["Medir la edad de los individuos", "Calcular cuándo se separaron dos especies comparando sus diferencias moleculares", "Determinar la esperanza de vida", "Indicar la velocidad de mutación de un individuo"],
+    correct: 1,
+    exp: "Las diferencias en el ADN y las proteínas entre dos especies acumulan con el tiempo. Comparándolas podemos calcular aproximadamente cuándo se separaron evolutivamente."
+  },
+  {
+    q: "¿Qué es el flujo génico?",
+    opts: ["La transmisión de genes de padres a hijos", "El movimiento de genes entre poblaciones por migración de individuos", "El intercambio de genes entre cromosomas", "La mutación espontánea del ADN"],
+    correct: 1,
+    exp: "El flujo génico ocurre cuando individuos migran de una población a otra, modificando la frecuencia génica: enriquecen la población destino y empobrecen la de origen."
+  },
+  {
+    q: "¿Qué especie de homínido tenía la mayor capacidad craneal?",
+    opts: ["Homo sapiens (1400 cm³)", "Homo heidelbergensis (1390 cm³)", "Homo neanderthalensis (1750 cm³)", "Homo erectus (1280 cm³)"],
+    correct: 2,
+    exp: "Homo neanderthalensis tenía una capacidad craneal de 1750 cm³, mayor que la de Homo sapiens (1400 cm³), aunque H. sapiens desarrolló mayor complejidad cultural."
+  },
+  {
+    q: "¿Cuál fue el primer homínido bípedo conocido?",
+    opts: ["Ardipithecus ramidus", "Australopithecus", "Homo habilis", "Homo ergaster"],
+    correct: 1,
+    exp: "El Australopithecus fue el primer homínido bípedo. Vivió entre hace 4 y 2 millones de años en África, con una capacidad craneal de unos 500 cm³."
+  },
+  {
+    q: "¿Qué especie de homínido fabricó las primeras herramientas e incluyó carne en su dieta?",
+    opts: ["Australopithecus", "Homo ergaster", "Homo habilis", "Homo antecessor"],
+    correct: 2,
+    exp: "Homo habilis ('el hombre hábil') fue la primera especie del género Homo, vivió hace 2,5–1,6 m.a. y fabricó las primeras herramientas de piedra."
+  },
+  {
+    q: "¿Cuál fue la principal consecuencia del cambio climático en el Valle del Rift africano para la evolución humana?",
+    opts: ["La aparición del fuego", "La adquisición del bipedismo al pasar de bosque a sabana", "El desarrollo del lenguaje", "La extinción de los australopitecos"],
+    correct: 1,
+    exp: "El paso de ecosistema boscoso a sabana en el Valle del Rift impulsó la adopción del bipedismo, liberando las manos para otras funciones."
+  },
+  {
+    q: "¿Qué son los órganos análogos? Pon un ejemplo.",
+    opts: ["Misma estructura, distinta función (brazo y ala de murciélago)", "Mismo origen, distinta función (brazo y aleta de delfín)", "Misma función, distinto origen (ala de insecto y ala de ave)", "Estructuras sin función aparente (apéndice)"],
+    correct: 2,
+    exp: "Los órganos análogos tienen la misma función pero distinto origen evolutivo. Ejemplo: el ala de un insecto y el ala de un ave. Esto se llama convergencia adaptativa."
+  },
+  {
+    q: "¿En qué se basa la Teoría Hologenómica?",
+    opts: ["En que todos los genes son iguales en todos los seres vivos", "En que animales y plantas forman una unidad evolutiva junto a su microbiota (holobionte)", "En que la simbiosis no tiene efecto evolutivo", "En que el genoma no cambia en condiciones de estrés"],
+    correct: 1,
+    exp: "La Teoría Hologenómica (Rosenberg, 2006) defiende que el organismo hospedador y sus microorganismos simbiontes forman una unidad de selección evolutiva llamada holobionte."
+  },
+  {
+    q: "¿Cuál de estas opciones NO es una prueba de la evolución?",
+    opts: ["Pruebas anatómicas (órganos homólogos)", "La teoría de la generación espontánea", "Pruebas paleontológicas (fósiles)", "Pruebas bioquímicas (ADN compartido)"],
+    correct: 1,
+    exp: "La generación espontánea fue refutada por Pasteur y no tiene ninguna relación con las pruebas de la evolución. Las otras tres son pruebas válidas y aceptadas."
+  },
+  {
+    q: "¿Por qué es cierto que 'la diversidad garantiza la supervivencia de la especie'?",
+    opts: ["Porque los individuos más diversos viven más tiempo", "Porque si el entorno cambia, alguna variante de la especie puede sobrevivir", "Porque la diversidad evita las mutaciones perjudiciales", "Porque los organismos diversos tienen más descendencia"],
+    correct: 1,
+    exp: "El ejemplo de la polilla del abedul lo ilustra: si solo hubiera polillas claras u oscuras, un cambio ambiental podría extinguir toda la especie. La diversidad es un seguro de supervivencia."
+  },
+  {
+    q: "La hibridación entre H. sapiens y H. neanderthalensis ocurrió aproximadamente…",
+    opts: ["Hace 200.000 años en África", "Hace 55.000 años en el Próximo Oriente", "Hace 10.000 años en Europa", "Hace 1 millón de años en Asia"],
+    correct: 1,
+    exp: "La hibridación ocurrió hace unos 55.000 años en el Próximo Oriente, cuando H. sapiens salió de África y se encontró con las poblaciones de H. neanderthalensis."
+  },
+  {
+    q: "¿Cuál de estas NO es una ventaja del ADN neandertal en humanos modernos?",
+    opts: ["Mejor sistema inmune frente a algunos patógenos", "Mayor adaptación al frío", "Mayor riesgo de esquizofrenia y diabetes tipo 2", "Piel más resistente"],
+    correct: 2,
+    exp: "Mayor riesgo de esquizofrenia, diabetes tipo 2, alergias, etc. son INconvenientes (efectos negativos) de la herencia neandertal, no ventajas."
+  },
+  {
+    q: "¿Qué es la especiación alopátrida?",
+    opts: ["La que ocurre en la misma zona geográfica por aislamiento reproductivo", "La que ocurre cuando una barrera geográfica separa a dos subpoblaciones", "La que ocurre cuando unos pocos individuos colonizan un nuevo territorio", "La que se produce por cambios bruscos del entorno"],
+    correct: 1,
+    exp: "La especiación alopátrida ocurre cuando una barrera geográfica (montaña, mar) separa a una población en dos grupos que ya no pueden reproducirse entre sí y evolucionan por separado."
+  },
+  {
+    q: "¿Qué científicos propusieron simultáneamente la teoría de la selección natural?",
+    opts: ["Lamarck y Cuvier", "Darwin y Wallace", "Oparin y Haldane", "Gould y Eldredge"],
+    correct: 1,
+    exp: "Charles Darwin (estudiando fauna en Sudamérica) y Alfred Russel Wallace (en Asia) llegaron de forma independiente y simultánea a la misma conclusión sobre la selección natural."
+  },
+  {
+    q: "¿Qué justificaba Cuvier para explicar la desaparición de especies en el registro fósil?",
+    opts: ["La selección natural", "La evolución gradual", "Sucesivos Diluvios Universales", "Las mutaciones masivas"],
+    correct: 2,
+    exp: "Cuvier era creacionista y justificaba la desaparición de especies por catástrofes como Diluvios Universales sucesivos, aunque su postura contradecía la mezcla de fósiles que esperaría encontrar."
+  },
+  {
+    q: "¿Qué es la especiación simpátrida?",
+    opts: ["La que requiere una barrera geográfica", "La que ocurre dentro de la misma zona geográfica por aislamiento reproductivo", "La que se da al colonizar un territorio nuevo y aislado", "La que requiere hibridación entre especies distintas"],
+    correct: 1,
+    exp: "La especiación simpátrida ocurre en la misma zona geográfica: una población se subdivide por mecanismos de aislamiento reproductivo (etológico, mecánico, estacional…) sin barrera física."
+  },
+  {
+    q: "¿Qué ocurre durante el 'entrecruzamiento' en la formación de gametos?",
+    opts: ["Los cromosomas se duplican", "Un cromosoma paterno y uno materno intercambian genes entre sí de forma aleatoria", "Los gametos se fusionan en la fecundación", "Las mutaciones se eliminan del ADN"],
+    correct: 1,
+    exp: "El entrecruzamiento (o crossing-over) ocurre durante la meiosis: cromosomas paternos y maternos se emparejan e intercambian fragmentos de ADN al azar, generando nuevas combinaciones génicas."
+  },
+  {
+    q: "¿Cuál de estas características son herencia del ADN neandertal en humanos actuales?",
+    opts: ["Mayor tamaño cerebral y mejor memoria", "Pelo oscuro y ojos negros", "Piel clara, pecas y pelo rojo en algunas personas", "Mayor resistencia a las enfermedades autoinmunes"],
+    correct: 2,
+    exp: "Entre las herencias neandertales se encuentran la piel clara, las pecas, el pelo rojo, el arco supraorbital prominente y el bulto occipital, entre otras características físicas."
+  },
+  {
+    q: "¿Qué es el 'aislamiento gamético'?",
+    opts: ["Que los individuos no se encuentran porque viven en hábitats distintos", "Que se produce la cópula pero los gametos son incompatibles y no se forma el cigoto", "Que los rituales de cortejo son diferentes", "Que los ciclos reproductivos no coinciden"],
+    correct: 1,
+    exp: "El aislamiento gamético es un mecanismo postcopulatorio: la cópula o polinización ocurre, pero los gametos son bioquímicamente incompatibles y no consiguen fusionarse para formar el cigoto."
+  },
+  {
+    q: "¿Qué aportan los 'fósiles vivientes' como prueba de la evolución?",
+    opts: ["Demuestran que las especies no han cambiado nada", "Muestran que algunas ramas evolutivas antiguas han sobrevivido casi sin cambios hasta hoy", "Prueban que la generación espontánea existió", "Indican que el equilibrio puntuado es falso"],
+    correct: 1,
+    exp: "Los fósiles vivientes son organismos actuales muy parecidos a sus antepasados fosilizados, como los equisetos. Demuestran que algunas líneas evolutivas han permanecido estables durante millones de años."
+  },
+  {
+    q: "En la Teoría Hologenómica, ¿qué se llama 'holobionte'?",
+    opts: ["El genoma completo de un organismo", "La comunidad formada por un organismo y todos sus microorganismos simbiontes", "Los fósiles que forman un árbol filogenético completo", "El conjunto de mutaciones neutras de una especie"],
+    correct: 1,
+    exp: "El holobionte es la unidad formada por el organismo hospedador más toda su microbiota (bacterias, hongos, virus simbiontes). La teoría propone que esta unidad es la que evoluciona conjuntamente."
+  },
+  {
+    q: "¿Qué aportó Lamarck que sigue siendo válido hoy en día?",
+    opts: ["La herencia de los caracteres adquiridos", "La ley del uso y desuso como mecanismo heredable", "El concepto de Biología, y la distinción entre vertebrados e invertebrados", "La teoría de la selección natural"],
+    correct: 2,
+    exp: "Aunque su mecanismo evolutivo era erróneo, Lamarck asentó el término Biología, diferenció vertebrados de invertebrados, y propuso que el origen de la vida seguía leyes físico-químicas."
+  },
+  {
+    q: "¿Cuál de estas opciones describe correctamente la 'convergencia adaptativa'?",
+    opts: ["Especies emparentadas que desarrollan funciones distintas para el mismo órgano", "Especies no emparentadas que desarrollan características similares al vivir en entornos parecidos", "Dos poblaciones que se fusionan tras un período de aislamiento", "Mutaciones que llevan a la misma especie a distintos nichos"],
+    correct: 1,
+    exp: "La convergencia adaptativa produce órganos análogos: especies de distinto origen (tiburón y delfín, por ejemplo) desarrollan formas similares al adaptarse al mismo tipo de entorno."
+  },
+  {
+    q: "¿Cuál es la principal causa del cambio en la frecuencia de alelos según la Teoría Neutralista de Kimura?",
+    opts: ["La selección natural actúa sobre las mutaciones beneficiosas", "El azar, a través de procesos como la deriva génica", "La herencia de los caracteres adquiridos", "La selección sexual en poblaciones grandes"],
+    correct: 1,
+    exp: "Kimura propuso que la mayoría de las mutaciones son neutras (no benefician ni perjudican), por lo que la selección natural no actúa sobre ellas y los cambios evolutivos se deben al azar: la deriva génica."
+  },
+  {
+    q: "¿Qué ocurre cuando los 'híbridos son menos viables' como mecanismo de aislamiento postcopulatorio?",
+    opts: ["Los gametos no llegan a fusionarse", "Se produce descendencia pero los híbridos no son fértiles o lo son poco", "Los individuos de distinta subpoblación no llegan a aparearse", "Los embriones no se desarrollan por incompatibilidad genética total"],
+    correct: 1,
+    exp: "En este caso sí se forma el cigoto y nace descendencia, pero los híbridos tienen fertilidad reducida o son estériles (como las mulas, producto de caballo y burro)."
+  },
+  {
+    q: "¿Qué son las micorrizas y qué relación tienen con la simbiogénesis?",
+    opts: ["Son bacterias patógenas del suelo que atacan a las raíces", "Son la asociación simbiótica entre plantas y hongos en las raíces, un ejemplo de simbiosis evolutiva", "Son fósiles de hongos del Cámbrico", "Son organismos vestigiales de las plantas vasculares"],
+    correct: 1,
+    exp: "Las micorrizas son asociaciones simbióticas entre las raíces de las plantas y hongos: la planta alimenta al hongo y éste amplía la absorción de agua y nutrientes. Son un ejemplo de simbiosis con ventaja evolutiva."
+  },
+  {
+    q: "¿Qué evidencia biogeográfica explica que caballos y humanos colonizaran América?",
+    opts: ["La tectónica de placas unió América con Asia directamente", "El Estrecho de Bering se secó durante las glaciaciones, creando un puente terrestre", "Un continente puente llamado Atlántida conectó los continentes", "Los caballos cruzaron el Atlántico a nado en grupos"],
+    correct: 1,
+    exp: "Durante las glaciaciones, el nivel del mar bajó y el Estrecho de Bering quedó al descubierto, formando un corredor terrestre por el que migraron caballos y posteriormente los primeros humanos a América."
+  },
+  {
+    q: "¿Qué especie de homínido cuidaba de sus enfermos y tenía ritos funerarios?",
+    opts: ["Homo habilis", "Homo antecessor", "Homo neanderthalensis", "Homo heidelbergensis"],
+    correct: 2,
+    exp: "Homo neanderthalensis dominaba el fuego, cuidaba de sus enfermos y realizaba enterramientos rituales, lo que evidencia una complejidad social y cultural sorprendente."
+  },
+  {
+    q: "¿En qué consiste el 'aislamiento estacional' como mecanismo precopulatorio?",
+    opts: ["Que los animales se aíslan físicamente por migración estacional", "Que individuos de la misma especie tienen ciclos reproductivos que no coinciden", "Que los rituales de cortejo solo ocurren en verano", "Que los gametos solo son viables en ciertas estaciones"],
+    correct: 1,
+    exp: "El aislamiento estacional ocurre cuando dos subpoblaciones de la misma especie se reproducen en épocas del año distintas, por lo que nunca coinciden y no pueden cruzarse."
+  },
+  {
+    q: "¿Cuál es la principal diferencia entre selección natural y selección artificial?",
+    opts: ["La selección natural es más rápida que la artificial", "En la natural el entorno elige; en la artificial lo hace el ser humano con un objetivo concreto", "La artificial produce más variabilidad que la natural", "Solo la natural puede extinguir especies"],
+    correct: 1,
+    exp: "En la selección natural es el entorno (clima, depredadores, enfermedades) quien filtra los individuos. En la artificial es el ser humano quien selecciona individuos con características deseadas (más leche, más sabor, más velocidad de crecimiento)."
+  },
+  {
+    q: "¿Qué revelan las pruebas embriológicas sobre la evolución?",
+    opts: ["Que todos los embriones son idénticos independientemente de la especie", "Que los embriones de especies próximas son más parecidos entre sí que los adultos, y que la ontogenia recapitula la filogenia", "Que los embriones no tienen órganos vestigiales", "Que la evolución solo afecta a los organismos adultos"],
+    correct: 1,
+    exp: "Los embriones de vertebrados son muy similares entre sí en fases tempranas. Además, en el desarrollo embrionario aparecen estructuras transitorias como arcos branquiales en humanos, que recapitulan etapas evolutivas pasadas."
+  },
+  {
+    q: "¿Qué es la 'descendencia con modificación' en el contexto de la selección natural?",
+    opts: ["Los hijos son copias exactas de uno de los dos progenitores", "Los hijos combinan características de ambos progenitores de forma aleatoria, por lo que no son copias exactas de ninguno", "Las características de los hijos son siempre distintas a las de los padres", "Solo los hijos machos heredan las características del padre"],
+    correct: 1,
+    exp: "La descendencia con modificación significa que los hijos no son copias exactas de los padres: reciben una combinación aleatoria de los genes de ambos, generando variabilidad en cada generación."
+  },
+  {
+    q: "¿Qué es la 'Crisis Mesiniense' y qué consecuencia evolutiva tuvo?",
+    opts: ["Una extinción masiva de dinosaurios hace 66 m.a.", "El cierre del Estrecho de Gibraltar hace 5,5 m.a. que secó el Mediterráneo y permitió intercambio de fauna entre Europa y África", "La glaciación que abrió el Estrecho de Bering", "La apertura del Valle del Rift que propició el bipedismo"],
+    correct: 1,
+    exp: "Hace 5,5 millones de años el Estrecho de Gibraltar se cerró. El Mediterráneo se evaporó casi por completo y hubo un intenso intercambio de fauna entre Europa y África, con gran impacto biogeográfico."
+  }
+];
+
+let quizOrder = [];
+let quizIdx = 0;
+let qCorrect = 0;
+let qWrong = 0;
+let qAnswered = false;
+
+function initQuiz() {
+  quizOrder = quizQuestions.map((_, i) => i);
+  for (let i = quizOrder.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [quizOrder[i], quizOrder[j]] = [quizOrder[j], quizOrder[i]];
+  }
+  quizIdx = 0;
+  qCorrect = 0;
+  qWrong = 0;
+  document.getElementById('q-correct').textContent = '0';
+  document.getElementById('q-wrong').textContent = '0';
+  document.getElementById('q-total').textContent = '0';
+  document.getElementById('quiz-end').style.display = 'none';
+  document.getElementById('quiz-body').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (quizIdx >= quizOrder.length) {
+    showQuizEnd();
+    return;
+  }
+  qAnswered = false;
+  const qi = quizOrder[quizIdx];
+  const q = quizQuestions[qi];
+  document.getElementById('q-num').textContent = `Pregunta ${quizIdx + 1} de ${quizOrder.length}`;
+  document.getElementById('q-question').textContent = q.q;
+  document.getElementById('q-prog-bar').style.width = (quizIdx / quizOrder.length * 100) + '%';
+
+  // Shuffle options
+  const indices = [0, 1, 2, 3];
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+
+  const optContainer = document.getElementById('q-options');
+  optContainer.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  indices.forEach((origIdx, pos) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.innerHTML = `<span class="letter">${letters[pos]}</span><span>${q.opts[origIdx]}</span>`;
+    btn.onclick = () => selectAnswer(origIdx, q.correct, q.exp, optContainer, indices);
+    optContainer.appendChild(btn);
+  });
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'quiz-feedback';
+  fb.textContent = '';
+
+  const nxt = document.querySelector('.quiz-next');
+  nxt.style.display = 'none';
+}
+
+function selectAnswer(chosen, correct, exp, container, indices) {
+  if (qAnswered) return;
+  qAnswered = true;
+
+  const btns = container.querySelectorAll('.quiz-opt');
+  btns.forEach((btn, pos) => {
+    const origIdx = indices[pos];
+    btn.disabled = true;
+    if (origIdx === correct) btn.classList.add('correct');
+    else if (origIdx === chosen) btn.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('q-feedback');
+  if (chosen === correct) {
+    qCorrect++;
+    fb.className = 'quiz-feedback correct';
+    fb.textContent = '✅ ¡Correcto! ' + exp;
+  } else {
+    qWrong++;
+    fb.className = 'quiz-feedback wrong';
+    fb.textContent = '❌ Incorrecto. ' + exp;
+  }
+
+  document.getElementById('q-correct').textContent = qCorrect;
+  document.getElementById('q-wrong').textContent = qWrong;
+  document.getElementById('q-total').textContent = qCorrect + qWrong;
+
+  document.querySelector('.quiz-next').style.display = 'block';
+}
+
+function nextQuestion() {
+  quizIdx++;
+  renderQuestion();
+}
+
+function showQuizEnd() {
+  document.getElementById('quiz-body').style.display = 'none';
+  document.getElementById('quiz-end').style.display = 'block';
+  const pct = Math.round(qCorrect / quizOrder.length * 100);
+  const scoreBig = document.getElementById('q-score-big');
+  scoreBig.textContent = `${qCorrect}/${quizOrder.length}`;
+  scoreBig.className = 'quiz-score-big ' + (pct >= 80 ? 'good' : pct >= 50 ? 'ok' : 'bad');
+  document.getElementById('q-score-msg').textContent =
+    pct >= 80 ? '🎉 ¡Excelente! Dominas el tema.' :
+    pct >= 60 ? '👍 Bien, pero puedes mejorar. ¡Repasa y vuelve a intentarlo!' :
+    '📖 Necesitas repasar más el tema. ¡Ánimo!';
+  document.getElementById('q-prog-bar').style.width = '100%';
+}
+
+function resetQuiz() {
+  initQuiz();
+}
+
+// ===================== INIT =====================
+updateFC();
+initQuiz();
+</script>
+</body>
+</html>
