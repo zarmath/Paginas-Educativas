@@ -3,179 +3,462 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paginas educativas - Europa</title>
+  <title>Páginas Educativas</title>
   <style>
     :root {
       --bg: #0b1224;
       --panel: #0f1a30;
       --card: #111d38;
-      --accent: #38bdf8;
       --muted: #9fb3c8;
+      --border: rgba(255,255,255,0.06);
+
+      --geo:   #38bdf8;
+      --bio:   #4ade80;
+      --mat:   #f59e0b;
+      --len:   #a78bfa;
+      --fra:   #fb7185;
     }
-    * { box-sizing: border-box; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      margin: 0;
       min-height: 100vh;
-      background: radial-gradient(circle at 20% 20%, rgba(56,189,248,0.14), transparent 35%),
-                  radial-gradient(circle at 80% 10%, rgba(255,255,255,0.06), transparent 30%),
+      background: radial-gradient(circle at 20% 20%, rgba(56,189,248,0.10), transparent 35%),
                   linear-gradient(135deg, #0b1224, #0b1020);
       color: #e5e7eb;
       font-family: "Inter", "Segoe UI", system-ui, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 28px;
+      padding: 28px 16px 48px;
     }
+
     .shell {
       width: min(1100px, 100%);
-      background: var(--panel);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 18px;
-      padding: 20px 24px 26px;
-      box-shadow: 0 18px 70px rgba(0,0,0,0.45);
+      margin: 0 auto;
     }
+
+    /* ── HEADER ── */
     header {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 28px;
+    }
+
+    .header-top {
       display: flex;
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 16px;
     }
+
     .badge {
-      padding: 8px 12px;
+      padding: 6px 12px;
       border-radius: 999px;
       border: 1px solid rgba(56,189,248,0.5);
-      color: var(--accent);
+      color: var(--geo);
       font-weight: 700;
       letter-spacing: 0.08em;
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
-      background: rgba(56,189,248,0.12);
+      background: rgba(56,189,248,0.10);
     }
+
     h1 {
-      margin: 0;
       font-size: clamp(22px, 3vw, 30px);
     }
+
     p.lead {
-      margin: 4px 0 0;
       color: var(--muted);
+      font-size: 14px;
     }
+
+    /* ── FILTERS ── */
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .filter {
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .filter:hover {
+      border-color: rgba(255,255,255,0.25);
+      color: #e5e7eb;
+    }
+
+    .filter.active {
+      background: rgba(56,189,248,0.15);
+      border-color: rgba(56,189,248,0.5);
+      color: var(--geo);
+    }
+
+    /* ── SUBJECT SECTION ── */
+    .subject {
+      margin-bottom: 36px;
+    }
+
+    .subject[hidden] { display: none; }
+
+    .subject-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .subject-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .subject-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .subject-count {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.06);
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    /* color por asignatura */
+    .subject[data-subject="geo"] .subject-title { color: var(--geo); }
+    .subject[data-subject="bio"] .subject-title { color: var(--bio); }
+    .subject[data-subject="mat"] .subject-title { color: var(--mat); }
+    .subject[data-subject="len"] .subject-title { color: var(--len); }
+    .subject[data-subject="fra"] .subject-title { color: var(--fra); }
+
+    .subject[data-subject="geo"] .subject-header { border-color: rgba(56,189,248,0.2); }
+    .subject[data-subject="bio"] .subject-header { border-color: rgba(74,222,128,0.2); }
+    .subject[data-subject="mat"] .subject-header { border-color: rgba(245,158,11,0.2); }
+    .subject[data-subject="len"] .subject-header { border-color: rgba(167,139,250,0.2); }
+    .subject[data-subject="fra"] .subject-header { border-color: rgba(251,113,133,0.2); }
+
+    /* ── GRID ── */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 14px;
-      margin-top: 16px;
     }
+
+    /* ── CARD ── */
     .card {
       background: var(--card);
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
       padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
     }
-    .card h2 {
-      margin: 0;
-      font-size: 18px;
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 14px 14px 0 0;
     }
-    .card p {
-      margin: 0;
+
+    .subject[data-subject="geo"] .card::before { background: var(--geo); }
+    .subject[data-subject="bio"] .card::before { background: var(--bio); }
+    .subject[data-subject="mat"] .card::before { background: var(--mat); }
+    .subject[data-subject="len"] .card::before { background: var(--len); }
+    .subject[data-subject="fra"] .card::before { background: var(--fra); }
+
+    .card:hover {
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-2px);
+    }
+
+    .card[hidden] { display: none; }
+
+    .card-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 999px;
+      letter-spacing: 0.03em;
+    }
+
+    .pill-course {
+      background: rgba(255,255,255,0.07);
       color: var(--muted);
-      line-height: 1.4;
-      font-size: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
     }
+
+    .subject[data-subject="geo"] .pill-subject { background: rgba(56,189,248,0.12);  color: var(--geo);  border: 1px solid rgba(56,189,248,0.25); }
+    .subject[data-subject="bio"] .pill-subject { background: rgba(74,222,128,0.12);  color: var(--bio);  border: 1px solid rgba(74,222,128,0.25); }
+    .subject[data-subject="mat"] .pill-subject { background: rgba(245,158,11,0.12);  color: var(--mat);  border: 1px solid rgba(245,158,11,0.25); }
+    .subject[data-subject="len"] .pill-subject { background: rgba(167,139,250,0.12); color: var(--len);  border: 1px solid rgba(167,139,250,0.25); }
+    .subject[data-subject="fra"] .pill-subject { background: rgba(251,113,133,0.12); color: var(--fra);  border: 1px solid rgba(251,113,133,0.25); }
+
+    .card h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 13px;
+      flex: 1;
+    }
+
     .card a {
       align-self: flex-start;
-      background: var(--accent);
-      color: #0b1224;
       text-decoration: none;
-      padding: 10px 14px;
+      padding: 9px 14px;
       border-radius: 10px;
       font-weight: 700;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      box-shadow: 0 10px 30px rgba(56,189,248,0.35);
+      font-size: 13px;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+      margin-top: auto;
     }
-    .card a:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 36px rgba(56,189,248,0.4);
+
+    .card a:hover { transform: translateY(-1px); opacity: 0.9; }
+
+    .subject[data-subject="geo"] .card a { background: var(--geo);  color: #0b1224; box-shadow: 0 8px 24px rgba(56,189,248,0.30); }
+    .subject[data-subject="bio"] .card a { background: var(--bio);  color: #0b1224; box-shadow: 0 8px 24px rgba(74,222,128,0.30); }
+    .subject[data-subject="mat"] .card a { background: var(--mat);  color: #0b1224; box-shadow: 0 8px 24px rgba(245,158,11,0.30); }
+    .subject[data-subject="len"] .card a { background: var(--len);  color: #0b1224; box-shadow: 0 8px 24px rgba(167,139,250,0.30); }
+    .subject[data-subject="fra"] .card a { background: var(--fra);  color: #0b1224; box-shadow: 0 8px 24px rgba(251,113,133,0.30); }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      display: none;
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+      font-size: 14px;
     }
+
+    .empty.visible { display: block; }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <header>
-      <div class="badge">Ruta de estudio</div>
-      <div>
-        <h1>Paginas educativas</h1>
-        <p class="lead">Selecciona una pagina para practicar. Se iran sumando mas ejercicios.</p>
-      </div>
-    </header>
+<div class="shell">
 
-    <section class="grid">
-      <article class="card">
+  <header>
+    <div class="header-top">
+      <div class="badge">Ruta de estudio</div>
+      <h1>Páginas Educativas</h1>
+    </div>
+    <p class="lead">Selecciona una asignatura o filtra por curso para encontrar tu material.</p>
+  </header>
+
+  <!-- FILTROS POR CURSO -->
+  <div class="filters" role="group" aria-label="Filtrar por curso">
+    <button type="button" class="filter active" data-filter="all">Todos</button>
+    <button type="button" class="filter" data-filter="3eso">3º ESO</button>
+    <button type="button" class="filter" data-filter="4eso">4º ESO</button>
+    <button type="button" class="filter" data-filter="b1">Nivel B1</button>
+  </div>
+
+  <!-- ── GEOGRAFÍA E HISTORIA ── -->
+  <section class="subject" data-subject="geo">
+    <div class="subject-header">
+      <span class="subject-icon">🌍</span>
+      <span class="subject-title">Geografía e Historia</span>
+      <span class="subject-count">3 recursos</span>
+    </div>
+    <div class="grid">
+
+      <article class="card" data-course="3eso">
+        <div class="card-meta">
+          <span class="pill pill-subject">Geografía</span>
+          <span class="pill pill-course">3º ESO</span>
+        </div>
         <h2>Mapa de Asia</h2>
-        <p>
-          Juego interactivo de geografia para ubicar paises de Asia y practicar
-          sus capitales con distintos modos de estudio.
-        </p>
+        <p>Juego interactivo para ubicar países de Asia y practicar sus capitales con distintos modos de estudio.</p>
         <a href="mapa_asia.html">Abrir mapa</a>
       </article>
-      <article class="card">
+
+      <article class="card" data-course="3eso">
+        <div class="card-meta">
+          <span class="pill pill-subject">Geografía</span>
+          <span class="pill pill-course">3º ESO</span>
+        </div>
         <h2>Mapa de América</h2>
-        <p>
-          Juego interactivo para ubicar los países de América y practicar
-          sus capitales con distintos modos de estudio.
-        </p>
+        <p>Juego interactivo para ubicar los países de América y practicar sus capitales con distintos modos de estudio.</p>
         <a href="mapa_america.html">Abrir mapa</a>
       </article>
-      <article class="card">
-        <h2>Mapa de Europa (con sus capitales)</h2>
-        <p>
-          Mapa plano con fronteras de Europa y capitales. Usa un GeoJSON local
-          y resalta cada pais al pasar o hacer clic para mostrar su capital.
-        </p>
+
+      <article class="card" data-course="3eso">
+        <div class="card-meta">
+          <span class="pill pill-subject">Geografía</span>
+          <span class="pill pill-course">3º ESO</span>
+        </div>
+        <h2>Mapa de Europa</h2>
+        <p>Mapa con fronteras y capitales. Resalta cada país al pasar o hacer clic para mostrar su capital.</p>
         <a href="mapa_europa.html">Abrir mapa</a>
       </article>
-      <article class="card">
-        <h2>Practica B1 de Frances</h2>
-        <p>
-          Simulador con 50 preguntas tipo examen. Cada respuesta muestra
-          correccion inmediata y una explicacion breve.
-        </p>
-        <a href="b1_frances.html">Empezar practica</a>
+
+    </div>
+  </section>
+
+  <!-- ── BIOLOGÍA Y GEOLOGÍA ── -->
+  <section class="subject" data-subject="bio">
+    <div class="subject-header">
+      <span class="subject-icon">🧬</span>
+      <span class="subject-title">Biología y Geología</span>
+      <span class="subject-count">1 recurso</span>
+    </div>
+    <div class="grid">
+
+      <article class="card" data-course="4eso">
+        <div class="card-meta">
+          <span class="pill pill-subject">Biología</span>
+          <span class="pill pill-course">4º ESO</span>
+        </div>
+        <h2>Origen y Evolución de la Vida</h2>
+        <p>Tema 9 — Teoría, tarjetas de repaso y quiz interactivo sobre el origen y la evolución de la vida.</p>
+        <a href="biologia.html">Empezar</a>
       </article>
-      <article class="card">
-        <h2>B1 Frances — Comprension</h2>
-        <p>
-          3 ejercicios de comprension lectora y 3 de comprension auditiva,
-          cada uno con 10 preguntas en carrusel y texto en frances leido en voz alta.
-        </p>
-        <a href="b1_frances02.html">Empezar practica</a>
-      </article>
-      <article class="card">
-        <h2>Lengua</h2>
-        <p>
-          SIntáxis y grmática
-        </p>
-        <a href="lengua.html">Empezar practica</a>
-      </article>
-      <article class="card">
+
+    </div>
+  </section>
+
+  <!-- ── MATEMÁTICAS ── -->
+  <section class="subject" data-subject="mat">
+    <div class="subject-header">
+      <span class="subject-icon">🔢</span>
+      <span class="subject-title">Matemáticas</span>
+      <span class="subject-count">1 recurso</span>
+    </div>
+    <div class="grid">
+
+      <article class="card" data-course="4eso">
+        <div class="card-meta">
+          <span class="pill pill-subject">Matemáticas</span>
+          <span class="pill pill-course">4º ESO</span>
+        </div>
         <h2>Ecuaciones</h2>
-        <p>
-          repaso de las matemáticas
-        </p>
-        <a href="ecuaciones.html">Empezar practica</a>
+        <p>Repaso de ecuaciones: primer y segundo grado, sistemas y resolución paso a paso.</p>
+        <a href="ecuaciones.html">Empezar</a>
       </article>
-      <article class="card">
-        <h2>Biología</h2>
-        <p>
-          tema 9 sobre el origen y la evolución de la vida para 4º ESO
-        </p>
-        <a href="biologia.html">Empezar practica</a>
+
+    </div>
+  </section>
+
+  <!-- ── LENGUA CASTELLANA ── -->
+  <section class="subject" data-subject="len">
+    <div class="subject-header">
+      <span class="subject-icon">📝</span>
+      <span class="subject-title">Lengua Castellana y Literatura</span>
+      <span class="subject-count">1 recurso</span>
+    </div>
+    <div class="grid">
+
+      <article class="card" data-course="4eso">
+        <div class="card-meta">
+          <span class="pill pill-subject">Lengua</span>
+          <span class="pill pill-course">4º ESO</span>
+        </div>
+        <h2>Sintaxis y Gramática</h2>
+        <p>Ejercicios de sintaxis y gramática: análisis de oraciones, tipos de complementos y morfología.</p>
+        <a href="lengua.html">Empezar</a>
       </article>
-    </section>
-  </div>
+
+    </div>
+  </section>
+
+  <!-- ── FRANCÉS ── -->
+  <section class="subject" data-subject="fra">
+    <div class="subject-header">
+      <span class="subject-icon">🇫🇷</span>
+      <span class="subject-title">Francés</span>
+      <span class="subject-count">2 recursos</span>
+    </div>
+    <div class="grid">
+
+      <article class="card" data-course="b1">
+        <div class="card-meta">
+          <span class="pill pill-subject">Francés</span>
+          <span class="pill pill-course">Nivel B1</span>
+        </div>
+        <h2>Práctica B1 — Gramática</h2>
+        <p>Simulador con 50 preguntas tipo examen. Cada respuesta muestra corrección inmediata y explicación.</p>
+        <a href="b1_frances.html">Empezar</a>
+      </article>
+
+      <article class="card" data-course="b1">
+        <div class="card-meta">
+          <span class="pill pill-subject">Francés</span>
+          <span class="pill pill-course">Nivel B1</span>
+        </div>
+        <h2>B1 — Comprensión</h2>
+        <p>3 ejercicios de comprensión lectora y 3 de comprensión auditiva con texto leído en voz alta.</p>
+        <a href="b1_frances02.html">Empezar</a>
+      </article>
+
+    </div>
+  </section>
+
+  <p class="empty" id="empty">No hay recursos para el filtro seleccionado.</p>
+
+</div>
+
+<script>
+  const filters = document.querySelectorAll('.filter');
+  const cards   = document.querySelectorAll('.card');
+  const subjects = document.querySelectorAll('.subject');
+  const empty   = document.getElementById('empty');
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const f = btn.dataset.filter;
+      let visible = 0;
+
+      subjects.forEach(sec => {
+        let secVisible = 0;
+
+        sec.querySelectorAll('.card').forEach(card => {
+          const match = f === 'all' || card.dataset.course === f;
+          card.hidden = !match;
+          if (match) secVisible++;
+        });
+
+        sec.hidden = secVisible === 0;
+        visible += secVisible;
+      });
+
+      empty.classList.toggle('visible', visible === 0);
+    });
+  });
+</script>
 </body>
 </html>
