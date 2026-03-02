@@ -17,6 +17,7 @@
       --mat:   #f59e0b;
       --len:   #a78bfa;
       --fra:   #fb7185;
+      --ing:   #60a5fa;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -146,12 +147,14 @@
     .subject[data-subject="mat"] .subject-title { color: var(--mat); }
     .subject[data-subject="len"] .subject-title { color: var(--len); }
     .subject[data-subject="fra"] .subject-title { color: var(--fra); }
+    .subject[data-subject="ing"] .subject-title { color: var(--ing); }
 
     .subject[data-subject="geo"] .subject-header { border-color: rgba(56,189,248,0.2); }
     .subject[data-subject="bio"] .subject-header { border-color: rgba(74,222,128,0.2); }
     .subject[data-subject="mat"] .subject-header { border-color: rgba(245,158,11,0.2); }
     .subject[data-subject="len"] .subject-header { border-color: rgba(167,139,250,0.2); }
     .subject[data-subject="fra"] .subject-header { border-color: rgba(251,113,133,0.2); }
+    .subject[data-subject="ing"] .subject-header { border-color: rgba(96,165,250,0.2); }
 
     /* ── GRID ── */
     .grid {
@@ -188,6 +191,7 @@
     .subject[data-subject="mat"] .card::before { background: var(--mat); }
     .subject[data-subject="len"] .card::before { background: var(--len); }
     .subject[data-subject="fra"] .card::before { background: var(--fra); }
+    .subject[data-subject="ing"] .card::before { background: var(--ing); }
 
     .card:hover {
       border-color: rgba(255,255,255,0.14);
@@ -221,6 +225,7 @@
     .subject[data-subject="mat"] .pill-subject { background: rgba(245,158,11,0.12);  color: var(--mat);  border: 1px solid rgba(245,158,11,0.25); }
     .subject[data-subject="len"] .pill-subject { background: rgba(167,139,250,0.12); color: var(--len);  border: 1px solid rgba(167,139,250,0.25); }
     .subject[data-subject="fra"] .pill-subject { background: rgba(251,113,133,0.12); color: var(--fra);  border: 1px solid rgba(251,113,133,0.25); }
+    .subject[data-subject="ing"] .pill-subject { background: rgba(96,165,250,0.12);  color: var(--ing);  border: 1px solid rgba(96,165,250,0.25); }
 
     .card h2 {
       font-size: 16px;
@@ -253,6 +258,7 @@
     .subject[data-subject="mat"] .card a { background: var(--mat);  color: #0b1224; box-shadow: 0 8px 24px rgba(245,158,11,0.30); }
     .subject[data-subject="len"] .card a { background: var(--len);  color: #0b1224; box-shadow: 0 8px 24px rgba(167,139,250,0.30); }
     .subject[data-subject="fra"] .card a { background: var(--fra);  color: #0b1224; box-shadow: 0 8px 24px rgba(251,113,133,0.30); }
+    .subject[data-subject="ing"] .card a { background: var(--ing);  color: #0b1224; box-shadow: 0 8px 24px rgba(96,165,250,0.30); }
 
     /* ── EMPTY STATE ── */
     .empty {
@@ -388,6 +394,28 @@
         <h2>Sintaxis y Gramática</h2>
         <p>Ejercicios de sintaxis y gramática: análisis de oraciones, tipos de complementos y morfología.</p>
         <a href="lengua.html">Empezar</a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ── INGLÉS ── -->
+  <section class="subject" data-subject="ing">
+    <div class="subject-header">
+      <span class="subject-icon">🇬🇧</span>
+      <span class="subject-title">Inglés</span>
+      <span class="subject-count">1 recurso</span>
+    </div>
+    <div class="grid">
+
+      <article class="card" data-course="2eso">
+        <div class="card-meta">
+          <span class="pill pill-subject">Inglés</span>
+          <span class="pill pill-course">2º ESO</span>
+        </div>
+        <h2>Unit 3 — Extraordinary People</h2>
+        <p>Vocabulario, Past Simple, There was/were y Used to. Ejercicios interactivos con corrección automática.</p>
+        <a href="ingles_unit3_2ESO.html">Empezar</a>
       </article>
 
     </div>

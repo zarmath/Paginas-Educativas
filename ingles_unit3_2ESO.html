@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review 2ESO</title>
+<style>
+:root{--p:#60a5fa;--pd:#3b82f6;--s:#a78bfa;--a:#34d399;--d:#f87171;--w:#fbbf24;--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--card:#1e293b;--bd:#334155;--t:#e2e8f0;--t2:#94a3b8;--t3:#64748b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);min-height:100vh;line-height:1.6}
+header{background:linear-gradient(135deg,#1e3a8a,#312e81,#4c1d95);padding:clamp(1.5rem,5vw,3rem) 1rem clamp(2rem,6vw,4rem);text-align:center;position:relative;overflow:hidden}
+header::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(96,165,250,.15),transparent 50%),radial-gradient(circle at 80% 50%,rgba(167,139,250,.15),transparent 50%)}
+.hi{position:relative;z-index:1}
+header h1{font-size:clamp(1.6rem,5vw,2.6rem);font-weight:900;background:linear-gradient(90deg,#60a5fa,#a78bfa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+header p{color:#93c5fd;margin-top:.4rem;font-size:clamp(.9rem,2.5vw,1.1rem)}
+.badges{display:flex;justify-content:center;gap:.5rem;margin-top:.75rem;flex-wrap:wrap}
+.badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#c4b5fd;border-radius:999px;padding:.2rem .85rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+nav{background:var(--bg2);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:.4rem;padding:.6rem 1rem;position:sticky;top:0;z-index:100;flex-wrap:wrap}
+.nb{display:flex;gap:.4rem;flex:1;overflow-x:auto;scrollbar-width:none}
+.nb::-webkit-scrollbar{display:none}
+.ham{display:none;border:1.5px solid var(--bd);background:transparent;color:var(--t2);border-radius:8px;padding:.42rem .75rem;font-size:1.15rem;cursor:pointer;line-height:1;transition:all .2s;margin-left:auto;flex-shrink:0}
+.ham:hover,.ham.open{border-color:var(--p);color:var(--p)}
+nav button{border:1.5px solid var(--bd);background:transparent;color:var(--t2);border-radius:8px;padding:.45rem .9rem;font-size:.82rem;cursor:pointer;white-space:nowrap;font-weight:600;transition:all .2s;flex-shrink:0}
+nav button:hover{border-color:var(--p);color:var(--p);background:rgba(96,165,250,.08)}
+nav button.active{background:linear-gradient(135deg,var(--pd),var(--s));border-color:transparent;color:#fff}
+@media(max-width:600px){.ham{display:flex;align-items:center;justify-content:center}.nb{display:none;width:100%;flex-direction:column;gap:.3rem;overflow-x:visible;padding:.35rem 0 .1rem}nav.open .nb{display:flex}nav.open .nb button{white-space:normal;text-align:left}}
+main{max-width:860px;margin:0 auto;padding:clamp(1rem,3vw,2rem) clamp(.75rem,3vw,1.5rem)}
+.sec{display:none}.sec.on{display:block;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:clamp(1rem,3vw,1.75rem);margin-bottom:1.25rem;box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.card h2{font-size:clamp(1rem,3vw,1.25rem);margin-bottom:1rem;color:var(--p);display:flex;align-items:center;gap:.5rem}
+.card h3{font-size:.88rem;color:var(--s);margin:1.1rem 0 .6rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.gb{background:var(--bg);border:1px solid var(--bd);border-left:3px solid var(--p);border-radius:10px;padding:1rem 1.1rem;margin-bottom:1rem;overflow-x:auto}
+.gb h3{font-size:.85rem;margin-bottom:.6rem}
+.gb table{width:100%;border-collapse:collapse;font-size:clamp(.78rem,2vw,.9rem);min-width:260px}
+.gb td,.gb th{padding:.45rem .6rem;text-align:left}
+.gb th{background:rgba(96,165,250,.12);color:var(--p);font-weight:700}
+.gb tr:not(:last-child) td{border-bottom:1px solid var(--bd)}
+.gb td:first-child{color:var(--t2);font-size:.8rem;white-space:nowrap}
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.55rem;margin-top:.75rem}
+.vi{background:linear-gradient(135deg,rgba(52,211,153,.1),rgba(96,165,250,.08));border:1px solid rgba(52,211,153,.25);border-radius:10px;padding:.5rem .7rem;text-align:center;font-weight:600;font-size:.83rem;color:var(--a);transition:all .2s}
+.vi:hover{border-color:var(--a);transform:translateY(-1px)}
+.opr{display:grid;grid-template-columns:1fr 2rem 1fr;gap:.45rem;align-items:center;margin-bottom:.45rem}
+.ol{background:rgba(96,165,250,.12);color:var(--p);border:1px solid rgba(96,165,250,.2);border-radius:8px;padding:.4rem .55rem;text-align:center;font-weight:700;font-size:.85rem}
+.or{background:rgba(248,113,113,.1);color:var(--d);border:1px solid rgba(248,113,113,.2);border-radius:8px;padding:.4rem .55rem;text-align:center;font-weight:700;font-size:.85rem}
+.oa{color:var(--t3);text-align:center}
+.tip{background:rgba(251,191,36,.07);border-left:3px solid var(--w);border-radius:8px;padding:.8rem 1rem;margin-top:1rem;font-size:.86rem;color:#fde68a}
+.tip strong{color:var(--w)}
+.eh{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1rem}
+.en{background:linear-gradient(135deg,var(--pd),var(--s));color:#fff;min-width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;margin-top:.1rem}
+.eh p{font-weight:600;font-size:.92rem}
+.qi{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:.8rem 1rem;margin-bottom:.6rem}
+.qi p{font-size:.88rem;margin-bottom:.5rem}
+.opts{display:flex;flex-wrap:wrap;gap:.4rem}
+.ob{border:1.5px solid var(--bd);background:transparent;color:var(--t2);border-radius:8px;padding:.38rem .85rem;cursor:pointer;font-size:.85rem;font-weight:600;transition:all .15s}
+.ob:hover:not(.dis){border-color:var(--p);color:var(--p);background:rgba(96,165,250,.08)}
+.ob.ok{background:rgba(52,211,153,.15);border-color:var(--a);color:var(--a)}
+.ob.no{background:rgba(248,113,113,.1);border-color:var(--d);color:var(--d)}
+.ob.dis{pointer-events:none;opacity:.5}
+.fr{display:flex;align-items:center;gap:.6rem;margin:.5rem 0;flex-wrap:wrap}
+.fr label{font-size:.86rem;flex:1;min-width:190px;color:var(--t2)}
+.fi{background:var(--bg);border:1.5px solid var(--bd);color:var(--t);border-radius:8px;padding:.38rem .65rem;font-size:.86rem;width:clamp(120px,25vw,155px);transition:border-color .2s}
+.fi:focus{outline:none;border-color:var(--p);background:rgba(96,165,250,.04)}
+.fi::placeholder{color:var(--t3)}
+.fi.ok{border-color:var(--a);background:rgba(52,211,153,.07);color:var(--a)}
+.fi.no{border-color:var(--d);background:rgba(248,113,113,.07)}
+.br{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.85rem}
+.btn{border:none;border-radius:10px;padding:.58rem 1.2rem;font-size:.86rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.35rem}
+.btn.pr{background:linear-gradient(135deg,var(--pd),var(--s));color:#fff}
+.btn.pr:hover{opacity:.88;transform:translateY(-1px)}
+.btn.rs{background:var(--bg3);color:var(--t2)}
+.btn.rs:hover{background:var(--bd)}
+.fb{margin-top:.75rem;padding:.65rem 1rem;border-radius:10px;font-weight:700;font-size:.88rem;display:none}
+.fb.on{display:block}
+.fb.ok{background:rgba(52,211,153,.12);color:var(--a);border:1px solid rgba(52,211,153,.25)}
+.fb.no{background:rgba(248,113,113,.1);color:var(--d);border:1px solid rgba(248,113,113,.2)}
+.sb{background:linear-gradient(135deg,#1e3a8a,#312e81,#4c1d95);border:1px solid rgba(167,139,250,.2);border-radius:16px;padding:2rem 1.5rem;text-align:center;margin-top:1rem}
+.sn{font-size:clamp(2.5rem,8vw,4rem);font-weight:900;background:linear-gradient(90deg,var(--p),var(--s));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sm{color:#c4b5fd;margin-top:.3rem;font-size:.93rem}
+.pb{background:rgba(255,255,255,.1);border-radius:999px;height:10px;margin-top:1.25rem;overflow:hidden}
+.pf{background:linear-gradient(90deg,var(--a),var(--p));border-radius:999px;height:100%;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.sl{list-style:none;padding:0}
+.sl li{padding:.55rem 0;border-bottom:1px solid var(--bd);font-size:.88rem;color:var(--t2);display:flex;gap:.6rem}
+.sl li:last-child{border-bottom:none}
+.sl li::before{content:'→';color:var(--p);flex-shrink:0}
+.sl li strong{color:var(--t)}
+@media(max-width:480px){
+.fr{flex-direction:column;align-items:flex-start}
+.fi{width:100%}
+.opr{font-size:.78rem}
+.vg{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
+nav button{font-size:.76rem;padding:.38rem .65rem}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="hi">
+<h1>🇬🇧 English Review</h1>
+<p>Unit 3 – Extraordinary People</p>
+<div class="badges"><span class="badge">2º ESO</span><span class="badge">Dark Mode</span><span class="badge">Interactive</span></div>
+</div>
+</header>
+<nav id="nav">
+<button class="ham" id="ham" onclick="toggleNav()" aria-label="Menú">☰</button>
+<div class="nb">
+<button class="active" onclick="show('vocab',this)">📚 Vocabulary</button>
+<button onclick="show('g1',this)">📖 Past Simple</button>
+<button onclick="show('g2',this)">📖 There was · Used to</button>
+<button onclick="show('ex',this)">✏️ Ejercicios</button>
+<button onclick="show('sc',this)">🏆 Score</button>
+</div>
+</nav>
+<main>
+
+<div id="vocab" class="sec on">
+<div class="card">
+<h2>📚 Adjectives</h2>
+<p style="color:var(--t2);font-size:.86rem;margin-bottom:.75rem">Adjetivos clave de la unidad.</p>
+<h3>Adjectives from the unit</h3>
+<div class="vg">
+<div class="vi">unique</div><div class="vi">tiny</div><div class="vi">hungry</div><div class="vi">thirsty</div>
+<div class="vi">embarrassed</div><div class="vi">frightening</div><div class="vi">interesting</div><div class="vi">wonderful</div>
+<div class="vi">boring</div><div class="vi">rich</div><div class="vi">poor</div><div class="vi">difficult</div>
+<div class="vi">huge</div><div class="vi">old-fashioned</div><div class="vi">trendy</div><div class="vi">incredible</div>
+<div class="vi">special</div><div class="vi">enormous</div><div class="vi">amazing</div><div class="vi">hard / shy</div>
+</div>
+<h3>🔄 Pairs of opposites</h3>
+<div class="opr"><div class="ol">unique</div><div class="oa">↔</div><div class="or">ordinary</div></div>
+<div class="opr"><div class="ol">wonderful</div><div class="oa">↔</div><div class="or">boring</div></div>
+<div class="opr"><div class="ol">rich</div><div class="oa">↔</div><div class="or">poor</div></div>
+<div class="opr"><div class="ol">old-fashioned</div><div class="oa">↔</div><div class="or">trendy</div></div>
+<div class="opr"><div class="ol">huge / enormous</div><div class="oa">↔</div><div class="or">tiny</div></div>
+<div class="opr"><div class="ol">interesting</div><div class="oa">↔</div><div class="or">boring</div></div>
+<div class="tip"><strong>💡 Synonyms:</strong> E.g.: <em>huge = enormous</em> · <em>interesting = fascinating</em> · <em>hard = difficult</em>. Use them to avoid repeating words!</div>
+</div>
+</div>
+
+<div id="g1" class="sec">
+<div class="card">
+<h2>📖 Past Simple</h2>
+<p style="color:var(--t2);font-size:.86rem;margin-bottom:.75rem">Para acciones <strong style="color:var(--p)">completadas en el pasado</strong>.</p>
+<div class="gb"><h3 style="color:var(--p)">🔵 Regular Verbs</h3>
+<table><tr><th>Form</th><th>Example</th></tr>
+<tr><td>➕ Affirmative</td><td>He <strong>competed</strong> in a marathon <em>two years ago</em>.</td></tr>
+<tr><td>➖ Negative</td><td>She <strong>didn't compete</strong> yesterday.</td></tr>
+<tr><td>❓ Question</td><td><strong>Did</strong> they <strong>compete</strong> last year?</td></tr>
+<tr><td>✅ Short answers</td><td>Yes, they <strong>did</strong>. / No, they <strong>didn't</strong>.</td></tr></table></div>
+<div class="gb" style="border-left-color:var(--s)"><h3 style="color:var(--s)">🟣 Irregular Verbs</h3>
+<table><tr><th>Form</th><th>Example</th></tr>
+<tr><td>➕ Affirmative</td><td>She <strong>wrote</strong> an interesting book <em>last month</em>.</td></tr>
+<tr><td>➖ Negative</td><td>We <strong>didn't write</strong> our essays.</td></tr>
+<tr><td>❓ Question</td><td>When <strong>did</strong> he <strong>write</strong> this?</td></tr></table></div>
+<div class="gb" style="border-left-color:var(--a)"><h3 style="color:var(--a)">✏️ Spelling Rules</h3>
+<table><tr><th>Infinitive</th><th>Past Simple</th><th>Rule</th></tr>
+<tr><td>try</td><td><strong>tried</strong></td><td>consonant+y → ied</td></tr>
+<tr><td>play</td><td><strong>played</strong></td><td>vowel+y → yed</td></tr>
+<tr><td>like</td><td><strong>liked</strong></td><td>ends in e → +d</td></tr>
+<tr><td>stop</td><td><strong>stopped</strong></td><td>CVC → double+ed</td></tr>
+<tr><td>climb</td><td><strong>climbed</strong></td><td>regular → +ed</td></tr></table></div>
+<div class="tip"><strong>⏰ Time expressions:</strong> yesterday · last week/month/year · two years ago · in 2020 · when I was young</div>
+</div>
+</div>
+
+<div id="g2" class="sec">
+<div class="card">
+<h2>📖 There was / There were</h2>
+<div class="gb"><table>
+<tr><th></th><th>Singular</th><th>Plural</th></tr>
+<tr><td>➕</td><td>There <strong>was</strong> an event.</td><td>There <strong>were</strong> many people.</td></tr>
+<tr><td>➖</td><td>There <strong>wasn't</strong> a camera.</td><td>There <strong>weren't</strong> any photos.</td></tr>
+<tr><td>❓</td><td><strong>Was there</strong> a problem?</td><td><strong>Were there</strong> many guests?</td></tr>
+<tr><td>✅</td><td>Yes, there <strong>was</strong>. / No, there <strong>wasn't</strong>.</td><td>Yes, there <strong>were</strong>. / No, there <strong>weren't</strong>.</td></tr>
+</table></div>
+</div>
+<div class="card">
+<h2>📖 Used to</h2>
+<div class="gb" style="border-left-color:var(--s)"><table>
+<tr><th>Form</th><th>Example</th></tr>
+<tr><td>➕ Affirmative</td><td>He <strong>used to work</strong> at night.</td></tr>
+<tr><td>➖ Negative</td><td>They <strong>didn't use to have</strong> a computer.</td></tr>
+<tr><td>❓ Question</td><td><strong>Did</strong> you <strong>use to run</strong> marathons?</td></tr>
+<tr><td>✅ Short answers</td><td>Yes, I <strong>did</strong>. / No, I <strong>didn't</strong>.</td></tr>
+</table></div>
+<div class="tip"><strong>🔑 Key:</strong> <em>Used to</em> = hábito pasado que ya no ocurre. E.g.: "Children <em>used to work</em> from age four."</div>
+</div>
+</div>
+
+<div id="ex" class="sec">
+<div class="card" id="c1">
+<div class="eh"><div class="en">1</div><p>Choose the correct adjective.</p></div>
+<div class="qi"><p>1. I watched a very ______ documentary about poor children in the USA.</p>
+<div class="opts" data-c="interesting"><button class="ob" onclick="pick(this)">thirsty</button><button class="ob" onclick="pick(this)">interesting</button><button class="ob" onclick="pick(this)">huge</button></div></div>
+<div class="qi"><p>2. Everyone is wearing these boots. They're very ______.</p>
+<div class="opts" data-c="trendy"><button class="ob" onclick="pick(this)">rich</button><button class="ob" onclick="pick(this)">unique</button><button class="ob" onclick="pick(this)">trendy</button></div></div>
+<div class="qi"><p>3. ______ people have got a lot of money.</p>
+<div class="opts" data-c="Rich"><button class="ob" onclick="pick(this)">Boring</button><button class="ob" onclick="pick(this)">Rich</button><button class="ob" onclick="pick(this)">Frightening</button></div></div>
+<div class="qi"><p>4. It isn't easy for ______ people to make new friends.</p>
+<div class="opts" data-c="shy"><button class="ob" onclick="pick(this)">hungry</button><button class="ob" onclick="pick(this)">old-fashioned</button><button class="ob" onclick="pick(this)">shy</button></div></div>
+<div class="qi"><p>5. Don't feel ______. Everyone makes mistakes.</p>
+<div class="opts" data-c="embarrassed"><button class="ob" onclick="pick(this)">wonderful</button><button class="ob" onclick="pick(this)">poor</button><button class="ob" onclick="pick(this)">embarrassed</button></div></div>
+<div class="fb" id="fb1"></div>
+</div>
+
+<div class="card">
+<div class="eh"><div class="en">2</div><p>Write the <strong>Past Simple</strong> of the verbs.</p></div>
+<div class="fr"><label>1. A brave woman ______ (climb) a huge tree.</label><input class="fi" data-a="climbed" placeholder="verb..."></div>
+<div class="fr"><label>2. I ______ (study) hard for the test.</label><input class="fi" data-a="studied" placeholder="verb..."></div>
+<div class="fr"><label>3. My teacher ______ (run) in the marathon.</label><input class="fi" data-a="ran" placeholder="verb..."></div>
+<div class="fr"><label>4. She ______ (write) an interesting book.</label><input class="fi" data-a="wrote" placeholder="verb..."></div>
+<div class="fr"><label>5. He ______ (not/compete) in the race.</label><input class="fi" data-a="didn't compete" placeholder="verb..."></div>
+<div class="fr"><label>6. They ______ (not/watch) TV yesterday.</label><input class="fi" data-a="didn't watch" placeholder="verb..."></div>
+<div class="br"><button class="btn pr" onclick="chk('fb2')">Check ✅</button><button class="btn rs" onclick="rst('fb2')">Reset 🔄</button></div>
+<div class="fb" id="fb2"></div>
+</div>
+
+<div class="card">
+<div class="eh"><div class="en">3</div><p>Complete with <strong>There was / There were / There wasn't / There weren't</strong>.</p></div>
+<div class="fr"><label>1. ______ a great singer in Queen. His name was Freddie Mercury.</label><input class="fi" data-a="there was" placeholder="there was/were..."></div>
+<div class="fr"><label>2. ______ many libraries in the past.</label><input class="fi" data-a="there were" placeholder="there was/were..."></div>
+<div class="fr"><label>3. ______ three astronauts on Apollo 11.</label><input class="fi" data-a="there were" placeholder="there was/were..."></div>
+<div class="fr"><label>4. ______ any photographers at the event.</label><input class="fi" data-a="there weren't" placeholder="there was/were..."></div>
+<div class="fr"><label>5. ______ a female prime minister in England in the 20th century?</label><input class="fi" data-a="was there" placeholder="there was/were..."></div>
+<div class="br"><button class="btn pr" onclick="chk('fb3')">Check ✅</button><button class="btn rs" onclick="rst('fb3')">Reset 🔄</button></div>
+<div class="fb" id="fb3"></div>
+</div>
+
+<div class="card">
+<div class="eh"><div class="en">4</div><p>Complete with the correct form of <strong>used to</strong>.</p></div>
+<div class="fr"><label>1. Children in England ______ (work) from age four.</label><input class="fi" data-a="used to work" placeholder="used to..."></div>
+<div class="fr"><label>2. Female authors ______ (not/have) their own names on books.</label><input class="fi" data-a="didn't use to have" placeholder="used to..."></div>
+<div class="fr"><label>3. Footballers ______ (not/get) a lot of money.</label><input class="fi" data-a="didn't use to get" placeholder="used to..."></div>
+<div class="fr"><label>4. Artists ______ (participate) in the Olympics.</label><input class="fi" data-a="used to participate" placeholder="used to..."></div>
+<div class="br"><button class="btn pr" onclick="chk('fb4')">Check ✅</button><button class="btn rs" onclick="rst('fb4')">Reset 🔄</button></div>
+<div class="fb" id="fb4"></div>
+</div>
+
+<div class="card" id="ctf">
+<div class="eh"><div class="en">5</div><p>Reading – <em>Hard Work and Determination</em>. True or False?</p></div>
+<div class="qi" data-c="true"><p>1. Mariam Paré's arms and legs became paralysed when she was a 20-year-old art student.</p>
+<div class="opts"><button class="ob" onclick="tf(this,'true')">True</button><button class="ob" onclick="tf(this,'false')">False</button></div></div>
+<div class="qi" data-c="true"><p>2. Chen Zhou lost both his legs in a train accident at age 13.</p>
+<div class="opts"><button class="ob" onclick="tf(this,'true')">True</button><button class="ob" onclick="tf(this,'false')">False</button></div></div>
+<div class="qi" data-c="true"><p>3. Gloria Ramos has Down's Syndrome.</p>
+<div class="opts"><button class="ob" onclick="tf(this,'true')">True</button><button class="ob" onclick="tf(this,'false')">False</button></div></div>
+<div class="qi" data-c="false"><p>4. The film <em>Champions</em> received 5 Goya Award nominations.</p>
+<div class="opts"><button class="ob" onclick="tf(this,'true')">True</button><button class="ob" onclick="tf(this,'false')">False</button></div></div>
+<div class="qi" data-c="true"><p>5. Mariam paints using her mouth.</p>
+<div class="opts"><button class="ob" onclick="tf(this,'true')">True</button><button class="ob" onclick="tf(this,'false')">False</button></div></div>
+<div class="fb" id="fb5"></div>
+</div>
+</div>
+
+<div id="sc" class="sec">
+<div class="card">
+<h2 style="justify-content:center;text-align:center">🏆 Tu puntuación</h2>
+<p style="text-align:center;color:var(--t2);font-size:.86rem">Completa los ejercicios y pulsa el botón.</p>
+<div class="sb">
+<div class="sn" id="sn">– / –</div>
+<p class="sm" id="sm">¡Completa los ejercicios primero!</p>
+<div class="pb"><div class="pf" id="pf" style="width:0%"></div></div>
+</div>
+<div style="text-align:center;margin-top:1.25rem"><button class="btn pr" onclick="calc()">🔄 Calcular puntuación</button></div>
+</div>
+<div class="card">
+<h2>📝 Resumen</h2>
+<ul class="sl">
+<li><span><strong>Adjectives:</strong> tiny, unique, wonderful, boring, trendy, old-fashioned…</span></li>
+<li><span><strong>Opposites:</strong> rich/poor · huge/tiny · boring/interesting · old-fashioned/trendy</span></li>
+<li><span><strong>Past Simple (+):</strong> verb+-ed o forma irregular. E.g.: climbed, wrote, ran</span></li>
+<li><span><strong>Past Simple (-):</strong> didn't + infinitive. E.g.: didn't compete</span></li>
+<li><span><strong>Past Simple (?):</strong> Did + subject + infinitive?</span></li>
+<li><span><strong>There was/were:</strong> hechos pasados en singular/plural.</span></li>
+<li><span><strong>Used to:</strong> hábitos pasados ya no vigentes. E.g.: He used to work at night.</span></li>
+</ul>
+</div>
+</div>
+
+</main>
+<script>
+function toggleNav(){
+  const n=document.getElementById('nav'),h=document.getElementById('ham');
+  n.classList.toggle('open');h.classList.toggle('open');
+}
+function show(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nb button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('on');btn.classList.add('active');
+  const n=document.getElementById('nav'),h=document.getElementById('ham');
+  n.classList.remove('open');h.classList.remove('open');
+}
+function sfb(id,c,t){
+  const fb=document.getElementById(id);
+  fb.className=c===t?'fb on ok':'fb on no';
+  fb.textContent=c===t?`🎉 ¡Perfecto! ${c}/${t} correctas`:`${c}/${t} correctas – revisa las marcadas en rojo`;
+}
+function pick(btn){
+  const g=btn.closest('.opts');if(g.dataset.done)return;
+  const cor=g.dataset.c;g.dataset.done='1';
+  g.querySelectorAll('.ob').forEach(b=>b.classList.add('dis'));
+  btn.classList.add(btn.textContent.trim()===cor?'ok':'no');
+  if(btn.textContent.trim()!==cor)g.querySelectorAll('.ob').forEach(b=>{if(b.textContent.trim()===cor)b.classList.add('ok');});
+  const card=document.getElementById('c1');
+  const all=card.querySelectorAll('.opts').length,done=card.querySelectorAll('.opts[data-done]').length;
+  if(all===done)sfb('fb1',card.querySelectorAll('.ob.ok').length,all);
+}
+function tf(btn,ch){
+  const item=btn.closest('[data-c]');if(item.dataset.done)return;
+  const cor=item.dataset.c;item.dataset.done='1';
+  item.querySelectorAll('.ob').forEach(b=>b.classList.add('dis'));
+  btn.classList.add(ch===cor?'ok':'no');
+  if(ch!==cor)item.querySelectorAll('.ob').forEach(b=>{const v=b.textContent.trim()==='True'?'true':'false';if(v===cor)b.classList.add('ok');});
+  const card=document.getElementById('ctf');
+  const all=card.querySelectorAll('[data-c]').length,done=card.querySelectorAll('[data-c][data-done]').length;
+  if(all===done)sfb('fb5',card.querySelectorAll('.ob.ok').length,all);
+}
+function chk(fid){
+  const card=document.getElementById(fid).closest('.card');
+  const inputs=card.querySelectorAll('.fi');let c=0;
+  inputs.forEach(i=>{
+    const a=i.dataset.a.toLowerCase().trim(),v=i.value.toLowerCase().trim();
+    i.classList.remove('ok','no');
+    if(a===v){i.classList.add('ok');c++;}else i.classList.add('no');
+  });
+  sfb(fid,c,inputs.length);
+}
+function rst(fid){
+  const card=document.getElementById(fid).closest('.card');
+  card.querySelectorAll('.fi').forEach(i=>{i.value='';i.classList.remove('ok','no');});
+  const fb=document.getElementById(fid);fb.className='fb';fb.textContent='';
+}
+function calc(){
+  let t=0,c=0;
+  document.getElementById('c1').querySelectorAll('.opts').forEach(g=>{t++;if(g.querySelector('.ob.ok'))c++;});
+  ['fb2','fb3','fb4'].forEach(id=>{document.getElementById(id).closest('.card').querySelectorAll('.fi').forEach(i=>{t++;if(i.classList.contains('ok'))c++;});});
+  document.getElementById('ctf').querySelectorAll('[data-c]').forEach(i=>{t++;if(i.querySelector('.ob.ok'))c++;});
+  const pct=t>0?Math.round(c/t*100):0;
+  document.getElementById('sn').textContent=c+' / '+t;
+  document.getElementById('pf').style.width=pct+'%';
+  const msgs=['¡Sigue estudiando! 💪','¡Vas bien, un poco más! 📖','¡Muy bien hecho! 🌟','¡Excelente, top student! 🏆'];
+  document.getElementById('sm').textContent=pct===100?msgs[3]:pct>=70?msgs[2]:pct>=40?msgs[1]:msgs[0];
+}
+</script>
+</body>
+</html>
