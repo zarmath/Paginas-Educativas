@@ -15,6 +15,7 @@
       --geo:   #38bdf8;
       --bio:   #4ade80;
       --mat:   #f59e0b;
+      --tec:   #22d3ee;
       --len:   #a78bfa;
       --fra:   #fb7185;
       --ing:   #60a5fa;
@@ -145,6 +146,7 @@
     .subject[data-subject="geo"] .subject-title { color: var(--geo); }
     .subject[data-subject="bio"] .subject-title { color: var(--bio); }
     .subject[data-subject="mat"] .subject-title { color: var(--mat); }
+    .subject[data-subject="tec"] .subject-title { color: var(--tec); }
     .subject[data-subject="len"] .subject-title { color: var(--len); }
     .subject[data-subject="fra"] .subject-title { color: var(--fra); }
     .subject[data-subject="ing"] .subject-title { color: var(--ing); }
@@ -152,6 +154,7 @@
     .subject[data-subject="geo"] .subject-header { border-color: rgba(56,189,248,0.2); }
     .subject[data-subject="bio"] .subject-header { border-color: rgba(74,222,128,0.2); }
     .subject[data-subject="mat"] .subject-header { border-color: rgba(245,158,11,0.2); }
+    .subject[data-subject="tec"] .subject-header { border-color: rgba(34,211,238,0.2); }
     .subject[data-subject="len"] .subject-header { border-color: rgba(167,139,250,0.2); }
     .subject[data-subject="fra"] .subject-header { border-color: rgba(251,113,133,0.2); }
     .subject[data-subject="ing"] .subject-header { border-color: rgba(96,165,250,0.2); }
@@ -189,6 +192,7 @@
     .subject[data-subject="geo"] .card::before { background: var(--geo); }
     .subject[data-subject="bio"] .card::before { background: var(--bio); }
     .subject[data-subject="mat"] .card::before { background: var(--mat); }
+    .subject[data-subject="tec"] .card::before { background: var(--tec); }
     .subject[data-subject="len"] .card::before { background: var(--len); }
     .subject[data-subject="fra"] .card::before { background: var(--fra); }
     .subject[data-subject="ing"] .card::before { background: var(--ing); }
@@ -223,6 +227,7 @@
     .subject[data-subject="geo"] .pill-subject { background: rgba(56,189,248,0.12);  color: var(--geo);  border: 1px solid rgba(56,189,248,0.25); }
     .subject[data-subject="bio"] .pill-subject { background: rgba(74,222,128,0.12);  color: var(--bio);  border: 1px solid rgba(74,222,128,0.25); }
     .subject[data-subject="mat"] .pill-subject { background: rgba(245,158,11,0.12);  color: var(--mat);  border: 1px solid rgba(245,158,11,0.25); }
+    .subject[data-subject="tec"] .pill-subject { background: rgba(34,211,238,0.12);  color: var(--tec);  border: 1px solid rgba(34,211,238,0.25); }
     .subject[data-subject="len"] .pill-subject { background: rgba(167,139,250,0.12); color: var(--len);  border: 1px solid rgba(167,139,250,0.25); }
     .subject[data-subject="fra"] .pill-subject { background: rgba(251,113,133,0.12); color: var(--fra);  border: 1px solid rgba(251,113,133,0.25); }
     .subject[data-subject="ing"] .pill-subject { background: rgba(96,165,250,0.12);  color: var(--ing);  border: 1px solid rgba(96,165,250,0.25); }
@@ -256,6 +261,7 @@
     .subject[data-subject="geo"] .card a { background: var(--geo);  color: #0b1224; box-shadow: 0 8px 24px rgba(56,189,248,0.30); }
     .subject[data-subject="bio"] .card a { background: var(--bio);  color: #0b1224; box-shadow: 0 8px 24px rgba(74,222,128,0.30); }
     .subject[data-subject="mat"] .card a { background: var(--mat);  color: #0b1224; box-shadow: 0 8px 24px rgba(245,158,11,0.30); }
+    .subject[data-subject="tec"] .card a { background: var(--tec);  color: #0b1224; box-shadow: 0 8px 24px rgba(34,211,238,0.30); }
     .subject[data-subject="len"] .card a { background: var(--len);  color: #0b1224; box-shadow: 0 8px 24px rgba(167,139,250,0.30); }
     .subject[data-subject="fra"] .card a { background: var(--fra);  color: #0b1224; box-shadow: 0 8px 24px rgba(251,113,133,0.30); }
     .subject[data-subject="ing"] .card a { background: var(--ing);  color: #0b1224; box-shadow: 0 8px 24px rgba(96,165,250,0.30); }
@@ -372,6 +378,28 @@
         <h2>Ecuaciones</h2>
         <p>Repaso de ecuaciones: primer y segundo grado, sistemas y resolución paso a paso.</p>
         <a href="ecuaciones.html">Empezar</a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ── LENGUA CASTELLANA ── -->
+  <section class="subject" data-subject="tec">
+    <div class="subject-header">
+      <span class="subject-icon">⚙️</span>
+      <span class="subject-title">Tecnología</span>
+      <span class="subject-count">1 recurso</span>
+    </div>
+    <div class="grid">
+
+      <article class="card" data-course="2eso">
+        <div class="card-meta">
+          <span class="pill pill-subject">Tecnología</span>
+          <span class="pill pill-course">2º ESO</span>
+        </div>
+        <h2>Mecanismos y Palancas</h2>
+        <p>Explicación visual de mecanismos, palancas y poleas con simulador interactivo y ejercicios autocorregibles.</p>
+        <a href="tecnologia_palancas.html">Empezar</a>
       </article>
 
     </div>
