@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Física 2º ESO | Repaso del movimiento</title>
+<style>
+:root{
+  --ink:#17324d;
+  --muted:#587187;
+  --bg:#f4efe3;
+  --paper:#fffdf8;
+  --panel:#fff8eb;
+  --line:rgba(23,50,77,.12);
+  --teal:#0f9f94;
+  --teal-soft:#d6f3ef;
+  --orange:#ef7d32;
+  --orange-soft:#ffe5d1;
+  --sun:#ffd66e;
+  --mint:#b8ebd9;
+  --sky:#d7ecff;
+  --danger:#cf4b4b;
+  --ok:#198754;
+  --shadow:0 18px 48px rgba(23,50,77,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Avenir Next","Trebuchet MS","Verdana",sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(15,159,148,.18), transparent 24%),
+    radial-gradient(circle at top right, rgba(239,125,50,.16), transparent 22%),
+    linear-gradient(180deg,#f7f1e4 0%,#f4efe3 55%,#efe7d5 100%);
+  color:var(--ink);
+  line-height:1.55;
+}
+a{color:inherit}
+.wrap{width:min(1180px,calc(100% - 32px));margin:0 auto}
+.hero{
+  padding:32px 0 28px;
+}
+.hero-shell{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(23,50,77,.08);
+  border-radius:32px;
+  background:
+    linear-gradient(140deg, rgba(255,255,255,.92), rgba(255,248,235,.92)),
+    repeating-linear-gradient(90deg, rgba(15,159,148,.03) 0 1px, transparent 1px 70px),
+    repeating-linear-gradient(0deg, rgba(23,50,77,.03) 0 1px, transparent 1px 70px);
+  box-shadow:var(--shadow);
+  padding:clamp(22px,4vw,44px);
+}
+.hero-shell::before,
+.hero-shell::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  z-index:0;
+}
+.hero-shell::before{
+  width:320px;height:320px;
+  right:-90px;top:-90px;
+  background:radial-gradient(circle, rgba(15,159,148,.18), transparent 68%);
+}
+.hero-shell::after{
+  width:260px;height:260px;
+  left:-80px;bottom:-90px;
+  background:radial-gradient(circle, rgba(239,125,50,.16), transparent 68%);
+}
+.hero-grid{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:26px;
+  align-items:center;
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:var(--teal-soft);
+  color:var(--teal);
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:12px;
+}
+h1{
+  margin-top:16px;
+  font-size:clamp(2rem,4.9vw,4.4rem);
+  line-height:.95;
+  letter-spacing:-.04em;
+  max-width:10ch;
+}
+.lead{
+  margin-top:16px;
+  max-width:62ch;
+  color:var(--muted);
+  font-size:clamp(1rem,1.8vw,1.08rem);
+}
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:22px;
+}
+.btn{
+  border:none;
+  border-radius:16px;
+  padding:13px 18px;
+  font-size:.96rem;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{
+  background:linear-gradient(135deg,var(--teal),#15837a);
+  color:#fff;
+  box-shadow:0 12px 24px rgba(15,159,148,.24);
+}
+.btn-secondary{
+  background:#fff;
+  color:var(--ink);
+  border:1px solid var(--line);
+}
+.hero-points{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-top:24px;
+}
+.point{
+  background:rgba(255,255,255,.82);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+}
+.point strong{
+  display:block;
+  font-size:1.2rem;
+  color:var(--orange);
+}
+.point span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:.88rem;
+}
+.orbit{
+  display:grid;
+  place-items:center;
+  min-height:420px;
+}
+.planet{
+  width:min(100%,430px);
+  aspect-ratio:1;
+  border-radius:50%;
+  position:relative;
+  background:
+    radial-gradient(circle at 50% 45%, #fffdf8 0 30%, rgba(255,255,255,0) 31%),
+    radial-gradient(circle at 30% 30%, rgba(255,214,110,.55), transparent 42%),
+    linear-gradient(160deg, rgba(15,159,148,.20), rgba(239,125,50,.12));
+  border:1px dashed rgba(23,50,77,.16);
+}
+.orbit-ring{
+  position:absolute;
+  inset:12%;
+  border:2px solid rgba(15,159,148,.18);
+  border-radius:50%;
+}
+.orbit-ring.two{inset:24%;border-color:rgba(239,125,50,.18)}
+.orbit-ring.three{inset:36%;border-color:rgba(23,50,77,.12)}
+.orbit-card{
+  position:absolute;
+  width:150px;
+  padding:12px 14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.94);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+}
+.orbit-card strong{
+  display:block;
+  font-size:.95rem;
+  margin-bottom:2px;
+}
+.orbit-card span{
+  color:var(--muted);
+  font-size:.83rem;
+}
+.o1{top:2%;left:12%}
+.o2{top:18%;right:-2%}
+.o3{bottom:14%;right:6%}
+.o4{bottom:2%;left:4%}
+.dot{
+  position:absolute;
+  width:18px;height:18px;
+  border-radius:50%;
+  background:var(--orange);
+  box-shadow:0 0 0 8px rgba(239,125,50,.12);
+  animation:floaty 3s ease-in-out infinite;
+}
+.d1{top:19%;left:72%}
+.d2{top:63%;left:30%;background:var(--teal);box-shadow:0 0 0 8px rgba(15,159,148,.12);animation-delay:.4s}
+.d3{top:44%;left:50%;background:var(--sun);box-shadow:0 0 0 8px rgba(255,214,110,.18);animation-delay:.8s}
+@keyframes floaty{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+.quick-bar{
+  position:sticky;
+  top:10px;
+  z-index:20;
+  margin:0 auto 28px;
+  width:min(1180px,calc(100% - 32px));
+  display:flex;
+  gap:10px;
+  padding:12px;
+  border-radius:22px;
+  background:rgba(255,253,248,.82);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(23,50,77,.08);
+  box-shadow:0 12px 24px rgba(23,50,77,.06);
+  overflow:auto;
+}
+.quick-bar button{
+  white-space:nowrap;
+  border:none;
+  border-radius:999px;
+  padding:10px 16px;
+  font-weight:800;
+  color:var(--muted);
+  background:transparent;
+  cursor:pointer;
+}
+.quick-bar button.active,
+.quick-bar button:hover{
+  background:var(--ink);
+  color:#fff;
+}
+main{padding-bottom:56px}
+.section{
+  margin:0 0 22px;
+  background:rgba(255,253,248,.76);
+  border:1px solid rgba(23,50,77,.08);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  padding:clamp(22px,4vw,34px);
+}
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-end;
+  margin-bottom:22px;
+}
+.section-head h2{
+  font-size:clamp(1.6rem,3vw,2.5rem);
+  line-height:1;
+  letter-spacing:-.04em;
+}
+.section-head p{
+  max-width:62ch;
+  color:var(--muted);
+}
+.chip-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.chip{
+  padding:8px 13px;
+  border-radius:999px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  color:var(--ink);
+  font-weight:700;
+  font-size:.88rem;
+}
+.cards-2,.cards-3,.cards-4{
+  display:grid;
+  gap:16px;
+}
+.cards-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.info-card,
+.mini-card,
+.exercise-card,
+.graph-card,
+.formula-card,
+.challenge{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:18px;
+}
+.info-card h3,
+.exercise-card h3,
+.formula-card h3,
+.graph-card h3,
+.challenge h3{
+  font-size:1.08rem;
+  margin-bottom:8px;
+}
+.info-card p,
+.mini-card p,
+.exercise-card p,
+.graph-card p,
+.formula-card p,
+.challenge p{
+  color:var(--muted);
+  font-size:.95rem;
+}
+.spotlight{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:16px;
+  margin-top:8px;
+}
+.definition{
+  background:linear-gradient(135deg, rgba(15,159,148,.12), rgba(255,255,255,.8));
+  border:1px solid rgba(15,159,148,.18);
+  border-radius:24px;
+  padding:22px;
+}
+.definition strong{
+  display:block;
+  font-size:1.45rem;
+  line-height:1.1;
+}
+.definition span{
+  display:block;
+  color:var(--muted);
+  margin-top:6px;
+}
+.list-card{
+  background:linear-gradient(135deg, rgba(239,125,50,.12), rgba(255,255,255,.84));
+  border:1px solid rgba(239,125,50,.18);
+  border-radius:24px;
+  padding:20px;
+}
+.list-card ul{
+  margin-top:10px;
+  padding-left:18px;
+  color:var(--ink);
+}
+.list-card li+li{margin-top:8px}
+.memory-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:18px;
+}
+.memory{
+  border-radius:22px;
+  padding:18px;
+  min-height:170px;
+  border:1px solid var(--line);
+}
+.memory.teal{background:var(--teal-soft)}
+.memory.orange{background:var(--orange-soft)}
+.memory.sky{background:var(--sky)}
+.memory h3{
+  margin-bottom:8px;
+  font-size:1rem;
+}
+.memory strong{
+  display:block;
+  font-size:1.35rem;
+  margin:10px 0 4px;
+}
+.compare{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:12px;
+  font-size:.95rem;
+}
+.compare th,.compare td{
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  padding:12px 10px;
+  vertical-align:top;
+}
+.compare th{
+  color:var(--ink);
+  font-size:.84rem;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.formula-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:16px;
+}
+.formula{
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:18px;
+  background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,248,235,.92));
+}
+.formula .tag{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:var(--teal-soft);
+  color:var(--teal);
+  font-size:.77rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.formula code{
+  display:block;
+  margin:12px 0 8px;
+  font-size:1.55rem;
+  font-weight:900;
+  color:var(--ink);
+  font-family:"Avenir Next","Trebuchet MS","Verdana",sans-serif;
+}
+.formula p{color:var(--muted);font-size:.92rem}
+.example-strip{
+  margin-top:16px;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+.example{
+  border-radius:22px;
+  padding:18px;
+  border:1px solid var(--line);
+  background:var(--paper);
+}
+.example strong{
+  display:block;
+  font-size:1.08rem;
+}
+.example .calc{
+  margin-top:10px;
+  color:var(--orange);
+  font-weight:900;
+  font-size:1.2rem;
+}
+.graph-wrap{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+  margin-top:16px;
+}
+.graph{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:18px;
+}
+.mini-axes{
+  position:relative;
+  height:220px;
+  margin-top:14px;
+  border-radius:20px;
+  background:
+    linear-gradient(to right, rgba(23,50,77,.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(23,50,77,.07) 1px, transparent 1px),
+    #fff;
+  background-size:28px 28px;
+  overflow:hidden;
+}
+.axis-x,.axis-y{
+  position:absolute;
+  background:rgba(23,50,77,.5);
+}
+.axis-x{left:18px;right:18px;bottom:20px;height:2px}
+.axis-y{left:18px;top:18px;bottom:20px;width:2px}
+.line{
+  position:absolute;
+  height:4px;
+  border-radius:999px;
+  transform-origin:left center;
+}
+.line.up{left:34px;bottom:36px;width:170px;background:var(--teal);transform:rotate(-24deg)}
+.line.flat{left:36px;bottom:102px;width:150px;background:var(--orange)}
+.line.down{left:34px;bottom:160px;width:170px;background:#e45858;transform:rotate(24deg)}
+.curve{
+  position:absolute;
+  left:36px;bottom:34px;
+  width:182px;height:132px;
+  border-left:4px solid transparent;
+  border-bottom:4px solid transparent;
+  border-top:4px solid var(--orange);
+  border-right:4px solid var(--orange);
+  border-radius:0 100% 0 0;
+  transform:skewX(-16deg);
+}
+.timeline{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-top:16px;
+}
+.step{
+  border-radius:22px;
+  border:1px solid var(--line);
+  padding:16px;
+  background:var(--paper);
+}
+.step strong{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:1rem;
+  margin-bottom:8px;
+}
+.step-num{
+  width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--ink);
+  color:#fff;
+  font-size:.9rem;
+}
+.exercise-shell{
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:18px;
+}
+.exercise-card+.exercise-card{margin-top:16px}
+.question{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+  background:#fff;
+}
+.question+.question{margin-top:12px}
+.question strong{
+  display:block;
+  margin-bottom:8px;
+  font-size:.97rem;
+}
+.options{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.opt{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:9px 13px;
+  background:#fff;
+  color:var(--ink);
+  cursor:pointer;
+  font-weight:700;
+  transition:all .16s ease;
+}
+.opt:hover{border-color:var(--teal);color:var(--teal)}
+.opt.sel{background:var(--ink);border-color:var(--ink);color:#fff}
+.opt.ok{background:rgba(25,135,84,.11);border-color:rgba(25,135,84,.35);color:var(--ok)}
+.opt.bad{background:rgba(207,75,75,.10);border-color:rgba(207,75,75,.30);color:var(--danger)}
+.question small{
+  display:none;
+  margin-top:8px;
+  color:var(--muted);
+}
+.question small.show{display:block}
+.check-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:16px;
+}
+.btn-ghost{
+  background:var(--paper);
+  border:1px solid var(--line);
+  color:var(--ink);
+}
+.inputs{
+  display:grid;
+  gap:12px;
+  margin-top:12px;
+}
+.entry{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+  background:#fff;
+}
+.entry label{
+  display:block;
+  font-weight:700;
+  margin-bottom:8px;
+}
+.entry input{
+  width:min(220px,100%);
+  padding:12px 13px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  font:inherit;
+  color:var(--ink);
+  background:#fffdf8;
+}
+.entry input:focus{outline:none;border-color:var(--teal)}
+.entry input.ok{border-color:rgba(25,135,84,.45);background:rgba(25,135,84,.06)}
+.entry input.bad{border-color:rgba(207,75,75,.35);background:rgba(207,75,75,.05)}
+.entry .help{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:.9rem;
+}
+.sticky-score{
+  position:sticky;
+  top:86px;
+  align-self:start;
+  border-radius:26px;
+  padding:22px;
+  background:linear-gradient(180deg, rgba(23,50,77,.98), rgba(29,66,96,.96));
+  color:#fff;
+  box-shadow:0 22px 40px rgba(23,50,77,.22);
+}
+.sticky-score h3{
+  font-size:1.35rem;
+  line-height:1;
+}
+.score-big{
+  margin-top:16px;
+  font-size:3rem;
+  font-weight:900;
+  color:var(--sun);
+}
+.score-line{
+  margin-top:14px;
+  height:12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.14);
+  overflow:hidden;
+}
+.score-fill{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg, var(--sun), #ff9f43);
+  transition:width .25s ease;
+}
+.sticky-score p{
+  color:rgba(255,255,255,.74);
+  margin-top:10px;
+}
+.status{
+  margin-top:14px;
+  display:inline-block;
+  padding:7px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.10);
+  font-weight:800;
+}
+.challenge-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin-top:16px;
+}
+.challenge button{
+  margin-top:14px;
+  background:var(--orange);
+  color:#fff;
+}
+.solution{
+  display:none;
+  margin-top:12px;
+  padding:14px;
+  border-radius:16px;
+  background:var(--orange-soft);
+  color:var(--ink);
+}
+.solution.show{display:block}
+.footer-note{
+  margin-top:16px;
+  color:var(--muted);
+  font-size:.92rem;
+}
+@media (max-width:980px){
+  .hero-grid,
+  .spotlight,
+  .exercise-shell,
+  .graph-wrap{grid-template-columns:1fr}
+  .cards-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .memory-grid,
+  .formula-grid,
+  .example-strip,
+  .timeline,
+  .challenge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sticky-score{position:static}
+}
+@media (max-width:720px){
+  .hero-points,
+  .cards-2,
+  .cards-3,
+  .cards-4,
+  .memory-grid,
+  .formula-grid,
+  .example-strip,
+  .timeline,
+  .challenge-grid{grid-template-columns:1fr}
+  .orbit{min-height:auto}
+  .planet{min-height:420px;width:100%}
+  .orbit-card{width:138px}
+  .quick-bar{top:0;border-radius:18px}
+  .section-head{display:block}
+  .section-head p{margin-top:10px}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap hero-shell">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Física y Química · 2º ESO</span>
+        <h1>Repaso visual del movimiento</h1>
+        <p class="lead">Esta página resume el contenido del PDF que has pasado: posición, referencia, trayectoria, desplazamiento, velocidad, aceleración, gráficas y tipos de movimiento. Primero estudias la teoría de forma clara y luego practicas con ejercicios autocorregibles.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-jump="#teoria">Empezar teoria</button>
+          <button class="btn btn-secondary" data-jump="#ejercicios">Ir a ejercicios</button>
+        </div>
+        <div class="hero-points">
+          <div class="point">
+            <strong>6</strong>
+            <span>ideas clave para memorizar</span>
+          </div>
+          <div class="point">
+            <strong>3</strong>
+            <span>formulas basicas del tema</span>
+          </div>
+          <div class="point">
+            <strong>20</strong>
+            <span>ejercicios para practicar</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="orbit">
+        <div class="planet">
+          <div class="orbit-ring"></div>
+          <div class="orbit-ring two"></div>
+          <div class="orbit-ring three"></div>
+          <div class="dot d1"></div>
+          <div class="dot d2"></div>
+          <div class="dot d3"></div>
+          <div class="orbit-card o1">
+            <strong>Posicion</strong>
+            <span>Donde esta un cuerpo en un instante.</span>
+          </div>
+          <div class="orbit-card o2">
+            <strong>Velocidad</strong>
+            <span>Espacio recorrido en un tiempo.</span>
+          </div>
+          <div class="orbit-card o3">
+            <strong>Aceleracion</strong>
+            <span>Como cambia la velocidad.</span>
+          </div>
+          <div class="orbit-card o4">
+            <strong>Graficas</strong>
+            <span>Leer el movimiento de un vistazo.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="quick-bar" aria-label="Navegacion rapida">
+  <button class="active" data-jump="#teoria">Teoria</button>
+  <button data-jump="#claves">Ideas clave</button>
+  <button data-jump="#formulas">Formulas</button>
+  <button data-jump="#graficas">Graficas</button>
+  <button data-jump="#movimientos">Tipos de movimiento</button>
+  <button data-jump="#ejercicios">Ejercicios</button>
+</nav>
+
+<main class="wrap">
+  <section class="section" id="teoria">
+    <div class="section-head">
+      <div>
+        <h2>Teoría para entender de verdad</h2>
+        <p>La clave de este tema no es memorizar palabras sueltas. Es ver que todas encajan: primero localizas un cuerpo, después describes su camino, luego mides lo rápido que va y por último observas si esa rapidez cambia o no.</p>
+      </div>
+      <div class="chip-row">
+        <span class="chip">Referencia</span>
+        <span class="chip">Trayectoria</span>
+        <span class="chip">Desplazamiento</span>
+        <span class="chip">Velocidad</span>
+        <span class="chip">Aceleracion</span>
+      </div>
+    </div>
+
+    <div class="spotlight">
+      <div class="definition">
+        <strong>El movimiento es el cambio de posicion de un cuerpo a lo largo del tiempo.</strong>
+        <span>Para decir si algo se mueve, siempre necesitas un punto de referencia. Sin referencia, no puedes comparar.</span>
+      </div>
+      <div class="list-card">
+        <h3>Piensalo asi</h3>
+        <ul>
+          <li>En un coche, tu mochila parece estar quieta respecto al asiento.</li>
+          <li>Pero esa misma mochila se mueve respecto a la carretera.</li>
+          <li>Por eso el movimiento es relativo.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="memory-grid" id="claves">
+      <article class="memory teal">
+        <h3>1. Posicion</h3>
+        <p>Es el lugar donde se encuentra un cuerpo en un instante determinado.</p>
+        <strong>Siempre respecto a algo</strong>
+        <p>Ejemplo: "La bici esta a 3 m de la puerta".</p>
+      </article>
+      <article class="memory orange">
+        <h3>2. Trayectoria</h3>
+        <p>Es el camino que sigue el cuerpo mientras se mueve.</p>
+        <strong>Puede ser recta o curva</strong>
+        <p>Un avion deja una trayectoria curvada en el cielo.</p>
+      </article>
+      <article class="memory sky">
+        <h3>3. Desplazamiento</h3>
+        <p>Es la distancia en linea recta entre el punto inicial y el final.</p>
+        <strong>No siempre coincide con la trayectoria</strong>
+        <p>Si rodeas una plaza, recorres mucho pero te desplazas poco.</p>
+      </article>
+    </div>
+
+    <table class="compare" aria-label="Comparacion de conceptos">
+      <thead>
+        <tr>
+          <th>Concepto</th>
+          <th>Que responde</th>
+          <th>Truco rapido</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Posicion</strong></td>
+          <td>¿Donde esta?</td>
+          <td>Una foto fija del cuerpo.</td>
+        </tr>
+        <tr>
+          <td><strong>Trayectoria</strong></td>
+          <td>¿Que camino siguio?</td>
+          <td>La huella completa del recorrido.</td>
+        </tr>
+        <tr>
+          <td><strong>Desplazamiento</strong></td>
+          <td>¿Que separa el inicio y el final?</td>
+          <td>La flecha recta entre dos puntos.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="formulas">
+    <div class="section-head">
+      <div>
+        <h2>Formulas imprescindibles</h2>
+        <p>En 2º ESO basta con manejar tres relaciones muy basicas. Lo importante es saber que significa cada letra y en que unidad trabajas.</p>
+      </div>
+      <div class="chip-row">
+        <span class="chip">m/s</span>
+        <span class="chip">km/h</span>
+        <span class="chip">m/s²</span>
+      </div>
+    </div>
+
+    <div class="formula-grid">
+      <article class="formula">
+        <span class="tag">Velocidad media</span>
+        <code>v = e / t</code>
+        <p><strong>v</strong> es la velocidad, <strong>e</strong> el espacio recorrido y <strong>t</strong> el tiempo empleado.</p>
+      </article>
+      <article class="formula">
+        <span class="tag">Aceleracion media</span>
+        <code>a = (vf - vi) / t</code>
+        <p>Restas la velocidad inicial a la final y divides entre el tiempo transcurrido.</p>
+      </article>
+      <article class="formula">
+        <span class="tag">Conversion</span>
+        <code>km/h ÷ 3,6 = m/s</code>
+        <p>Para pasar de km/h a m/s divides entre 3,6. Para volver, multiplicas por 3,6.</p>
+      </article>
+    </div>
+
+    <div class="example-strip">
+      <article class="example">
+        <strong>Usain Bolt en 100 m</strong>
+        <p>Si recorre 100 m en 9,63 s:</p>
+        <div class="calc">v = 100 / 9,63 = 10,38 m/s</div>
+      </article>
+      <article class="example">
+        <strong>Ciclista a 45 km/h</strong>
+        <p>Pasando a m/s:</p>
+        <div class="calc">45 / 3,6 = 12,5 m/s</div>
+      </article>
+      <article class="example">
+        <strong>Galgo acelerando</strong>
+        <p>De 2 m/s a 18 m/s en 4 s:</p>
+        <div class="calc">a = (18 - 2) / 4 = 4 m/s²</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="graficas">
+    <div class="section-head">
+      <div>
+        <h2>Como leer graficas del movimiento</h2>
+        <p>Las graficas resumen mucha informacion sin necesidad de un texto largo. Si entiendes la pendiente, entiendes casi todo el tema.</p>
+      </div>
+    </div>
+
+    <div class="graph-wrap">
+      <article class="graph">
+        <h3>Grafica espacio-tiempo (e-t)</h3>
+        <p>En horizontal va el tiempo. En vertical, el espacio. Si la linea sube, el cuerpo se aleja. Si sube mas inclinada, va mas rapido. Si es horizontal, esta parado.</p>
+        <div class="mini-axes">
+          <div class="axis-x"></div>
+          <div class="axis-y"></div>
+          <div class="line up"></div>
+          <div class="line flat"></div>
+        </div>
+      </article>
+
+      <article class="graph">
+        <h3>Grafica velocidad-tiempo (v-t)</h3>
+        <p>Una linea horizontal indica velocidad constante. Si la linea sube, hay aceleracion. Si baja, el movil esta frenando o desacelerando.</p>
+        <div class="mini-axes">
+          <div class="axis-x"></div>
+          <div class="axis-y"></div>
+          <div class="line flat" style="bottom:62px;width:170px;background:var(--teal)"></div>
+          <div class="line up" style="left:34px;bottom:40px;width:166px"></div>
+          <div class="line down"></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="cards-2" style="margin-top:16px">
+      <article class="info-card">
+        <h3>Velocidad instantanea</h3>
+        <p>Es la velocidad en un momento concreto. El velocimetro del coche te muestra esta magnitud continuamente.</p>
+      </article>
+      <article class="info-card">
+        <h3>Pista para examenes</h3>
+        <p>Cuando te pidan interpretar una grafica, no describas solo la forma. Explica que le pasa al movil: si avanza, si esta quieto, si acelera o si frena.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="movimientos">
+    <div class="section-head">
+      <div>
+        <h2>Tipos de movimiento</h2>
+        <p>El PDF distingue movimientos rectilineos y no rectilineos. Dentro de los rectilineos, los dos mas importantes en este curso son el MRU y el MRUA.</p>
+      </div>
+    </div>
+
+    <div class="cards-2">
+      <article class="info-card">
+        <h3>Movimiento rectilineo uniforme (MRU)</h3>
+        <p>La trayectoria es una linea recta y la velocidad se mantiene constante. Recorre espacios iguales en tiempos iguales.</p>
+      </article>
+      <article class="info-card">
+        <h3>Movimiento rectilineo uniformemente acelerado (MRUA)</h3>
+        <p>La trayectoria sigue siendo recta, pero la velocidad cambia siempre al mismo ritmo. La aceleracion es constante.</p>
+      </article>
+    </div>
+
+    <div class="timeline">
+      <article class="step">
+        <strong><span class="step-num">1</span> Circular</strong>
+        <p>La trayectoria es una circunferencia, como la rueda de una bici o una noria.</p>
+      </article>
+      <article class="step">
+        <strong><span class="step-num">2</span> Pendular</strong>
+        <p>Va y viene alrededor de un punto de equilibrio, como un columpio.</p>
+      </article>
+      <article class="step">
+        <strong><span class="step-num">3</span> Eliptico</strong>
+        <p>Sigue una elipse, como muchos movimientos planetarios.</p>
+      </article>
+      <article class="step">
+        <strong><span class="step-num">4</span> Parabolico</strong>
+        <p>Dibuja una parabola, como una pelota lanzada o un proyectil.</p>
+      </article>
+    </div>
+
+    <div class="cards-3" style="margin-top:16px">
+      <article class="mini-card">
+        <h3>Truco 1</h3>
+        <p><strong>Rectilineo</strong> significa que miras la forma del camino: una recta.</p>
+      </article>
+      <article class="mini-card">
+        <h3>Truco 2</h3>
+        <p><strong>Uniforme</strong> significa que la velocidad no cambia.</p>
+      </article>
+      <article class="mini-card">
+        <h3>Truco 3</h3>
+        <p><strong>Acelerado</strong> significa que la velocidad si cambia.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="ejercicios">
+    <div class="section-head">
+      <div>
+        <h2>Ejercicios interactivos</h2>
+        <p>Haz primero el bloque rapido de conceptos y luego los calculos. La tarjeta lateral va actualizando tu progreso.</p>
+      </div>
+    </div>
+
+    <div class="exercise-shell">
+      <div>
+        <article class="exercise-card" id="quiz-card">
+          <h3>1. Conceptos esenciales</h3>
+          <p>Marca la opcion correcta en cada pregunta.</p>
+
+          <div class="question" data-type="choice">
+            <strong>1. ¿Que es la trayectoria?</strong>
+            <div class="options" data-answer="camino">
+              <button class="opt">La posicion final</button>
+              <button class="opt" data-correct="true">El camino que sigue un cuerpo</button>
+              <button class="opt">La rapidez maxima</button>
+            </div>
+            <small>Respuesta: es el camino que sigue un cuerpo mientras se mueve.</small>
+          </div>
+
+          <div class="question" data-type="choice">
+            <strong>2. Si un coche esta parado para su conductor pero avanza por la carretera, esto demuestra que...</strong>
+            <div class="options" data-answer="relativo">
+              <button class="opt">la aceleracion siempre es cero</button>
+              <button class="opt" data-correct="true">el movimiento es relativo</button>
+              <button class="opt">la trayectoria siempre es recta</button>
+            </div>
+            <small>Respuesta: depende del observador y del punto de referencia.</small>
+          </div>
+
+          <div class="question" data-type="choice">
+            <strong>3. En una grafica espacio-tiempo horizontal, el movil esta...</strong>
+            <div class="options" data-answer="parado">
+              <button class="opt">acelerando</button>
+              <button class="opt" data-correct="true">parado</button>
+              <button class="opt">cambiando de trayectoria</button>
+            </div>
+            <small>Respuesta: el espacio no cambia, asi que el movil permanece en la misma posicion.</small>
+          </div>
+
+          <div class="question" data-type="choice">
+            <strong>4. ¿Cual de estas situaciones es un movimiento parabolico?</strong>
+            <div class="options" data-answer="pelota">
+              <button class="opt">Un ascensor que sube</button>
+              <button class="opt" data-correct="true">Una pelota lanzada a canasta</button>
+              <button class="opt">Una noria girando</button>
+            </div>
+            <small>Respuesta: la pelota dibuja una parabola al avanzar y caer.</small>
+          </div>
+
+          <div class="question" data-type="choice">
+            <strong>5. Si la velocidad pasa de 4 m/s a 10 m/s, entonces...</strong>
+            <div class="options" data-answer="aceleracion">
+              <button class="opt" data-correct="true">hay aceleracion</button>
+              <button class="opt">no hay movimiento</button>
+              <button class="opt">el desplazamiento es cero</button>
+            </div>
+            <small>Respuesta: la velocidad cambia, asi que existe aceleracion.</small>
+          </div>
+
+          <div class="question" data-type="choice">
+            <strong>6. ¿Que mide el desplazamiento?</strong>
+            <div class="options">
+              <button class="opt">Todo el camino recorrido</button>
+              <button class="opt" data-correct="true">La distancia en linea recta entre el inicio y el final</button>
+              <button class="opt">La velocidad media del movil</button>
+            </div>
+            <small>Respuesta: une el punto inicial y el final en linea recta.</small>
+          </div>
+
+          <div class="question" data-type="choice">
+            <strong>7. En un MRU, la velocidad...</strong>
+            <div class="options">
+              <button class="opt">aumenta cada segundo</button>
+              <button class="opt">disminuye poco a poco</button>
+              <button class="opt" data-correct="true">permanece constante</button>
+            </div>
+            <small>Respuesta: en el movimiento rectilineo uniforme la velocidad no cambia.</small>
+          </div>
+
+          <div class="question" data-type="choice">
+            <strong>8. En una grafica velocidad-tiempo horizontal, el movil lleva...</strong>
+            <div class="options">
+              <button class="opt">aceleracion positiva</button>
+              <button class="opt" data-correct="true">velocidad constante</button>
+              <button class="opt">trayectoria parabolica</button>
+            </div>
+            <small>Respuesta: si la linea es horizontal, la velocidad se mantiene igual.</small>
+          </div>
+
+          <div class="question" data-type="choice">
+            <strong>9. ¿Cual es la unidad de la aceleracion en el Sistema Internacional?</strong>
+            <div class="options">
+              <button class="opt">m/s</button>
+              <button class="opt">km/h</button>
+              <button class="opt" data-correct="true">m/s²</button>
+            </div>
+            <small>Respuesta: la aceleracion mide como cambia la velocidad cada segundo.</small>
+          </div>
+
+          <div class="check-row">
+            <button class="btn btn-primary" id="check-quiz">Corregir test</button>
+            <button class="btn btn-ghost" id="reset-quiz">Reiniciar test</button>
+          </div>
+        </article>
+
+        <article class="exercise-card" id="calc-card">
+          <h3>2. Calcula y escribe la respuesta</h3>
+          <p>Puedes poner solo el numero o el numero con unidad. Usa coma o punto decimal, ambas sirven.</p>
+
+          <div class="inputs">
+            <div class="entry">
+              <label for="q1">1. Un tren recorre 300 m en 6 s. ¿Cual es su velocidad media?</label>
+              <input id="q1" class="calc-input" data-answer="50" data-unit="m/s" placeholder="Ej.: 50 o 50 m/s">
+              <div class="help">Formula: v = e / t</div>
+            </div>
+            <div class="entry">
+              <label for="q2">2. Convierte 72 km/h a m/s.</label>
+              <input id="q2" class="calc-input" data-answer="20" data-unit="m/s" placeholder="Ej.: 20">
+              <div class="help">Pista: divide entre 3,6.</div>
+            </div>
+            <div class="entry">
+              <label for="q3">3. Un galgo pasa de 2 m/s a 18 m/s en 4 s. ¿Cual es su aceleracion media?</label>
+              <input id="q3" class="calc-input" data-answer="4" data-unit="m/s2" placeholder="Ej.: 4">
+              <div class="help">Formula: a = (vf - vi) / t</div>
+            </div>
+            <div class="entry">
+              <label for="q4">4. Si una bici va a 12,5 m/s, ¿a cuantos km/h equivale?</label>
+              <input id="q4" class="calc-input" data-answer="45" data-unit="km/h" placeholder="Ej.: 45">
+              <div class="help">Pista: multiplica por 3,6.</div>
+            </div>
+            <div class="entry">
+              <label for="q5">5. Una patinadora recorre 160 m con velocidad constante de 8 m/s. ¿Cuanto tiempo tarda?</label>
+              <input id="q5" class="calc-input" data-answer="20" data-unit="s" placeholder="Ej.: 20">
+              <div class="help">Despeja de la formula: t = e / v</div>
+            </div>
+            <div class="entry">
+              <label for="q6">6. Una corredora recorre 500 m en 25 s. ¿Cual es su velocidad media?</label>
+              <input id="q6" class="calc-input" data-answer="20" data-unit="m/s" placeholder="Ej.: 20">
+              <div class="help">Vuelve a usar: v = e / t</div>
+            </div>
+            <div class="entry">
+              <label for="q7">7. Convierte 90 km/h a m/s.</label>
+              <input id="q7" class="calc-input" data-answer="25" data-unit="m/s" placeholder="Ej.: 25">
+              <div class="help">Pista: divide entre 3,6.</div>
+            </div>
+            <div class="entry">
+              <label for="q8">8. Un coche pasa de 0 m/s a 20 m/s en 5 s. ¿Cual es su aceleracion media?</label>
+              <input id="q8" class="calc-input" data-answer="4" data-unit="m/s2" placeholder="Ej.: 4">
+              <div class="help">Formula: a = (vf - vi) / t</div>
+            </div>
+            <div class="entry">
+              <label for="q9">9. Un patinete se mueve con velocidad constante de 6 m/s durante 18 s. ¿Que espacio recorre?</label>
+              <input id="q9" class="calc-input" data-answer="108" data-unit="m" placeholder="Ej.: 108">
+              <div class="help">Despeja el espacio: e = v · t</div>
+            </div>
+          </div>
+
+          <div class="check-row">
+            <button class="btn btn-primary" id="check-calcs">Corregir calculos</button>
+            <button class="btn btn-ghost" id="reset-calcs">Reiniciar calculos</button>
+          </div>
+        </article>
+
+        <article class="exercise-card">
+          <h3>3. Retos cortos de razonamiento</h3>
+          <p>Intenta responder sin mirar la solucion. Luego comprueba si has explicado la idea correcta.</p>
+
+          <div class="challenge-grid">
+            <div class="challenge">
+              <h3>Reto A</h3>
+              <p>Vas de casa al parque dando una vuelta enorme. ¿Que sera mayor: la trayectoria o el desplazamiento?</p>
+              <button class="btn" data-solution="s1">Ver solucion</button>
+              <div class="solution" id="s1">La trayectoria sera mayor o igual, porque mide todo el camino. El desplazamiento solo une inicio y final en linea recta.</div>
+            </div>
+            <div class="challenge">
+              <h3>Reto B</h3>
+              <p>¿Puede existir movimiento sin aceleracion?</p>
+              <button class="btn" data-solution="s2">Ver solucion</button>
+              <div class="solution" id="s2">Si. En un MRU el cuerpo se mueve, pero su velocidad no cambia. Por eso la aceleracion es cero.</div>
+            </div>
+            <div class="challenge">
+              <h3>Reto C</h3>
+              <p>Si una grafica v-t baja de forma recta, ¿que le pasa al movil?</p>
+              <button class="btn" data-solution="s3">Ver solucion</button>
+              <div class="solution" id="s3">Se esta frenando de manera uniforme: su velocidad disminuye con el tiempo.</div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <aside class="sticky-score">
+        <h3>Tu progreso</h3>
+        <div class="score-big" id="score-big">0%</div>
+        <div class="score-line">
+          <div class="score-fill" id="score-fill"></div>
+        </div>
+        <p id="score-text">Completa el test y los calculos para ver tu nivel de repaso.</p>
+        <div class="status" id="score-status">Pendiente</div>
+        <p class="footer-note">Objetivo recomendado: superar el 80% y luego repetir los retos sin mirar las soluciones.</p>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<script>
+const jumpButtons = document.querySelectorAll('[data-jump]');
+const navButtons = document.querySelectorAll('.quick-bar button');
+const scoreBig = document.getElementById('score-big');
+const scoreFill = document.getElementById('score-fill');
+const scoreText = document.getElementById('score-text');
+const scoreStatus = document.getElementById('score-status');
+
+jumpButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.querySelector(btn.dataset.jump);
+    if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+  });
+});
+
+const sections = [...document.querySelectorAll('main .section')];
+const observer = new IntersectionObserver(entries => {
+  const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+  if (!visible) return;
+  navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.jump === `#${visible.target.id}`));
+}, {threshold: [0.25, 0.55, 0.8]});
+sections.forEach(section => observer.observe(section));
+
+document.querySelectorAll('.options').forEach(group => {
+  group.querySelectorAll('.opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      group.querySelectorAll('.opt').forEach(btn => btn.classList.remove('sel', 'ok', 'bad'));
+      opt.classList.add('sel');
+      const hint = group.closest('.question').querySelector('small');
+      hint.classList.remove('show');
+      updateScore();
+    });
+  });
+});
+
+function updateScore() {
+  const choiceGroups = [...document.querySelectorAll('.options')];
+  const calcInputs = [...document.querySelectorAll('.calc-input')];
+  let total = choiceGroups.length + calcInputs.length;
+  let correct = 0;
+
+  choiceGroups.forEach(group => {
+    const selected = group.querySelector('.opt.sel');
+    if (!selected) return;
+    if (selected.dataset.correct === 'true') correct++;
+  });
+
+  calcInputs.forEach(input => {
+    const value = normalizeNumeric(input.value);
+    const expected = Number(input.dataset.answer);
+    if (value !== null && Math.abs(value - expected) < 0.05) correct++;
+  });
+
+  const percent = Math.round((correct / total) * 100);
+  scoreBig.textContent = `${percent}%`;
+  scoreFill.style.width = `${percent}%`;
+
+  if (percent === 0) {
+    scoreText.textContent = 'Completa el test y los calculos para ver tu nivel de repaso.';
+    scoreStatus.textContent = 'Pendiente';
+  } else if (percent < 50) {
+    scoreText.textContent = 'Aun hay conceptos flojos. Repite teoria y fijate en trayectoria, desplazamiento y graficas.';
+    scoreStatus.textContent = 'Base inicial';
+  } else if (percent < 80) {
+    scoreText.textContent = 'Vas bien. Haz una segunda vuelta y explica en voz alta cada formula.';
+    scoreStatus.textContent = 'Buen progreso';
+  } else {
+    scoreText.textContent = 'Nivel muy solido. Ya deberias poder afrontar un examen de repaso con seguridad.';
+    scoreStatus.textContent = 'Preparado';
+  }
+}
+
+function normalizeNumeric(raw) {
+  if (!raw.trim()) return null;
+  let cleaned = raw
+    .toLowerCase()
+    .replace(/km\/h|m\/s2|m\/s²|m\/s|s/g, '')
+    .replace(',', '.')
+    .replace(/\s+/g, '')
+    .trim();
+  const value = Number(cleaned);
+  return Number.isFinite(value) ? value : null;
+}
+
+document.getElementById('check-quiz').addEventListener('click', () => {
+  document.querySelectorAll('.question[data-type="choice"]').forEach(question => {
+    const group = question.querySelector('.options');
+    const selected = group.querySelector('.opt.sel');
+    question.querySelector('small').classList.add('show');
+    group.querySelectorAll('.opt').forEach(btn => {
+      btn.classList.remove('ok', 'bad');
+      if (btn.dataset.correct === 'true') btn.classList.add('ok');
+    });
+    if (selected && !selected.classList.contains('ok')) {
+      selected.classList.add('bad');
+    }
+  });
+  updateScore();
+});
+
+document.getElementById('reset-quiz').addEventListener('click', () => {
+  document.querySelectorAll('.question[data-type="choice"]').forEach(question => {
+    question.querySelectorAll('.opt').forEach(btn => btn.classList.remove('sel', 'ok', 'bad'));
+    question.querySelector('small').classList.remove('show');
+  });
+  updateScore();
+});
+
+document.getElementById('check-calcs').addEventListener('click', () => {
+  document.querySelectorAll('.calc-input').forEach(input => {
+    const expected = Number(input.dataset.answer);
+    const value = normalizeNumeric(input.value);
+    input.classList.remove('ok', 'bad');
+    if (value === null) return;
+    if (Math.abs(value - expected) < 0.05) {
+      input.classList.add('ok');
+    } else {
+      input.classList.add('bad');
+    }
+  });
+  updateScore();
+});
+
+document.getElementById('reset-calcs').addEventListener('click', () => {
+  document.querySelectorAll('.calc-input').forEach(input => {
+    input.value = '';
+    input.classList.remove('ok', 'bad');
+  });
+  updateScore();
+});
+
+document.querySelectorAll('[data-solution]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const box = document.getElementById(btn.dataset.solution);
+    box.classList.toggle('show');
+    btn.textContent = box.classList.contains('show') ? 'Ocultar solucion' : 'Ver solucion';
+  });
+});
+
+document.querySelectorAll('.calc-input').forEach(input => {
+  input.addEventListener('input', () => {
+    input.classList.remove('ok', 'bad');
+    updateScore();
+  });
+});
+</script>
+</body>
+</html>
