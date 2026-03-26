@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>África · Geografía 2º ESO</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<style>
+  :root {
+    --parch: #f5ead8;
+    --parch2: #efe0c4;
+    --ink: #2c1a0e;
+    --ink-light: #5c3d1e;
+    --water: #b8d4e8;
+    --water2: #8fb8d4;
+    --gold: #b8860b;
+    --gold2: #d4a017;
+    --red: #8b1a1a;
+    --green: #2d5a27;
+    --correct: #2d6a2d;
+    --wrong: #8b1a1a;
+    --hover: rgba(184,134,11,0.35);
+    --selected: rgba(139,26,26,0.5);
+    --found: rgba(45,90,39,0.5);
+    --tab-active: #3d2010;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--parch);
+    font-family: 'Crimson Text', Georgia, serif;
+    color: var(--ink);
+    min-height: 100vh;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  header {
+    text-align: center;
+    padding: 18px 20px 10px;
+    border-bottom: 2px solid var(--ink);
+    background: linear-gradient(180deg, #3d2010 0%, #2c1a0e 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before, header::after {
+    content: '✦';
+    position: absolute;
+    color: var(--gold);
+    font-size: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  header::before { left: 20px; }
+  header::after { right: 20px; }
+
+  header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(20px, 4vw, 36px);
+    font-weight: 900;
+    color: var(--gold2);
+    letter-spacing: 0.15em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+
+  header p {
+    color: #c9a87a;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    margin-top: 3px;
+    font-style: italic;
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    background: #2c1a0e;
+    border-bottom: 3px solid var(--gold);
+  }
+
+  .tab-btn {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(10px, 1.8vw, 14px);
+    font-weight: 600;
+    color: #a07050;
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover { color: var(--gold2); }
+
+  .tab-btn.active {
+    color: var(--gold2);
+    border-bottom-color: var(--gold2);
+    background: rgba(212,160,23,0.08);
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    gap: 14px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .panel {
+    background: rgba(255,255,255,0.3);
+    border: 1.5px solid var(--ink-light);
+    border-radius: 4px;
+    padding: 14px 20px;
+    text-align: center;
+    min-height: 60px;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 2px 12px rgba(44,26,14,0.15);
+    position: relative;
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .panel-main {
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 600;
+    color: var(--ink);
+    min-height: 32px;
+  }
+
+  .panel-sub {
+    font-size: 15px;
+    color: var(--ink-light);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .feedback {
+    font-size: 15px;
+    font-weight: 600;
+    min-height: 22px;
+    margin-top: 4px;
+    transition: color 0.3s;
+  }
+  .feedback.ok { color: var(--correct); }
+  .feedback.ko { color: var(--wrong); }
+
+  #map-container {
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(44,26,14,0.25), inset 0 0 40px rgba(0,0,0,0.06);
+    background: var(--water);
+    cursor: grab;
+  }
+
+  #map-container:active { cursor: grabbing; }
+
+  #map-container svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .country {
+    fill: var(--parch2);
+    stroke: var(--ink);
+    stroke-width: 0.5;
+    cursor: pointer;
+    transition: fill 0.2s;
+  }
+
+  .country:hover { fill: var(--gold2); opacity: 0.85; }
+
+  .country.highlight-hover:hover { fill: var(--gold2); }
+
+  .country.found {
+    fill: #7ab87a !important;
+    stroke: var(--green);
+    stroke-width: 1;
+  }
+
+  .country.wrong-click {
+    fill: #d47a7a !important;
+  }
+
+  .country.show-select {
+    fill: var(--gold2) !important;
+    stroke: var(--gold);
+    stroke-width: 1.5;
+    animation: blink-country 0.8s ease-in-out infinite alternate;
+  }
+
+  @keyframes blink-country {
+    from { fill: var(--gold2) !important; opacity: 1; }
+    to   { fill: #e8c050 !important; opacity: 0.5; }
+  }
+
+  /* Quiz options */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .opt-btn {
+    font-family: 'Crimson Text', serif;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--parch);
+    border: 1.5px solid var(--ink-light);
+    border-radius: 3px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+    box-shadow: 0 1px 4px rgba(44,26,14,0.1);
+  }
+
+  .opt-btn:hover:not(:disabled) {
+    background: var(--parch2);
+    border-color: var(--ink);
+    box-shadow: 0 2px 8px rgba(44,26,14,0.2);
+  }
+
+  .opt-btn.correct {
+    background: #c8e6c8;
+    border-color: var(--correct);
+    color: var(--correct);
+  }
+
+  .opt-btn.wrong {
+    background: #f0c0c0;
+    border-color: var(--wrong);
+    color: var(--wrong);
+  }
+
+  .opt-btn:disabled { cursor: default; }
+
+  .quiz-counter {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+  }
+
+  .score-display {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    padding: 6px 0;
+  }
+
+  .btn {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--parch);
+    background: var(--ink);
+    border: none;
+    border-radius: 3px;
+    padding: 9px 22px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+
+  .btn:hover {
+    background: var(--ink-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  }
+
+  .btn.gold {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .btn.gold:hover { background: var(--gold2); }
+
+  .progress-bar {
+    width: 100%;
+    max-width: 700px;
+    height: 6px;
+    background: rgba(44,26,14,0.15);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  .tooltip {
+    position: absolute;
+    background: var(--ink);
+    color: var(--parch);
+    font-family: 'Crimson Text', serif;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 3px;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .tooltip b {
+    font-size: 15px;
+    display: block;
+    color: var(--gold2);
+    font-family: 'Cinzel', serif;
+  }
+
+  .result-screen {
+    text-align: center;
+    padding: 30px;
+  }
+
+  .result-screen h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .result-screen .big-score {
+    font-family: 'Cinzel', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .result-screen .score-label {
+    font-size: 18px;
+    color: var(--ink-light);
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+
+  .hidden { display: none !important; }
+
+  .mode-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .ornament {
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 12px;
+  }
+
+  .compass { display: none; }
+
+  .zoom-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 10;
+  }
+
+  .zoom-btn {
+    width: 34px;
+    height: 34px;
+    background: rgba(44,26,14,0.85);
+    color: var(--parch);
+    border: 1.5px solid var(--gold);
+    border-radius: 3px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: background 0.2s;
+    line-height: 1;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .zoom-btn:hover { background: var(--ink-light); }
+
+  @media (max-width: 600px) {
+    .tabs { flex-wrap: wrap; }
+    .options-grid { grid-template-columns: 1fr; }
+    header::before, header::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>✦ ÁFRICA ✦</h1>
+  <p>Geografía · 2.º de la ESO</p>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('buscar')">🗺 Señala el País</button>
+  <button class="tab-btn" onclick="switchTab('explorar')">🔍 Explora el Mapa</button>
+  <button class="tab-btn" onclick="switchTab('capitales')">🏛 Quiz de Capitales</button>
+</div>
+
+<div class="main">
+
+  <!-- TAB 1: Señala el País -->
+  <div id="tab-buscar" class="mode-container">
+    <div class="panel">
+      <div class="panel-title">Encuentra este país en el mapa</div>
+      <div class="panel-main" id="buscar-nombre">—</div>
+      <div class="feedback" id="buscar-feedback"></div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;">
+      <span class="quiz-counter" id="buscar-counter">0 / 0 encontrados</span>
+      <button class="btn gold" onclick="startBuscar()">Nueva ronda</button>
+      <button class="btn" onclick="nextBuscar()" id="buscar-skip" style="opacity:0.6">Saltar →</button>
+    </div>
+  </div>
+
+  <!-- TAB 2: Explora -->
+  <div id="tab-explorar" class="mode-container hidden">
+    <div class="panel">
+      <div class="panel-title">Pulsa cualquier país para ver su información</div>
+      <div class="panel-main" id="explorar-nombre">—</div>
+      <div class="panel-sub" id="explorar-capital"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3: Quiz Capitales -->
+  <div id="tab-capitales" class="mode-container hidden">
+    <div id="quiz-play">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%">
+        <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center;">
+          <span class="quiz-counter" id="quiz-counter">Pregunta 1 / 20</span>
+          <span class="score-display" id="quiz-score">✓ 0  ✗ 0</span>
+          <button class="btn gold" onclick="initQuiz()">🔄 Nueva partida</button>
+        </div>
+        <div class="progress-bar" style="max-width:700px;width:100%">
+          <div class="progress-fill" id="quiz-progress" style="width:0%"></div>
+        </div>
+        <div class="panel" style="max-width:700px">
+          <div class="panel-title">¿Cuál es la capital de…?</div>
+          <div class="panel-main" id="quiz-pais">—</div>
+        </div>
+        <div class="options-grid" id="quiz-options"></div>
+        <div class="feedback" id="quiz-feedback"></div>
+      </div>
+    </div>
+    <div id="quiz-result" class="hidden">
+      <div class="result-screen">
+        <div class="ornament">✦ ✦ ✦</div>
+        <h2>¡Ronda completada!</h2>
+        <div class="big-score" id="result-score">0</div>
+        <div class="score-label" id="result-label">/ 20 correctas</div>
+        <div style="margin-top:12px;font-style:italic;color:var(--ink-light)" id="result-msg"></div>
+        <div style="margin-top:20px">
+          <button class="btn gold" onclick="initQuiz()">🔄 Jugar de nuevo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAP (shared) -->
+  <div id="map-container">
+    <svg id="map" viewBox="0 0 900 560"></svg>
+    <div class="zoom-controls">
+      <button type="button" class="zoom-btn" onclick="zoomIn()" title="Acercar">+</button>
+      <button type="button" class="zoom-btn" onclick="zoomOut()" title="Alejar">−</button>
+    </div>
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+
+</div>
+
+<script>
+// ---- Country data ----
+const COUNTRIES = {
+  // Norte de África
+  504: { es: 'Marruecos',                    capital: 'Rabat' },
+  788: { es: 'Túnez',                        capital: 'Túnez' },
+  12:  { es: 'Argelia',                      capital: 'Argel' },
+  434: { es: 'Libia',                        capital: 'Trípoli' },
+  818: { es: 'Egipto',                       capital: 'El Cairo' },
+  729: { es: 'Sudán',                        capital: 'Jartum' },
+
+  // África Occidental
+  478: { es: 'Mauritania',                   capital: 'Nuakchot' },
+  466: { es: 'Malí',                         capital: 'Bamako' },
+  562: { es: 'Níger',                        capital: 'Niamey' },
+  686: { es: 'Senegal',                      capital: 'Dakar' },
+  270: { es: 'Gambia',                       capital: 'Banjul' },
+  624: { es: 'Guinea-Bisáu',                 capital: 'Bisáu' },
+  324: { es: 'Guinea',                       capital: 'Conakry' },
+  694: { es: 'Sierra Leona',                 capital: 'Freetown' },
+  430: { es: 'Liberia',                      capital: 'Monrovia' },
+  384: { es: 'Costa de Marfil',              capital: 'Yamusukro' },
+  854: { es: 'Burkina Faso',                 capital: 'Uagadugú' },
+  288: { es: 'Ghana',                        capital: 'Acra' },
+  768: { es: 'Togo',                         capital: 'Lomé' },
+  204: { es: 'Benín',                        capital: 'Porto-Novo' },
+  566: { es: 'Nigeria',                      capital: 'Abuya' },
+
+  // África Central
+  120: { es: 'Camerún',                      capital: 'Yaundé' },
+  140: { es: 'República Centroafricana',     capital: 'Bangui' },
+  148: { es: 'Chad',                         capital: 'N\'Djaména' },
+  226: { es: 'Guinea Ecuatorial',            capital: 'Malabo' },
+  266: { es: 'Gabón',                        capital: 'Libreville' },
+  178: { es: 'Congo',                        capital: 'Brazzaville' },
+  180: { es: 'Rep. Dem. del Congo',          capital: 'Kinshasa' },
+  108: { es: 'Burundi',                      capital: 'Gitega' },
+  646: { es: 'Ruanda',                       capital: 'Kigali' },
+
+  // África Oriental
+  232: { es: 'Eritrea',                      capital: 'Asmara' },
+  231: { es: 'Etiopía',                      capital: 'Adís Abeba' },
+  262: { es: 'Yibuti',                       capital: 'Yibuti' },
+  706: { es: 'Somalia',                      capital: 'Mogadiscio' },
+  404: { es: 'Kenia',                        capital: 'Nairobi' },
+  800: { es: 'Uganda',                       capital: 'Kampala' },
+  728: { es: 'Sudán del Sur',                capital: 'Yuba' },
+  834: { es: 'Tanzania',                     capital: 'Dodoma' },
+
+  // África Austral
+  24:  { es: 'Angola',                       capital: 'Luanda' },
+  516: { es: 'Namibia',                      capital: 'Windhoek' },
+  72:  { es: 'Botsuana',                     capital: 'Gaborone' },
+  426: { es: 'Lesoto',                       capital: 'Maseru' },
+  748: { es: 'Esuatini',                     capital: 'Mbabane' },
+  710: { es: 'Sudáfrica',                    capital: 'Pretoria' },
+  508: { es: 'Mozambique',                   capital: 'Maputo' },
+  454: { es: 'Malaui',                       capital: 'Lilongüe' },
+  894: { es: 'Zambia',                       capital: 'Lusaka' },
+  716: { es: 'Zimbabue',                     capital: 'Harare' },
+  450: { es: 'Madagascar',                   capital: 'Antananarivo' },
+};
+
+const AFRICA_IDS = new Set(Object.keys(COUNTRIES).map(Number));
+
+let currentTab = 'buscar';
+let mapReady = false;
+let countryPaths = {}; // id -> SVG path element
+
+// ---- MAP SETUP ----
+const svgEl = document.getElementById('map');
+const W = 900, H = 560;
+
+const projection = d3.geoMercator()
+  .center([22, 5])
+  .scale(420)
+  .translate([W / 2, H / 2]);
+
+const path = d3.geoPath().projection(projection);
+const svg = d3.select('#map');
+
+// Water gradient
+const defs = svg.append('defs');
+const grad = defs.append('linearGradient').attr('id','water-grad').attr('x1','0%').attr('y1','0%').attr('x2','0%').attr('y2','100%');
+grad.append('stop').attr('offset','0%').attr('stop-color','#c8dff0');
+grad.append('stop').attr('offset','100%').attr('stop-color','#8fb8d4');
+
+svg.append('rect').attr('width', W).attr('height', H).attr('fill','url(#water-grad)');
+
+// Grupo contenedor para zoom/pan
+const mapG = svg.append('g').attr('id', 'map-g');
+
+// Comportamiento zoom + arrastre
+const zoom = d3.zoom()
+  .scaleExtent([0.5, 8])
+  .on('zoom', (event) => { mapG.attr('transform', event.transform); });
+
+svg.call(zoom);
+
+function zoomIn()  { svg.transition().duration(300).call(zoom.scaleBy, 1.5); }
+function zoomOut() { svg.transition().duration(300).call(zoom.scaleBy, 1 / 1.5); }
+
+const tooltip = document.getElementById('tooltip');
+
+fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+  .then(r => r.json())
+  .then(world => {
+    const countries = topojson.feature(world, world.objects.countries);
+
+    mapG.selectAll('.country')
+      .data(countries.features.filter(d => AFRICA_IDS.has(+d.id)))
+      .enter()
+      .append('path')
+      .attr('class', 'country')
+      .attr('d', path)
+      .attr('data-id', d => d.id)
+      .on('mousemove', function(event, d) {
+        const info = COUNTRIES[+d.id];
+        if (!info) return;
+        if (currentTab === 'explorar') {
+          tooltip.style.opacity = '1';
+          tooltip.innerHTML = `<b>${info.es}</b>`;
+          positionTooltip(event);
+        } else if (currentTab === 'buscar') {
+          tooltip.style.opacity = '1';
+          tooltip.innerHTML = `<b>?</b>`;
+          positionTooltip(event);
+        } else {
+          tooltip.style.opacity = '0';
+        }
+      })
+      .on('mouseleave', function() {
+        tooltip.style.opacity = '0';
+      })
+      .on('click', function(event, d) {
+        const id = +d.id;
+        if (currentTab === 'explorar') handleExplorar(id);
+        else if (currentTab === 'buscar') handleBuscar(id, this);
+      });
+
+    // Store references
+    svg.selectAll('.country').each(function(d) {
+      countryPaths[+d.id] = this;
+    });
+
+    mapReady = true;
+    startBuscar();
+    initQuiz();
+  })
+  .catch(e => {
+    console.error('Error loading map:', e);
+    svgEl.innerHTML = '<text x="450" y="280" text-anchor="middle" font-size="18" fill="#5c3d1e" font-family="serif">Error al cargar el mapa. Comprueba tu conexión a internet.</text>';
+  });
+
+function positionTooltip(event) {
+  const rect = document.getElementById('map-container').getBoundingClientRect();
+  let x = event.clientX - rect.left + 12;
+  let y = event.clientY - rect.top - 40;
+  if (x + 160 > rect.width) x -= 160;
+  if (y < 0) y = 10;
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y + 'px';
+}
+
+// ---- TAB SWITCHING ----
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', ['buscar','explorar','capitales'][i] === tab);
+  });
+  document.getElementById('tab-buscar').classList.toggle('hidden', tab !== 'buscar');
+  document.getElementById('tab-explorar').classList.toggle('hidden', tab !== 'explorar');
+  document.getElementById('tab-capitales').classList.toggle('hidden', tab !== 'capitales');
+
+  tooltip.style.opacity = '0';
+  fullResetMap();
+}
+
+function fullResetMap() {
+  svg.selectAll('.country').each(function() {
+    this.className.baseVal = 'country';
+    this.style.animation = '';
+    this.style.fill = '';
+    this.style.opacity = '';
+  });
+}
+
+function resetCountryColors() {
+  fullResetMap();
+}
+
+// ---- MODE 1: SEÑALA EL PAÍS ----
+const buscar = {
+  queue: [],
+  found: new Set(),
+  current: null,
+  total: 0
+};
+
+function startBuscar() {
+  if (!mapReady) return;
+  resetCountryColors();
+  buscar.found = new Set();
+  buscar.queue = shuffle(Object.keys(COUNTRIES).map(Number));
+  buscar.total = buscar.queue.length;
+  buscar.current = null;
+  updateBuscarCounter();
+  nextBuscar();
+}
+
+function nextBuscar() {
+  if (!mapReady) return;
+  // Un-highlight previous wrong
+  document.querySelectorAll('.country.wrong-click').forEach(el => el.classList.remove('wrong-click'));
+
+  if (buscar.queue.length === 0) {
+    document.getElementById('buscar-nombre').textContent = '¡Completado! 🎉';
+    document.getElementById('buscar-feedback').textContent = `Has encontrado todos los países de África.`;
+    document.getElementById('buscar-feedback').className = 'feedback ok';
+    return;
+  }
+  buscar.current = buscar.queue.shift();
+  const info = COUNTRIES[buscar.current];
+  document.getElementById('buscar-nombre').textContent = info.es;
+  document.getElementById('buscar-feedback').textContent = '';
+  document.getElementById('buscar-feedback').className = 'feedback';
+}
+
+function handleBuscar(id, el) {
+  if (!buscar.current) return;
+  if (buscar.found.has(id)) return;
+
+  if (id === buscar.current) {
+    el.classList.add('found');
+    buscar.found.add(id);
+    const info = COUNTRIES[id];
+    document.getElementById('buscar-feedback').textContent = `✓ ¡Correcto! Capital: ${info.capital}`;
+    document.getElementById('buscar-feedback').className = 'feedback ok';
+    updateBuscarCounter();
+    setTimeout(() => {
+      if (currentTab === 'buscar') nextBuscar();
+    }, 1200);
+  } else {
+    const info = COUNTRIES[id];
+    const hint = info ? info.es : 'país no identificado';
+    el.classList.add('wrong-click');
+    document.getElementById('buscar-feedback').textContent = `✗ Eso es ${hint}. ¡Inténtalo de nuevo!`;
+    document.getElementById('buscar-feedback').className = 'feedback ko';
+    setTimeout(() => el.classList.remove('wrong-click'), 900);
+  }
+}
+
+function updateBuscarCounter() {
+  const found = buscar.found.size;
+  const total = buscar.total;
+  document.getElementById('buscar-counter').textContent = `${found} / ${total} encontrados`;
+}
+
+// ---- MODE 2: EXPLORA ----
+function handleExplorar(id) {
+  const info = COUNTRIES[id];
+  if (!info) return;
+  resetCountryColors();
+  if (countryPaths[id]) {
+    countryPaths[id].classList.add('show-select');
+    countryPaths[id].classList.remove('country');
+    countryPaths[id].classList.add('country');
+  }
+  document.getElementById('explorar-nombre').textContent = info.es;
+  document.getElementById('explorar-capital').textContent = `Capital: ${info.capital}`;
+  tooltip.style.opacity = '0';
+}
+
+// ---- MODE 3: QUIZ CAPITALES ----
+const quiz = {
+  questions: [],
+  current: 0,
+  correct: 0,
+  wrong: 0,
+  answered: false
+};
+
+function initQuiz() {
+  document.getElementById('quiz-play').classList.remove('hidden');
+  document.getElementById('quiz-result').classList.add('hidden');
+
+  const ids = Object.keys(COUNTRIES).map(Number);
+  const shuffled = shuffle(ids);
+  quiz.questions = shuffled.slice(0, 20);
+  quiz.current = 0;
+  quiz.correct = 0;
+  quiz.wrong = 0;
+  quiz.answered = false;
+  updateQuizScore();
+  showQuestion();
+}
+
+function showQuestion() {
+  if (quiz.current >= quiz.questions.length) {
+    showResult();
+    return;
+  }
+  quiz.answered = false;
+
+  const qId = quiz.questions[quiz.current];
+  const info = COUNTRIES[qId];
+
+  document.getElementById('quiz-pais').textContent = info.es;
+  document.getElementById('quiz-counter').textContent = `Pregunta ${quiz.current + 1} / ${quiz.questions.length}`;
+  document.getElementById('quiz-feedback').textContent = '';
+  document.getElementById('quiz-feedback').className = 'feedback';
+
+  // Highlight country on map
+  resetCountryColors();
+  if (countryPaths[qId]) {
+    countryPaths[qId].classList.add('show-select');
+  }
+
+  // Force reflow so animation restarts cleanly
+  if (countryPaths[qId]) {
+    countryPaths[qId].style.animation = 'none';
+    countryPaths[qId].offsetHeight; // reflow
+    countryPaths[qId].style.animation = '';
+  }
+
+  const progress = (quiz.current / quiz.questions.length) * 100;
+  document.getElementById('quiz-progress').style.width = progress + '%';
+
+  // Generate 4 options
+  const allIds = Object.keys(COUNTRIES).map(Number);
+  const wrong3 = shuffle(allIds.filter(id => id !== qId)).slice(0, 3);
+  const options = shuffle([qId, ...wrong3]);
+
+  const container = document.getElementById('quiz-options');
+  container.innerHTML = '';
+  options.forEach(optId => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = COUNTRIES[optId].capital;
+    btn.onclick = () => answerQuiz(optId === qId, btn, qId, options, container);
+    container.appendChild(btn);
+  });
+}
+
+function answerQuiz(isCorrect, clickedBtn, correctId, options, container) {
+  if (quiz.answered) return;
+  quiz.answered = true;
+
+  const btns = container.querySelectorAll('.opt-btn');
+  btns.forEach(b => {
+    b.disabled = true;
+    if (b.textContent === COUNTRIES[correctId].capital) b.classList.add('correct');
+  });
+
+  if (isCorrect) {
+    clickedBtn.classList.add('correct');
+    quiz.correct++;
+    document.getElementById('quiz-feedback').textContent = '✓ ¡Correcto!';
+    document.getElementById('quiz-feedback').className = 'feedback ok';
+  } else {
+    clickedBtn.classList.add('wrong');
+    quiz.wrong++;
+    document.getElementById('quiz-feedback').textContent = `✗ La capital correcta es ${COUNTRIES[correctId].capital}`;
+    document.getElementById('quiz-feedback').className = 'feedback ko';
+  }
+
+  updateQuizScore();
+  quiz.current++;
+
+  setTimeout(() => {
+    if (quiz.current < quiz.questions.length) showQuestion();
+    else showResult();
+  }, 1600);
+}
+
+function updateQuizScore() {
+  document.getElementById('quiz-score').textContent = `✓ ${quiz.correct}  ✗ ${quiz.wrong}`;
+}
+
+function showResult() {
+  document.getElementById('quiz-progress').style.width = '100%';
+  setTimeout(() => {
+    document.getElementById('quiz-play').classList.add('hidden');
+    document.getElementById('quiz-result').classList.remove('hidden');
+
+    document.getElementById('result-score').textContent = quiz.correct;
+    document.getElementById('result-label').textContent = `/ ${quiz.questions.length} correctas`;
+
+    const pct = quiz.correct / quiz.questions.length;
+    let msg = '';
+    if (pct === 1) msg = '¡Perfecto! Eres un experto en geografía africana 🌟';
+    else if (pct >= 0.8) msg = '¡Muy bien! Tienes un gran conocimiento de África.';
+    else if (pct >= 0.6) msg = 'Bien hecho. Sigue practicando y lo dominarás.';
+    else if (pct >= 0.4) msg = 'Vas por buen camino. ¡Repasa las capitales!';
+    else msg = 'Necesitas repasar más. ¡Prueba el modo Explorar!';
+    document.getElementById('result-msg').textContent = msg;
+  }, 400);
+}
+
+// ---- UTILS ----
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+</script>
+</body>
+</html>
