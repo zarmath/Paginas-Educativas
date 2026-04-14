@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El ADN de las Estructuras</title>
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-dark: #1e2a38;
+    --bg-card: #243040;
+    --bg-card2: #2a3a50;
+    --orange: #e8853a;
+    --orange-light: #f0a060;
+    --yellow: #f5d800;
+    --yellow-glow: rgba(245, 216, 0, 0.35);
+    --text: #e8edf2;
+    --text-muted: #8fa3b8;
+    --success: #4caf50;
+    --danger: #e53935;
+    --grid-line: rgba(100, 160, 220, 0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text);
+    line-height: 1.65;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* ===== NAVIGATION ===== */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(30, 42, 56, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(232, 133, 58, 0.3);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-brand {
+    color: var(--yellow); font-weight: 700; font-size: 0.9rem;
+    white-space: nowrap; padding: 1rem 1.5rem 1rem 0;
+    border-right: 1px solid rgba(232, 133, 58, 0.3);
+    margin-right: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+  nav a {
+    color: var(--text-muted); text-decoration: none;
+    padding: 1rem 0.85rem; font-size: 0.82rem; white-space: nowrap;
+    transition: color .2s;
+  }
+  nav a:hover { color: var(--orange); }
+
+  /* ===== TIPOS DE ESTRUCTURAS ===== */
+  .tipos-intro {
+    background: var(--bg-card);
+    border-radius: 14px; padding: 1.5rem 1.8rem;
+    border-left: 4px solid var(--yellow);
+    margin-bottom: 2.5rem;
+    font-size: 0.95rem; color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .tipos-intro strong { color: var(--text); }
+
+  .tipos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .tipo-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(232,133,58,0.2);
+    border-radius: 16px; padding: 1.6rem;
+    position: relative; overflow: hidden;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .tipo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    border-color: rgba(232,133,58,0.5);
+  }
+  .tipo-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--orange);
+  }
+  .tipo-card.laminar::before { background: #e91e8c; }
+  .tipo-card.entramada::before { background: #2196f3; }
+  .tipo-card.triangulada::before { background: var(--success); }
+  .tipo-card.colgada::before { background: var(--yellow); }
+
+  .tipo-icon { font-size: 2.5rem; margin-bottom: 0.7rem; }
+  .tipo-card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--orange-light); }
+  .tipo-card.laminar h3 { color: #f48fb1; }
+  .tipo-card.entramada h3 { color: #90caf9; }
+  .tipo-card.triangulada h3 { color: #a5d6a7; }
+  .tipo-card.colgada h3 { color: var(--yellow); }
+  .tipo-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+  .tipo-card .ejemplo {
+    margin-top: 0.8rem;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(232,133,58,0.1);
+    border: 1px solid rgba(232,133,58,0.25);
+    border-radius: 6px; padding: 0.25rem 0.6rem;
+    font-size: 0.78rem; color: var(--orange-light);
+  }
+  .tipo-card.laminar .ejemplo { background: rgba(233,30,140,0.1); border-color: rgba(233,30,140,0.3); color: #f48fb1; }
+  .tipo-card.entramada .ejemplo { background: rgba(33,150,243,0.1); border-color: rgba(33,150,243,0.3); color: #90caf9; }
+  .tipo-card.triangulada .ejemplo { background: rgba(76,175,80,0.1); border-color: rgba(76,175,80,0.3); color: #a5d6a7; }
+  .tipo-card.colgada .ejemplo { background: rgba(245,216,0,0.1); border-color: rgba(245,216,0,0.3); color: var(--yellow); }
+
+  /* SVG estructuras */
+  .tipo-svg { width: 100%; height: 80px; margin: 0.8rem 0; }
+
+  /* TABLA DE CLASIFICACIÓN */
+  .clasif-tabla {
+    border: 2px solid rgba(100,160,220,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .clasif-fila {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: stretch;
+  }
+  @media (max-width: 650px) {
+    .clasif-fila { grid-template-columns: 1fr; }
+  }
+  .clasif-label {
+    background: var(--bg-card2);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem 1rem;
+    border-right: 2px solid rgba(100,160,220,0.15);
+  }
+  @media (max-width: 650px) {
+    .clasif-label { border-right: none; border-bottom: 2px solid rgba(100,160,220,0.15); }
+  }
+  .clasif-badge {
+    display: inline-block;
+    font-weight: 800; font-size: 0.85rem;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 0.5rem 0.9rem; border-radius: 10px;
+    text-align: center; line-height: 1.4;
+  }
+  .clasif-badge.naranja {
+    background: var(--orange); color: #fff;
+  }
+  .clasif-badge.azul {
+    background: #1565c0; color: #fff;
+  }
+  .clasif-contenido {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+    padding: 1.4rem;
+    background: var(--bg-dark);
+  }
+  .clasif-divisor {
+    height: 2px;
+    background: rgba(100,160,220,0.15);
+  }
+
+  .armadura-section {
+    background: var(--bg-card2);
+    border-radius: 16px; padding: 1.8rem;
+    margin-top: 1rem;
+    border: 1px solid rgba(100,160,220,0.12);
+  }
+  .armadura-section h3 {
+    font-size: 1.1rem; margin-bottom: 1.2rem; color: var(--orange-light);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .armadura-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .material-nota {
+    background: rgba(245,216,0,0.06);
+    border: 1px solid rgba(245,216,0,0.2);
+    border-radius: 10px; padding: 1rem 1.4rem;
+    font-size: 0.88rem; color: var(--text-muted);
+    margin-top: 2rem;
+  }
+  .material-nota strong { color: var(--yellow); }
+  .material-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+  .material-tag {
+    background: var(--bg-card);
+    border: 1px solid rgba(100,160,220,0.2);
+    border-radius: 6px; padding: 0.2rem 0.7rem;
+    font-size: 0.78rem; color: var(--text-muted);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 90vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 4rem 2rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(232,133,58,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(232,133,58,0.15);
+    border: 1px solid rgba(232,133,58,0.4);
+    color: var(--orange); padding: 0.3rem 1rem;
+    border-radius: 100px; font-size: 0.8rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    font-weight: 900; line-height: 1.05;
+    color: #fff; margin-bottom: 1rem;
+  }
+  .hero h1 span { color: var(--orange); }
+  .hero p {
+    font-size: 1.2rem; color: var(--text-muted);
+    max-width: 560px; margin-bottom: 3rem;
+  }
+  .hero-pillars {
+    display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 3rem;
+  }
+  .pillar-badge {
+    background: var(--bg-card);
+    border: 1px solid rgba(232,133,58,0.35);
+    border-radius: 12px; padding: 1rem 1.5rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+    min-width: 150px;
+    transition: transform .3s, border-color .3s;
+  }
+  .pillar-badge:hover { transform: translateY(-4px); border-color: var(--orange); }
+  .pillar-badge .num {
+    font-size: 2rem; font-weight: 900; color: var(--orange);
+    line-height: 1;
+  }
+  .pillar-badge .label {
+    font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .pillar-badge .name { font-size: 1rem; font-weight: 700; color: var(--text); }
+
+  /* ===== SECTION LAYOUT ===== */
+  section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    color: var(--orange); text-transform: uppercase; font-size: 0.75rem;
+    letter-spacing: 0.15em; font-weight: 700; margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 800; line-height: 1.2; margin-bottom: 1rem;
+  }
+  h2 .accent { color: var(--yellow); }
+  .subtitle { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 2.5rem; max-width: 700px; }
+  .divider {
+    width: 60px; height: 3px;
+    background: var(--orange); border-radius: 2px;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ===== CONTRATO ESTRUCTURAL ===== */
+  .contrato-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    align-items: center;
+  }
+  @media (max-width: 700px) { .contrato-grid { grid-template-columns: 1fr; } }
+
+  .venn-container { position: relative; width: 280px; height: 280px; margin: 0 auto; }
+  .venn-circle {
+    position: absolute; width: 170px; height: 170px;
+    border-radius: 50%;
+    border: 2.5px solid var(--orange);
+    opacity: 0.8;
+  }
+  .venn-circle:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+  .venn-circle:nth-child(2) { bottom: 0; left: 8px; }
+  .venn-circle:nth-child(3) { bottom: 0; right: 8px; }
+  .venn-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -44%);
+    width: 90px; height: 90px;
+    background: radial-gradient(circle, rgba(245,216,0,0.3) 0%, rgba(245,216,0,0.05) 70%);
+    border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    border: 2px solid var(--yellow);
+    box-shadow: 0 0 20px var(--yellow-glow);
+  }
+  .venn-center span { font-size: 0.65rem; font-weight: 800; color: var(--yellow); line-height: 1.2; }
+  .venn-labels {
+    position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+  }
+  .venn-lbl {
+    position: absolute; font-size: 0.7rem; font-weight: 700;
+    color: var(--orange-light); text-align: center; line-height: 1.2;
+  }
+  .venn-lbl.top { top: -8px; left: 50%; transform: translateX(-50%); }
+  .venn-lbl.left { bottom: 28px; left: -18px; }
+  .venn-lbl.right { bottom: 28px; right: -18px; }
+
+  .contrato-cards { display: flex; flex-direction: column; gap: 1rem; }
+  .contrato-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(232,133,58,0.25);
+    border-left: 4px solid var(--orange);
+    border-radius: 10px; padding: 1.1rem 1.4rem;
+    display: flex; align-items: flex-start; gap: 1rem;
+  }
+  .contrato-card .icon {
+    font-size: 1.8rem; flex-shrink: 0; line-height: 1;
+  }
+  .contrato-card h3 { font-size: 1rem; margin-bottom: 0.2rem; color: var(--orange-light); }
+  .contrato-card p { font-size: 0.88rem; color: var(--text-muted); }
+
+  .alert-box {
+    background: rgba(245,216,0,0.07);
+    border: 1px solid rgba(245,216,0,0.3);
+    border-radius: 10px; padding: 1rem 1.4rem;
+    color: var(--yellow); font-size: 0.9rem;
+    margin-top: 1.5rem; font-style: italic;
+  }
+
+  /* ===== PILAR SECTION ===== */
+  .pilar-header {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
+  }
+  .pilar-num {
+    width: 56px; height: 56px;
+    background: var(--orange);
+    color: #fff; font-weight: 900; font-size: 1.5rem;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .pilar-title { }
+  .pilar-title h2 { margin-bottom: 0.2rem; }
+  .pilar-title p { color: var(--text-muted); font-size: 0.9rem; }
+
+  /* ===== REGLAS ESTABILIDAD ===== */
+  .reglas-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1.5rem; margin-top: 2rem;
+  }
+  .regla-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(232,133,58,0.2);
+    border-radius: 16px; padding: 1.8rem;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .regla-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  .regla-num {
+    display: inline-block;
+    background: rgba(232,133,58,0.15);
+    border: 1px solid rgba(232,133,58,0.4);
+    color: var(--orange); padding: 0.2rem 0.7rem;
+    border-radius: 6px; font-size: 0.75rem; font-weight: 700;
+    margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .regla-card h3 { font-size: 1.1rem; margin-bottom: 0.6rem; }
+  .regla-card .regla-subtitle { color: var(--orange); font-size: 0.9rem; font-weight: 600; margin-bottom: 0.8rem; }
+  .regla-card p { color: var(--text-muted); font-size: 0.9rem; }
+
+  /* ===== VISUAL DEMOS ===== */
+  .demo-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 600px) { .demo-row { grid-template-columns: 1fr; } }
+  .demo-box {
+    background: var(--bg-card2);
+    border-radius: 12px; padding: 1.4rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+    border: 1px solid rgba(100,160,220,0.1);
+  }
+  .demo-box .demo-label { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; }
+  .demo-box.success .demo-label { color: var(--success); }
+  .demo-box.danger .demo-label { color: var(--danger); }
+
+  /* SVG mini diagrams */
+  .svg-demo { width: 100%; max-width: 220px; height: 120px; }
+
+  /* ===== MATERIAL + FORMA ===== */
+  .formula-box {
+    background: var(--bg-card);
+    border-radius: 16px; padding: 2rem;
+    display: flex; align-items: center; justify-content: center;
+    gap: 1.5rem; flex-wrap: wrap;
+    border: 1px solid rgba(232,133,58,0.25);
+    margin: 2rem 0;
+    font-size: 1.4rem; font-weight: 800;
+  }
+  .formula-box .plus { color: var(--text-muted); }
+  .formula-box .equals { color: var(--orange); font-size: 1.8rem; }
+  .formula-item {
+    background: var(--bg-card2);
+    border-radius: 10px; padding: 0.8rem 1.4rem;
+    text-align: center; border: 1px solid rgba(100,160,220,0.15);
+    min-width: 110px;
+  }
+  .formula-item .fi-icon { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+  .formula-item .fi-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; }
+  .formula-result { color: var(--orange); font-size: 1.8rem; font-weight: 900; }
+
+  /* ===== RIGIDEZ ===== */
+  .rigidez-comparison {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 600px) { .rigidez-comparison { grid-template-columns: 1fr; } }
+  .rig-card {
+    border-radius: 14px; padding: 1.6rem;
+    border: 2px solid;
+  }
+  .rig-card.good { border-color: var(--success); background: rgba(76,175,80,0.06); }
+  .rig-card.bad { border-color: var(--danger); background: rgba(229,57,53,0.06); }
+  .rig-card .rig-icon { font-size: 2rem; margin-bottom: 0.6rem; }
+  .rig-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+  .rig-card.good h3 { color: var(--success); }
+  .rig-card.bad h3 { color: var(--danger); }
+  .rig-card p { font-size: 0.88rem; color: var(--text-muted); }
+
+  /* ===== MATRIZ ===== */
+  .matrix-table {
+    width: 100%; border-collapse: separate; border-spacing: 0;
+    margin-top: 2rem; border-radius: 14px; overflow: hidden;
+  }
+  .matrix-table th {
+    background: rgba(232,133,58,0.15);
+    color: var(--orange); font-size: 0.82rem; text-transform: uppercase;
+    letter-spacing: 0.08em; padding: 1rem 1.2rem; text-align: left;
+    border-bottom: 1px solid rgba(232,133,58,0.25);
+  }
+  .matrix-table td {
+    background: var(--bg-card);
+    padding: 1rem 1.2rem; border-bottom: 1px solid rgba(100,160,220,0.08);
+    font-size: 0.9rem;
+  }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .matrix-table td:first-child { font-weight: 800; color: var(--orange-light); }
+  .matrix-table .highlight { color: var(--yellow); font-weight: 700; }
+
+  /* ===== ESTRUCTURA PERFECTA ===== */
+  .perfect-cards {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 1.5rem; margin-top: 2rem;
+  }
+  .perfect-card {
+    background: var(--bg-card);
+    border-radius: 14px; padding: 1.6rem;
+    border-top: 3px solid var(--orange);
+    transition: transform .3s;
+  }
+  .perfect-card:hover { transform: translateY(-4px); }
+  .perfect-card .pc-icon { font-size: 2.2rem; margin-bottom: 0.8rem; }
+  .perfect-card h3 { font-size: 1rem; color: var(--orange); margin-bottom: 0.5rem; }
+  .perfect-card p { font-size: 0.88rem; color: var(--text-muted); }
+
+  /* ===== EJERCICIOS ===== */
+  #ejercicios { background: var(--bg-card2); border-radius: 24px; padding: 3rem 2rem; }
+  .quiz-header { text-align: center; margin-bottom: 3rem; }
+  .quiz-header h2 { font-size: 2rem; }
+  .quiz-header p { color: var(--text-muted); }
+
+  .quiz-question {
+    background: var(--bg-dark);
+    border: 1px solid rgba(232,133,58,0.2);
+    border-radius: 14px; padding: 1.8rem;
+    margin-bottom: 1.5rem;
+    transition: border-color .3s;
+  }
+  .quiz-question.answered { border-color: rgba(100,160,220,0.4); }
+  .q-num {
+    display: inline-block;
+    background: var(--orange); color: #fff;
+    font-weight: 700; font-size: 0.75rem; padding: 0.2rem 0.6rem;
+    border-radius: 6px; margin-bottom: 0.8rem;
+  }
+  .q-text { font-size: 1rem; font-weight: 600; margin-bottom: 1.2rem; }
+  .q-options { display: flex; flex-direction: column; gap: 0.65rem; }
+  .q-option {
+    background: var(--bg-card);
+    border: 1px solid rgba(100,160,220,0.15);
+    border-radius: 10px; padding: 0.8rem 1.1rem;
+    cursor: pointer; font-size: 0.9rem; color: var(--text);
+    transition: all .25s; display: flex; align-items: center; gap: 0.8rem;
+    user-select: none;
+  }
+  .q-option:hover { border-color: var(--orange); background: rgba(232,133,58,0.07); }
+  .q-option.correct { border-color: var(--success) !important; background: rgba(76,175,80,0.12) !important; color: var(--success) !important; }
+  .q-option.incorrect { border-color: var(--danger) !important; background: rgba(229,57,53,0.12) !important; color: var(--danger) !important; }
+  .q-option.disabled { pointer-events: none; }
+  .q-option .opt-dot {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 2px solid currentColor; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 900;
+  }
+  .q-feedback {
+    margin-top: 0.9rem; padding: 0.7rem 1rem;
+    border-radius: 8px; font-size: 0.88rem; display: none;
+  }
+  .q-feedback.show { display: block; }
+  .q-feedback.correct-fb { background: rgba(76,175,80,0.12); border-left: 3px solid var(--success); color: #a5d6a7; }
+  .q-feedback.incorrect-fb { background: rgba(229,57,53,0.12); border-left: 3px solid var(--danger); color: #ef9a9a; }
+
+  /* TRUE/FALSE */
+  .tf-options { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .tf-btn {
+    flex: 1; min-width: 100px;
+    background: var(--bg-card);
+    border: 1px solid rgba(100,160,220,0.15);
+    border-radius: 10px; padding: 0.7rem 1rem;
+    cursor: pointer; font-size: 0.9rem; color: var(--text);
+    transition: all .25s; font-weight: 600;
+    text-align: center;
+  }
+  .tf-btn:hover { border-color: var(--orange); background: rgba(232,133,58,0.07); }
+  .tf-btn.correct { border-color: var(--success) !important; background: rgba(76,175,80,0.15) !important; color: var(--success) !important; pointer-events: none; }
+  .tf-btn.incorrect { border-color: var(--danger) !important; background: rgba(229,57,53,0.15) !important; color: var(--danger) !important; pointer-events: none; }
+  .tf-btn.disabled { pointer-events: none; }
+
+  /* SCORE */
+  .score-bar {
+    background: var(--bg-dark); border-radius: 14px;
+    padding: 2rem; margin-top: 2.5rem; text-align: center;
+    border: 1px solid rgba(232,133,58,0.25); display: none;
+  }
+  .score-bar.show { display: block; }
+  .score-num { font-size: 3rem; font-weight: 900; color: var(--orange); }
+  .score-label { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.3rem; }
+  .score-msg { margin-top: 0.8rem; font-size: 1rem; color: var(--text); }
+
+  .btn-reset {
+    margin-top: 1.5rem;
+    background: var(--orange); color: #fff;
+    border: none; border-radius: 10px; padding: 0.75rem 2rem;
+    font-size: 0.95rem; font-weight: 700; cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-reset:hover { background: var(--orange-light); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center; padding: 2.5rem 2rem;
+    color: var(--text-muted); font-size: 0.82rem;
+    border-top: 1px solid rgba(100,160,220,0.08);
+  }
+  footer strong { color: var(--orange); }
+
+  /* ===== UTILS ===== */
+  .info-pill {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(232,133,58,0.1); border: 1px solid rgba(232,133,58,0.3);
+    border-radius: 8px; padding: 0.5rem 1rem;
+    color: var(--orange); font-size: 0.85rem; margin-top: 1.5rem;
+  }
+  .concept-box {
+    background: rgba(245,216,0,0.05);
+    border: 1px solid rgba(245,216,0,0.2);
+    border-radius: 12px; padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .concept-box strong { color: var(--yellow); }
+  .concept-box p { font-size: 0.92rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+  /* PROGRESS */
+  .progress-strip {
+    display: flex; gap: 0.4rem; margin-bottom: 0.5rem;
+  }
+  .prog-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: rgba(100,160,220,0.2); border: 1px solid rgba(100,160,220,0.3);
+    transition: background .3s;
+  }
+  .prog-dot.done { background: var(--orange); border-color: var(--orange); }
+
+  @media (max-width: 700px) {
+    nav a { font-size: 0.75rem; padding: 1rem 0.6rem; }
+    section { padding: 3rem 1.2rem; }
+    .formula-box { gap: 0.8rem; font-size: 1rem; }
+    .matrix-table th, .matrix-table td { padding: 0.7rem; font-size: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">🏗️ Estructuras ESO</div>
+  <a href="#tipos">Tipos</a>
+  <a href="#contrato">El Contrato</a>
+  <a href="#estabilidad">Estabilidad</a>
+  <a href="#resistencia">Resistencia</a>
+  <a href="#rigidez">Rigidez</a>
+  <a href="#matriz">Matriz</a>
+  <a href="#perfecta">Estructura Perfecta</a>
+  <a href="#ejercicios">Ejercicios</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Tecnología · ESO · Estructuras</div>
+  <h1>El <span>ADN</span> de las<br>Estructuras</h1>
+  <p>Las <strong>3 condiciones universales</strong> que toda estructura debe cumplir simultáneamente para no colapsar.</p>
+  <div class="hero-pillars">
+    <div class="pillar-badge">
+      <span class="num">1</span>
+      <span class="label">Pilar</span>
+      <span class="name">Estabilidad</span>
+    </div>
+    <div class="pillar-badge">
+      <span class="num">2</span>
+      <span class="label">Pilar</span>
+      <span class="name">Resistencia</span>
+    </div>
+    <div class="pillar-badge">
+      <span class="num">3</span>
+      <span class="label">Pilar</span>
+      <span class="name">Rigidez</span>
+    </div>
+  </div>
+  <a href="#tipos" style="color:var(--orange-light); font-size:0.9rem; text-decoration:none;">
+    ↓ Empezar a aprender
+  </a>
+</div>
+
+<!-- ===== TIPOS DE ESTRUCTURAS ===== -->
+<section id="tipos">
+  <div class="section-label">Teoría del Libro</div>
+  <h2>1. <span class="accent">Tipos</span> de Estructuras</h2>
+  <div class="divider"></div>
+
+  <div class="tipos-intro">
+    Las <strong>estructuras</strong> tienen la finalidad de sujetar elementos, mecanismos, instalaciones o cualquier otro cuerpo; además, también pueden servir para crear barreras, como el paso de ríos.<br><br>
+    Las estructuras deben ser <strong>resistentes, rígidas y estables</strong>. En nuestro entorno encontramos estructuras <strong>naturales</strong> (el esqueleto humano, los árboles…) y estructuras <strong>artificiales</strong>. Desde el punto de vista tecnológico, solo nos interesan las <strong>estructuras artificiales</strong> (también llamadas resistentes).
+  </div>
+
+  <!-- TABLA DE CLASIFICACIÓN VISUAL -->
+  <div class="clasif-tabla">
+
+    <!-- FILA 1: ESTRUCTURAS ARTIFICIALES -->
+    <div class="clasif-fila">
+      <div class="clasif-label">
+        <span class="clasif-badge naranja">Estructuras<br>Artificiales</span>
+      </div>
+      <div class="clasif-contenido">
+        <div class="tipo-card">
+          <div class="tipo-icon">🏛️</div>
+          <h3>Macizas o de Gravedad</h3>
+          <svg class="tipo-svg" viewBox="0 0 260 80">
+            <polygon points="80,10 130,70 30,70" fill="rgba(232,133,58,0.2)" stroke="var(--orange)" stroke-width="2"/>
+            <line x1="55" y1="50" x2="105" y2="50" stroke="rgba(232,133,58,0.4)" stroke-width="1"/>
+            <line x1="65" y1="33" x2="95" y2="33" stroke="rgba(232,133,58,0.4)" stroke-width="1"/>
+            <rect x="160" y="30" width="60" height="40" fill="rgba(232,133,58,0.15)" stroke="var(--orange)" stroke-width="1.5"/>
+            <polygon points="160,30 190,10 220,30" fill="rgba(232,133,58,0.2)" stroke="var(--orange)" stroke-width="1.5"/>
+            <rect x="175" y="50" width="14" height="20" fill="rgba(232,133,58,0.3)" stroke="var(--orange)" stroke-width="1"/>
+            <text x="80" y="78" fill="rgba(232,133,58,0.7)" font-size="9" text-anchor="middle">Pirámide</text>
+            <text x="190" y="78" fill="rgba(232,133,58,0.7)" font-size="9" text-anchor="middle">Catedral</text>
+          </svg>
+          <p>Estructuras <strong>macizas y pesadas</strong> construidas por acumulación de materiales. Son las más antiguas. Su propio peso las mantiene en pie.</p>
+          <span class="ejemplo">📍 Ej: pirámides, catedrales, presas</span>
+        </div>
+
+        <div class="tipo-card laminar">
+          <div class="tipo-icon">🚗</div>
+          <h3>Laminares</h3>
+          <svg class="tipo-svg" viewBox="0 0 260 80">
+            <rect x="20" y="35" width="100" height="30" rx="5" fill="rgba(233,30,140,0.15)" stroke="#e91e8c" stroke-width="1.5"/>
+            <ellipse cx="40" cy="65" rx="10" ry="10" fill="rgba(50,50,70,0.8)" stroke="#e91e8c" stroke-width="1.5"/>
+            <ellipse cx="100" cy="65" rx="10" ry="10" fill="rgba(50,50,70,0.8)" stroke="#e91e8c" stroke-width="1.5"/>
+            <path d="M 35,35 L 50,15 L 90,15 L 105,35" fill="rgba(233,30,140,0.15)" stroke="#e91e8c" stroke-width="1.5"/>
+            <rect x="155" y="15" width="70" height="55" rx="3" fill="rgba(233,30,140,0.15)" stroke="#e91e8c" stroke-width="1.5"/>
+            <line x1="190" y1="15" x2="190" y2="70" stroke="#e91e8c" stroke-width="1" stroke-dasharray="3,2"/>
+            <circle cx="187" cy="43" r="2.5" fill="#e91e8c"/>
+            <circle cx="193" cy="43" r="2.5" fill="#e91e8c"/>
+            <text x="70" y="78" fill="rgba(233,30,140,0.7)" font-size="9" text-anchor="middle">Carrocería</text>
+            <text x="190" y="78" fill="rgba(233,30,140,0.7)" font-size="9" text-anchor="middle">Armario metálico</text>
+          </svg>
+          <p>Usan <strong>láminas a las que se da forma</strong> para aumentar su resistencia. La geometría de la lámina les da rigidez, no el grosor del material.</p>
+          <span class="ejemplo">📍 Ej: carrocería de coche, armario metálico, latas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIVISOR -->
+    <div class="clasif-divisor"></div>
+
+    <!-- FILA 2: DE ARMADURA -->
+    <div class="clasif-fila">
+      <div class="clasif-label">
+        <span class="clasif-badge azul">De<br>Armadura</span>
+      </div>
+      <div class="clasif-contenido">
+
+        <div class="tipo-card entramada">
+          <div class="tipo-icon">🪑</div>
+          <h3>Entramadas</h3>
+          <svg class="tipo-svg" viewBox="0 0 200 80">
+            <rect x="20" y="20" width="160" height="10" fill="rgba(33,150,243,0.3)" stroke="#2196f3" stroke-width="1.5"/>
+            <rect x="30" y="30" width="10" height="40" fill="rgba(33,150,243,0.2)" stroke="#2196f3" stroke-width="1.5"/>
+            <rect x="80" y="30" width="10" height="40" fill="rgba(33,150,243,0.2)" stroke="#2196f3" stroke-width="1.5"/>
+            <rect x="130" y="30" width="10" height="40" fill="rgba(33,150,243,0.2)" stroke="#2196f3" stroke-width="1.5"/>
+            <rect x="160" y="30" width="10" height="40" fill="rgba(33,150,243,0.2)" stroke="#2196f3" stroke-width="1.5"/>
+            <text x="100" y="78" fill="rgba(33,150,243,0.7)" font-size="9" text-anchor="middle">Mesa / Escalera</text>
+          </svg>
+          <p>Se construyen con <strong>elementos verticales y horizontales</strong> unidos entre sí.</p>
+          <span class="ejemplo">📍 Ej: mesa, escalera, estantería</span>
+        </div>
+
+        <div class="tipo-card triangulada">
+          <div class="tipo-icon">🏗️</div>
+          <h3>Trianguladas</h3>
+          <svg class="tipo-svg" viewBox="0 0 200 80">
+            <rect x="15" y="10" width="8" height="60" fill="rgba(76,175,80,0.3)" stroke="var(--success)" stroke-width="1.5"/>
+            <polygon points="23,10 60,10 23,35" fill="rgba(76,175,80,0.1)" stroke="var(--success)" stroke-width="1.5"/>
+            <polygon points="23,35 60,10 60,35" fill="rgba(76,175,80,0.1)" stroke="var(--success)" stroke-width="1.5"/>
+            <polygon points="23,35 60,35 23,60" fill="rgba(76,175,80,0.1)" stroke="var(--success)" stroke-width="1.5"/>
+            <polygon points="23,60 60,35 60,60" fill="rgba(76,175,80,0.1)" stroke="var(--success)" stroke-width="1.5"/>
+            <line x1="60" y1="10" x2="60" y2="60" stroke="var(--success)" stroke-width="1.5"/>
+            <line x1="23" y1="10" x2="140" y2="10" stroke="var(--success)" stroke-width="2"/>
+            <line x1="140" y1="10" x2="140" y2="60" stroke="rgba(76,175,80,0.5)" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <rect x="130" y="60" width="20" height="15" fill="rgba(76,175,80,0.2)" stroke="var(--success)" stroke-width="1.5"/>
+            <text x="100" y="78" fill="rgba(76,175,80,0.7)" font-size="9" text-anchor="middle">Grúa / Torre eléctrica</text>
+          </svg>
+          <p>Se construyen <strong>uniendo barras para formar triángulos</strong>. El triángulo es la figura más rígida e indeformable.</p>
+          <span class="ejemplo">📍 Ej: grúas, torres eléctricas, puentes metálicos</span>
+        </div>
+
+        <div class="tipo-card colgada">
+          <div class="tipo-icon">🌉</div>
+          <h3>Colgadas</h3>
+          <svg class="tipo-svg" viewBox="0 0 200 80">
+            <rect x="20" y="10" width="12" height="60" fill="rgba(245,216,0,0.25)" stroke="var(--yellow)" stroke-width="1.5"/>
+            <rect x="168" y="10" width="12" height="60" fill="rgba(245,216,0,0.25)" stroke="var(--yellow)" stroke-width="1.5"/>
+            <path d="M 26,12 Q 100,45 174,12" fill="none" stroke="var(--yellow)" stroke-width="2"/>
+            <line x1="60" y1="28" x2="60" y2="62" stroke="rgba(245,216,0,0.6)" stroke-width="1.5"/>
+            <line x1="80" y1="36" x2="80" y2="62" stroke="rgba(245,216,0,0.6)" stroke-width="1.5"/>
+            <line x1="100" y1="40" x2="100" y2="62" stroke="rgba(245,216,0,0.6)" stroke-width="1.5"/>
+            <line x1="120" y1="36" x2="120" y2="62" stroke="rgba(245,216,0,0.6)" stroke-width="1.5"/>
+            <line x1="140" y1="28" x2="140" y2="62" stroke="rgba(245,216,0,0.6)" stroke-width="1.5"/>
+            <rect x="20" y="62" width="160" height="7" fill="rgba(245,216,0,0.2)" stroke="var(--yellow)" stroke-width="1.5"/>
+            <text x="100" y="78" fill="rgba(245,216,0,0.7)" font-size="9" text-anchor="middle">Puente colgante</text>
+          </svg>
+          <p>La carga es soportada por <strong>cables sujetos a torres</strong>. Los cables trabajan a tracción. Se usan en puentes de gran vano.</p>
+          <span class="ejemplo">📍 Ej: puente colgante, puente atirantado</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- fin clasif-tabla -->
+
+  <div class="material-nota">
+    <strong>💡 Clasificación por material:</strong>
+    <p>También se puede clasificar las estructuras según el material del que están compuestas:</p>
+    <div class="material-tags">
+      <span class="material-tag">🌿 Madera</span>
+      <span class="material-tag">🔩 Metal / Acero</span>
+      <span class="material-tag">🧱 Materiales pétreos</span>
+      <span class="material-tag">♻️ Plástico</span>
+      <span class="material-tag">📄 Cartón</span>
+      <span class="material-tag">🧵 Tela / Fibra</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EL CONTRATO ESTRUCTURAL ===== -->
+<section id="contrato">
+  <div class="section-label">Fundamentos</div>
+  <h2>El <span class="accent">Contrato</span> Estructural</h2>
+  <div class="divider"></div>
+  <div class="contrato-grid">
+    <div>
+      <p class="subtitle">Una estructura no puede elegir: debe cumplir las tres condiciones <em>al mismo tiempo</em> para comportarse correctamente.</p>
+
+      <div class="contrato-cards">
+        <div class="contrato-card">
+          <span class="icon">⚖️</span>
+          <div>
+            <h3>1. Estabilidad — No vuelca</h3>
+            <p>Maneja el <strong>equilibrio general</strong> de la estructura. Impide que se voltee.</p>
+          </div>
+        </div>
+        <div class="contrato-card">
+          <span class="icon">💪</span>
+          <div>
+            <h3>2. Resistencia — No se rompe</h3>
+            <p>Maneja las <strong>fuerzas internas</strong>. Los elementos soportan las cargas sin fracturarse.</p>
+          </div>
+        </div>
+        <div class="contrato-card">
+          <span class="icon">📐</span>
+          <div>
+            <h3>3. Rigidez — Mantiene su función</h3>
+            <p>Maneja la <strong>deformación</strong>. La estructura no se dobla tanto como para dejar de ser útil.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-box">
+        💡 Una estructura puede ser de acero macizo (muy resistente) pero inestable si tiene la base demasiado pequeña. La ingeniería exige dominar las tres.
+      </div>
+    </div>
+
+    <!-- VENN DIAGRAM -->
+    <div style="display:flex; flex-direction:column; align-items:center; gap:1rem;">
+      <div class="venn-container">
+        <div class="venn-circle"></div>
+        <div class="venn-circle"></div>
+        <div class="venn-circle"></div>
+        <div class="venn-center">
+          <span>Estructura<br>Exitosa</span>
+        </div>
+        <div class="venn-labels">
+          <div class="venn-lbl top">ESTABILIDAD</div>
+          <div class="venn-lbl left">RIGIDEZ</div>
+          <div class="venn-lbl right">RESISTENCIA</div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem; color:var(--text-muted); text-align:center; max-width:260px;">
+        Los tres pilares deben solaparse completamente para obtener una estructura exitosa.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PILAR 1: ESTABILIDAD ===== -->
+<section id="estabilidad" style="background: rgba(232,133,58,0.03); border-radius:24px; padding:4rem 2rem; max-width:1100px; margin:0 auto;">
+  <div class="section-label">Pilar 1</div>
+  <div class="pilar-header">
+    <div class="pilar-num">1</div>
+    <div class="pilar-title">
+      <h2>Estabilidad y el <span class="accent">'Jefe'</span> del Equilibrio</h2>
+      <p>¿Por qué algunas estructuras se vuelcan y otras no?</p>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="concept-box">
+    <strong>El Centro de Gravedad (CG)</strong>
+    <p>Es el punto donde se concentra <em>toda la masa</em> de un cuerpo. Si ese punto queda bien posicionado, la estructura se mantiene en equilibrio. Si no, cae.</p>
+  </div>
+
+  <div class="demo-row">
+    <div class="demo-box success">
+      <svg class="svg-demo" viewBox="0 0 220 120">
+        <!-- Ground -->
+        <line x1="10" y1="108" x2="210" y2="108" stroke="#8fa3b8" stroke-width="2"/>
+        <!-- L-shape structure -->
+        <rect x="50" y="40" width="40" height="65" fill="rgba(100,160,220,0.25)" stroke="rgba(100,160,220,0.6)" stroke-width="1.5"/>
+        <rect x="50" y="88" width="90" height="17" fill="rgba(100,160,220,0.25)" stroke="rgba(100,160,220,0.6)" stroke-width="1.5"/>
+        <!-- CG dot -->
+        <circle cx="100" cy="82" r="10" fill="none" stroke="#f5d800" stroke-width="2"/>
+        <line x1="93" y1="82" x2="107" y2="82" stroke="#f5d800" stroke-width="2"/>
+        <line x1="100" y1="75" x2="100" y2="89" stroke="#f5d800" stroke-width="2"/>
+        <!-- Vertical line -->
+        <line x1="100" y1="92" x2="100" y2="108" stroke="#f5d800" stroke-dasharray="3,3" stroke-width="1.5"/>
+        <circle cx="100" cy="108" r="3" fill="#f5d800"/>
+      </svg>
+      <div class="demo-label">✅ ESTRUCTURA ESTABLE</div>
+      <p style="font-size:0.78rem; color:var(--text-muted); text-align:center;">CG bajo y bien centrado sobre la base</p>
+    </div>
+    <div class="demo-box danger">
+      <svg class="svg-demo" viewBox="0 0 220 120">
+        <!-- Ground -->
+        <line x1="10" y1="108" x2="210" y2="108" stroke="#8fa3b8" stroke-width="2"/>
+        <!-- Tilted structure -->
+        <g transform="rotate(-25, 130, 95)">
+          <rect x="90" y="40" width="40" height="65" fill="rgba(229,57,53,0.2)" stroke="rgba(229,57,53,0.6)" stroke-width="1.5"/>
+          <rect x="90" y="88" width="90" height="17" fill="rgba(229,57,53,0.2)" stroke="rgba(229,57,53,0.6)" stroke-width="1.5"/>
+          <!-- CG dot -->
+          <circle cx="140" cy="80" r="10" fill="none" stroke="#f5d800" stroke-width="2.5"/>
+          <line x1="133" y1="80" x2="147" y2="80" stroke="#f5d800" stroke-width="2"/>
+          <line x1="140" y1="73" x2="140" y2="87" stroke="#f5d800" stroke-width="2"/>
+        </g>
+        <!-- Fall arrows -->
+        <path d="M 170 50 Q 195 70 185 95" stroke="#e8853a" fill="none" stroke-width="2" marker-end="url(#arr)"/>
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#e8853a"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="demo-label">❌ ESTRUCTURA INESTABLE</div>
+      <p style="font-size:0.78rem; color:var(--text-muted); text-align:center;">CG alto y fuera del polígono de apoyo</p>
+    </div>
+  </div>
+
+  <!-- REGLAS -->
+  <h3 style="margin-top:3rem; margin-bottom:0.5rem; font-size:1.2rem; color:var(--orange-light);">Las 3 Reglas de la Estabilidad</h3>
+  <div class="reglas-grid">
+
+    <div class="regla-card">
+      <div class="regla-num">Regla 1</div>
+      <h3>🏎️ La Carrera hacia el Suelo</h3>
+      <div class="regla-subtitle">El CG debe estar lo más bajo posible.</div>
+      <p>Un centro de gravedad bajo reduce el <strong>efecto palanca</strong> frente a fuerzas laterales como el viento. Por eso un Fórmula 1 es casi imposible de volcar, mientras que un camión con carga alta es mucho más vulnerable en las curvas.</p>
+    </div>
+
+    <div class="regla-card">
+      <div class="regla-num">Regla 2</div>
+      <h3>📐 Expandir la Huella</h3>
+      <div class="regla-subtitle">La base debe ser lo más amplia posible.</div>
+      <p>Una base ancha da más <strong>margen de seguridad</strong>. Cuanto más ancha sea la huella, más tendrá que inclinarse la estructura antes de que su masa supere el punto de vuelco. Compara una taza plana con una copa de cava.</p>
+    </div>
+
+    <div class="regla-card">
+      <div class="regla-num">Regla 3</div>
+      <h3>🧲 La Ley de la Plomada</h3>
+      <div class="regla-subtitle">El CG debe quedar sobre la vertical de la base.</div>
+      <p>Si trazamos una línea recta desde el CG hacia abajo y esta cae <strong>fuera del perímetro de la base</strong>, la estructura colapsará inevitablemente. La Torre de Pisa está al límite: su CG cae justo en el borde de su cimentación.</p>
+      <div style="display:flex; gap:0.8rem; margin-top:1rem;">
+        <span style="background:rgba(76,175,80,0.12); border:1px solid var(--success); border-radius:6px; padding:0.3rem 0.6rem; font-size:0.75rem; color:var(--success);">✓ Vertical DENTRO → Éxito</span>
+        <span style="background:rgba(229,57,53,0.12); border:1px solid var(--danger); border-radius:6px; padding:0.3rem 0.6rem; font-size:0.75rem; color:var(--danger);">✗ Vertical FUERA → Colapso</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== PILAR 2: RESISTENCIA ===== -->
+<section id="resistencia">
+  <div class="section-label">Pilar 2</div>
+  <div class="pilar-header">
+    <div class="pilar-num" style="background:#c0392b;">2</div>
+    <div class="pilar-title">
+      <h2>Resistencia: <span class="accent">La Batalla Interna</span></h2>
+      <p>¿Por qué no se rompe?</p>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="concept-box">
+    <strong>¿Qué es la resistencia estructural?</strong>
+    <p>Una estructura es resistente cuando sus elementos soportan las fuerzas que se les aplica <em>sin romperse ni deformarse permanentemente.</em></p>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-item">
+      <span class="fi-icon">🧱</span>
+      <span>MATERIAL</span>
+      <span class="fi-label">Acero, madera,<br>hormigón…</span>
+    </div>
+    <span class="plus">+</span>
+    <div class="formula-item">
+      <span class="fi-icon">📐</span>
+      <span>FORMA</span>
+      <span class="fi-label">Perfil, sección,<br>geometría</span>
+    </div>
+    <span class="equals">=</span>
+    <div class="formula-result">RESISTENCIA</div>
+  </div>
+
+  <div class="demo-row">
+    <div class="demo-box danger">
+      <svg class="svg-demo" viewBox="0 0 220 120">
+        <!-- Soportes -->
+        <rect x="15" y="60" width="15" height="50" fill="rgba(100,160,220,0.3)" stroke="rgba(100,160,220,0.5)" stroke-width="1"/>
+        <rect x="190" y="60" width="15" height="50" fill="rgba(100,160,220,0.3)" stroke="rgba(100,160,220,0.5)" stroke-width="1"/>
+        <!-- Placa doblada -->
+        <path d="M 30 62 Q 110 100 190 62" stroke="rgba(229,57,53,0.8)" fill="rgba(229,57,53,0.1)" stroke-width="6"/>
+        <!-- Carga -->
+        <rect x="98" y="44" width="24" height="20" fill="rgba(150,150,170,0.5)" stroke="#aaa" stroke-width="1"/>
+        <line x1="110" y1="64" x2="110" y2="78" stroke="#e8853a" stroke-width="2" marker-end="url(#arrO)"/>
+        <defs>
+          <marker id="arrO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#e8853a"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="demo-label">⚠️ SIN FORMA (placa plana)</div>
+      <p style="font-size:0.78rem; color:var(--text-muted); text-align:center;">Se dobla con poca carga → no funciona</p>
+    </div>
+    <div class="demo-box success">
+      <svg class="svg-demo" viewBox="0 0 220 120">
+        <!-- Soportes -->
+        <rect x="15" y="55" width="15" height="55" fill="rgba(100,160,220,0.3)" stroke="rgba(100,160,220,0.5)" stroke-width="1"/>
+        <rect x="190" y="55" width="15" height="55" fill="rgba(100,160,220,0.3)" stroke="rgba(100,160,220,0.5)" stroke-width="1"/>
+        <!-- Viga en I (con forma) -->
+        <rect x="30" y="55" width="160" height="8" fill="rgba(76,175,80,0.4)" stroke="rgba(76,175,80,0.8)" stroke-width="1"/>
+        <rect x="30" y="75" width="160" height="8" fill="rgba(76,175,80,0.4)" stroke="rgba(76,175,80,0.8)" stroke-width="1"/>
+        <!-- Nervios triangulares -->
+        <polygon points="60,63 80,75 40,75" fill="rgba(76,175,80,0.2)" stroke="rgba(76,175,80,0.6)" stroke-width="1"/>
+        <polygon points="120,63 140,75 100,75" fill="rgba(76,175,80,0.2)" stroke="rgba(76,175,80,0.6)" stroke-width="1"/>
+        <polygon points="180,63 200,75 160,75" fill="rgba(76,175,80,0.2)" stroke="rgba(76,175,80,0.6)" stroke-width="1"/>
+        <!-- Carga -->
+        <rect x="85" y="35" width="24" height="20" fill="rgba(150,150,170,0.5)" stroke="#aaa" stroke-width="1"/>
+        <rect x="130" y="35" width="24" height="20" fill="rgba(150,150,170,0.5)" stroke="#aaa" stroke-width="1"/>
+        <line x1="97" y1="55" x2="97" y2="55" stroke="#e8853a" stroke-width="2"/>
+      </svg>
+      <div class="demo-label">✅ CON FORMA (viga nervada)</div>
+      <p style="font-size:0.78rem; color:var(--text-muted); text-align:center;">El mismo material, mucha más resistencia</p>
+    </div>
+  </div>
+
+  <div class="alert-box" style="margin-top:2rem;">
+    💡 <strong>Clave:</strong> La resistencia no depende solo del material. Una lámina de cartón corrugado es más resistente que una lámina plana de aluminio del mismo peso, gracias a su forma ondulada.
+  </div>
+</section>
+
+<!-- ===== PILAR 3: RIGIDEZ ===== -->
+<section id="rigidez" style="background: rgba(232,133,58,0.03); border-radius:24px; padding:4rem 2rem; max-width:1100px; margin:0 auto;">
+  <div class="section-label">Pilar 3</div>
+  <div class="pilar-header">
+    <div class="pilar-num" style="background:#1565c0;">3</div>
+    <div class="pilar-title">
+      <h2>Rigidez: <span class="accent">El Límite de la Flexibilidad</span></h2>
+      <p>¿Cuánta deformación es aceptable?</p>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="concept-box">
+    <strong>Todas las estructuras se deforman</strong>
+    <p>La rigidez absoluta es un mito. Todas las estructuras se doblan ligeramente bajo las fuerzas. El objetivo no es eliminar la deformación, sino mantenerla dentro de un <em>límite operativo seguro</em>.</p>
+  </div>
+
+  <div class="rigidez-comparison">
+    <div class="rig-card good">
+      <div class="rig-icon">✅</div>
+      <h3>Deformación Elástica (Funcional)</h3>
+      <p>La estructura se dobla ligeramente, pero cuando desaparece la carga, <strong>vuelve a su forma original</strong>. Sigue cumpliendo su función. El puente soporta el camión y recupera su posición.</p>
+    </div>
+    <div class="rig-card bad">
+      <div class="rig-icon">❌</div>
+      <h3>Deformación Excesiva (Inútil)</h3>
+      <p>La deformación es tan grande que la estructura <strong>pierde su utilidad</strong>, aunque no se rompa. Un puente que se hunde tanto que los coches no pueden pasar ya no sirve para nada.</p>
+    </div>
+  </div>
+
+  <div class="alert-box" style="margin-top:2rem;">
+    🏗️ <strong>Ejemplo real:</strong> Los rascacielos modernos están diseñados para oscilar varios metros con el viento. Esto es correcto y necesario: si fueran absolutamente rígidos, se romperían. Lo importante es que los ocupantes no lo noten.
+  </div>
+</section>
+
+<!-- ===== MATRIZ DE DIAGNÓSTICO ===== -->
+<section id="matriz">
+  <div class="section-label">Resumen</div>
+  <h2>Matriz de <span class="accent">Diagnóstico</span> Estructural</h2>
+  <div class="divider"></div>
+  <p class="subtitle">Una herramienta para analizar cualquier fallo estructural: identifica qué pilar ha fallado.</p>
+
+  <table class="matrix-table">
+    <thead>
+      <tr>
+        <th>Pilar Estructural</th>
+        <th>¿Qué desastre previene?</th>
+        <th>Variables Críticas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>⚖️ ESTABILIDAD</td>
+        <td>Evita el <span class="highlight">VUELCO</span></td>
+        <td>Posición del Centro de Gravedad y Área de la Base</td>
+      </tr>
+      <tr>
+        <td>💪 RESISTENCIA</td>
+        <td>Evita la <span class="highlight">ROTURA</span></td>
+        <td>Tipo de Material y Forma Geométrica (Perfil)</td>
+      </tr>
+      <tr>
+        <td>📐 RIGIDEZ</td>
+        <td>Evita la <span class="highlight">INUTILIDAD</span></td>
+        <td>Límite de Tolerancia a la Deformación</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== LA ESTRUCTURA PERFECTA ===== -->
+<section id="perfecta">
+  <div class="section-label">Síntesis</div>
+  <h2>La <span class="accent">Estructura Perfecta</span></h2>
+  <div class="divider"></div>
+  <p class="subtitle">Las grandes hazañas de la ingeniería no eligen entre estabilidad, resistencia o rigidez: las dominan todas en perfecta armonía.</p>
+
+  <div class="perfect-cards">
+    <div class="perfect-card">
+      <div class="pc-icon">🌪️</div>
+      <h3>RÍGIDA (pero flexible)</h3>
+      <p>Diseñada para oscilar controladamente con el viento sin comprometer la habitabilidad interior. La deformación está <em>permitida y calculada</em>.</p>
+    </div>
+    <div class="perfect-card">
+      <div class="pc-icon">🔩</div>
+      <h3>RESISTENTE</h3>
+      <p>Perfiles de acero entrelazados que soportan miles de toneladas sin romperse. El <em>material + la forma</em> trabajan juntos.</p>
+    </div>
+    <div class="perfect-card">
+      <div class="pc-icon">🏗️</div>
+      <h3>ESTABLE</h3>
+      <p>Base expansiva y sótanos masivos que tiran el Centro de Gravedad hacia el suelo. La <em>huella amplia</em> lo ancla.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EJERCICIOS ===== -->
+<section id="ejercicios" style="max-width:1100px; margin:0 auto; padding:2rem;">
+<div style="background:var(--bg-card2); border-radius:24px; padding:3rem 2.5rem;">
+
+  <div class="quiz-header">
+    <div class="section-label" style="text-align:center; display:block;">Pon a prueba tu conocimiento</div>
+    <h2>🧠 Ejercicios Interactivos</h2>
+    <p style="color:var(--text-muted); margin-top:0.5rem;">13 preguntas sobre tipos de estructuras y el ADN estructural. Haz clic en la respuesta correcta.</p>
+    <div class="progress-strip" id="progressStrip" style="justify-content:center; margin-top:1rem;"></div>
+  </div>
+
+  <!-- QA: TIPO -->
+  <div class="quiz-question" id="qa">
+    <div class="q-num">Pregunta A · Tipos de estructuras</div>
+    <div class="q-text">Una grúa de construcción está formada por barras unidas formando triángulos. ¿De qué tipo de estructura se trata?</div>
+    <div class="q-options">
+      <div class="q-option" onclick="answer(this,'qa',false,'Las macizas se construyen por acumulación de material sólido, como pirámides o catedrales.')">
+        <div class="opt-dot"></div> Maciza o de gravedad
+      </div>
+      <div class="q-option" onclick="answer(this,'qa',false,'Las laminares usan láminas deformadas, como la carrocería de un coche.')">
+        <div class="opt-dot"></div> Laminar
+      </div>
+      <div class="q-option" onclick="answer(this,'qa',false,'Las entramadas usan elementos verticales y horizontales, como una mesa.')">
+        <div class="opt-dot"></div> Entramada
+      </div>
+      <div class="q-option" onclick="answer(this,'qa',true,'¡Correcto! Las estructuras trianguladas unen barras formando triángulos, que es la figura más rígida. Las grúas son el ejemplo por excelencia.')">
+        <div class="opt-dot"></div> Triangulada
+      </div>
+    </div>
+    <div class="q-feedback" id="fb-qa"></div>
+  </div>
+
+  <!-- QB: TIPO -->
+  <div class="quiz-question" id="qb">
+    <div class="q-num">Pregunta B · Tipos de estructuras</div>
+    <div class="q-text">La carrocería de un coche y un armario metálico son ejemplos de estructuras…</div>
+    <div class="q-options">
+      <div class="q-option" onclick="answer(this,'qb',false,'Las macizas son pesadas y sólidas, construidas por acumulación de materiales.')">
+        <div class="opt-dot"></div> Macizas
+      </div>
+      <div class="q-option" onclick="answer(this,'qb',true,'¡Exacto! Las laminares se basan en láminas a las que se da forma para aumentar su resistencia sin añadir mucho peso.')">
+        <div class="opt-dot"></div> Laminares
+      </div>
+      <div class="q-option" onclick="answer(this,'qb',false,'Las colgadas usan cables para soportar la carga desde arriba, como los puentes colgantes.')">
+        <div class="opt-dot"></div> Colgadas
+      </div>
+      <div class="q-option" onclick="answer(this,'qb',false,'Las trianguladas usan barras formando triángulos.')">
+        <div class="opt-dot"></div> Trianguladas
+      </div>
+    </div>
+    <div class="q-feedback" id="fb-qb"></div>
+  </div>
+
+  <!-- QC: TIPO -->
+  <div class="quiz-question" id="qc">
+    <div class="q-num">Pregunta C · Tipos de estructuras</div>
+    <div class="q-text">En un puente colgante, ¿qué elemento soporta principalmente la carga del tablero?</div>
+    <div class="q-options">
+      <div class="q-option" onclick="answer(this,'qc',false,'El hormigón del tablero soporta el peso de los vehículos, pero no es el elemento que define el tipo estructural.')">
+        <div class="opt-dot"></div> El hormigón del tablero
+      </div>
+      <div class="q-option" onclick="answer(this,'qc',false,'Los pilares transmiten la carga al suelo, pero no son el elemento característico de los puentes colgantes.')">
+        <div class="opt-dot"></div> Los pilares de hormigón bajo el tablero
+      </div>
+      <div class="q-option" onclick="answer(this,'qc',true,'¡Perfecto! En las estructuras colgadas, los cables (que trabajan a tracción) sujetos a las torres soportan toda la carga del tablero.')">
+        <div class="opt-dot"></div> Los cables sujetos a las torres (trabajan a tracción)
+      </div>
+      <div class="q-option" onclick="answer(this,'qc',false,'El peso propio es una carga, no un elemento sustentante.')">
+        <div class="opt-dot"></div> Su propio peso, como una estructura maciza
+      </div>
+    </div>
+    <div class="q-feedback" id="fb-qc"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="quiz-question" id="q1">
+    <div class="q-num">Pregunta 1 de 10</div>
+    <div class="q-text">¿Cuántas condiciones debe cumplir <em>simultáneamente</em> una estructura para no colapsar?</div>
+    <div class="q-options">
+      <div class="q-option" onclick="answer(this,'q1',false,'Solo necesita ser resistente, las demás son opcionales.')">
+        <div class="opt-dot"></div> Solo 1 (resistencia)
+      </div>
+      <div class="q-option" onclick="answer(this,'q1',false,'Faltan la rigidez y la estabilidad juntas.')">
+        <div class="opt-dot"></div> 2 (estabilidad y resistencia)
+      </div>
+      <div class="q-option" onclick="answer(this,'q1',true,'¡Correcto! Estabilidad, resistencia y rigidez deben cumplirse todas a la vez.')">
+        <div class="opt-dot"></div> 3 (estabilidad, resistencia y rigidez)
+      </div>
+      <div class="q-option" onclick="answer(this,'q1',false,'No existen cuatro condiciones en este modelo. Son tres.')">
+        <div class="opt-dot"></div> 4 o más condiciones
+      </div>
+    </div>
+    <div class="q-feedback" id="fb-q1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-question" id="q2">
+    <div class="q-num">Pregunta 2 de 10</div>
+    <div class="q-text">¿Qué es el <strong>Centro de Gravedad</strong> de una estructura?</div>
+    <div class="q-options">
+      <div class="q-option" onclick="answer(this,'q2',false,'La base es el polígono de apoyo, no el centro de gravedad.')">
+        <div class="opt-dot"></div> El punto más bajo de la base de la estructura
+      </div>
+      <div class="q-option" onclick="answer(this,'q2',true,'¡Exacto! Si sujetaras la estructura solo por ese punto, estaría en equilibrio perfecto.')">
+        <div class="opt-dot"></div> El punto donde se concentra toda la masa del cuerpo, que si se sujeta por él queda en equilibrio
+      </div>
+      <div class="q-option" onclick="answer(this,'q2',false,'El centro geométrico solo coincide con el CG si la distribución de masa es uniforme y simétrica.')">
+        <div class="opt-dot"></div> El punto central geométrico de cualquier estructura
+      </div>
+      <div class="q-option" onclick="answer(this,'q2',false,'No, el centro de gravedad no necesariamente está en la cimentación.')">
+        <div class="opt-dot"></div> El punto donde la estructura toca el suelo
+      </div>
+    </div>
+    <div class="q-feedback" id="fb-q2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-question" id="q3">
+    <div class="q-num">Pregunta 3 de 10</div>
+    <div class="q-text">Un camión con mucha carga en la parte superior es más inestable que un coche deportivo bajo. ¿Qué regla de estabilidad explica esto?</div>
+    <div class="q-options">
+      <div class="q-option" onclick="answer(this,'q3',false,'Expandir la huella habla del área de la base, no de la altura del CG.')">
+        <div class="opt-dot"></div> Regla 2: Expandir la huella
+      </div>
+      <div class="q-option" onclick="answer(this,'q3',false,'La ley de la plomada habla de si la vertical cae dentro o fuera de la base.')">
+        <div class="opt-dot"></div> Regla 3: La ley de la plomada
+      </div>
+      <div class="q-option" onclick="answer(this,'q3',true,'¡Perfecto! El CG alto crea un efecto palanca mayor ante fuerzas laterales, como en las curvas.')">
+        <div class="opt-dot"></div> Regla 1: La carrera hacia el suelo (CG lo más bajo posible)
+      </div>
+      <div class="q-option" onclick="answer(this,'q3',false,'No hay una "regla del peso máximo" en este modelo.')">
+        <div class="opt-dot"></div> Ninguna, es cuestión de peso máximo permitido
+      </div>
+    </div>
+    <div class="q-feedback" id="fb-q3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-question" id="q4">
+    <div class="q-num">Pregunta 4 de 10</div>
+    <div class="q-text">La Torre de Pisa lleva siglos inclinada pero no ha caído. ¿Qué explica esto según la "Ley de la plomada"?</div>
+    <div class="q-options">
+      <div class="q-option" onclick="answer(this,'q4',false,'No es solo cuestión de resistencia del material.')">
+        <div class="opt-dot"></div> Está hecha de un material muy resistente
+      </div>
+      <div class="q-option" onclick="answer(this,'q4',true,'¡Correcto! Su CG todavía cae (por muy poco) dentro del perímetro de su cimentación. Si cayera fuera, colapsaría.')">
+        <div class="opt-dot"></div> La vertical de su Centro de Gravedad aún cae dentro del perímetro de su base, aunque al límite
+      </div>
+      <div class="q-option" onclick="answer(this,'q4',false,'La torre tiene una base bastante pequeña en relación a su altura, ese no es el factor clave aquí.')">
+        <div class="opt-dot"></div> Su base es muy amplia y estable
+      </div>
+      <div class="q-option" onclick="answer(this,'q4',false,'El peso de la piedra es su resistencia, pero la estabilidad la determina el CG.')">
+        <div class="opt-dot"></div> El peso de la piedra la ancla al suelo
+      </div>
+    </div>
+    <div class="q-feedback" id="fb-q4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-question" id="q5">
+    <div class="q-num">Pregunta 5 de 10</div>
+    <div class="q-text">Resistencia = Material + ___________. ¿Qué falta en la fórmula?</div>
+    <div class="q-options">
+      <div class="q-option" onclick="answer(this,'q5',false,'El peso influye en las cargas, pero no define la resistencia del elemento.')">
+        <div class="opt-dot"></div> Peso
+      </div>
+      <div class="q-option" onclick="answer(this,'q5',false,'La altura es una dimensión, no la variable clave de resistencia.')">
+        <div class="opt-dot"></div> Altura
+      </div>
+      <div class="q-option" onclick="answer(this,'q5',true,'¡Exacto! La misma cantidad de material puede ser mucho más resistente si se le da la forma adecuada (nervios, perfiles en I, etc.).')">
+        <div class="opt-dot"></div> Forma (perfil geométrico)
+      </div>
+      <div class="q-option" onclick="answer(this,'q5',false,'El color no tiene relación con la resistencia estructural.')">
+        <div class="opt-dot"></div> Color
+      </div>
+    </div>
+    <div class="q-feedback" id="fb-q5"></div>
+  </div>
+
+  <!-- Q6 - Verdadero/Falso -->
+  <div class="quiz-question" id="q6">
+    <div class="q-num">Pregunta 6 de 10 — Verdadero o Falso</div>
+    <div class="q-text">"La rigidez absoluta es el objetivo de toda buena estructura: una estructura ideal no debe deformarse nada bajo ninguna carga."</div>
+    <div class="tf-options">
+      <div class="tf-btn" onclick="tfAnswer(this,'q6',false,'FALSO. La rigidez absoluta es un mito. Todas las estructuras se deforman. Lo importante es que la deformación sea elástica (recuperable) y dentro de límites operativos seguros.')">VERDADERO</div>
+      <div class="tf-btn" onclick="tfAnswer(this,'q6',true,'¡CORRECTO! Es FALSO. La rigidez absoluta no existe. Una estructura que no se deformara nada acabaría rompiéndose. Los rascacielos se diseñan para oscilar metros con el viento.')">FALSO</div>
+    </div>
+    <div class="q-feedback" id="fb-q6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="quiz-question" id="q7">
+    <div class="q-num">Pregunta 7 de 10</div>
+    <div class="q-text">¿Cuál de estas opciones mejora la estabilidad de una estructura según la "Regla 2: Expandir la Huella"?</div>
+    <div class="q-options">
+      <div class="q-option" onclick="answer(this,'q7',false,'Aumentar la altura eleva el CG, lo que perjudica la estabilidad.')">
+        <div class="opt-dot"></div> Aumentar la altura de la estructura
+      </div>
+      <div class="q-option" onclick="answer(this,'q7',false,'Reducir la base es exactamente lo contrario: empeora la estabilidad.')">
+        <div class="opt-dot"></div> Reducir la base de apoyo
+      </div>
+      <div class="q-option" onclick="answer(this,'q7',true,'¡Correcto! Una base más amplia aumenta el margen antes del punto de vuelco. Cuanto más ancha, más inclinación puede tolerar.')">
+        <div class="opt-dot"></div> Aumentar el área de la base de apoyo
+      </div>
+      <div class="q-option" onclick="answer(this,'q7',false,'Usar materiales más caros no tiene relación directa con ampliar la huella.')">
+        <div class="opt-dot"></div> Usar materiales más caros
+      </div>
+    </div>
+    <div class="q-feedback" id="fb-q7"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="quiz-question" id="q8">
+    <div class="q-num">Pregunta 8 de 10</div>
+    <div class="q-text">Una viga de cartulina corrugada (ondulada) aguanta más peso que la misma cartulina plana. ¿Qué pilar explica esto?</div>
+    <div class="q-options">
+      <div class="q-option" onclick="answer(this,'q8',false,'La estabilidad trata del CG y la base, no de la capacidad de aguantar cargas sin romperse.')">
+        <div class="opt-dot"></div> Estabilidad (Regla del CG)
+      </div>
+      <div class="q-option" onclick="answer(this,'q8',true,'¡Perfecto! La resistencia depende del material Y de la forma. La corrugación cambia la forma y aumenta enormemente la resistencia sin añadir material.')">
+        <div class="opt-dot"></div> Resistencia (Material + Forma)
+      </div>
+      <div class="q-option" onclick="answer(this,'q8',false,'La rigidez se refiere a cuánto se deforma, no a si se rompe o no.')">
+        <div class="opt-dot"></div> Rigidez (Deformación)
+      </div>
+      <div class="q-option" onclick="answer(this,'q8',false,'Este fenómeno sí tiene una explicación estructural concreta.')">
+        <div class="opt-dot"></div> No tiene explicación estructural
+      </div>
+    </div>
+    <div class="q-feedback" id="fb-q8"></div>
+  </div>
+
+  <!-- Q9 - Verdadero/Falso -->
+  <div class="quiz-question" id="q9">
+    <div class="q-num">Pregunta 9 de 10 — Verdadero o Falso</div>
+    <div class="q-text">"Una estructura puede ser muy resistente (de acero sólido) y al mismo tiempo ser inestable si tiene una base muy pequeña."</div>
+    <div class="tf-options">
+      <div class="tf-btn" onclick="tfAnswer(this,'q9',true,'¡CORRECTO! Es VERDADERO. La resistencia y la estabilidad son condiciones independientes. Una barra de acero finísima aguanta mucho peso pero se vuelca fácilmente.')">VERDADERO</div>
+      <div class="tf-btn" onclick="tfAnswer(this,'q9',false,'FALSO. Sí que puede: resistencia y estabilidad son propiedades independientes. Una estructura puede fallar en una de ellas aunque domine las otras.')">FALSO</div>
+    </div>
+    <div class="q-feedback" id="fb-q9"></div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="quiz-question" id="q10">
+    <div class="q-num">Pregunta 10 de 10</div>
+    <div class="q-text">Un rascacielos moderno está diseñado para oscilar varios metros con el viento sin que los ocupantes deban evacuarlo. ¿Qué pilar se está aplicando correctamente?</div>
+    <div class="q-options">
+      <div class="q-option" onclick="answer(this,'q10',false,'La estabilidad evita el vuelco total, pero no describe la oscilación controlada.')">
+        <div class="opt-dot"></div> Estabilidad: el edificio no vuelca
+      </div>
+      <div class="q-option" onclick="answer(this,'q10',false,'La resistencia evita la rotura de los materiales, no describe la deformación permitida.')">
+        <div class="opt-dot"></div> Resistencia: el acero no se rompe
+      </div>
+      <div class="q-option" onclick="answer(this,'q10',true,'¡Excelente! Es la rigidez bien aplicada: la deformación es elástica y dentro del límite de tolerancia. El edificio oscila pero sigue siendo habitable y funcional.')">
+        <div class="opt-dot"></div> Rigidez: la deformación está dentro del límite operativo seguro
+      </div>
+      <div class="q-option" onclick="answer(this,'q10',false,'No, los tres pilares sí tienen relación con esto, pero uno lo explica mejor.')">
+        <div class="opt-dot"></div> Ninguno de los tres pilares
+      </div>
+    </div>
+    <div class="q-feedback" id="fb-q10"></div>
+  </div>
+
+  <!-- SCORE -->
+  <div class="score-bar" id="scoreBar">
+    <div class="score-num" id="scoreNum">0/10</div>
+    <div class="score-label">Respuestas correctas</div>
+    <div class="score-msg" id="scoreMsg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Reintentar</button>
+  </div>
+
+</div>
+</section>
+
+<footer>
+  <strong>El ADN de las Estructuras</strong> · Tecnología ESO ·
+  Basado en el material de NotebookLM · Página educativa interactiva
+</footer>
+
+<script>
+  // ===== QUIZ LOGIC =====
+  const allQuestions = ['qa','qb','qc','q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];
+  const totalQ = allQuestions.length;
+  let answered = {};
+  let score = 0;
+
+  // Init progress dots
+  const strip = document.getElementById('progressStrip');
+  allQuestions.forEach(qId => {
+    const d = document.createElement('div');
+    d.className = 'prog-dot';
+    d.id = 'dot-' + qId;
+    strip.appendChild(d);
+  });
+
+  function answer(el, qId, isCorrect, explanation) {
+    if (answered[qId]) return;
+    answered[qId] = true;
+
+    const allOpts = el.closest('.q-options').querySelectorAll('.q-option');
+    allOpts.forEach(o => {
+      o.classList.add('disabled');
+      if (o === el) {
+        o.classList.add(isCorrect ? 'correct' : 'incorrect');
+        o.querySelector('.opt-dot').textContent = isCorrect ? '✓' : '✗';
+      }
+    });
+
+    const fb = document.getElementById('fb-' + qId);
+    fb.textContent = (isCorrect ? '✅ ' : '❌ ') + explanation;
+    fb.className = 'q-feedback show ' + (isCorrect ? 'correct-fb' : 'incorrect-fb');
+
+    const dot = document.getElementById('dot-' + qId);
+    dot.style.background = isCorrect ? 'var(--success)' : 'var(--danger)';
+    dot.style.borderColor = isCorrect ? 'var(--success)' : 'var(--danger)';
+
+    if (isCorrect) score++;
+    document.getElementById(qId).classList.add('answered');
+    checkComplete();
+  }
+
+  function tfAnswer(el, qId, isCorrect, explanation) {
+    if (answered[qId]) return;
+    answered[qId] = true;
+
+    const allBtns = el.closest('.tf-options').querySelectorAll('.tf-btn');
+    allBtns.forEach(b => {
+      b.classList.add('disabled');
+      if (b === el) {
+        b.classList.add(isCorrect ? 'correct' : 'incorrect');
+      }
+    });
+
+    const fb = document.getElementById('fb-' + qId);
+    fb.textContent = (isCorrect ? '✅ ' : '❌ ') + explanation;
+    fb.className = 'q-feedback show ' + (isCorrect ? 'correct-fb' : 'incorrect-fb');
+
+    const dot = document.getElementById('dot-' + qId);
+    dot.style.background = isCorrect ? 'var(--success)' : 'var(--danger)';
+    dot.style.borderColor = isCorrect ? 'var(--success)' : 'var(--danger)';
+
+    if (isCorrect) score++;
+    document.getElementById(qId).classList.add('answered');
+    checkComplete();
+  }
+
+  function checkComplete() {
+    if (Object.keys(answered).length === totalQ) {
+      const bar = document.getElementById('scoreBar');
+      const num = document.getElementById('scoreNum');
+      const msg = document.getElementById('scoreMsg');
+      num.textContent = score + ' / ' + totalQ;
+      const pct = Math.round(score / totalQ * 100);
+      let message = '';
+      if (score === totalQ) message = '🏆 ¡Perfecto! Dominas el ADN de las estructuras.';
+      else if (score >= 8) message = '🎉 ¡Muy bien! Tienes un gran dominio del tema.';
+      else if (score >= 6) message = '👍 Buen trabajo. Repasa los conceptos que fallaste.';
+      else if (score >= 4) message = '📖 Sigue estudiando. Revisa los tres pilares.';
+      else message = '💪 No te rindas. Lee de nuevo el contenido y vuelve a intentarlo.';
+      msg.textContent = message;
+      bar.classList.add('show');
+      bar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  function resetQuiz() {
+    answered = {};
+    score = 0;
+
+    // Reset questions
+    document.querySelectorAll('.quiz-question').forEach(q => {
+      q.classList.remove('answered');
+      q.querySelectorAll('.q-option').forEach(o => {
+        o.classList.remove('correct','incorrect','disabled');
+        o.querySelector('.opt-dot').textContent = '';
+      });
+      q.querySelectorAll('.tf-btn').forEach(b => {
+        b.classList.remove('correct','incorrect','disabled');
+      });
+      q.querySelectorAll('.q-feedback').forEach(f => {
+        f.className = 'q-feedback';
+        f.textContent = '';
+      });
+    });
+
+    // Reset dots
+    allQuestions.forEach(qId => {
+      const d = document.getElementById('dot-' + qId);
+      if (d) { d.style.background = ''; d.style.borderColor = ''; }
+    });
+
+    document.getElementById('scoreBar').classList.remove('show');
+    document.getElementById('ejercicios').scrollIntoView({ behavior:'smooth' });
+  }
+</script>
+</body>
+</html>
