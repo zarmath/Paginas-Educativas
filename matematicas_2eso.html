@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📐 Matemáticas 2º ESO – Repaso Interactivo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      background: #f0f4ff;
+      min-height: 100vh;
+      color: #2d2d2d;
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
+      color: white;
+      text-align: center;
+      padding: 38px 20px 28px;
+    }
+    header h1 { font-size: 2.2em; font-weight: 800; margin-bottom: 6px; }
+    header p  { font-size: 1.05em; opacity: .88; }
+
+    /* ── NAV ── */
+    nav {
+      background: white;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(124,58,237,.15);
+    }
+    .nav-btn {
+      padding: 15px 17px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: .88em;
+      font-weight: 700;
+      color: #666;
+      border-bottom: 3px solid transparent;
+      transition: all .2s;
+    }
+    .nav-btn:hover { color: #7c3aed; background: #f5f0ff; }
+    .nav-btn.active { color: #7c3aed; border-bottom-color: #7c3aed; background: #f5f0ff; }
+
+    /* ── SECTIONS ── */
+    .section {
+      display: none;
+      max-width: 960px;
+      margin: 28px auto;
+      padding: 0 18px 60px;
+      animation: fadeIn .3s ease;
+    }
+    .section.active { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── CARDS ── */
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 26px;
+      margin-bottom: 22px;
+      box-shadow: 0 3px 16px rgba(0,0,0,.07);
+    }
+    .card-purple { border-left: 5px solid #7c3aed; }
+    .card-blue   { border-left: 5px solid #2563eb; }
+    .card-green  { border-left: 5px solid #059669; }
+    .card-orange { border-left: 5px solid #d97706; }
+
+    h2 {
+      color: #7c3aed;
+      font-size: 1.45em;
+      font-weight: 800;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h3 { color: #2563eb; font-size: 1.1em; font-weight: 700; margin: 18px 0 8px; }
+
+    /* ── FORMULA BOXES ── */
+    .formula {
+      background: linear-gradient(135deg,#7c3aed18,#2563eb18);
+      border: 2px solid #7c3aed44;
+      border-radius: 12px;
+      padding: 14px 20px;
+      margin: 10px 0;
+      font-size: 1.15em;
+      font-weight: 700;
+      text-align: center;
+      color: #5b21b6;
+    }
+    .formula-big { font-size: 1.55em; padding: 20px; }
+
+    /* ── STEPS ── */
+    .steps { margin: 14px 0; }
+    .step { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
+    .step-num {
+      width: 34px; height: 34px; min-width: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg,#7c3aed,#2563eb);
+      color: white; font-weight: 800; font-size: .95em;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 3px 8px rgba(124,58,237,.4);
+    }
+    .step-content { flex: 1; }
+
+    /* ── EQ DISPLAY ── */
+    .eq-display {
+      font-size: 1.2em; font-weight: 700;
+      padding: 9px 18px;
+      background: #f8f5ff;
+      border-radius: 10px;
+      margin: 7px 0;
+      border-left: 4px solid #7c3aed;
+      font-family: Georgia, serif;
+    }
+
+    /* ── INFO / EXAMPLE / WARNING ── */
+    .info-box {
+      background: #eff6ff; border: 2px solid #bfdbfe;
+      border-radius: 12px; padding: 14px 18px; margin: 10px 0; color: #1e40af;
+    }
+    .warn-box {
+      background: #fffbeb; border: 2px solid #fde68a;
+      border-radius: 12px; padding: 14px 18px; margin: 10px 0; color: #92400e;
+    }
+    .example {
+      background: #f0fdf4; border: 2px solid #a7f3d0;
+      border-radius: 12px; padding: 14px 18px; margin: 10px 0;
+    }
+    .example-title { font-weight: 700; color: #059669; margin-bottom: 6px; }
+
+    /* ── SOLUTION BOX ── */
+    .solution-box {
+      background: linear-gradient(135deg,#d1fae5,#a7f3d0);
+      border: 2px solid #059669;
+      border-radius: 12px; padding: 14px 18px; margin: 12px 0;
+      text-align: center; font-size: 1.15em; font-weight: 700; color: #065f46;
+    }
+
+    /* ── GRID HELPERS ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .chip {
+      background: #f8f5ff; border: 1px solid #e9d5ff;
+      border-radius: 10px; padding: 11px 14px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .92em;
+    }
+    .chip .val { font-weight: 700; color: #7c3aed; }
+
+    /* ── MONOMIO TABLE ── */
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: .92em; }
+    th { background: #7c3aed; color: white; padding: 10px 12px; text-align: center; font-weight: 700; }
+    td { padding: 9px 12px; text-align: center; border-bottom: 1px solid #f0f0f0; font-weight: 600; }
+    tr:nth-child(even) td { background: #f8f5ff; }
+    .badge {
+      display: inline-block;
+      background: #7c3aed; color: white;
+      border-radius: 6px; padding: 2px 8px; font-size: .88em;
+    }
+
+    /* ── FRACCIÓN MATEMÁTICA ── */
+    .math-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 6px;
+      font-size: 1em;
+    }
+    .math-frac .mnum {
+      border-bottom: 3px solid #5b21b6;
+      padding: 2px 12px 6px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .math-frac .mden {
+      padding: 6px 12px 2px;
+      font-weight: 800;
+    }
+    .formula-cuad {
+      background: linear-gradient(135deg,#7c3aed18,#2563eb18);
+      border: 2px solid #7c3aed44;
+      border-radius: 16px;
+      padding: 28px 20px;
+      margin: 14px 0;
+      text-align: center;
+      color: #3b0764;
+      font-size: 1.6em;
+      font-weight: 800;
+      font-family: Georgia, 'Times New Roman', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .formula-cuad .pm { color: #7c3aed; }
+    .formula-cuad .radical {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+    }
+    .formula-cuad .radical .radicand {
+      border-top: 3px solid #3b0764;
+      padding: 0 4px;
+    }
+    /* ── DISCRIMINANTE ── */
+    .disc-row { display: flex; gap: 14px; flex-wrap: wrap; margin: 14px 0; }
+    .disc-card { flex: 1; min-width: 120px; border-radius: 14px; padding: 16px; text-align: center; }
+    .disc-pos  { background: #d1fae5; border: 2px solid #059669; }
+    .disc-zero { background: #dbeafe; border: 2px solid #2563eb; }
+    .disc-neg  { background: #fee2e2; border: 2px solid #dc2626; }
+    .disc-card .dval { font-size: 1.6em; font-weight: 800; }
+    .disc-card .dlbl { font-size: .82em; margin-top: 4px; }
+
+    /* ══════════════════════════════════════
+       GRAPHING SECTION
+    ══════════════════════════════════════ */
+    .graph-hero {
+      background: linear-gradient(135deg,#7c3aed,#2563eb);
+      color: white; border-radius: 18px;
+      padding: 26px; margin-bottom: 22px;
+    }
+    .graph-hero h2 { color: white; margin-bottom: 6px; }
+    .graph-hero p  { opacity: .9; font-size: 1.02em; }
+
+    .graph-wrap { display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+    .canvas-box { flex: 0 0 auto; }
+
+    canvas {
+      border-radius: 14px;
+      border: 2px solid #e9d5ff;
+      display: block;
+      background: #fafafa;
+    }
+
+    .graph-panel { flex: 1; min-width: 230px; }
+
+    /* Input group */
+    .igroup { margin-bottom: 13px; }
+    .igroup label { display: block; font-weight: 700; color: #5b21b6; margin-bottom: 5px; font-size: .9em; }
+    .igroup input {
+      width: 100%; padding: 9px 13px;
+      border: 2px solid #e9d5ff; border-radius: 10px;
+      font-size: 1em; outline: none; transition: border-color .2s;
+    }
+    .igroup input:focus { border-color: #7c3aed; }
+
+    /* Buttons */
+    .btn {
+      padding: 11px 22px; border: none; border-radius: 12px;
+      cursor: pointer; font-weight: 700; font-size: .95em; transition: all .2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg,#7c3aed,#2563eb);
+      color: white; width: 100%;
+      box-shadow: 0 4px 12px rgba(124,58,237,.4);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(124,58,237,.5); }
+    .btn-secondary {
+      background: #f5f0ff; color: #7c3aed;
+      border: 2px solid #e9d5ff; width: 100%; margin-top: 8px;
+    }
+    .btn-secondary:hover { background: #ede9fe; }
+
+    /* Step pills */
+    .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+    .pill {
+      padding: 5px 12px; border-radius: 20px; font-size: .78em; font-weight: 700;
+      background: #f0f0f0; color: #888; transition: all .3s;
+    }
+    .pill.active { background: linear-gradient(135deg,#7c3aed,#2563eb); color: white; box-shadow: 0 2px 8px rgba(124,58,237,.4); }
+    .pill.done   { background: #d1fae5; color: #059669; }
+
+    /* Value table */
+    .vtable-wrap { background: #f8f5ff; border-radius: 12px; padding: 14px; margin-top: 14px; display: none; }
+    .vtable-wrap h4 { color: #7c3aed; font-weight: 700; margin-bottom: 10px; }
+    .vtable { width: 100%; border-collapse: collapse; font-size: .88em; }
+    .vtable th { background: #7c3aed; color: white; padding: 7px 10px; text-align: center; }
+    .vtable .th-x  { background: #5b21b6; }
+    .vtable .th-y  { background: #1d4ed8; }
+    .vtable .th-pt { background: #065f46; }
+    .vtable .cx { background: #ede9fe; color: #5b21b6; font-weight: 700; text-align: center; padding: 7px 10px; }
+    .vtable .cy { background: #dbeafe; color: #1e40af; font-weight: 700; text-align: center; padding: 7px 10px; transition: opacity .5s; }
+    .vtable .cp { background: #d1fae5; color: #065f46; font-weight: 700; text-align: center; padding: 6px 8px; font-size: .82em; transition: opacity .5s; }
+    .vtable .hidden { opacity: 0; }
+
+    /* Explanation box */
+    .expl-box {
+      margin-top: 13px; padding: 13px 16px;
+      background: #f0f4ff; border-radius: 10px;
+      display: none;
+    }
+    .expl-box p { font-weight: 600; color: #5b21b6; font-size: .95em; }
+
+    /* Systems cases */
+    .cases-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 18px 0; }
+    .case-card {
+      background: white; border-radius: 16px; padding: 18px;
+      text-align: center; border: 3px solid #ddd; cursor: pointer;
+      transition: all .25s; box-shadow: 0 2px 10px rgba(0,0,0,.07);
+    }
+    .case-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+    .case-card.c1 { border-color: #059669; }
+    .case-card.c2 { border-color: #dc2626; }
+    .case-card.c3 { border-color: #d97706; }
+    .case-icon { font-size: 2.2em; margin-bottom: 8px; }
+    .case-title { font-weight: 800; font-size: 1em; margin-bottom: 4px; }
+    .case-desc  { font-size: .82em; color: #666; }
+
+    /* Color helpers */
+    .mp { color: #7c3aed; font-weight: 700; }
+    .mb { color: #2563eb; font-weight: 700; }
+    .mg { color: #059669; font-weight: 700; }
+    .mr { color: #dc2626; font-weight: 700; }
+
+    /* Quiz */
+    .quiz-q { margin-bottom: 20px; padding: 16px; background: #f8f5ff; border-radius: 12px; }
+    .quiz-q p { font-weight: 600; margin-bottom: 10px; }
+    .quiz-opts { display: flex; gap: 8px; flex-wrap: wrap; }
+    .quiz-btn {
+      padding: 8px 16px; border-radius: 10px; cursor: pointer;
+      border: 2px solid #e9d5ff; background: white;
+      font-weight: 600; transition: all .2s;
+    }
+    .quiz-btn:hover { border-color: #7c3aed; background: #f5f0ff; }
+    .quiz-fb { margin-top: 8px; font-weight: 700; min-height: 22px; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.55em; }
+      .nav-btn { padding: 11px 10px; font-size: .8em; }
+      h2 { font-size: 1.2em; }
+      .cases-grid { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      canvas { max-width: 100% !important; height: auto !important; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📐 Matemáticas 2º ESO</h1>
+  <p>Repaso interactivo · ¡Aprende paso a paso!</p>
+</header>
+
+<nav>
+  <button class="nav-btn active"  onclick="showTab('alg',  this)">🔤 Lenguaje Algebraico</button>
+  <button class="nav-btn"         onclick="showTab('mono', this)">🔢 Monomios</button>
+  <button class="nav-btn"         onclick="showTab('ec1',  this)">➕ Ecuaciones 1º</button>
+  <button class="nav-btn"         onclick="showTab('ec2',  this)">² Ecuaciones 2º</button>
+  <button class="nav-btn"         onclick="showTab('graf', this)">📈 Gráficas</button>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     TAB 1 · LENGUAJE ALGEBRAICO
+═══════════════════════════════════════════════ -->
+<div id="alg" class="section active">
+
+  <div class="card card-purple">
+    <h2>🔤 Lenguaje Algebraico</h2>
+    <p>El lenguaje algebraico transforma frases del lenguaje cotidiano en expresiones matemáticas usando letras y números.</p>
+    <div class="info-box" style="margin-top:12px">
+      💡 La letra <strong>x</strong> representa un número desconocido. ¡Como una incógnita en un misterio!
+    </div>
+  </div>
+
+  <div class="card card-blue">
+    <h2>📋 Expresiones más comunes</h2>
+    <div class="two-col">
+      <div class="chip"><span>5 unidades mayor que x</span><span class="val">x + 5</span></div>
+      <div class="chip"><span>3 unidades menor que x</span><span class="val">x − 3</span></div>
+      <div class="chip"><span>El número siguiente</span><span class="val">x + 1</span></div>
+      <div class="chip"><span>El número anterior</span><span class="val">x − 1</span></div>
+      <div class="chip"><span>El doble de x</span><span class="val">2x</span></div>
+      <div class="chip"><span>El triple de x</span><span class="val">3x</span></div>
+      <div class="chip"><span>La mitad de x</span><span class="val">x / 2</span></div>
+      <div class="chip"><span>La quinta parte de x</span><span class="val">x / 5</span></div>
+      <div class="chip"><span>El cuadrado de x</span><span class="val">x²</span></div>
+      <div class="chip"><span>El cubo de x</span><span class="val">x³</span></div>
+      <div class="chip"><span>El opuesto de x</span><span class="val">−x</span></div>
+      <div class="chip"><span>El doble más 4</span><span class="val">2x + 4</span></div>
+      <div class="chip"><span>El triple menos 7</span><span class="val">3x − 7</span></div>
+      <div class="chip"><span>La mitad menos 5</span><span class="val">x/2 − 5</span></div>
+      <div class="chip"><span>Tres consecutivos</span><span class="val">n, n+1, n+2</span></div>
+      <div class="chip"><span>Número par</span><span class="val">2n</span></div>
+      <div class="chip"><span>Número impar</span><span class="val">2n + 1</span></div>
+      <div class="chip"><span>√ del triple de x</span><span class="val">√(3x)</span></div>
+    </div>
+  </div>
+
+  <div class="card card-green">
+    <h2>✏️ Ejemplos del mundo real</h2>
+    <div class="example">
+      <div class="example-title">🚗 Ejemplo 1 — Ruedas de coches</div>
+      <p>Cada coche tiene 4 ruedas. Si hay <em>x</em> coches: <strong class="mg">4x</strong> ruedas.</p>
+    </div>
+    <div class="example">
+      <div class="example-title">🧒 Ejemplo 2 — Edades</div>
+      <p>El padre tiene el triple de edad que el hijo. Si el hijo tiene <em>h</em> años:</p>
+      <p>Padre → <strong class="mg">3h</strong> años.</p>
+    </div>
+    <div class="example">
+      <div class="example-title">💶 Ejemplo 3 — Dinero</div>
+      <p>Luis gastó 4€ más que Loli. Si Loli gastó <em>x</em> euros:</p>
+      <p>Luis → <strong class="mg">x + 4</strong> euros. Entre los dos → <strong class="mg">x + (x+4) = 2x + 4</strong> euros.</p>
+    </div>
+    <div class="example">
+      <div class="example-title">📏 Ejemplo 4 — Triángulo isósceles</div>
+      <p>El lado desigual es la mitad de cada lado igual. Si los lados iguales miden <em>a</em>:</p>
+      <p>Lado desigual → <strong class="mg">a/2</strong>. Perímetro → <strong class="mg">2a + a/2</strong>.</p>
+    </div>
+  </div>
+
+  <div class="card card-orange">
+    <h2>🎮 Prueba tus conocimientos</h2>
+
+    <div class="quiz-q">
+      <p>¿Cómo se escribe algebraicamente <em>"la quinta parte del número menos 7"</em>?</p>
+      <div class="quiz-opts">
+        <button class="quiz-btn" onclick="quiz(this, false, 'q1')">5x − 7</button>
+        <button class="quiz-btn" onclick="quiz(this, true,  'q1')">x/5 − 7</button>
+        <button class="quiz-btn" onclick="quiz(this, false, 'q1')">x − 5/7</button>
+      </div>
+      <div class="quiz-fb" id="q1"></div>
+    </div>
+
+    <div class="quiz-q">
+      <p>¿Cómo se expresa <em>"el triple del número que resulta de sumarle 5 unidades"</em>?</p>
+      <div class="quiz-opts">
+        <button class="quiz-btn" onclick="quiz(this, false, 'q2')">3x + 5</button>
+        <button class="quiz-btn" onclick="quiz(this, true,  'q2')">3(x + 5)</button>
+        <button class="quiz-btn" onclick="quiz(this, false, 'q2')">x + 3·5</button>
+      </div>
+      <div class="quiz-fb" id="q2"></div>
+    </div>
+
+    <div class="quiz-q">
+      <p>Dos números que se diferencian en 20 unidades. Si el menor es <em>n</em>, el mayor es:</p>
+      <div class="quiz-opts">
+        <button class="quiz-btn" onclick="quiz(this, false, 'q3')">20n</button>
+        <button class="quiz-btn" onclick="quiz(this, false, 'q3')">n − 20</button>
+        <button class="quiz-btn" onclick="quiz(this, true,  'q3')">n + 20</button>
+      </div>
+      <div class="quiz-fb" id="q3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TAB 2 · MONOMIOS
+═══════════════════════════════════════════════ -->
+<div id="mono" class="section">
+
+  <div class="card card-purple">
+    <h2>🔢 Monomios</h2>
+    <p>Un <strong>monomio</strong> es una expresión algebraica de un solo término: coeficiente × parte literal.</p>
+  </div>
+
+  <div class="card card-blue">
+    <h2>🧩 Anatomía de un monomio</h2>
+    <div style="text-align:center;margin:20px 0">
+      <div style="font-size:3em;font-weight:800;font-family:Georgia,serif;letter-spacing:4px">
+        <span class="mr">−7</span><span class="mb">x</span><span class="mg">³</span><span class="mb">y</span><span style="color:#d97706;font-weight:800">²</span>
+      </div>
+      <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:16px">
+        <div style="background:#fee2e2;border:2px solid #dc2626;border-radius:12px;padding:12px 18px;text-align:center">
+          <div class="mr">Coeficiente</div>
+          <div style="font-size:1.5em;font-weight:800">−7</div>
+        </div>
+        <div style="background:#dbeafe;border:2px solid #2563eb;border-radius:12px;padding:12px 18px;text-align:center">
+          <div class="mb">Parte literal</div>
+          <div style="font-size:1.5em;font-weight:800">x³y²</div>
+        </div>
+        <div style="background:#d1fae5;border:2px solid #059669;border-radius:12px;padding:12px 18px;text-align:center">
+          <div class="mg">Grado</div>
+          <div style="font-size:1.5em;font-weight:800">3+2 = 5</div>
+          <div style="font-size:.8em;color:#666">suma de exponentes</div>
+        </div>
+      </div>
+    </div>
+    <div class="info-box">📐 El <strong>grado</strong> es la suma de todos los exponentes de las variables.</div>
+  </div>
+
+  <div class="card card-green">
+    <h2>📊 Tabla de monomios resueltos</h2>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Monomio</th><th>Grado</th><th>Parte literal</th><th>Coeficiente</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>4x⁵</td>         <td><span class="badge">5</span></td>  <td><span class="badge">x⁵</span></td>      <td><span class="badge">4</span></td></tr>
+          <tr><td>−p</td>           <td><span class="badge">1</span></td>  <td><span class="badge">p</span></td>       <td><span class="badge">−1</span></td></tr>
+          <tr><td>−7</td>           <td><span class="badge">0</span></td>  <td><span class="badge">—</span></td>       <td><span class="badge">−7</span></td></tr>
+          <tr><td>3x³y⁵</td>       <td><span class="badge">8</span></td>  <td><span class="badge">x³y⁵</span></td>   <td><span class="badge">3</span></td></tr>
+          <tr><td>8yz²</td>         <td><span class="badge">3</span></td>  <td><span class="badge">yz²</span></td>    <td><span class="badge">8</span></td></tr>
+          <tr><td>7z⁷</td>          <td><span class="badge">7</span></td>  <td><span class="badge">z⁷</span></td>     <td><span class="badge">7</span></td></tr>
+          <tr><td>x³y⁵</td>        <td><span class="badge">8</span></td>  <td><span class="badge">x³y⁵</span></td>   <td><span class="badge">1</span></td></tr>
+          <tr><td>−8t⁴xz²</td>    <td><span class="badge">7</span></td>  <td><span class="badge">t⁴xz²</span></td>  <td><span class="badge">−8</span></td></tr>
+          <tr><td>4x⁵z</td>        <td><span class="badge">6</span></td>  <td><span class="badge">x⁵z</span></td>    <td><span class="badge">4</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card card-orange">
+    <h2>🔗 Monomios Semejantes</h2>
+    <p>Dos monomios son <strong>semejantes</strong> si tienen exactamente la misma parte literal (mismas variables con mismos exponentes).</p>
+
+    <div class="example" style="margin-top:14px">
+      <div class="example-title">✅ Son semejantes — ¡se pueden sumar/restar!</div>
+      <p><strong>3x²</strong> y <strong>−5x²</strong> → misma parte literal x² → 3x² − 5x² = <strong>−2x²</strong></p>
+      <p><strong>4xy</strong> y <strong>7xy</strong> → misma parte literal xy → 4xy + 7xy = <strong>11xy</strong></p>
+    </div>
+    <div class="example" style="background:#fff5f5;border-color:#fca5a5;margin-top:10px">
+      <div class="example-title" style="color:#dc2626">❌ No son semejantes — ¡NO se pueden sumar!</div>
+      <p><strong>3x²</strong> y <strong>−5x³</strong> → distinto exponente de x</p>
+      <p><strong>4xy</strong> y <strong>7x²y</strong> → distinta parte literal</p>
+    </div>
+    <div class="warn-box" style="margin-top:10px">
+      ⚠️ Solo puedes sumar o restar monomios semejantes. ¡Es como sumar manzanas con manzanas, nunca con naranjas!
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TAB 3 · ECUACIONES 1º GRADO
+═══════════════════════════════════════════════ -->
+<div id="ec1" class="section">
+
+  <div class="card card-purple">
+    <h2>➕ Ecuaciones de 1er Grado</h2>
+    <p>Una ecuación de primer grado tiene la forma <strong>ax + b = c</strong>. El objetivo es encontrar el valor de <strong>x</strong>.</p>
+    <div class="formula formula-big">ax + b = c</div>
+  </div>
+
+  <div class="card card-blue">
+    <h2>⚖️ Reglas de oro</h2>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px">
+      <div class="chip" style="gap:12px;justify-content:flex-start">
+        <span style="font-size:1.4em">⚖️</span>
+        <span>Lo que hagas a un lado de la ecuación, <strong>debes hacerlo al otro</strong></span>
+      </div>
+      <div class="chip" style="gap:12px;justify-content:flex-start">
+        <span style="font-size:1.4em">🔄</span>
+        <span>Los términos <strong>cambian de signo</strong> al pasar al otro lado del igual</span>
+      </div>
+      <div class="chip" style="gap:12px;justify-content:flex-start">
+        <span style="font-size:1.4em">🎯</span>
+        <span>Agrupa las <strong>x</strong> a un lado y los <strong>números</strong> al otro</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-green">
+    <h2>✏️ Simple · Ejemplo: 7x + 9 = 3 + 9x</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <p><strong>Pasamos las x a la izquierda y los números a la derecha:</strong></p>
+          <div class="eq-display">7x <span class="mr">− 9x</span> = 3 <span class="mr">− 9</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <p><strong>Operamos en cada lado:</strong></p>
+          <div class="eq-display"><span class="mb">−2x</span> = <span class="mb">−6</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <p><strong>Dividimos ambos lados por −2:</strong></p>
+          <div class="eq-display">x = (−6) ÷ (−2) = <span class="mg">3</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="solution-box">✅ x = 3</div>
+    <div class="info-box">🔍 <strong>Comprobación:</strong> 7(3)+9 = 30 ✓ y 3+9(3) = 30 ✓</div>
+  </div>
+
+  <div class="card card-blue">
+    <h2>🔧 Con paréntesis · Ejemplo: 2(x−2) = −(4−x)</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <p><strong>Aplicamos la propiedad distributiva:</strong></p>
+          <div class="eq-display">2x − 4 = −4 + x</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <p><strong>Agrupamos términos:</strong></p>
+          <div class="eq-display">2x − x = −4 + 4</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="eq-display">x = <span class="mg">0</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="solution-box">✅ x = 0</div>
+  </div>
+
+  <div class="card card-orange">
+    <h2>➗ Con fracciones · Ejemplo: (3/2)x + 8 = (3/5)x − 1</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <p><strong>Multiplicamos todo por el mcm de los denominadores:</strong></p>
+          <p>mcm(2, 5) = <strong>10</strong></p>
+          <div class="eq-display">15x + 80 = 6x − 10</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="eq-display">15x − 6x = −10 − 80 &nbsp;→&nbsp; 9x = −90</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="eq-display">x = −90 / 9 = <span class="mg">−10</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="solution-box">✅ x = −10</div>
+
+    <h3>🧩 Problema resuelto</h3>
+    <div class="example">
+      <div class="example-title">📌 Las edades de dos hermanos suman 38 años. Uno es 8 años mayor que el otro.</div>
+      <p>Llamamos <em>x</em> a la edad del menor. El mayor tiene <em>x + 8</em>.</p>
+      <div class="eq-display">x + (x + 8) = 38 &nbsp;→&nbsp; 2x = 30 &nbsp;→&nbsp; x = 15</div>
+      <p><strong>El menor tiene 15 años y el mayor 23 años.</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TAB 4 · ECUACIONES 2º GRADO
+═══════════════════════════════════════════════ -->
+<div id="ec2" class="section">
+
+  <div class="card card-purple">
+    <h2>² Ecuaciones de 2º Grado</h2>
+    <p>Tienen la forma <strong>ax² + bx + c = 0</strong> (con a ≠ 0). Pueden tener 0, 1 ó 2 soluciones.</p>
+    <div class="formula formula-big">ax² + bx + c = 0</div>
+  </div>
+
+  <div class="card card-blue">
+    <h2>📐 Fórmula general (la cuadrática)</h2>
+
+    <div class="formula-cuad">
+      <span>x =</span>
+      <span class="math-frac">
+        <span class="mnum">
+          −b &nbsp;<span class="pm">±</span>&nbsp;
+          <span class="radical">
+            <span style="font-size:.85em;margin-right:1px">√</span><span class="radicand">b² − 4ac</span>
+          </span>
+        </span>
+        <span class="mden">2a</span>
+      </span>
+    </div>
+
+    <div style="background:#f5f0ff;border-radius:12px;padding:16px 20px;margin:14px 0;text-align:center;font-size:.98em">
+      <strong style="color:#7c3aed">¿Cómo se usa?</strong><br>
+      Identifica <strong>a</strong>, <strong>b</strong> y <strong>c</strong> en tu ecuación, sustitúyelos en la fórmula y calcula las dos opciones (<span class="mp">+</span> y <span class="mp">−</span>).
+    </div>
+
+    <h3>El Discriminante Δ = b² − 4ac</h3>
+    <div class="disc-row">
+      <div class="disc-card disc-pos">
+        <div class="dval" style="color:#059669">Δ &gt; 0</div>
+        <div class="dlbl">✅ 2 soluciones reales</div>
+      </div>
+      <div class="disc-card disc-zero">
+        <div class="dval" style="color:#2563eb">Δ = 0</div>
+        <div class="dlbl">⭕ 1 solución (doble)</div>
+      </div>
+      <div class="disc-card disc-neg">
+        <div class="dval" style="color:#dc2626">Δ &lt; 0</div>
+        <div class="dlbl">❌ Sin solución real</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-green">
+    <h2>✏️ Completa · Ejemplo: x² − 7x + 12 = 0</h2>
+    <div class="two-col" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px">
+      <div class="chip" style="flex-direction:column;align-items:center;gap:4px;justify-content:center">
+        <span style="font-size:.8em;color:#666">a =</span><span class="val" style="font-size:1.4em">1</span>
+      </div>
+      <div class="chip" style="flex-direction:column;align-items:center;gap:4px;justify-content:center">
+        <span style="font-size:.8em;color:#666">b =</span><span class="val" style="font-size:1.4em">−7</span>
+      </div>
+      <div class="chip" style="flex-direction:column;align-items:center;gap:4px;justify-content:center">
+        <span style="font-size:.8em;color:#666">c =</span><span class="val" style="font-size:1.4em">12</span>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <p><strong>Calculamos el discriminante:</strong></p>
+          <div class="eq-display">Δ = (−7)² − 4·1·12 = 49 − 48 = <span class="mg">1</span></div>
+          <p>Δ &gt; 0 → <strong>2 soluciones</strong></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <p><strong>Aplicamos la fórmula:</strong></p>
+          <div style="text-align:center;margin:10px 0;font-size:1.2em;font-family:Georgia,serif;font-weight:800;color:#3b0764">
+            x =
+            <span class="math-frac" style="font-size:.95em">
+              <span class="mnum">7 &nbsp;<span class="mp">±</span>&nbsp; <span style="display:inline-flex;align-items:flex-end;gap:1px"><span style="font-size:.85em">√</span><span style="border-top:2.5px solid #3b0764;padding:0 3px">1</span></span></span>
+              <span class="mden">2</span>
+            </span>
+            &nbsp;=&nbsp;
+            <span class="math-frac" style="font-size:.95em">
+              <span class="mnum">7 <span class="mp">± 1</span></span>
+              <span class="mden">2</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <p><strong>Calculamos las dos soluciones:</strong></p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+            <div style="flex:1;min-width:130px;background:#d1fae5;border:2px solid #059669;border-radius:10px;padding:10px;text-align:center;font-family:Georgia,serif">
+              <div style="font-size:.85em;color:#065f46;margin-bottom:4px">Solución +</div>
+              <span class="math-frac">
+                <span class="mnum" style="border-color:#059669">7 + 1</span>
+                <span class="mden">2</span>
+              </span>
+              <span style="font-size:1.2em;font-weight:800;color:#059669"> = 4</span>
+            </div>
+            <div style="flex:1;min-width:130px;background:#dbeafe;border:2px solid #2563eb;border-radius:10px;padding:10px;text-align:center;font-family:Georgia,serif">
+              <div style="font-size:.85em;color:#1e40af;margin-bottom:4px">Solución −</div>
+              <span class="math-frac">
+                <span class="mnum" style="border-color:#2563eb">7 − 1</span>
+                <span class="mden">2</span>
+              </span>
+              <span style="font-size:1.2em;font-weight:800;color:#2563eb"> = 3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="solution-box">✅ x₁ = 4 &nbsp;&nbsp; x₂ = 3</div>
+  </div>
+
+  <div class="card card-orange">
+    <h2>⚡ Incompletas — sin fórmula</h2>
+
+    <h3>Tipo 1: ax² + c = 0 &nbsp;(falta bx)</h3>
+    <div class="example">
+      <div class="example-title">📌 x² − 1 = 0</div>
+      <p>x² = 1 → x = ±√1 → <strong class="mg">x₁ = 1, x₂ = −1</strong></p>
+    </div>
+    <div class="example">
+      <div class="example-title">📌 4x² − 9 = 0</div>
+      <p>4x² = 9 → x² = 9/4 → x = ±3/2 → <strong class="mg">x₁ = 3/2, x₂ = −3/2</strong></p>
+    </div>
+
+    <h3>Tipo 2: ax² + bx = 0 &nbsp;(falta c)</h3>
+    <div class="example">
+      <div class="example-title">📌 x² + 2x = 0</div>
+      <p>Factor común x: &nbsp;x·(x + 2) = 0</p>
+      <p>x = 0 &nbsp;ó&nbsp; x + 2 = 0 → <strong class="mg">x₁ = 0, x₂ = −2</strong></p>
+    </div>
+    <div class="example">
+      <div class="example-title">📌 6x² + 42x = 0</div>
+      <p>6x·(x + 7) = 0 → <strong class="mg">x₁ = 0, x₂ = −7</strong></p>
+    </div>
+    <div class="example">
+      <div class="example-title">📌 2x² = 0</div>
+      <p>x² = 0 → <strong class="mg">x = 0</strong> (solución doble)</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TAB 5 · REPRESENTACIÓN GRÁFICA ⭐
+═══════════════════════════════════════════════ -->
+<div id="graf" class="section">
+
+  <div class="graph-hero">
+    <h2>📈 Representación Gráfica de Funciones</h2>
+    <p>Aprende a dibujar rectas en el plano cartesiano paso a paso. ¡100% interactivo!</p>
+  </div>
+
+  <!-- PLANO CARTESIANO -->
+  <div class="card card-purple">
+    <h2>🗺️ El Plano Cartesiano</h2>
+    <div class="graph-wrap">
+      <div class="canvas-box">
+        <canvas id="explainCanvas" width="260" height="260"></canvas>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <div class="example" style="margin-bottom:10px">
+          <div class="example-title">📍 Eje X — horizontal</div>
+          <p>Positivos → <strong>derecha</strong> &nbsp; Negativos → <strong>izquierda</strong></p>
+        </div>
+        <div class="example" style="margin-bottom:10px">
+          <div class="example-title">📍 Eje Y — vertical</div>
+          <p>Positivos → <strong>arriba</strong> &nbsp; Negativos → <strong>abajo</strong></p>
+        </div>
+        <div class="example">
+          <div class="example-title">📍 Origen (0, 0)</div>
+          <p>Donde se cruzan los dos ejes.</p>
+        </div>
+        <div class="info-box" style="margin-top:10px">
+          📌 Un punto se escribe <strong>(x, y)</strong>: primero la posición horizontal, luego la vertical.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOS 4 PASOS -->
+  <div class="card card-blue">
+    <h2>🗒️ El Método en 4 Pasos</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Despejar y</strong>
+          <p>Deja la <span class="mp">y</span> sola en un lado del igual.</p>
+          <div class="example"><p>x + y = 4 &nbsp;→&nbsp; <span class="mp">y = 4 − x</span></p></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Crear la tabla de valores</strong>
+          <p>Elige 3 valores de <span class="mb">x</span> y calcula la <span class="mp">y</span> correspondiente.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Marcar los puntos en el plano</strong>
+          <p>Cada par (x, y) es un punto sobre la recta.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Unir con una recta</strong>
+          <p>Traza la línea que pasa por los puntos. ¡Usa regla!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAFICADOR INTERACTIVO -->
+  <div class="card card-green">
+    <h2>🎮 Graficador Interactivo</h2>
+    <p style="margin-bottom:16px">Introduce una ecuación de la forma <strong>ax + by = c</strong> y observa cómo se representa.</p>
+
+    <div class="graph-wrap">
+      <div class="canvas-box">
+        <canvas id="mainCanvas" width="420" height="420"></canvas>
+      </div>
+
+      <div class="graph-panel">
+        <!-- Pills -->
+        <div class="pills">
+          <span class="pill active" id="p0">① Ecuación</span>
+          <span class="pill" id="p1">② Despeje</span>
+          <span class="pill" id="p2">③ Tabla</span>
+          <span class="pill" id="p3">④ Puntos</span>
+          <span class="pill" id="p4">⑤ Recta</span>
+        </div>
+
+        <!-- Inputs -->
+        <div class="igroup">
+          <label>Coeficiente de x (a):</label>
+          <input type="number" id="inA" value="1" step="1" oninput="updEqLabel()">
+        </div>
+        <div class="igroup">
+          <label>Coeficiente de y (b):</label>
+          <input type="number" id="inB" value="1" step="1" oninput="updEqLabel()">
+        </div>
+        <div class="igroup">
+          <label>Término independiente (c):</label>
+          <input type="number" id="inC" value="4" step="1" oninput="updEqLabel()">
+        </div>
+
+        <div class="eq-display" id="eqLabel">x + y = 4</div>
+        <div class="eq-display" id="eqIsolated" style="border-color:#059669;color:#065f46;display:none"></div>
+
+        <button class="btn btn-primary" onclick="runAnimation()" style="margin-top:12px">🚀 Representar paso a paso</button>
+        <button class="btn btn-secondary" onclick="resetAll()">🔄 Reiniciar</button>
+
+        <!-- Value table -->
+        <div class="vtable-wrap" id="vtWrap">
+          <h4>📊 Tabla de valores</h4>
+          <div id="vtContent"></div>
+        </div>
+
+        <!-- Explanation -->
+        <div class="expl-box" id="explBox">
+          <p id="explTxt"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SISTEMAS DE ECUACIONES -->
+  <div class="card" style="border-left:5px solid #7c3aed">
+    <h2>⚔️ Sistemas de Ecuaciones — Método Gráfico</h2>
+    <p style="margin-bottom:18px">Al representar <strong>dos rectas</strong> pueden ocurrir tres casos. Pulsa cada uno para verlo:</p>
+
+    <div class="cases-grid">
+      <div class="case-card c1" onclick="showCase(1)">
+        <div class="case-icon">✂️</div>
+        <div class="case-title" style="color:#059669">Se cortan</div>
+        <div class="case-desc">1 solución<br>Punto de intersección</div>
+      </div>
+      <div class="case-card c2" onclick="showCase(2)">
+        <div class="case-icon">📏</div>
+        <div class="case-title" style="color:#dc2626">Son paralelas</div>
+        <div class="case-desc">Sin solución<br>Nunca se cruzan</div>
+      </div>
+      <div class="case-card c3" onclick="showCase(3)">
+        <div class="case-icon">🔁</div>
+        <div class="case-title" style="color:#d97706">Coincidentes</div>
+        <div class="case-desc">∞ soluciones<br>Son la misma recta</div>
+      </div>
+    </div>
+
+    <div class="graph-wrap" style="margin-top:16px">
+      <div class="canvas-box">
+        <canvas id="sysCanvas" width="360" height="360"></canvas>
+      </div>
+      <div style="flex:1;min-width:180px">
+        <div id="sysInfo">
+          <p style="color:#999;font-style:italic">👆 Pulsa uno de los tres casos para ver las rectas.</p>
+        </div>
+        <div id="sysEqs" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="card card-orange">
+    <h2>💡 Consejos para el examen</h2>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="chip" style="gap:12px;justify-content:flex-start"><span style="font-size:1.3em">🎯</span><span>Elige siempre <strong>x = 0</strong> primero: da el punto más sencillo.</span></div>
+      <div class="chip" style="gap:12px;justify-content:flex-start"><span style="font-size:1.3em">📏</span><span>Usa al menos <strong>3 puntos</strong> para asegurarte de que la recta es correcta.</span></div>
+      <div class="chip" style="gap:12px;justify-content:flex-start"><span style="font-size:1.3em">✏️</span><span>Traza siempre con <strong>regla</strong>: una recta tiene que ser perfectamente recta.</span></div>
+      <div class="chip" style="gap:12px;justify-content:flex-start"><span style="font-size:1.3em">✅</span><span>Comprueba la solución sustituyendo los valores en <strong>las dos ecuaciones</strong>.</span></div>
+      <div class="chip" style="gap:12px;justify-content:flex-start"><span style="font-size:1.3em">🔍</span><span>Si las rectas son paralelas (mismo coeficiente de x e y), el sistema no tiene solución.</span></div>
+    </div>
+  </div>
+
+</div><!-- end #graf -->
+
+<!-- ════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════ -->
+<script>
+// ─── NAVIGATION ───────────────────────────────
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'graf') {
+    requestAnimationFrame(() => {
+      drawExplainCanvas();
+      initMainCanvas();
+      drawSysCanvas(0);
+    });
+  }
+}
+
+// ─── QUIZ ─────────────────────────────────────
+function quiz(btn, correct, id) {
+  const fb = document.getElementById(id);
+  const opts = btn.parentElement.querySelectorAll('.quiz-btn');
+  opts.forEach(b => b.disabled = true);
+  if (correct) {
+    btn.style.cssText = 'background:#d1fae5;border-color:#059669;color:#059669';
+    fb.innerHTML = '✅ ¡Correcto!';
+    fb.style.color = '#059669';
+  } else {
+    btn.style.cssText = 'background:#fee2e2;border-color:#dc2626;color:#dc2626';
+    fb.innerHTML = '❌ Incorrecto. Inténtalo de nuevo.';
+    fb.style.color = '#dc2626';
+    setTimeout(() => {
+      opts.forEach(b => { b.disabled = false; b.style.cssText = ''; });
+      fb.innerHTML = '';
+    }, 1800);
+  }
+}
+
+// ─── CANVAS UTILITIES ─────────────────────────
+function makeCtx(id, range) {
+  const cv = document.getElementById(id);
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height, r = range || 8;
+  const sc = W / (2 * r);
+  const ox = W / 2, oy = H / 2;
+  return {
+    cv, ctx, W, H, r, sc, ox, oy,
+    toC: (x, y) => [ox + x * sc, oy - y * sc]
+  };
+}
+
+function drawAxes(g) {
+  const { ctx, W, H, r, sc, ox, oy } = g;
+  ctx.clearRect(0, 0, W, H);
+  // background
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, W, H);
+  // minor grid
+  ctx.strokeStyle = '#efefef'; ctx.lineWidth = 1;
+  for (let i = -r; i <= r; i++) {
+    ctx.beginPath(); ctx.moveTo(ox + i*sc, 0); ctx.lineTo(ox + i*sc, H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, oy - i*sc); ctx.lineTo(W, oy - i*sc); ctx.stroke();
+  }
+  // major grid (every 2)
+  ctx.strokeStyle = '#e0e0e0'; ctx.lineWidth = 1.2;
+  for (let i = -r; i <= r; i += 2) {
+    ctx.beginPath(); ctx.moveTo(ox + i*sc, 0); ctx.lineTo(ox + i*sc, H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, oy - i*sc); ctx.lineTo(W, oy - i*sc); ctx.stroke();
+  }
+  // axes
+  ctx.strokeStyle = '#333'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(8, oy); ctx.lineTo(W-8, oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox, 8); ctx.lineTo(ox, H-8); ctx.stroke();
+  // arrows
+  ctx.fillStyle = '#333';
+  ctx.beginPath(); ctx.moveTo(W-5,oy); ctx.lineTo(W-14,oy-5); ctx.lineTo(W-14,oy+5); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(ox,5); ctx.lineTo(ox-5,14); ctx.lineTo(ox+5,14); ctx.fill();
+  // axis names
+  ctx.fillStyle = '#333'; ctx.font = 'bold 13px Arial';
+  ctx.fillText('x', W-4, oy-8);
+  ctx.fillText('y', ox+6, 12);
+  // numbers
+  ctx.fillStyle = '#999'; ctx.font = '10px Arial';
+  for (let i = -r; i <= r; i++) {
+    if (i === 0) continue;
+    if (i % 2 === 0) {
+      ctx.textAlign = 'center'; ctx.fillText(i, ox + i*sc, oy+14);
+      ctx.textAlign = 'right';  ctx.fillText(i, ox-5, oy - i*sc + 4);
+    }
+  }
+  ctx.textAlign = 'right'; ctx.fillStyle = '#aaa'; ctx.fillText('0', ox-4, oy+13);
+}
+
+function plotLine(g, a, b, c, color, dash) {
+  const { ctx, W, H, r, sc, ox, oy, toC } = g;
+  ctx.strokeStyle = color || '#7c3aed';
+  ctx.lineWidth = 2.8;
+  ctx.setLineDash(dash || []);
+  ctx.beginPath();
+  if (b === 0) {
+    if (a === 0) return;
+    const xv = c / a;
+    const [px] = toC(xv, 0);
+    ctx.moveTo(px, 0); ctx.lineTo(px, H);
+  } else {
+    const x1 = -r - 2, x2 = r + 2;
+    const y1 = (c - a*x1)/b, y2 = (c - a*x2)/b;
+    const [px1,py1] = toC(x1,y1), [px2,py2] = toC(x2,y2);
+    ctx.moveTo(px1,py1); ctx.lineTo(px2,py2);
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function plotDot(g, x, y, color, label) {
+  const { ctx, ox, oy, toC } = g;
+  const [px, py] = toC(x, y);
+  ctx.fillStyle = color || '#7c3aed';
+  ctx.beginPath(); ctx.arc(px, py, 7, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = 'white'; ctx.lineWidth = 2.5;
+  ctx.stroke();
+  if (label) {
+    ctx.fillStyle = '#222';
+    ctx.font = 'bold 11px Arial';
+    ctx.textAlign = 'left';
+    const offX = px > ox ? -60 : 10;
+    const offY = py > oy ? -10 : 16;
+    ctx.fillText(label, px + offX, py + offY);
+  }
+}
+
+// ─── EXPLAIN CANVAS ────────────────────────────
+function drawExplainCanvas() {
+  const g = makeCtx('explainCanvas', 5);
+  drawAxes(g);
+  plotDot(g,  3,  2, '#7c3aed', '(3, 2)');
+  plotDot(g, -2,  3, '#059669', '(−2, 3)');
+  plotDot(g,  1, -3, '#dc2626', '(1, −3)');
+}
+
+// ─── EQUATION LABEL ────────────────────────────
+function fmtEq(a, b, c) {
+  let parts = [];
+  const pushX = v => {
+    if (v === 0) return;
+    if (v === 1)  parts.push((parts.length ? '+ ' : '') + 'x');
+    else if (v === -1) parts.push((parts.length ? '− ' : '−') + 'x');
+    else if (v > 0)  parts.push((parts.length ? '+ ' : '') + v + 'x');
+    else             parts.push((parts.length ? '− ' : '−') + Math.abs(v) + 'x');
+  };
+  const pushY = v => {
+    if (v === 0) return;
+    if (v === 1)  parts.push((parts.length ? '+ ' : '') + 'y');
+    else if (v === -1) parts.push((parts.length ? '− ' : '−') + 'y');
+    else if (v > 0)  parts.push((parts.length ? '+ ' : '') + v + 'y');
+    else             parts.push((parts.length ? '− ' : '−') + Math.abs(v) + 'y');
+  };
+  pushX(a); pushY(b);
+  return (parts.join(' ') || '0') + ' = ' + c;
+}
+
+function fmtIsolated(a, b, c) {
+  if (b === 0) return a === 0 ? '?' : 'x = ' + fmt(c/a);
+  // y = c/b - (a/b)x
+  const cb = c/b, ab = a/b;
+  let rhs = '';
+  if (cb !== 0) rhs += fmt(cb);
+  if (ab !== 0) {
+    const abs_ab = Math.abs(ab);
+    const coef = abs_ab === 1 ? '' : fmt(abs_ab);
+    if (ab < 0) rhs += (rhs ? ' + ' : '') + coef + 'x';
+    else        rhs += (rhs ? ' − ' : '−') + coef + 'x';
+  }
+  return 'y = ' + (rhs || '0');
+}
+
+function fmt(n) {
+  if (Number.isInteger(n)) return String(n);
+  return Math.round(n*100)/100;
+}
+
+function updEqLabel() {
+  const a = +document.getElementById('inA').value || 0;
+  const b = +document.getElementById('inB').value || 0;
+  const c = +document.getElementById('inC').value || 0;
+  document.getElementById('eqLabel').textContent = fmtEq(a,b,c);
+}
+
+// ─── MAIN CANVAS ───────────────────────────────
+let mainG = null;
+let livePoints = [];
+
+function initMainCanvas() {
+  mainG = makeCtx('mainCanvas', 8);
+  drawAxes(mainG);
+}
+
+function getCoefs() {
+  return {
+    a: +document.getElementById('inA').value || 0,
+    b: +document.getElementById('inB').value || 0,
+    c: +document.getElementById('inC').value || 0
+  };
+}
+
+function genPoints(a, b, c) {
+  if (b === 0) {
+    if (a === 0) return [];
+    const xv = c/a;
+    return [{x:xv,y:-4},{x:xv,y:0},{x:xv,y:4},{x:xv,y:3}];
+  }
+  const candidates = [0,2,-2,4,-4,1,-1,3,-3,5,-5];
+  const pts = [];
+  for (const x of candidates) {
+    const y = (c - a*x)/b;
+    if (Number.isFinite(y) && Math.abs(y) <= 9) {
+      pts.push({x, y: Math.round(y*100)/100});
+      if (pts.length === 5) break;
+    }
+  }
+  return pts;
+}
+
+function buildVTable(pts) {
+  let h = '<table class="vtable"><thead>';
+  h += '<tr><th class="th-x">x</th>';
+  pts.forEach(p => h += `<th style="background:#ede9fe;color:#5b21b6">${fmt(p.x)}</th>`);
+  h += '</tr></thead><tbody>';
+  h += '<tr><th class="th-y">y</th>';
+  pts.forEach((p,i) => h += `<td class="cy hidden" id="cy${i}">${fmt(p.y)}</td>`);
+  h += '</tr><tr><th class="th-pt">(x,y)</th>';
+  pts.forEach((p,i) => h += `<td class="cp hidden" id="cp${i}">(${fmt(p.x)},${fmt(p.y)})</td>`);
+  h += '</tr></tbody></table>';
+  return h;
+}
+
+const DOT_COLORS = ['#7c3aed','#dc2626','#059669','#d97706','#0891b2'];
+
+function setPill(active) {
+  for (let i = 0; i <= 4; i++) {
+    const el = document.getElementById('p'+i);
+    el.className = 'pill' + (i < active ? ' done' : i === active ? ' active' : '');
+  }
+}
+
+function setExpl(html) {
+  const box = document.getElementById('explBox');
+  box.style.display = 'block';
+  document.getElementById('explTxt').innerHTML = html;
+}
+
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function runAnimation() {
+  const {a,b,c} = getCoefs();
+  if (a===0 && b===0) { alert('Introduce al menos un coeficiente distinto de cero.'); return; }
+  resetAll();
+  initMainCanvas();
+  const pts = genPoints(a,b,c);
+  if (!pts.length) { alert('No se pueden calcular puntos con estos valores.'); return; }
+  livePoints = pts;
+
+  // Step 0
+  setPill(0);
+  setExpl(`📋 Ecuación: <span class="mp">${fmtEq(a,b,c)}</span>`);
+  await delay(1100);
+
+  // Step 1 – isolate
+  setPill(1);
+  const iso = fmtIsolated(a,b,c);
+  document.getElementById('eqIsolated').textContent = iso;
+  document.getElementById('eqIsolated').style.display = 'block';
+  setExpl(`🔄 Despejamos y: <span class="mp">${iso}</span>`);
+  await delay(1400);
+
+  // Step 2 – table
+  setPill(2);
+  setExpl('📊 Calculamos la tabla de valores...');
+  const vt = document.getElementById('vtWrap');
+  vt.style.display = 'block';
+  document.getElementById('vtContent').innerHTML = buildVTable(pts);
+  for (let i = 0; i < pts.length; i++) {
+    await delay(550);
+    document.getElementById('cy'+i).classList.remove('hidden');
+  }
+  await delay(400);
+
+  // Step 3 – points
+  setPill(3);
+  setExpl('📍 Marcamos los puntos en el plano...');
+  for (let i = 0; i < pts.length; i++) {
+    await delay(650);
+    document.getElementById('cp'+i).classList.remove('hidden');
+    plotDot(mainG, pts[i].x, pts[i].y, DOT_COLORS[i%DOT_COLORS.length],
+      `(${fmt(pts[i].x)},${fmt(pts[i].y)})`);
+  }
+  await delay(600);
+
+  // Step 4 – line animation
+  setPill(4);
+  setExpl('📏 Unimos los puntos con una recta...');
+  await animLine(mainG, a, b, c, '#7c3aed');
+
+  // Done
+  for (let i = 0; i <= 4; i++) document.getElementById('p'+i).className = 'pill done';
+  setExpl('✅ ¡Recta representada! Todos los puntos de la recta satisfacen la ecuación.');
+}
+
+function animLine(g, a, b, c, color) {
+  return new Promise(resolve => {
+    const {ctx, W, H, r, toC, ox, oy, sc} = g;
+    let x1c,y1c,x2c,y2c;
+    if (b===0) {
+      const xv=c/a; [x1c]=toC(xv,r+2); y1c=0; [x2c]=toC(xv,-r-2); y2c=H;
+      x2c=x1c;
+    } else {
+      const xe1=-r-2, xe2=r+2;
+      const ye1=(c-a*xe1)/b, ye2=(c-a*xe2)/b;
+      [x1c,y1c]=toC(xe1,ye1); [x2c,y2c]=toC(xe2,ye2);
+    }
+    let frame = 0;
+    const total = 50;
+    function step() {
+      frame++;
+      const t = frame/total;
+      const cx2 = x1c+(x2c-x1c)*t, cy2 = y1c+(y2c-y1c)*t;
+      drawAxes(g);
+      livePoints.forEach((p,i) => plotDot(g,p.x,p.y,DOT_COLORS[i%DOT_COLORS.length],
+        `(${fmt(p.x)},${fmt(p.y)})`));
+      ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(x1c,y1c); ctx.lineTo(cx2,cy2); ctx.stroke();
+      if (frame < total) requestAnimationFrame(step);
+      else {
+        plotLine(g,a,b,c,color);
+        livePoints.forEach((p,i) => plotDot(g,p.x,p.y,DOT_COLORS[i%DOT_COLORS.length],
+          `(${fmt(p.x)},${fmt(p.y)})`));
+        resolve();
+      }
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+function resetAll() {
+  livePoints = [];
+  if (mainG) drawAxes(mainG);
+  document.getElementById('vtWrap').style.display = 'none';
+  document.getElementById('explBox').style.display = 'none';
+  document.getElementById('eqIsolated').style.display = 'none';
+  for (let i=0;i<=4;i++) {
+    const el = document.getElementById('p'+i);
+    el.className = 'pill' + (i===0?' active':'');
+  }
+}
+
+// ─── SYSTEM CANVAS ─────────────────────────────
+function drawSysCanvas(caseNum) {
+  const g = makeCtx('sysCanvas', 7);
+  drawAxes(g);
+
+  const sysInfo = document.getElementById('sysInfo');
+  const sysEqs  = document.getElementById('sysEqs');
+
+  if (caseNum === 0) {
+    sysInfo.innerHTML = '<p style="color:#999;font-style:italic">👆 Pulsa uno de los tres casos para ver las rectas.</p>';
+    sysEqs.innerHTML = '';
+    return;
+  }
+
+  const cases = {
+    1: {
+      lines: [
+        {a:1,b:1,c:4,  color:'#7c3aed', label:'x + y = 4'},
+        {a:1,b:-1,c:2, color:'#dc2626', label:'x − y = 2'}
+      ],
+      pt: {x:3,y:1},
+      color: '#059669',
+      title: '✅ Se cortan → 1 solución',
+      desc: 'Las rectas se cortan en <strong>(3, 1)</strong>. Esa es la solución del sistema.'
+    },
+    2: {
+      lines: [
+        {a:1,b:1,c:4,  color:'#7c3aed', label:'x + y = 4'},
+        {a:1,b:1,c:-2, color:'#dc2626', label:'x + y = −2', dash:[10,6]}
+      ],
+      pt: null,
+      color: '#dc2626',
+      title: '❌ Son paralelas → sin solución',
+      desc: 'Tienen la misma pendiente y nunca se cruzan. El sistema es <strong>incompatible</strong>.'
+    },
+    3: {
+      lines: [
+        {a:1,b:1,c:4,  color:'#7c3aed', label:'x + y = 4'},
+        {a:2,b:2,c:8,  color:'#d97706', label:'2x + 2y = 8', dash:[8,4]}
+      ],
+      pt: null,
+      color: '#d97706',
+      title: '🔁 Coincidentes → infinitas soluciones',
+      desc: 'Representan la <strong>misma recta</strong>. El sistema tiene infinitas soluciones.'
+    }
+  };
+
+  const cs = cases[caseNum];
+  cs.lines.forEach(l => plotLine(g, l.a, l.b, l.c, l.color, l.dash || []));
+  if (cs.pt) plotDot(g, cs.pt.x, cs.pt.y, '#059669', `(${cs.pt.x},${cs.pt.y})`);
+
+  sysInfo.innerHTML = `
+    <div style="background:${cs.color}20;border:2px solid ${cs.color};border-radius:12px;padding:14px">
+      <div style="font-weight:800;color:${cs.color};margin-bottom:6px">${cs.title}</div>
+      <p>${cs.desc}</p>
+    </div>`;
+
+  sysEqs.innerHTML = cs.lines.map(l => `
+    <div class="eq-display" style="border-color:${l.color};margin-top:8px;font-size:.95em">
+      <span style="display:inline-block;width:11px;height:11px;background:${l.color};border-radius:50%;margin-right:8px;vertical-align:middle"></span>
+      ${l.label}
+    </div>`).join('');
+}
+
+function showCase(n) { drawSysCanvas(n); }
+
+// ─── INIT ──────────────────────────────────────
+window.addEventListener('load', () => {
+  updEqLabel();
+  // Pre-draw explain canvas in case user lands on that tab first
+  // (it will also be drawn on tab switch)
+});
+</script>
+</body>
+</html>
