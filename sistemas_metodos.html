@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistemas — Sustitución y Reducción | 2º ESO</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --e1:  #7c3aed;   /* ecuación 1 – morado */
+      --e2:  #2563eb;   /* ecuación 2 – azul */
+      --vx:  #dc2626;   /* variable x – rojo */
+      --vy:  #059669;   /* variable y – verde */
+      --sol: #d97706;   /* solución   – ámbar */
+      --bg:  #f0f4ff;
+    }
+
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: #1e1e2e; line-height: 1.6; }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: white; border-bottom: 2px solid #e9d5ff;
+      padding: 12px 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(124,58,237,.1);
+    }
+    .topbar a { text-decoration:none; color:#7c3aed; font-weight:700; font-size:.9em; padding:6px 14px; border-radius:20px; border:2px solid #e9d5ff; transition:all .2s; }
+    .topbar a:hover { background:#f5f0ff; }
+    .topbar .title { font-weight:800; font-size:1em; color:#3b0764; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--e1) 0%, var(--e2) 100%);
+      color: white; text-align: center; padding: 46px 24px 36px;
+    }
+    .hero h1 { font-size: 2.1em; font-weight: 800; margin-bottom: 8px; }
+    .hero p  { font-size: 1.05em; opacity: .88; max-width: 560px; margin: 0 auto; }
+
+    /* ── SHELL ── */
+    .shell { max-width: 980px; margin: 0 auto; padding: 28px 18px 60px; }
+
+    /* ── METHOD TABS ── */
+    .mtabs { display: flex; gap: 0; margin-bottom: 28px; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+    .mtab {
+      flex: 1; padding: 18px 10px; border: none; cursor: pointer;
+      font-weight: 800; font-size: 1.05em; transition: all .25s;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .mtab .mtab-icon { font-size: 1.8em; }
+    .mtab.sust { background: #f5f0ff; color: var(--e1); }
+    .mtab.redu { background: #eff6ff; color: var(--e2); }
+    .mtab.sust.active { background: var(--e1); color: white; }
+    .mtab.redu.active { background: var(--e2); color: white; }
+    .mtab:hover:not(.active) { filter: brightness(.95); }
+
+    /* ── METHOD PANELS ── */
+    .mpanel { display: none; }
+    .mpanel.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── CARD ── */
+    .card { background: white; border-radius: 18px; padding: 26px; margin-bottom: 22px; box-shadow: 0 3px 16px rgba(0,0,0,.07); }
+
+    h2 { font-size: 1.4em; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    h2.c-sust { color: var(--e1); }
+    h2.c-redu { color: var(--e2); }
+    h3 { font-size: 1.05em; font-weight: 700; color: #374151; margin: 16px 0 8px; }
+
+    /* ── METHOD FLOWCHART ── */
+    .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin: 16px 0; }
+    .flow-step {
+      flex: 1; min-width: 110px; background: #f8f5ff; border: 2px solid #e9d5ff;
+      border-radius: 14px; padding: 14px 12px; text-align: center; position: relative;
+      margin: 4px;
+    }
+    .flow-step.c-sust { background:#f5f0ff; border-color:var(--e1); }
+    .flow-step.c-redu { background:#eff6ff; border-color:var(--e2); }
+    .flow-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      color: white; font-weight: 800; font-size: .9em;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 8px;
+    }
+    .c-sust .flow-num { background: var(--e1); }
+    .c-redu .flow-num { background: var(--e2); }
+    .flow-step p { font-size: .82em; font-weight: 600; color: #444; }
+
+    /* ── INTERACTIVE EXAMPLE ── */
+    .example-area {
+      background: white; border-radius: 16px; padding: 24px;
+      margin-bottom: 22px; box-shadow: 0 3px 16px rgba(0,0,0,.07);
+    }
+    .example-area h3 { margin-top: 0; font-size: 1.1em; }
+
+    /* System display */
+    .sys-display {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      margin: 14px 0; justify-content: center;
+    }
+    .big-brace { font-size: 3em; color: #7c3aed; font-weight: 300; line-height: 1; }
+    .sys-eqs { display: flex; flex-direction: column; gap: 8px; }
+    .sys-eq {
+      font-family: Georgia, serif; font-size: 1.25em; font-weight: 700;
+      padding: 10px 18px; border-radius: 12px;
+    }
+    .sys-eq.s1 { background: #f5f0ff; border: 2px solid var(--e1); color: #3b0764; }
+    .sys-eq.s2 { background: #eff6ff; border: 2px solid var(--e2); color: #1e3a8a; }
+    .eq-tag { font-size: .65em; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; margin-right: 8px; opacity: .7; }
+
+    /* Steps revealer */
+    .steps-container { margin-top: 16px; }
+
+    .step-card {
+      border-radius: 14px; padding: 18px 20px; margin-bottom: 12px;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity .45s ease, transform .45s ease;
+      pointer-events: none;
+    }
+    .step-card.revealed { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+    .step-card.s-purple { background: #f5f0ff; border: 2px solid var(--e1); }
+    .step-card.s-blue   { background: #eff6ff; border: 2px solid var(--e2); }
+    .step-card.s-red    { background: #fff0f0; border: 2px solid var(--vx); }
+    .step-card.s-green  { background: #f0fdf4; border: 2px solid var(--vy); }
+    .step-card.s-amber  { background: #fffbeb; border: 2px solid var(--sol); }
+    .step-card.s-ok     { background: linear-gradient(135deg,#d1fae5,#a7f3d0); border: 2px solid var(--vy); }
+
+    .step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .step-badge {
+      width: 30px; height: 30px; border-radius: 50%; min-width: 30px;
+      color: white; font-weight: 800; font-size: .9em;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-badge.bp { background: var(--e1); }
+    .step-badge.bb { background: var(--e2); }
+    .step-badge.br { background: var(--vx); }
+    .step-badge.bg { background: var(--vy); }
+    .step-badge.ba { background: var(--sol); }
+    .step-badge.bo { background: var(--vy); }
+    .step-title { font-weight: 800; font-size: 1em; }
+    .step-title.tp { color: var(--e1); }
+    .step-title.tb { color: var(--e2); }
+    .step-title.tr { color: var(--vx); }
+    .step-title.tg { color: var(--vy); }
+    .step-title.ta { color: var(--sol); }
+
+    .math-line {
+      font-family: Georgia, serif; font-size: 1.15em; font-weight: 700;
+      background: white; border-radius: 10px; padding: 9px 16px;
+      margin: 6px 0; border-left: 4px solid #ddd;
+    }
+    .math-line.ml-p { border-color: var(--e1); color: #3b0764; }
+    .math-line.ml-b { border-color: var(--e2); color: #1e3a8a; }
+    .math-line.ml-r { border-color: var(--vx); color: #991b1b; }
+    .math-line.ml-g { border-color: var(--vy); color: #065f46; }
+    .math-line.ml-a { border-color: var(--sol); color: #78350f; }
+
+    .highlight { background: #fef9c3; padding: 1px 6px; border-radius: 4px; }
+    .hl-p { background: #ede9fe; color: var(--e1); font-weight: 800; }
+    .hl-r { background: #fee2e2; color: var(--vx); font-weight: 800; }
+    .hl-g { background: #d1fae5; color: var(--vy); font-weight: 800; }
+
+    .arrow-note { font-size: .82em; color: #666; margin-top: 4px; display: flex; align-items: center; gap: 5px; }
+
+    /* Nav buttons — sticky bar */
+    .step-nav {
+      position: sticky;
+      bottom: 14px;
+      z-index: 60;
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      background: white;
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: 0 6px 28px rgba(0,0,0,.18);
+      border: 2px solid #f0f0f0;
+    }
+    .step-nav-label {
+      width: 100%;
+      font-size: .78em;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: -2px;
+    }
+    .btn-next {
+      flex: 1; padding: 13px 16px; border: none; border-radius: 12px;
+      font-weight: 800; font-size: 1em; cursor: pointer; transition: all .2s;
+      min-width: 160px; display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-next.bn-p { background: var(--e1); color: white; box-shadow: 0 4px 14px rgba(124,58,237,.35); }
+    .btn-next.bn-b { background: var(--e2); color: white; box-shadow: 0 4px 14px rgba(37,99,235,.35); }
+    .btn-next:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); }
+    .btn-next:disabled { background: #d1fae5; color: #065f46; box-shadow: none; cursor: default; transform: none; filter: none; border: 2px solid #059669; }
+    .btn-restart {
+      padding: 13px 18px; border-radius: 12px; background: #f3f4f6; color: #6b7280;
+      border: 2px solid #e5e7eb; font-weight: 700; cursor: pointer; white-space: nowrap;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .btn-restart:hover { background: #e9d5ff; color: var(--e1); border-color: var(--e1); }
+    /* mini counter badge inside button */
+    .step-counter {
+      background: rgba(255,255,255,.25); border-radius: 20px;
+      padding: 2px 9px; font-size: .78em; font-weight: 800;
+    }
+
+    /* Progress bar */
+    .progress-wrap { background: #f0f0f0; border-radius: 999px; height: 6px; margin-bottom: 16px; overflow: hidden; }
+    .progress-bar { height: 6px; border-radius: 999px; transition: width .4s ease; }
+    .pb-p { background: linear-gradient(90deg, var(--e1), #a78bfa); }
+    .pb-b { background: linear-gradient(90deg, var(--e2), #60a5fa); }
+
+    /* Comparison table */
+    .cmp-table { width: 100%; border-collapse: collapse; font-size: .9em; margin-top: 8px; }
+    .cmp-table th { padding: 11px 14px; text-align: left; font-weight: 800; }
+    .cmp-table th:first-child { width: 35%; }
+    .cmp-table th.t-sust { background: var(--e1); color: white; border-radius: 10px 0 0 0; }
+    .cmp-table th.t-redu { background: var(--e2); color: white; border-radius: 0 10px 0 0; }
+    .cmp-table td { padding: 11px 14px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+    .cmp-table tr:nth-child(even) td { background: #f8f8ff; }
+    .cmp-table .row-label { font-weight: 700; color: #444; }
+
+    /* Info / warn */
+    .info  { background:#eff6ff; border:2px solid #bfdbfe; border-radius:12px; padding:13px 17px; margin:10px 0; color:#1e40af; font-size:.9em; }
+    .warn  { background:#fffbeb; border:2px solid #fde68a; border-radius:12px; padding:13px 17px; margin:10px 0; color:#92400e; font-size:.9em; }
+
+    /* Tips */
+    .tips { display:flex; flex-direction:column; gap:10px; }
+    .tip { display:flex; gap:12px; align-items:flex-start; background:#f8f5ff; border-radius:12px; padding:12px 16px; }
+
+    @media (max-width:600px) {
+      .flow { flex-direction: column; }
+      .hero h1 { font-size:1.5em; }
+      .mtab { font-size:.85em; padding:14px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="index.html">← Inicio</a>
+  <span style="color:#ccc">|</span>
+  <span class="title">🔢 Sistemas — Sustitución y Reducción</span>
+  <a href="sistemas_grafico.html" style="margin-left:auto">← Método Gráfico</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🔢 Sustitución y Reducción</h1>
+  <p>Dos métodos algebraicos para resolver sistemas de ecuaciones, paso a paso y con animaciones.</p>
+</div>
+
+<div class="shell">
+
+  <!-- METHOD TABS -->
+  <div class="mtabs">
+    <button class="mtab sust active" onclick="showMethod('sust')">
+      <span class="mtab-icon">🔄</span>
+      <span>Sustitución</span>
+      <span style="font-size:.75em;font-weight:600;opacity:.8">Despejar y sustituir</span>
+    </button>
+    <button class="mtab redu" onclick="showMethod('redu')">
+      <span class="mtab-icon">➕➖</span>
+      <span>Reducción</span>
+      <span style="font-size:.75em;font-weight:600;opacity:.8">Eliminar una variable</span>
+    </button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PANEL: SUSTITUCIÓN
+  ══════════════════════════════════════ -->
+  <div id="panel-sust" class="mpanel active">
+
+    <!-- Flowchart -->
+    <div class="card" style="border-left:5px solid var(--e1)">
+      <h2 class="c-sust">🔄 Método de Sustitución</h2>
+      <p>Consiste en <strong>despejar una variable</strong> en una ecuación y <strong>sustituirla</strong> en la otra, para quedarte con una ecuación de una sola incógnita.</p>
+      <div class="flow" style="margin-top:18px">
+        <div class="flow-step c-sust">
+          <div class="flow-num">1</div>
+          <p>Despeja <em>x</em> o <em>y</em> en la ecuación más sencilla</p>
+        </div>
+        <div class="flow-step c-sust">
+          <div class="flow-num">2</div>
+          <p>Sustituye esa expresión en la otra ecuación</p>
+        </div>
+        <div class="flow-step c-sust">
+          <div class="flow-num">3</div>
+          <p>Resuelve la ecuación de 1 incógnita que te queda</p>
+        </div>
+        <div class="flow-step c-sust">
+          <div class="flow-num">4</div>
+          <p>Vuelve atrás y calcula la otra variable</p>
+        </div>
+        <div class="flow-step c-sust">
+          <div class="flow-num">5</div>
+          <p>Comprueba en las dos ecuaciones originales</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Example -->
+    <div class="example-area" style="border:2px solid #e9d5ff">
+      <h3 style="color:var(--e1)">✏️ Ejemplo interactivo</h3>
+
+      <div style="background:#f5f0ff;border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="font-size:.82em;font-weight:700;color:var(--e1);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Sistema a resolver:</div>
+        <div class="sys-display">
+          <span class="big-brace">{</span>
+          <div class="sys-eqs">
+            <div class="sys-eq s1"><span class="eq-tag">Ec. 1</span>x + y = 5</div>
+            <div class="sys-eq s2"><span class="eq-tag">Ec. 2</span>2x − y = 4</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-wrap"><div class="progress-bar pb-p" id="prog-sust" style="width:0%"></div></div>
+
+      <!-- Steps container -->
+      <div class="steps-container" id="steps-sust">
+
+        <div class="step-card s-purple" id="ss0">
+          <div class="step-header">
+            <div class="step-badge bp">1</div>
+            <div class="step-title tp">Despejar <em>y</em> en la Ecuación 1</div>
+          </div>
+          <p style="font-size:.88em;margin-bottom:8px">Elegimos despejar <span class="hl-g">y</span> en la Ec. 1 porque es la más sencilla (coeficiente 1).</p>
+          <div class="math-line ml-p">x + y = 5</div>
+          <div class="arrow-note">↓ restamos <span class="hl-r">x</span> en ambos lados</div>
+          <div class="math-line ml-g"><span class="hl-g">y = 5 − x</span></div>
+          <div class="info" style="margin-top:8px">💡 Esta expresión nos dice cómo depende <em>y</em> de <em>x</em>. La llamaremos <strong>"la sustitución"</strong>.</div>
+        </div>
+
+        <div class="step-card s-blue" id="ss1">
+          <div class="step-header">
+            <div class="step-badge bb">2</div>
+            <div class="step-title tb">Sustituir en la Ecuación 2</div>
+          </div>
+          <p style="font-size:.88em;margin-bottom:8px">Reemplazamos cada <span class="hl-g">y</span> en la Ec. 2 por <span class="hl-g">(5 − x)</span>:</p>
+          <div class="math-line ml-b">2x − <span class="hl-g">y</span> = 4</div>
+          <div class="arrow-note">↓ sustituimos <span class="hl-g">y</span> = 5 − x</div>
+          <div class="math-line ml-b">2x − <span class="hl-g">(5 − x)</span> = 4</div>
+          <div class="info" style="margin-top:8px">🎯 ¡Ahora tenemos una ecuación con <strong>solo x</strong>! La podemos resolver.</div>
+        </div>
+
+        <div class="step-card s-red" id="ss2">
+          <div class="step-header">
+            <div class="step-badge br">3</div>
+            <div class="step-title tr">Resolver para <em>x</em></div>
+          </div>
+          <p style="font-size:.88em;margin-bottom:8px">Eliminamos paréntesis y agrupamos términos:</p>
+          <div class="math-line ml-r">2x − (5 − x) = 4</div>
+          <div class="arrow-note">↓ distribuimos el − </div>
+          <div class="math-line ml-r">2x − 5 + x = 4</div>
+          <div class="arrow-note">↓ sumamos las x</div>
+          <div class="math-line ml-r">3x − 5 = 4</div>
+          <div class="arrow-note">↓ sumamos 5</div>
+          <div class="math-line ml-r">3x = 9</div>
+          <div class="arrow-note">↓ dividimos entre 3</div>
+          <div class="math-line ml-r" style="font-size:1.3em"><span class="hl-r">x = 3</span></div>
+        </div>
+
+        <div class="step-card s-green" id="ss3">
+          <div class="step-header">
+            <div class="step-badge bg">4</div>
+            <div class="step-title tg">Calcular <em>y</em> sustituyendo</div>
+          </div>
+          <p style="font-size:.88em;margin-bottom:8px">Usamos la expresión del paso 1: <span class="hl-g">y = 5 − x</span>, con <span class="hl-r">x = 3</span>:</p>
+          <div class="math-line ml-g">y = 5 − <span class="hl-r">3</span></div>
+          <div class="math-line ml-g" style="font-size:1.3em"><span class="hl-g">y = 2</span></div>
+        </div>
+
+        <div class="step-card s-ok" id="ss4">
+          <div class="step-header">
+            <div class="step-badge bo">5</div>
+            <div class="step-title" style="color:#065f46">✅ Solución y comprobación</div>
+          </div>
+          <div style="text-align:center;font-size:1.5em;font-weight:800;color:#065f46;font-family:Georgia,serif;margin:10px 0">
+            x = 3 &nbsp;&nbsp; y = 2
+          </div>
+          <p style="font-size:.88em;margin-bottom:8px;text-align:center">Comprobamos en las dos ecuaciones originales:</p>
+          <table style="width:100%;border-collapse:collapse;font-size:.88em;text-align:center">
+            <tr>
+              <th style="background:#7c3aed;color:white;padding:8px;border-radius:8px 0 0 0">Ecuación</th>
+              <th style="background:#7c3aed;color:white;padding:8px">Sustitución</th>
+              <th style="background:#7c3aed;color:white;padding:8px;border-radius:0 8px 0 0">Resultado</th>
+            </tr>
+            <tr>
+              <td style="padding:8px;background:#f5f0ff;font-weight:700;color:var(--e1)">x + y = 5</td>
+              <td style="padding:8px">3 + 2 = 5</td>
+              <td style="padding:8px;color:var(--vy);font-weight:800">✅ Correcto</td>
+            </tr>
+            <tr>
+              <td style="padding:8px;background:#eff6ff;font-weight:700;color:var(--e2)">2x − y = 4</td>
+              <td style="padding:8px">2·3 − 2 = 4</td>
+              <td style="padding:8px;color:var(--vy);font-weight:800">✅ Correcto</td>
+            </tr>
+          </table>
+        </div>
+
+      </div><!-- steps-container -->
+
+      <div class="step-nav">
+        <div class="step-nav-label">📍 Paso a paso</div>
+        <button class="btn-next bn-p" id="btn-sust" onclick="nextStep('sust')">
+          <span id="btn-sust-text">Mostrar paso 1</span>
+          <span class="step-counter" id="ctr-sust">0 / 5</span>
+        </button>
+        <button class="btn-restart" onclick="restartSteps('sust')">↩ Reiniciar</button>
+      </div>
+    </div>
+
+    <!-- Second example with fractions -->
+    <div class="card" style="border-left:5px solid var(--e1)">
+      <h2 class="c-sust">📌 Otro ejemplo: ¿Cuándo despejo x?</h2>
+      <p>A veces es más fácil despejar <strong>x</strong> en la ecuación donde tiene coeficiente 1.</p>
+      <div class="sys-display" style="margin:14px 0">
+        <span class="big-brace" style="font-size:2em">{</span>
+        <div class="sys-eqs">
+          <div class="sys-eq s1"><span class="eq-tag">Ec. 1</span>x − 2y = 1</div>
+          <div class="sys-eq s2"><span class="eq-tag">Ec. 2</span>3x + y = 10</div>
+        </div>
+      </div>
+      <p style="font-size:.9em;margin-bottom:10px">Despejamos x en Ec. 1: <strong style="color:var(--vx)">x = 1 + 2y</strong></p>
+      <p style="font-size:.9em;margin-bottom:10px">Sustituimos en Ec. 2: 3(<strong style="color:var(--vx)">1 + 2y</strong>) + y = 10 → 3 + 6y + y = 10 → 7y = 7 → <strong style="color:var(--vy)">y = 1</strong></p>
+      <p style="font-size:.9em;margin-bottom:10px">Sustituimos y=1 en x = 1 + 2y: x = 1 + 2·1 = <strong style="color:var(--vx)">x = 3</strong></p>
+      <div style="background:#d1fae5;border:2px solid #059669;border-radius:12px;padding:12px 18px;text-align:center;font-family:Georgia,serif;font-size:1.2em;font-weight:800;color:#065f46">
+        ✅ Solución: x = 3,  y = 1
+      </div>
+    </div>
+
+  </div><!-- panel-sust -->
+
+  <!-- ══════════════════════════════════════
+       PANEL: REDUCCIÓN
+  ══════════════════════════════════════ -->
+  <div id="panel-redu" class="mpanel">
+
+    <!-- Flowchart -->
+    <div class="card" style="border-left:5px solid var(--e2)">
+      <h2 class="c-redu">➕➖ Método de Reducción</h2>
+      <p>Consiste en <strong>sumar o restar</strong> las dos ecuaciones de forma que <strong>una variable desaparezca</strong>. A veces hay que multiplicar primero para que los coeficientes se anulen.</p>
+      <div class="flow" style="margin-top:18px">
+        <div class="flow-step c-redu">
+          <div class="flow-num">1</div>
+          <p>Mira si alguna variable tiene coeficientes opuestos (o iguales)</p>
+        </div>
+        <div class="flow-step c-redu">
+          <div class="flow-num">2</div>
+          <p>Si no, multiplica una (o las dos) ecuaciones para conseguirlo</p>
+        </div>
+        <div class="flow-step c-redu">
+          <div class="flow-num">3</div>
+          <p>Suma (o resta) las dos ecuaciones: una variable desaparece</p>
+        </div>
+        <div class="flow-step c-redu">
+          <div class="flow-num">4</div>
+          <p>Resuelve la ecuación de 1 incógnita resultante</p>
+        </div>
+        <div class="flow-step c-redu">
+          <div class="flow-num">5</div>
+          <p>Sustituye para hallar la otra variable. ¡Comprueba!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Example A: direct reduction -->
+    <div class="example-area" style="border:2px solid #bfdbfe">
+      <h3 style="color:var(--e2)">✏️ Ejemplo 1 — Reducción directa (coeficientes opuestos)</h3>
+
+      <div style="background:#eff6ff;border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="font-size:.82em;font-weight:700;color:var(--e2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Sistema a resolver:</div>
+        <div class="sys-display">
+          <span class="big-brace">{</span>
+          <div class="sys-eqs">
+            <div class="sys-eq s1"><span class="eq-tag">Ec. 1</span>3x + y = 11</div>
+            <div class="sys-eq s2"><span class="eq-tag">Ec. 2</span>x − y = 1</div>
+          </div>
+        </div>
+        <div class="info" style="margin-top:8px">👀 Fíjate: <em>y</em> tiene coeficiente <strong>+1</strong> en Ec.1 y <strong>−1</strong> en Ec.2. ¡Son opuestos! Si sumamos las dos ecuaciones, la <em>y</em> desaparece.</div>
+      </div>
+
+      <div class="progress-wrap"><div class="progress-bar pb-b" id="prog-redu" style="width:0%"></div></div>
+
+      <div class="steps-container" id="steps-redu">
+
+        <div class="step-card s-purple" id="sr0">
+          <div class="step-header">
+            <div class="step-badge bp">1</div>
+            <div class="step-title tp">Identificar los coeficientes opuestos</div>
+          </div>
+          <p style="font-size:.88em;margin-bottom:10px">La variable <span class="hl-g">y</span> tiene coeficiente <strong>+1</strong> en Ec.1 y <strong>−1</strong> en Ec.2. Cuando sumamos, se cancelan mutuamente.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <div class="math-line ml-p" style="flex:1">3x + <span class="hl-g">+1·y</span> = 11</div>
+            <div style="display:flex;align-items:center;font-size:1.2em;font-weight:800;color:#7c3aed">+</div>
+            <div class="math-line ml-b" style="flex:1">x + <span class="hl-g">−1·y</span> = 1</div>
+          </div>
+          <div class="info" style="margin-top:8px">🎯 Vamos a <strong>sumar</strong> las dos ecuaciones término a término.</div>
+        </div>
+
+        <div class="step-card s-red" id="sr1">
+          <div class="step-header">
+            <div class="step-badge br">2</div>
+            <div class="step-title tr">Sumar las ecuaciones → eliminar <em>y</em></div>
+          </div>
+          <div style="background:white;border-radius:12px;padding:14px;border:2px dashed #ddd;font-family:Georgia,serif">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+              <span style="color:var(--e1);font-weight:700;min-width:20px">+</span>
+              <span style="color:var(--e1)">3x + y = 11</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:3px solid #333;margin-bottom:8px">
+              <span style="color:var(--e2);font-weight:700;min-width:20px">+</span>
+              <span style="color:var(--e2)"> x − y = 1</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="min-width:20px">=</span>
+              <span style="font-weight:800"><span class="hl-r">4x</span> + <span style="text-decoration:line-through;color:#999">0·y</span> = 12</span>
+            </div>
+          </div>
+          <div class="math-line ml-r" style="margin-top:10px;font-size:1.2em"><span class="hl-r">4x = 12</span></div>
+          <div class="arrow-note">↓ dividimos entre 4</div>
+          <div class="math-line ml-r" style="font-size:1.4em"><span class="hl-r">x = 3</span></div>
+        </div>
+
+        <div class="step-card s-green" id="sr2">
+          <div class="step-header">
+            <div class="step-badge bg">3</div>
+            <div class="step-title tg">Calcular <em>y</em> sustituyendo x = 3</div>
+          </div>
+          <p style="font-size:.88em;margin-bottom:8px">Usamos la ecuación más sencilla (Ec. 2) para encontrar <span class="hl-g">y</span>:</p>
+          <div class="math-line ml-b">x − y = 1 &nbsp;→&nbsp; <span class="hl-r">3</span> − y = 1</div>
+          <div class="arrow-note">↓ despejamos y</div>
+          <div class="math-line ml-g">y = 3 − 1 = <span class="hl-g">y = 2</span></div>
+        </div>
+
+        <div class="step-card s-ok" id="sr3">
+          <div class="step-header">
+            <div class="step-badge bo">4</div>
+            <div class="step-title" style="color:#065f46">✅ Solución y comprobación</div>
+          </div>
+          <div style="text-align:center;font-size:1.5em;font-weight:800;color:#065f46;font-family:Georgia,serif;margin:10px 0">
+            x = 3 &nbsp;&nbsp; y = 2
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:.88em;text-align:center">
+            <tr>
+              <th style="background:#059669;color:white;padding:8px">Ecuación</th>
+              <th style="background:#059669;color:white;padding:8px">Sustitución</th>
+              <th style="background:#059669;color:white;padding:8px">Resultado</th>
+            </tr>
+            <tr><td style="padding:8px;background:#f5f0ff;font-weight:700;color:var(--e1)">3x + y = 11</td><td style="padding:8px">3·3 + 2 = 11</td><td style="padding:8px;color:var(--vy);font-weight:800">✅</td></tr>
+            <tr><td style="padding:8px;background:#eff6ff;font-weight:700;color:var(--e2)">x − y = 1</td><td style="padding:8px">3 − 2 = 1</td><td style="padding:8px;color:var(--vy);font-weight:800">✅</td></tr>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="step-nav">
+        <div class="step-nav-label">📍 Paso a paso</div>
+        <button class="btn-next bn-b" id="btn-redu" onclick="nextStep('redu')">
+          <span id="btn-redu-text">Mostrar paso 1</span>
+          <span class="step-counter" id="ctr-redu">0 / 4</span>
+        </button>
+        <button class="btn-restart" onclick="restartSteps('redu')">↩ Reiniciar</button>
+      </div>
+    </div>
+
+    <!-- Example B: need to multiply first -->
+    <div class="card" style="border-left:5px solid var(--e2)">
+      <h2 class="c-redu">📌 Ejemplo 2 — Hay que multiplicar primero</h2>
+      <p style="margin-bottom:14px">Cuando los coeficientes no son opuestos, hay que <strong>multiplicar una o las dos ecuaciones</strong> para conseguirlo.</p>
+
+      <div class="sys-display">
+        <span class="big-brace" style="font-size:2em">{</span>
+        <div class="sys-eqs">
+          <div class="sys-eq s1"><span class="eq-tag">Ec. 1</span>2x + y = 7</div>
+          <div class="sys-eq s2"><span class="eq-tag">Ec. 2</span>x + 2y = 8</div>
+        </div>
+      </div>
+
+      <div class="warn" style="margin-top:10px">⚠️ La y tiene coeficientes +1 y +2: no son opuestos. Necesitamos modificar. Multiplicamos Ec.1 × (−2) para eliminar y:</div>
+
+      <div style="background:white;border-radius:14px;padding:16px;border:2px dashed #bfdbfe;margin:14px 0;font-family:Georgia,serif">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+          <span style="background:#eff6ff;border:1px solid #bfdbfe;padding:4px 10px;border-radius:8px;font-size:.82em;font-weight:700;color:var(--e2)">Ec.1 × (−2)</span>
+          <span style="color:var(--e1)">−4x − 2y = −14</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:3px solid #333;margin-bottom:8px;flex-wrap:wrap">
+          <span style="background:#eff6ff;border:1px solid #bfdbfe;padding:4px 10px;border-radius:8px;font-size:.82em;font-weight:700;color:var(--e2)">Ec.2 × 1</span>
+          <span style="color:var(--e2)">x + 2y = 8</span>
+        </div>
+        <div>
+          <strong>Suma:</strong> <span class="hl-r">−3x</span> + <span style="text-decoration:line-through;color:#999">0·y</span> = −6 &nbsp;→&nbsp; <span class="hl-r">x = 2</span>
+        </div>
+      </div>
+
+      <p style="font-size:.9em">Sustituimos x = 2 en Ec.1: 2·2 + y = 7 → y = 3</p>
+      <div style="background:#d1fae5;border:2px solid #059669;border-radius:12px;padding:12px 18px;text-align:center;font-family:Georgia,serif;font-size:1.2em;font-weight:800;color:#065f46;margin-top:10px">
+        ✅ Solución: x = 2,  y = 3
+      </div>
+    </div>
+
+  </div><!-- panel-redu -->
+
+  <!-- COMPARISON TABLE -->
+  <div class="card" style="border-left:5px solid #d97706">
+    <h2 style="color:#d97706">⚖️ ¿Cuándo usar cada método?</h2>
+    <div style="overflow-x:auto">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th style="background:#4b5563;color:white;border-radius:10px 0 0 0;padding:11px 14px"></th>
+            <th class="t-sust">🔄 Sustitución</th>
+            <th class="t-redu">➕➖ Reducción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Mejor cuando...</td>
+            <td>Una variable tiene coeficiente <strong>1</strong> o <strong>−1</strong></td>
+            <td>Hay coeficientes iguales u opuestos (o fácilmente multiplicables)</td>
+          </tr>
+          <tr>
+            <td class="row-label">Pasos clave</td>
+            <td>Despejar → sustituir → resolver</td>
+            <td>(Multiplicar) → sumar/restar → resolver</td>
+          </tr>
+          <tr>
+            <td class="row-label">Riesgo de error</td>
+            <td>Al distribuir paréntesis negativos</td>
+            <td>Al multiplicar toda la ecuación (olvidar algún término)</td>
+          </tr>
+          <tr>
+            <td class="row-label">Ejemplo ideal</td>
+            <td>x + 2y = 5 / 3x − y = 1</td>
+            <td>2x + 3y = 7 / 4x − 3y = 5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="card" style="border-left:5px solid #d97706">
+    <h2 style="color:#d97706">💡 Consejos para no fallar</h2>
+    <div class="tips">
+      <div class="tip"><span style="font-size:1.3em">✅</span><span style="font-size:.9em">Siempre <strong>comprueba la solución</strong> sustituyendo en las DOS ecuaciones originales.</span></div>
+      <div class="tip"><span style="font-size:1.3em">🔵</span><span style="font-size:.9em">En reducción, cuando <strong>multipliques</strong> una ecuación, hazlo con <em>todos</em> los términos, también el independiente.</span></div>
+      <div class="tip"><span style="font-size:1.3em">🟣</span><span style="font-size:.9em">En sustitución, cuidado con los <strong>signos negativos</strong> al expandir paréntesis (ej: −(5−x) = −5+x).</span></div>
+      <div class="tip"><span style="font-size:1.3em">🎯</span><span style="font-size:.9em">Si una variable <strong>desaparece al sumar</strong> y obtienes algo como 0 = 5: <strong>sin solución</strong>. Si obtienes 0 = 0: <strong>infinitas soluciones</strong>.</span></div>
+    </div>
+  </div>
+
+</div><!-- shell -->
+
+<script>
+// ── TABS ──────────────────────────────────────
+function showMethod(m) {
+  document.querySelectorAll('.mpanel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+m).classList.add('active');
+  document.querySelector('.mtab.'+m).classList.add('active');
+}
+
+// ── STEP REVEALER ─────────────────────────────
+const stepState = {
+  sust: {
+    current: 0, total: 5,
+    ids: ['ss0','ss1','ss2','ss3','ss4'],
+    btnId: 'btn-sust', textId: 'btn-sust-text', ctrId: 'ctr-sust', progId: 'prog-sust',
+    labels: ['Mostrar paso 1','Mostrar paso 2','Mostrar paso 3','Mostrar paso 4','Ver solución ✅','¡Completado! 🎉']
+  },
+  redu: {
+    current: 0, total: 4,
+    ids: ['sr0','sr1','sr2','sr3'],
+    btnId: 'btn-redu', textId: 'btn-redu-text', ctrId: 'ctr-redu', progId: 'prog-redu',
+    labels: ['Mostrar paso 1','Mostrar paso 2','Mostrar paso 3','Ver solución ✅','¡Completado! 🎉']
+  }
+};
+
+function nextStep(m) {
+  const st = stepState[m];
+  if (st.current >= st.total) return;
+
+  const el = document.getElementById(st.ids[st.current]);
+  el.classList.add('revealed');
+
+  // Scroll the newly revealed card into view (not the button)
+  setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+
+  st.current++;
+  const pct = (st.current / st.total) * 100;
+  document.getElementById(st.progId).style.width = pct + '%';
+
+  // Update counter badge
+  document.getElementById(st.ctrId).textContent = st.current + ' / ' + st.total;
+
+  const btn  = document.getElementById(st.btnId);
+  const text = document.getElementById(st.textId);
+  const label = st.labels[st.current] || st.labels[st.labels.length - 1];
+
+  if (st.current >= st.total) {
+    btn.disabled = true;
+    text.textContent = '¡Completado!';
+    document.getElementById(st.ctrId).textContent = '✅';
+  } else {
+    text.textContent = label;
+  }
+}
+
+function restartSteps(m) {
+  const st = stepState[m];
+  st.ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('revealed');
+  });
+  st.current = 0;
+  document.getElementById(st.progId).style.width = '0%';
+  document.getElementById(st.ctrId).textContent = '0 / ' + st.total;
+  const btn  = document.getElementById(st.btnId);
+  const text = document.getElementById(st.textId);
+  text.textContent = st.labels[0];
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>

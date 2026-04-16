@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistemas — Método Gráfico | 2º ESO</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --p1: #7c3aed;   /* line 1 color – purple */
+      --p2: #ea580c;   /* line 2 color – orange */
+      --ok: #059669;
+      --no: #dc2626;
+      --inf: #d97706;
+      --bg: #f0f4ff;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: #1e1e2e;
+      line-height: 1.6;
+    }
+
+    /* ── NAV BAR ── */
+    .topbar {
+      background: white;
+      border-bottom: 2px solid #e9d5ff;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 10px rgba(124,58,237,.1);
+    }
+    .topbar a {
+      text-decoration: none; color: #7c3aed; font-weight: 700;
+      font-size: .9em; padding: 6px 14px; border-radius: 20px;
+      border: 2px solid #e9d5ff; transition: all .2s;
+    }
+    .topbar a:hover { background: #f5f0ff; }
+    .topbar .title {
+      font-weight: 800; font-size: 1em; color: #3b0764; margin-left: 6px;
+    }
+    .topbar .sep { color: #ccc; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #7c3aed 0%, #ea580c 100%);
+      color: white; text-align: center;
+      padding: 48px 24px 38px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero h1 { font-size: 2.2em; font-weight: 800; margin-bottom: 10px; position: relative; }
+    .hero p  { font-size: 1.1em; opacity: .88; position: relative; max-width: 600px; margin: 0 auto; }
+
+    /* ── SHELL ── */
+    .shell { max-width: 980px; margin: 0 auto; padding: 28px 18px 60px; }
+
+    /* ── CARD ── */
+    .card {
+      background: white; border-radius: 18px; padding: 26px;
+      margin-bottom: 24px;
+      box-shadow: 0 3px 16px rgba(0,0,0,.07);
+    }
+    .card-p  { border-left: 5px solid var(--p1); }
+    .card-o  { border-left: 5px solid var(--p2); }
+    .card-g  { border-left: 5px solid var(--ok); }
+    .card-r  { border-left: 5px solid var(--no); }
+
+    h2 { font-size: 1.45em; font-weight: 800; color: var(--p1); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    h3 { font-size: 1.1em; font-weight: 700; color: #2563eb; margin: 16px 0 8px; }
+
+    /* ── WHAT IS A SYSTEM ── */
+    .sys-visual {
+      display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+      margin: 16px 0; justify-content: center;
+    }
+    .eq-box {
+      background: #f8f5ff; border: 2px solid #e9d5ff;
+      border-radius: 14px; padding: 16px 22px; text-align: center;
+      font-family: Georgia, serif; font-size: 1.15em; font-weight: 700;
+    }
+    .eq-box.eq1 { border-color: var(--p1); background: #f5f0ff; color: #3b0764; }
+    .eq-box.eq2 { border-color: var(--p2); background: #fff7ed; color: #7c2d12; }
+    .brace { font-size: 2.5em; color: #7c3aed; font-weight: 300; }
+    .sys-label { font-size: .8em; font-weight: 700; margin-bottom: 4px; opacity: .7; }
+
+    /* ── THREE CASES GRID ── */
+    .cases-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 16px 0; }
+    .case-tile {
+      border-radius: 16px; padding: 0; overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+      cursor: pointer; transition: transform .2s, box-shadow .2s;
+    }
+    .case-tile:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.13); }
+    .case-tile canvas { display: block; width: 100%; }
+    .case-body { padding: 14px 16px; }
+    .case-tag {
+      display: inline-block; font-size: .78em; font-weight: 800;
+      padding: 3px 10px; border-radius: 20px; margin-bottom: 6px;
+      letter-spacing: .04em; text-transform: uppercase;
+    }
+    .tag-green { background: #d1fae5; color: #065f46; }
+    .tag-red   { background: #fee2e2; color: #991b1b; }
+    .tag-amber { background: #fef3c7; color: #92400e; }
+    .case-title { font-weight: 800; font-size: 1em; margin-bottom: 4px; }
+    .case-desc  { font-size: .82em; color: #666; }
+
+    /* ── SOLVER ── */
+    .solver-grid { display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+    .solver-inputs { flex: 0 0 260px; }
+    .solver-canvas { flex: 1; min-width: 280px; text-align: center; }
+
+    .eq-input-block {
+      border-radius: 14px; padding: 16px; margin-bottom: 14px;
+    }
+    .eq-input-block.eq1-block { background: #f5f0ff; border: 2px solid var(--p1); }
+    .eq-input-block.eq2-block { background: #fff7ed; border: 2px solid var(--p2); }
+    .eq-input-block label {
+      display: block; font-weight: 800; font-size: .85em; margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: .05em;
+    }
+    .eq1-block label { color: var(--p1); }
+    .eq2-block label { color: var(--p2); }
+
+    .coef-row { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; align-items: center; gap: 4px; }
+    .coef-row input {
+      width: 100%; padding: 7px 6px; border-radius: 8px; text-align: center;
+      font-size: 1em; font-weight: 700; outline: none; transition: border-color .2s;
+    }
+    .eq1-block input { border: 2px solid var(--p1); color: var(--p1); background: white; }
+    .eq2-block input { border: 2px solid var(--p2); color: var(--p2); background: white; }
+    .coef-row .sym { font-weight: 800; font-size: 1.1em; text-align: center; }
+
+    .btn {
+      display: block; width: 100%; padding: 13px;
+      border: none; border-radius: 12px; cursor: pointer;
+      font-weight: 800; font-size: 1em; transition: all .2s;
+    }
+    .btn-go {
+      background: linear-gradient(135deg, var(--p1), var(--p2));
+      color: white; box-shadow: 0 4px 14px rgba(124,58,237,.35);
+      margin-bottom: 10px;
+    }
+    .btn-go:hover { transform: translateY(-2px); box-shadow: 0 7px 18px rgba(124,58,237,.45); }
+    .btn-reset { background: #f5f0ff; color: var(--p1); border: 2px solid #e9d5ff; }
+
+    canvas.main { border-radius: 14px; border: 2px solid #e9d5ff; background: #fafafa; display: block; }
+
+    /* ── SOLUTION DISPLAY ── */
+    .sol-box {
+      border-radius: 14px; padding: 18px 22px;
+      margin-top: 14px; display: none; text-align: center;
+    }
+    .sol-ok  { background: #d1fae5; border: 2px solid var(--ok); }
+    .sol-no  { background: #fee2e2; border: 2px solid var(--no); }
+    .sol-inf { background: #fef3c7; border: 2px solid var(--inf); }
+    .sol-box .sol-type { font-size: .85em; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+    .sol-box .sol-val  { font-size: 1.5em; font-weight: 800; font-family: Georgia, serif; }
+    .sol-box .sol-note { font-size: .85em; margin-top: 6px; opacity: .8; }
+
+    /* ── STEP CARDS ── */
+    .step-list { margin: 12px 0; }
+    .step { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
+    .step-num {
+      width: 34px; height: 34px; min-width: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--p1), #2563eb);
+      color: white; font-weight: 800; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 3px 8px rgba(124,58,237,.35);
+    }
+    .step-body { flex: 1; }
+    .step-body strong { display: block; font-size: 1em; margin-bottom: 4px; }
+    .step-body p { font-size: .9em; color: #444; }
+
+    /* ── INFO/EXAMPLE ── */
+    .info  { background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 12px; padding: 14px 18px; margin: 10px 0; color: #1e40af; font-size: .92em; }
+    .exbox { background: #f0fdf4; border: 2px solid #a7f3d0; border-radius: 12px; padding: 14px 18px; margin: 10px 0; }
+    .exbox .ext { font-weight: 700; color: var(--ok); margin-bottom: 6px; }
+
+    /* ── VERIFICATION TABLE ── */
+    .veri-table { width: 100%; border-collapse: collapse; font-size: .9em; margin-top: 8px; }
+    .veri-table th { background: #7c3aed; color: white; padding: 8px 12px; }
+    .veri-table td { padding: 8px 12px; text-align: center; border-bottom: 1px solid #f0f0f0; }
+    .veri-table tr:nth-child(even) td { background: #f8f5ff; }
+    .ok-cell { color: var(--ok); font-weight: 800; }
+    .no-cell { color: var(--no); font-weight: 800; }
+
+    /* ── TIPS ── */
+    .tips { display: flex; flex-direction: column; gap: 10px; }
+    .tip { display: flex; gap: 12px; align-items: flex-start; background: #f8f5ff; border-radius: 12px; padding: 12px 16px; }
+    .tip-icon { font-size: 1.3em; flex-shrink: 0; }
+    .tip-text { font-size: .9em; }
+
+    @media (max-width: 640px) {
+      .cases-row { grid-template-columns: 1fr; }
+      .solver-inputs { flex: 0 0 100%; }
+      .hero h1 { font-size: 1.5em; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="index.html">← Inicio</a>
+  <span class="sep">|</span>
+  <span class="title">📈 Sistemas de Ecuaciones — Método Gráfico</span>
+  <a href="sistemas_metodos.html" style="margin-left:auto">Sustitución y Reducción →</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>📈 Método Gráfico</h1>
+  <p>Dibuja las dos rectas y encuentra la solución donde se cruzan. ¡Visualiza la solución del sistema!</p>
+</div>
+
+<div class="shell">
+
+  <!-- QUÉ ES UN SISTEMA -->
+  <div class="card card-p">
+    <h2>🤔 ¿Qué es un sistema de ecuaciones?</h2>
+    <p>Un sistema es un conjunto de <strong>dos o más ecuaciones</strong> que deben cumplirse al mismo tiempo. Buscamos los valores de <em>x</em> e <em>y</em> que satisfacen <strong>las dos ecuaciones a la vez</strong>.</p>
+
+    <div class="sys-visual" style="margin-top:18px">
+      <span class="brace">{</span>
+      <div>
+        <div class="eq-box eq1">
+          <div class="sys-label">Ecuación 1</div>
+          x + y = 5
+        </div>
+        <div style="height:10px"></div>
+        <div class="eq-box eq2">
+          <div class="sys-label">Ecuación 2</div>
+          2x − y = 4
+        </div>
+      </div>
+      <div style="font-size:2em; color:#7c3aed;">→</div>
+      <div style="background:#d1fae5;border:2px solid #059669;border-radius:14px;padding:16px 22px;text-align:center">
+        <div style="font-size:.8em;font-weight:700;color:#065f46;margin-bottom:4px">SOLUCIÓN</div>
+        <div style="font-family:Georgia,serif;font-size:1.3em;font-weight:800;color:#065f46">x = 3 , y = 2</div>
+        <div style="font-size:.75em;color:#6b7280;margin-top:4px">¡Comprueba: 3+2=5 ✓ y 6−2=4 ✓!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOS 3 CASOS -->
+  <div class="card card-o">
+    <h2>🔍 Los 3 Casos Posibles</h2>
+    <p>Al representar las dos rectas, siempre ocurre una de estas tres situaciones:</p>
+    <div class="cases-row" style="margin-top:16px">
+      <div class="case-tile">
+        <canvas id="c1" height="140"></canvas>
+        <div class="case-body">
+          <div class="case-tag tag-green">✅ Caso 1</div>
+          <div class="case-title">Se cruzan</div>
+          <div class="case-desc"><strong>Una solución.</strong> Las rectas se cortan en un único punto (x, y).</div>
+        </div>
+      </div>
+      <div class="case-tile">
+        <canvas id="c2" height="140"></canvas>
+        <div class="case-body">
+          <div class="case-tag tag-red">❌ Caso 2</div>
+          <div class="case-title">Son paralelas</div>
+          <div class="case-desc"><strong>Sin solución.</strong> Misma pendiente, no se cruzan nunca.</div>
+        </div>
+      </div>
+      <div class="case-tile">
+        <canvas id="c3" height="140"></canvas>
+        <div class="case-body">
+          <div class="case-tag tag-amber">♾️ Caso 3</div>
+          <div class="case-title">Coincidentes</div>
+          <div class="case-desc"><strong>Infinitas soluciones.</strong> Son la misma recta.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAFICADOR INTERACTIVO -->
+  <div class="card" style="border-left:5px solid var(--p1)">
+    <h2>🎮 Graficador de Sistemas</h2>
+    <p style="margin-bottom:18px">Introduce las dos ecuaciones y pulsa <strong>"Resolver y graficar"</strong> para ver la solución.</p>
+
+    <div class="solver-grid">
+
+      <!-- INPUTS -->
+      <div class="solver-inputs">
+        <!-- Ecuación 1 -->
+        <div class="eq-input-block eq1-block">
+          <label>📏 Ecuación 1 (morada)</label>
+          <div class="coef-row">
+            <input type="number" id="a1" value="1" step="1">
+            <span class="sym" style="color:var(--p1)">x +</span>
+            <input type="number" id="b1" value="1" step="1">
+            <span class="sym" style="color:var(--p1)">y =</span>
+            <input type="number" id="c1v" value="5" step="1">
+          </div>
+          <div id="eq1label" style="margin-top:8px;font-family:Georgia,serif;font-weight:700;color:var(--p1);font-size:1em;text-align:center"></div>
+        </div>
+
+        <!-- Ecuación 2 -->
+        <div class="eq-input-block eq2-block">
+          <label>📐 Ecuación 2 (naranja)</label>
+          <div class="coef-row">
+            <input type="number" id="a2" value="2" step="1">
+            <span class="sym" style="color:var(--p2)">x +</span>
+            <input type="number" id="b2" value="-1" step="1">
+            <span class="sym" style="color:var(--p2)">y =</span>
+            <input type="number" id="c2v" value="4" step="1">
+          </div>
+          <div id="eq2label" style="margin-top:8px;font-family:Georgia,serif;font-weight:700;color:var(--p2);font-size:1em;text-align:center"></div>
+        </div>
+
+        <button class="btn btn-go" onclick="solve()">🚀 Resolver y graficar</button>
+        <button class="btn btn-reset" onclick="resetSolver()">🔄 Reiniciar</button>
+
+        <!-- Solution box -->
+        <div class="sol-box sol-ok" id="solOk">
+          <div class="sol-type" style="color:var(--ok)">✅ Una solución</div>
+          <div class="sol-val" id="solVal">x = 3, y = 2</div>
+          <div class="sol-note" id="solNote">Las rectas se cortan en ese punto.</div>
+        </div>
+        <div class="sol-box sol-no" id="solNo">
+          <div class="sol-type" style="color:var(--no)">❌ Sin solución</div>
+          <div class="sol-val" style="font-size:1.1em;color:var(--no)">Sistema incompatible</div>
+          <div class="sol-note">Las rectas son paralelas y nunca se cruzan.</div>
+        </div>
+        <div class="sol-box sol-inf" id="solInf">
+          <div class="sol-type" style="color:var(--inf)">♾️ Infinitas soluciones</div>
+          <div class="sol-val" style="font-size:1.1em;color:var(--inf)">Sistema indeterminado</div>
+          <div class="sol-note">Las dos ecuaciones representan la misma recta.</div>
+        </div>
+      </div>
+
+      <!-- CANVAS -->
+      <div class="solver-canvas">
+        <canvas id="mainCanvas" class="main" width="460" height="460"></canvas>
+        <!-- Value tables -->
+        <div id="tablesArea" style="display:none;margin-top:16px">
+          <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+            <div id="tbl1" style="flex:1;min-width:160px"></div>
+            <div id="tbl2" style="flex:1;min-width:160px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASOS DEL MÉTODO -->
+  <div class="card card-g">
+    <h2>🗒️ Cómo se hace paso a paso</h2>
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Despejar y en cada ecuación</strong>
+          <p>Deja la <em>y</em> sola en un lado del igual. Así obtenemos la forma <em>y = mx + b</em> para poder calcular puntos fácilmente.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Hacer la tabla de valores de cada ecuación</strong>
+          <p>Para cada ecuación, elige 3 valores de x (por ejemplo 0, 2, −2) y calcula la y correspondiente.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Representar los puntos y trazar las rectas</strong>
+          <p>Dibuja los puntos de la primera ecuación, únelos. Repite con la segunda.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>Leer la solución (o el caso)</strong>
+          <p>Si se cortan → la solución es el punto de intersección. Si son paralelas → no hay solución. Si coinciden → infinitas soluciones.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <strong>Comprobar la solución</strong>
+          <p>Sustituye los valores de x e y encontrados en <em>ambas</em> ecuaciones y verifica que se cumplen.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="exbox">
+      <div class="ext">📌 Ejemplo completo: { x + y = 5 , 2x − y = 4 }</div>
+      <p><strong>Ecuación 1:</strong> y = 5 − x &nbsp;→&nbsp; puntos: (0, 5), (2, 3), (5, 0)</p>
+      <p><strong>Ecuación 2:</strong> y = 2x − 4 &nbsp;→&nbsp; puntos: (0, −4), (2, 0), (4, 4)</p>
+      <p style="margin-top:6px">Las rectas se cruzan en <strong>(3, 2)</strong>. Comprobación: 3+2=5 ✓ y 2·3−2=4 ✓</p>
+    </div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="card" style="border-left:5px solid var(--inf)">
+    <h2>💡 Consejos para no equivocarse</h2>
+    <div class="tips">
+      <div class="tip"><span class="tip-icon">🎯</span><span class="tip-text">Usa siempre <strong>x = 0</strong> como primer punto: la y despejada es directamente el resultado.</span></div>
+      <div class="tip"><span class="tip-icon">📏</span><span class="tip-text">Traza la recta con <strong>regla</strong>. Una pequeña desviación puede cambiar el punto de intersección.</span></div>
+      <div class="tip"><span class="tip-icon">🔢</span><span class="tip-text">Si las dos ecuaciones tienen la <strong>misma pendiente</strong> (mismo cociente a/b), son paralelas o coincidentes.</span></div>
+      <div class="tip"><span class="tip-icon">✅</span><span class="tip-text"><strong>Siempre comprueba</strong> sustituyendo la solución en las dos ecuaciones originales.</span></div>
+    </div>
+  </div>
+
+</div><!-- shell -->
+
+<script>
+// ── CANVAS UTILITIES ──────────────────────────
+function mkG(id, range) {
+  const cv = document.getElementById(id);
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const r = range;
+  const sc = W / (2 * r);
+  const ox = W / 2, oy = H / 2;
+  return { cv, ctx, W, H, r, sc, ox, oy,
+    toC: (x,y) => [ox + x*sc, oy - y*sc]
+  };
+}
+
+function drawGrid(g, bgColor) {
+  const { ctx, W, H, r, sc, ox, oy } = g;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = bgColor || '#fafafa';
+  ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle = '#f0f0f0'; ctx.lineWidth = 1;
+  for (let i = -r; i <= r; i++) {
+    ctx.beginPath(); ctx.moveTo(ox+i*sc,0); ctx.lineTo(ox+i*sc,H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,oy-i*sc); ctx.lineTo(W,oy-i*sc); ctx.stroke();
+  }
+  ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1.2;
+  for (let i = -r; i <= r; i+=2) {
+    ctx.beginPath(); ctx.moveTo(ox+i*sc,0); ctx.lineTo(ox+i*sc,H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,oy-i*sc); ctx.lineTo(W,oy-i*sc); ctx.stroke();
+  }
+  ctx.strokeStyle = '#555'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(8,oy); ctx.lineTo(W-8,oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox,8); ctx.lineTo(ox,H-8); ctx.stroke();
+  // arrows
+  ctx.fillStyle='#555';
+  ctx.beginPath(); ctx.moveTo(W-5,oy); ctx.lineTo(W-14,oy-5); ctx.lineTo(W-14,oy+5); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(ox,5); ctx.lineTo(ox-5,14); ctx.lineTo(ox+5,14); ctx.fill();
+  // labels
+  ctx.fillStyle='#aaa'; ctx.font='bold 12px Arial'; ctx.fillText('x',W-3,oy-8); ctx.fillText('y',ox+6,11);
+  ctx.font='9px Arial'; ctx.textAlign='center';
+  for (let i=-r;i<=r;i++) {
+    if(i===0 || i%2!==0) continue;
+    ctx.fillText(i, ox+i*sc, oy+13);
+    ctx.textAlign='right'; ctx.fillText(i, ox-5, oy-i*sc+4); ctx.textAlign='center';
+  }
+  ctx.textAlign='right'; ctx.fillStyle='#bbb'; ctx.fillText('0',ox-4,oy+12);
+}
+
+function lineEnds(g, a, b, c) {
+  const { r, toC } = g;
+  if (b === 0) {
+    const xv = a===0?0:c/a;
+    return [...toC(xv, r+2), ...toC(xv, -r-2)];
+  }
+  const x1=-r-2, x2=r+2;
+  const y1=(c-a*x1)/b, y2=(c-a*x2)/b;
+  const [px1,py1]=toC(x1,y1), [px2,py2]=toC(x2,y2);
+  return [px1,py1,px2,py2];
+}
+
+function drawLine(g, a, b, c, color, dash) {
+  const {ctx} = g;
+  const [x1,y1,x2,y2] = lineEnds(g,a,b,c);
+  ctx.strokeStyle = color; ctx.lineWidth = 2.8;
+  ctx.setLineDash(dash||[]); ctx.beginPath();
+  ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawDot(g, x, y, color, r2, label) {
+  const {ctx, toC} = g;
+  const [px,py] = toC(x,y);
+  ctx.fillStyle = color; ctx.beginPath();
+  ctx.arc(px,py,r2||7,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='white'; ctx.lineWidth=2.5; ctx.stroke();
+  if (label) {
+    ctx.fillStyle='#222'; ctx.font='bold 12px Arial'; ctx.textAlign='left';
+    ctx.fillText(label, px+10, py-8);
+  }
+}
+
+function animLine(g, a, b, c, color) {
+  return new Promise(resolve => {
+    const [x1,y1,x2,y2] = lineEnds(g,a,b,c);
+    let fr=0, total=45;
+    function step() {
+      fr++;
+      const t=fr/total;
+      g.ctx.strokeStyle=color; g.ctx.lineWidth=2.8; g.ctx.setLineDash([]);
+      g.ctx.beginPath();
+      g.ctx.moveTo(x1,y1); g.ctx.lineTo(x1+(x2-x1)*t, y1+(y2-y1)*t); g.ctx.stroke();
+      if(fr<total) requestAnimationFrame(step); else resolve();
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+function pulsePoint(g, x, y, color, label) {
+  return new Promise(resolve => {
+    const {ctx, toC} = g;
+    const [px,py] = toC(x,y);
+    let fr=0, total=30;
+    function step() {
+      fr++;
+      const t = fr/total;
+      const r = 7 + 20*Math.sin(t*Math.PI);
+      ctx.strokeStyle=color; ctx.lineWidth=2;
+      ctx.globalAlpha = 1-t;
+      ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2); ctx.stroke();
+      ctx.globalAlpha=1;
+      if(fr<total) requestAnimationFrame(step);
+      else {
+        drawDot(g,x,y,color,8,label);
+        resolve();
+      }
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+// ── MINI CASE CANVASES ─────────────────────────
+function drawCase1() {
+  const cv = document.getElementById('c1');
+  cv.width = cv.offsetWidth || 200;
+  const g = mkG('c1', 5);
+  drawGrid(g,'#f5f0ff');
+  drawLine(g,1,1,3,'#7c3aed');
+  drawLine(g,1,-1,1,'#ea580c');
+  drawDot(g,2,1,'#059669',7,'(2,1)');
+}
+function drawCase2() {
+  const cv = document.getElementById('c2');
+  cv.width = cv.offsetWidth || 200;
+  const g = mkG('c2', 5);
+  drawGrid(g,'#fff5f5');
+  drawLine(g,1,1,3,'#7c3aed');
+  drawLine(g,1,1,-2,'#ea580c',[10,6]);
+}
+function drawCase3() {
+  const cv = document.getElementById('c3');
+  cv.width = cv.offsetWidth || 200;
+  const g = mkG('c3', 5);
+  drawGrid(g,'#fffbeb');
+  drawLine(g,1,1,3,'#7c3aed',null);
+  drawLine(g,2,2,6,'#ea580c',[8,4]);
+}
+
+// ── EQUATION LABELS ────────────────────────────
+function fmtSym(a, varName, first) {
+  if(a===0) return '';
+  const abs=Math.abs(a), sign=(a<0?'−':first?'':'+');
+  const coef=(abs===1?'':abs);
+  return ` ${sign} ${coef}${varName}`;
+}
+function updLabels() {
+  const a1=+document.getElementById('a1').value||0;
+  const b1=+document.getElementById('b1').value||0;
+  const c1=+document.getElementById('c1v').value||0;
+  const a2=+document.getElementById('a2').value||0;
+  const b2=+document.getElementById('b2').value||0;
+  const c2=+document.getElementById('c2v').value||0;
+  document.getElementById('eq1label').textContent = fmtEq(a1,b1,c1);
+  document.getElementById('eq2label').textContent = fmtEq(a2,b2,c2);
+}
+function fmtEq(a,b,c){
+  let s='';
+  if(a!==0) s+=(a===1?'':a===-1?'−':a)+'x';
+  if(b!==0){const sg=(b>0&&s.length>0?'+':'');s+=' '+(sg)+(b===1?'':b===-1?'−':b)+'y';}
+  return (s||'0')+' = '+c;
+}
+function fmt(n){return Number.isInteger(n)?String(n):(Math.round(n*100)/100);}
+
+// ── SYSTEM SOLVER ──────────────────────────────
+let mainG = null;
+let savedEqs = null;
+
+function solveSystem(a1,b1,c1,a2,b2,c2){
+  const det = a1*b2 - a2*b1;
+  if(Math.abs(det)<1e-10){
+    // Check coincident: ratios a1/a2 = b1/b2 = c1/c2
+    const ratioAB = (a2!==0 && b2!==0) ? (Math.abs(a1/a2-b1/b2)<1e-10) : (a2===0&&a1===0)||(b2===0&&b1===0);
+    const ratioC  = c2!==0 ? Math.abs(a1/a2-c1/c2)<1e-10 : c1===0;
+    if(ratioAB && ratioC) return {type:'inf'};
+    return {type:'none'};
+  }
+  const x=(c1*b2-c2*b1)/det;
+  const y=(a1*c2-a2*c1)/det;
+  return {type:'one', x:Math.round(x*1000)/1000, y:Math.round(y*1000)/1000};
+}
+
+function genTableHTML(a,b,c,color) {
+  if(b===0) return '';
+  const xs=[0,2,-2];
+  const rows = xs.map(x=>{const y=(c-a*x)/b; return `<tr><td>${x}</td><td>${fmt(y)}</td><td style="font-size:.78em">(${x},${fmt(y)})</td></tr>`;}).join('');
+  return `<table style="width:100%;border-collapse:collapse;font-size:.82em;text-align:center">
+    <thead><tr>
+      <th style="background:${color};color:white;padding:6px">x</th>
+      <th style="background:${color};color:white;padding:6px">y</th>
+      <th style="background:${color};color:white;padding:6px">(x,y)</th>
+    </tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+async function solve() {
+  const a1=+document.getElementById('a1').value||0;
+  const b1=+document.getElementById('b1').value||0;
+  const c1=+document.getElementById('c1v').value||0;
+  const a2=+document.getElementById('a2').value||0;
+  const b2=+document.getElementById('b2').value||0;
+  const c2=+document.getElementById('c2v').value||0;
+
+  ['solOk','solNo','solInf'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('tablesArea').style.display='none';
+
+  mainG = mkG('mainCanvas',8);
+  drawGrid(mainG);
+  savedEqs = {a1,b1,c1,a2,b2,c2};
+
+  const sol = solveSystem(a1,b1,c1,a2,b2,c2);
+
+  // Animate line 1
+  await animLine(mainG, a1,b1,c1, '#7c3aed');
+  // Redraw grid + line 1 clean, then animate line 2
+  drawGrid(mainG);
+  drawLine(mainG, a1,b1,c1,'#7c3aed');
+  await animLine(mainG, a2,b2,c2,'#ea580c');
+  drawGrid(mainG);
+  drawLine(mainG, a1,b1,c1,'#7c3aed');
+  drawLine(mainG, a2,b2,c2,'#ea580c');
+
+  // Line labels
+  const {ctx,W,H,r,toC} = mainG;
+  const [lx1,ly1] = toC(-r+1, (c1-a1*(-r+1))/(b1||1)+0.3);
+  if(b1!==0){
+    ctx.fillStyle='#7c3aed'; ctx.font='bold 12px Arial'; ctx.textAlign='left';
+    ctx.fillText(fmtEq(a1,b1,c1), 6, ly1-6);
+  }
+  const [lx2,ly2] = toC(-r+1, (c2-a2*(-r+1))/(b2||1)+0.3);
+  if(b2!==0){
+    ctx.fillStyle='#ea580c'; ctx.font='bold 12px Arial';
+    ctx.fillText(fmtEq(a2,b2,c2), 6, ly2+14);
+  }
+
+  if(sol.type==='one'){
+    await pulsePoint(mainG, sol.x, sol.y,'#059669', `(${fmt(sol.x)}, ${fmt(sol.y)})`);
+    const solEl = document.getElementById('solOk');
+    solEl.style.display='block';
+    document.getElementById('solVal').textContent = `x = ${fmt(sol.x)},  y = ${fmt(sol.y)}`;
+    document.getElementById('solNote').textContent =
+      `Comprobación: ${a1}·(${fmt(sol.x)}) ${b1>=0?'+':''}${b1}·(${fmt(sol.y)}) = ${c1} ✓`;
+  } else if(sol.type==='none'){
+    document.getElementById('solNo').style.display='block';
+  } else {
+    document.getElementById('solInf').style.display='block';
+  }
+
+  // Show tables
+  const ta = document.getElementById('tablesArea');
+  ta.style.display='block';
+  document.getElementById('tbl1').innerHTML = `<div style="font-weight:700;color:#7c3aed;margin-bottom:4px;font-size:.85em">${fmtEq(a1,b1,c1)}</div>`+genTableHTML(a1,b1,c1,'#7c3aed');
+  document.getElementById('tbl2').innerHTML = `<div style="font-weight:700;color:#ea580c;margin-bottom:4px;font-size:.85em">${fmtEq(a2,b2,c2)}</div>`+genTableHTML(a2,b2,c2,'#ea580c');
+}
+
+function resetSolver(){
+  mainG = mkG('mainCanvas',8);
+  drawGrid(mainG);
+  ['solOk','solNo','solInf'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('tablesArea').style.display='none';
+}
+
+// ── INIT ──────────────────────────────────────
+['a1','b1','c1v','a2','b2','c2v'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', updLabels);
+});
+
+window.addEventListener('load', () => {
+  updLabels();
+  mainG = mkG('mainCanvas',8);
+  drawGrid(mainG);
+  // Resize case canvases properly
+  requestAnimationFrame(()=>{
+    ['c1','c2','c3'].forEach(id=>{
+      const cv=document.getElementById(id);
+      cv.width=cv.offsetWidth||200;
+    });
+    drawCase1(); drawCase2(); drawCase3();
+  });
+});
+window.addEventListener('resize',()=>{ drawCase1(); drawCase2(); drawCase3(); });
+</script>
+</body>
+</html>
