@@ -46,6 +46,21 @@ body{font-family:'Nunito',sans-serif;background:radial-gradient(circle at 20% 0,
 .mli li:last-child{border-bottom:none}.mli li::before{content:'▶';position:absolute;left:0;font-size:.58rem;top:8px}
 .mc.ml .mli li::before{color:var(--az)}.mc.mc2 .mli li::before{color:var(--mo)}.mc.mt .mli li::before{color:var(--na)}
 .msvg{width:100%;height:115px;margin-top:12px;border-radius:9px;background:var(--bg2)}
+.gearcalc{background:linear-gradient(135deg,#16243e,#1c2f55);border-radius:20px;padding:28px;margin-top:4px;box-shadow:var(--sh);border-left:6px solid var(--mo)}
+.gearcalc h2{font-family:'Fredoka One',cursive;font-size:1.55rem;color:#c7b8ff;margin-bottom:10px}
+.gearcalc p{color:var(--tx2);line-height:1.65;margin-bottom:10px}
+.gearcalc-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:center;margin-top:14px}
+@media(max-width:760px){.gearcalc-grid{grid-template-columns:1fr}}
+.formula-card{background:rgba(255,255,255,.06);border-radius:14px;padding:18px;border:1px solid var(--line)}
+.formula-card h3{font-family:'Fredoka One',cursive;color:var(--am);font-size:1.12rem;margin-bottom:8px}
+.formula{display:inline-block;background:var(--bg2);border:1px solid rgba(255,217,90,.5);color:#ffe9a5;border-radius:9px;padding:8px 12px;font-family:monospace;font-weight:700;margin:4px 0 10px}
+.steps{list-style:none;margin-top:8px}
+.steps li{position:relative;padding:5px 0 5px 22px;color:var(--tx2);line-height:1.55;font-size:.92rem}
+.steps li::before{content:'✓';position:absolute;left:0;color:var(--ve);font-weight:900}
+.gear-example{background:var(--card);border-radius:14px;padding:18px;border:1px solid var(--line)}
+.gear-example strong{color:#c7b8ff}
+.gear-example .fs{margin-top:4px}
+.gear-svg{width:100%;height:180px;display:block;border-radius:12px;background:rgba(255,255,255,.04);margin-top:10px}
 /* LEVER */
 .li{background:linear-gradient(135deg,#1a2945,#21335a);border-radius:20px;padding:30px;margin-bottom:32px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
 @media(max-width:680px){.li,.ltg,.pg{grid-template-columns:1fr!important}}
@@ -126,6 +141,7 @@ footer{text-align:center;padding:24px;color:var(--tx2);font-size:.82rem;margin-t
   <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navLinks">☰ Menú</button>
   <div class="nav-links" id="navLinks">
     <a class="nt t1 on" href="#mec">🔧 Mecanismos</a>
+    <a class="nt t1" href="#ruedas">⚙️ Ruedas síncronas</a>
     <a class="nt t2" href="#pal">⚖️ Palancas</a>
     <a class="nt t3" href="#sim">🎮 Simulador</a>
     <a class="nt t4" href="#ej">✏️ Ejercicios</a>
@@ -208,6 +224,59 @@ footer{text-align:center;padding:24px;color:var(--tx2);font-size:.82rem;margin-t
           <animate attributeName="x" values="183;218;183" dur="2s" repeatCount="indefinite"/>
         </rect>
       </svg>
+    </div>
+  </div>
+  <div class="gearcalc" id="ruedas">
+    <h2>⚙️ Cálculo del movimiento de ruedas síncronas</h2>
+    <p>Cuando dos ruedas están en contacto, unidas por correa sin deslizamiento o engranadas con dientes, el borde de ambas avanza a la misma velocidad. Por eso, la rueda grande gira más despacio y la rueda pequeña gira más rápido.</p>
+    <div class="gearcalc-grid">
+      <div class="formula-card">
+        <h3>Regla con diámetros y revoluciones</h3>
+        <div class="formula">D<sub>1</sub> × n<sub>1</sub> = D<sub>2</sub> × n<sub>2</sub></div>
+        <p><strong>D</strong> es el diámetro de la rueda y <strong>n</strong> son sus revoluciones por minuto (rpm). En engranajes se usa el <strong>diámetro primitivo</strong>. Si el ejercicio da radios, también sirve usar <strong>r<sub>1</sub> × n<sub>1</sub> = r<sub>2</sub> × n<sub>2</sub></strong>, porque D = 2r.</p>
+        <ul class="steps">
+          <li>Si conoces tres datos, despeja el cuarto.</li>
+          <li>Para calcular la rueda 2: <span class="fs">n<sub>2</sub> = (D<sub>1</sub> × n<sub>1</sub>) / D<sub>2</sub></span></li>
+          <li>En ruedas dentadas exteriores, giran en sentidos contrarios.</li>
+          <li>En engranajes también puede usarse el número de dientes: <span class="fs">Z<sub>1</sub> × n<sub>1</sub> = Z<sub>2</sub> × n<sub>2</sub></span></li>
+        </ul>
+      </div>
+      <div class="gear-example">
+        <p><strong>Ejemplo:</strong> una rueda dentada A tiene diámetro primitivo 16 cm y gira a 60 rpm. Engrana con una rueda B de diámetro primitivo 8 cm.</p>
+        <span class="fs">n<sub>B</sub> = (16 × 60) / 8 = 120 rpm</span>
+        <p>La rueda B gira a <strong>120 rpm</strong> y en sentido contrario a la rueda A. Como su diámetro es la mitad, da el doble de vueltas.</p>
+        <svg class="gear-svg" viewBox="0 0 420 180" aria-label="Dos ruedas dentadas engranadas">
+          <g transform="translate(135,90)">
+            <circle cx="0" cy="0" r="58" fill="#efe8ff" stroke="#7c4dff" stroke-width="4"/>
+            <circle cx="0" cy="0" r="16" fill="#7c4dff"/>
+            <g>
+              <animateTransform attributeName="transform" type="rotate" values="0;360" dur="4s" repeatCount="indefinite"/>
+              <rect x="-5" y="-72" width="10" height="16" fill="#c7b8ff" rx="2"/>
+              <rect x="-5" y="56" width="10" height="16" fill="#c7b8ff" rx="2"/>
+              <rect x="-72" y="-5" width="16" height="10" fill="#c7b8ff" rx="2"/>
+              <rect x="56" y="-5" width="16" height="10" fill="#c7b8ff" rx="2"/>
+              <rect x="-5" y="-72" width="10" height="16" fill="#c7b8ff" rx="2" transform="rotate(45)"/>
+              <rect x="-5" y="-72" width="10" height="16" fill="#c7b8ff" rx="2" transform="rotate(90)"/>
+              <rect x="-5" y="-72" width="10" height="16" fill="#c7b8ff" rx="2" transform="rotate(135)"/>
+            </g>
+            <text x="-38" y="92" fill="#c7b8ff" font-size="14" font-family="Nunito,sans-serif" font-weight="900">A: D=16 cm · 60 rpm</text>
+          </g>
+          <g transform="translate(260,90)">
+            <circle cx="0" cy="0" r="31" fill="#fff3df" stroke="#ff9f43" stroke-width="4"/>
+            <circle cx="0" cy="0" r="10" fill="#ff9f43"/>
+            <g>
+              <animateTransform attributeName="transform" type="rotate" values="360;0" dur="2s" repeatCount="indefinite"/>
+              <rect x="-4" y="-42" width="8" height="11" fill="#ffd39b" rx="2"/>
+              <rect x="-4" y="31" width="8" height="11" fill="#ffd39b" rx="2"/>
+              <rect x="-42" y="-4" width="11" height="8" fill="#ffd39b" rx="2"/>
+              <rect x="31" y="-4" width="11" height="8" fill="#ffd39b" rx="2"/>
+              <rect x="-4" y="-42" width="8" height="11" fill="#ffd39b" rx="2" transform="rotate(45)"/>
+              <rect x="-4" y="-42" width="8" height="11" fill="#ffd39b" rx="2" transform="rotate(135)"/>
+            </g>
+            <text x="-43" y="76" fill="#ffc384" font-size="14" font-family="Nunito,sans-serif" font-weight="900">B: D=8 cm · 120 rpm</text>
+          </g>
+        </svg>
+      </div>
     </div>
   </div>
 </section>
@@ -394,7 +463,7 @@ footer{text-align:center;padding:24px;color:var(--tx2);font-size:.82rem;margin-t
     <span style="font-weight:700;color:var(--tx2)">Correctos:</span>
     <span class="sn" id="sn">0</span>
     <span style="font-weight:700;color:var(--tx2)">/</span>
-    <span style="font-weight:700;color:var(--tx2)" id="tot">9</span>
+    <span style="font-weight:700;color:var(--tx2)" id="tot">12</span>
     <div class="pw"><div class="pf" id="pf" style="width:0%"></div></div>
     <span style="font-weight:700;color:var(--tx2)" id="sm">¡Empieza! 🚀</span>
   </div>
@@ -557,6 +626,63 @@ footer{text-align:center;padding:24px;color:var(--tx2);font-size:.82rem;margin-t
         <strong>3ª género → necesitas MÁS fuerza que R</strong><br>
         <span class="fs">F × 0,4 = 20 × 0,9 = 18</span><br>
         <span class="fs">F = 18/0,4 = 45 N</span>
+      </div>
+    </div>
+
+    <div class="ec" data-c="150" data-t="2">
+      <div class="en">Ej. 12 · Ruedas síncronas</div>
+      <h4>Una rueda A tiene diámetro 30 cm y gira a 100 rpm. Mueve una rueda B de diámetro 20 cm sin deslizamiento. ¿A cuántas rpm gira B?</h4>
+      <div class="ed">
+        <div><span class="lb">D_A</span><span class="vl">30 cm</span></div>
+        <div><span class="lb">n_A</span><span class="vl">100 rpm</span></div>
+        <div><span class="lb">D_B</span><span class="vl">20 cm</span></div>
+      </div>
+      <label style="font-size:.8rem;font-weight:700;color:var(--tx2);display:block;margin-top:6px">n_B = ? (rpm)</label>
+      <div class="ai"><input type="number" step="1" placeholder="Tu respuesta"><button class="bc" onclick="chk(this)">✓ OK</button></div>
+      <div class="fb"></div>
+      <button class="bs" onclick="tog(this)">👁️ Ver resolución</button>
+      <div class="sol">
+        <strong>D_A × n_A = D_B × n_B</strong><br>
+        <span class="fs">n_B = (30 × 100) / 20 = 150 rpm</span><br>
+        💡 Como B es más pequeña, gira más rápido.
+      </div>
+    </div>
+
+    <div class="ec" data-c="40" data-t="1">
+      <div class="en">Ej. 13 · Diámetro desconocido</div>
+      <h4>Una rueda A de 10 cm de diámetro gira a 200 rpm. La rueda B gira a 50 rpm. ¿Qué diámetro debe tener B para ir sincronizada?</h4>
+      <div class="ed">
+        <div><span class="lb">D_A</span><span class="vl">10 cm</span></div>
+        <div><span class="lb">n_A</span><span class="vl">200 rpm</span></div>
+        <div><span class="lb">n_B</span><span class="vl">50 rpm</span></div>
+      </div>
+      <label style="font-size:.8rem;font-weight:700;color:var(--tx2);display:block;margin-top:6px">D_B = ? (cm)</label>
+      <div class="ai"><input type="number" step="1" placeholder="Tu respuesta"><button class="bc" onclick="chk(this)">✓ OK</button></div>
+      <div class="fb"></div>
+      <button class="bs" onclick="tog(this)">👁️ Ver resolución</button>
+      <div class="sol">
+        <strong>D_A × n_A = D_B × n_B</strong><br>
+        <span class="fs">D_B = (10 × 200) / 50 = 40 cm</span><br>
+        💡 Para girar más despacio, B debe ser más grande.
+      </div>
+    </div>
+
+    <div class="ec" data-c="240" data-t="2">
+      <div class="en">Ej. 14 · Ruedas dentadas</div>
+      <h4>Un engranaje A tiene 24 dientes y gira a 120 rpm. Engrana con B, que tiene 12 dientes. ¿A cuántas rpm gira B?</h4>
+      <div class="ed">
+        <div><span class="lb">Z_A</span><span class="vl">24 dientes</span></div>
+        <div><span class="lb">n_A</span><span class="vl">120 rpm</span></div>
+        <div><span class="lb">Z_B</span><span class="vl">12 dientes</span></div>
+      </div>
+      <label style="font-size:.8rem;font-weight:700;color:var(--tx2);display:block;margin-top:6px">n_B = ? (rpm)</label>
+      <div class="ai"><input type="number" step="1" placeholder="Tu respuesta"><button class="bc" onclick="chk(this)">✓ OK</button></div>
+      <div class="fb"></div>
+      <button class="bs" onclick="tog(this)">👁️ Ver resolución</button>
+      <div class="sol">
+        <strong>Z_A × n_A = Z_B × n_B</strong><br>
+        <span class="fs">n_B = (24 × 120) / 12 = 240 rpm</span><br>
+        💡 En engranajes exteriores, B gira en sentido contrario.
       </div>
     </div>
   </div>
