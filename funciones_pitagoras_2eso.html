@@ -381,12 +381,64 @@
       background-size: 32px 32px;
     }
 
+    .draw-path {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: drawGraph 2.4s ease-out forwards;
+    }
+
+    .draw-path.delay-1 {
+      animation-delay: 0.25s;
+    }
+
+    .draw-path.delay-2 {
+      animation-delay: 0.5s;
+    }
+
+    .draw-path.delay-3 {
+      animation-delay: 0.75s;
+    }
+
+    .draw-path.delay-4 {
+      animation-delay: 1s;
+    }
+
+    .function-graph-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .function-card {
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius);
+      background: rgba(8,17,31,0.62);
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .function-card h4 {
+      color: #ffe0a6;
+      font-size: 0.9rem;
+    }
+
+    .function-card svg {
+      min-height: 190px;
+    }
+
     .scan-probe {
-      animation: scanProbe 5.2s ease-in-out infinite;
+      animation: scanProbe 2.2s ease-in-out infinite;
     }
 
     .scan-warning {
-      animation: warningPulse 5.2s ease-in-out infinite;
+      animation: warningPulse 2.2s ease-in-out infinite;
+    }
+
+    .scan-hit {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: hitPulse 2.2s ease-in-out infinite;
     }
 
     .slope-run {
@@ -422,13 +474,23 @@
     }
 
     @keyframes scanProbe {
-      0%, 100% { transform: translateX(0); }
-      45%, 55% { transform: translateX(92px); }
+      0%, 100% { opacity: 0.62; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes drawGraph {
+      0% { stroke-dashoffset: 1; }
+      58%, 100% { stroke-dashoffset: 0; }
     }
 
     @keyframes warningPulse {
-      0%, 34%, 68%, 100% { opacity: 0; }
-      45%, 58% { opacity: 1; }
+      0%, 100% { opacity: 0.58; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes hitPulse {
+      0%, 100% { transform: scale(0.86); filter: drop-shadow(0 0 0 rgba(251,191,36,0)); }
+      50% { transform: scale(1.22); filter: drop-shadow(0 0 9px rgba(251,191,36,0.75)); }
     }
 
     @keyframes drawRun {
@@ -744,6 +806,10 @@
       .method-grid {
         grid-template-columns: 1fr;
       }
+
+      .function-graph-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 620px) {
@@ -779,6 +845,10 @@
         width: 38px;
         height: 38px;
       }
+
+      .function-graph-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -791,6 +861,10 @@
       *::after {
         transition: none !important;
         animation: none !important;
+      }
+
+      .draw-path {
+        stroke-dashoffset: 0 !important;
       }
     }
   </style>
@@ -879,19 +953,19 @@
           <svg class="diagram" viewBox="0 0 520 320" role="img" aria-label="Animación del test de la recta vertical">
             <line x1="56" y1="260" x2="468" y2="260" stroke="#d6e5ff" stroke-width="4" />
             <line x1="84" y1="42" x2="84" y2="278" stroke="#d6e5ff" stroke-width="4" />
-            <path d="M98 218 C168 70, 262 285, 420 92" fill="none" stroke="#60a5fa" stroke-width="8" stroke-linecap="round" />
-            <path d="M105 235 C190 120, 390 115, 374 205 C360 278, 214 205, 112 92" fill="none" stroke="#fb7185" stroke-width="6" stroke-linecap="round" opacity="0.38" />
+            <polyline id="verticalCurveTop" points="" fill="none" stroke="#fb7185" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+            <polyline id="verticalCurveBottom" points="" fill="none" stroke="#fb7185" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
             <g class="scan-probe">
-              <line x1="220" y1="48" x2="220" y2="270" stroke="#fbbf24" stroke-width="5" stroke-dasharray="12 9" />
-              <circle cx="220" cy="128" r="9" fill="#fbbf24" />
-              <circle cx="220" cy="201" r="9" fill="#fbbf24" />
-              <text x="180" y="38" fill="#ffe0a6" font-size="19" font-weight="900">recta vertical</text>
+              <line id="verticalScanner" x1="220" y1="48" x2="220" y2="270" stroke="#fbbf24" stroke-width="5" stroke-dasharray="12 9" />
+              <circle id="verticalHitTop" class="scan-hit" cx="220" cy="118" r="9" fill="#fbbf24" />
+              <circle id="verticalHitBottom" class="scan-hit" cx="220" cy="202" r="9" fill="#fbbf24" />
+              <text id="verticalScannerLabel" x="172" y="38" fill="#ffe0a6" font-size="19" font-weight="900">recta vertical</text>
             </g>
             <g class="scan-warning">
-              <rect x="252" y="54" width="156" height="54" rx="8" fill="rgba(251,113,133,0.16)" stroke="#fb7185" stroke-width="2" />
-              <text x="266" y="88" fill="#fecdd3" font-size="20" font-weight="900">2 cortes: no</text>
+              <rect id="verticalWarningBox" x="250" y="56" width="148" height="54" rx="8" fill="rgba(251,113,133,0.16)" stroke="#fb7185" stroke-width="2" />
+              <text id="verticalWarningText" x="264" y="90" fill="#fecdd3" font-size="20" font-weight="900">2 cortes: no</text>
             </g>
-            <text x="118" y="292" fill="#acc0df" font-size="17" font-weight="800">Test vertical animado</text>
+            <text x="150" y="292" fill="#acc0df" font-size="17" font-weight="800">Puntos recalculados sobre la curva</text>
           </svg>
           <p>Una función funciona como una máquina: metes un valor de <span class="formula">x</span> y solo puede salir un valor de <span class="formula">y</span>.</p>
           <div class="theory-note"><strong>Regla visual:</strong> si una recta vertical toca la gráfica en dos puntos a la vez, esa gráfica no puede ser función.</div>
@@ -906,14 +980,16 @@
           <svg class="diagram" viewBox="0 0 520 320" role="img" aria-label="Animación de pendiente y ordenada en el origen">
             <line x1="56" y1="250" x2="470" y2="250" stroke="#d6e5ff" stroke-width="4" />
             <line x1="118" y1="44" x2="118" y2="274" stroke="#d6e5ff" stroke-width="4" />
-            <line x1="70" y1="260" x2="448" y2="78" stroke="#34d399" stroke-width="8" stroke-linecap="round" />
-            <circle cx="118" cy="237" r="10" fill="#fbbf24" />
-            <text x="132" y="231" fill="#fbbf24" font-size="26" font-weight="900">n</text>
-            <line class="slope-run" x1="206" y1="195" x2="316" y2="195" stroke="#fbbf24" stroke-width="8" stroke-linecap="round" />
-            <line class="slope-rise" x1="316" y1="195" x2="316" y2="123" stroke="#fbbf24" stroke-width="8" stroke-linecap="round" />
-            <circle class="slope-dot" cx="206" cy="195" r="9" fill="#fbbf24" />
-            <text x="222" y="220" fill="#ffe0a6" font-size="20" font-weight="900">avance</text>
-            <text x="330" y="165" fill="#ffe0a6" font-size="20" font-weight="900">subida</text>
+            <line x1="70" y1="225" x2="448" y2="65" stroke="#34d399" stroke-width="8" stroke-linecap="round" />
+            <line x1="95" y1="205" x2="148" y2="205" stroke="#fbbf24" stroke-width="4" stroke-dasharray="7 5" />
+            <circle cx="118" cy="205" r="12" fill="#fbbf24" />
+            <text x="132" y="198" fill="#fbbf24" font-size="30" font-weight="900">n</text>
+            <text x="34" y="210" fill="#ffe0a6" font-size="17" font-weight="900">corte</text>
+            <line class="slope-run" x1="210" y1="166" x2="320" y2="166" stroke="#fbbf24" stroke-width="8" stroke-linecap="round" />
+            <line class="slope-rise" x1="320" y1="166" x2="320" y2="119" stroke="#fbbf24" stroke-width="8" stroke-linecap="round" />
+            <circle class="slope-dot" cx="210" cy="166" r="9" fill="#fbbf24" />
+            <text x="226" y="191" fill="#ffe0a6" font-size="20" font-weight="900">avance</text>
+            <text x="334" y="145" fill="#ffe0a6" font-size="20" font-weight="900">subida</text>
             <rect x="286" y="34" width="172" height="82" rx="8" fill="rgba(245,158,11,0.10)" stroke="rgba(245,158,11,0.38)" />
             <text x="306" y="68" fill="#ffe0a6" font-size="21" font-weight="900">m = subida</text>
             <text x="338" y="96" fill="#ffe0a6" font-size="21" font-weight="900">/ avance</text>
@@ -952,18 +1028,18 @@
         <article class="theory-card">
           <h3>Pitágoras: solo en triángulos rectángulos</h3>
           <svg class="diagram" viewBox="0 0 520 320" role="img" aria-label="Animación del teorema de Pitágoras con áreas cuadradas">
-            <polygon class="py-square a" points="86,238 266,238 266,286 86,286" fill="#22d3ee" />
-            <polygon class="py-square b" points="266,94 320,94 320,238 266,238" fill="#60a5fa" />
-            <polygon class="py-square h" points="86,238 266,94 338,184 158,328" fill="#fbbf24" />
-            <polygon points="86,238 266,238 266,94" fill="rgba(34,211,238,0.17)" stroke="#22d3ee" stroke-width="5" />
-            <rect x="244" y="216" width="22" height="22" fill="none" stroke="#d6e5ff" stroke-width="4" />
-            <line x1="86" y1="238" x2="266" y2="94" stroke="#fbbf24" stroke-width="9" stroke-linecap="round" />
-            <text x="150" y="226" fill="#d6e5ff" font-size="21" font-weight="900">cateto a</text>
-            <text x="282" y="172" fill="#d6e5ff" font-size="21" font-weight="900">cateto b</text>
-            <text x="116" y="142" fill="#fbbf24" font-size="23" font-weight="900">hipotenusa h</text>
+            <polygon class="py-square a" points="105,190 225,190 225,310 105,310" fill="#22d3ee" />
+            <polygon class="py-square b" points="225,100 315,100 315,190 225,190" fill="#60a5fa" />
+            <polygon class="py-square h" points="105,190 225,100 315,220 195,310" fill="#fbbf24" />
+            <polygon points="105,190 225,190 225,100" fill="rgba(34,211,238,0.17)" stroke="#22d3ee" stroke-width="5" />
+            <rect x="205" y="170" width="20" height="20" fill="none" stroke="#d6e5ff" stroke-width="4" />
+            <line x1="105" y1="190" x2="225" y2="100" stroke="#fbbf24" stroke-width="9" stroke-linecap="round" />
+            <text x="128" y="178" fill="#d6e5ff" font-size="20" font-weight="900">cateto a</text>
+            <text x="235" y="150" fill="#d6e5ff" font-size="20" font-weight="900">cateto b</text>
+            <text x="92" y="118" fill="#fbbf24" font-size="22" font-weight="900">hipotenusa h</text>
             <rect x="332" y="42" width="146" height="66" rx="8" fill="rgba(245,158,11,0.11)" stroke="rgba(245,158,11,0.38)" />
             <text x="350" y="84" fill="#ffe0a6" font-size="24" font-weight="900">h² = a² + b²</text>
-            <text x="150" y="292" fill="#acc0df" font-size="17" font-weight="800">Áreas: a² + b² = h²</text>
+            <text x="332" y="276" fill="#acc0df" font-size="17" font-weight="800">Cuadrados reales</text>
           </svg>
           <p>Pitágoras relaciona áreas: el cuadrado construido sobre la hipotenusa equivale a la suma de los cuadrados de los dos catetos.</p>
           <div class="theory-note"><strong>Decisión clave:</strong> si buscas la hipotenusa, sumas. Si buscas un cateto, restas: <span class="formula">cateto² = h² - cateto²</span>.</div>
@@ -1105,10 +1181,10 @@
                   <rect width="500" height="350" fill="url(#gridA)" />
                   <line x1="40" y1="175" x2="460" y2="175" stroke="#d6e5ff" stroke-width="3" />
                   <line x1="250" y1="30" x2="250" y2="320" stroke="#d6e5ff" stroke-width="3" />
-                  <line x1="40" y1="280" x2="460" y2="70" stroke="#f4d35e" stroke-width="5" />
-                  <line x1="85" y1="320" x2="410" y2="0" stroke="#34d399" stroke-width="5" />
-                  <line x1="196" y1="330" x2="300" y2="18" stroke="#fb7185" stroke-width="5" />
-                  <line x1="140" y1="0" x2="360" y2="330" stroke="#60a5fa" stroke-width="5" />
+                  <line class="draw-path" pathLength="1" x1="40" y1="280" x2="460" y2="70" stroke="#f4d35e" stroke-width="5" />
+                  <line class="draw-path delay-1" pathLength="1" x1="105" y1="320" x2="395" y2="30" stroke="#34d399" stroke-width="5" />
+                  <line class="draw-path delay-2" pathLength="1" x1="202" y1="320" x2="298" y2="30" stroke="#fb7185" stroke-width="5" />
+                  <line class="draw-path delay-3" pathLength="1" x1="153" y1="30" x2="347" y2="320" stroke="#60a5fa" stroke-width="5" />
                   <circle cx="250" cy="175" r="6" fill="#fbbf24" />
                   <text x="410" y="106" fill="#f4d35e" font-size="24" font-weight="900">a</text>
                   <text x="392" y="44" fill="#34d399" font-size="24" font-weight="900">b</text>
@@ -1127,9 +1203,9 @@
                   <rect width="500" height="350" fill="url(#gridB)" />
                   <line x1="40" y1="175" x2="460" y2="175" stroke="#d6e5ff" stroke-width="3" />
                   <line x1="250" y1="30" x2="250" y2="320" stroke="#d6e5ff" stroke-width="3" />
-                  <line x1="40" y1="250" x2="460" y2="40" stroke="#60a5fa" stroke-width="5" />
-                  <line x1="135" y1="0" x2="358" y2="335" stroke="#34d399" stroke-width="5" />
-                  <line x1="40" y1="225" x2="460" y2="225" stroke="#fb7185" stroke-width="5" />
+                  <line class="draw-path" pathLength="1" x1="40" y1="255" x2="460" y2="45" stroke="#60a5fa" stroke-width="5" />
+                  <line class="draw-path delay-1" pathLength="1" x1="183" y1="0" x2="406" y2="335" stroke="#34d399" stroke-width="5" />
+                  <line class="draw-path delay-2" pathLength="1" x1="40" y1="225" x2="460" y2="225" stroke="#fb7185" stroke-width="5" />
                   <text x="404" y="72" fill="#60a5fa" font-size="24" font-weight="900">h</text>
                   <text x="174" y="44" fill="#34d399" font-size="24" font-weight="900">f</text>
                   <text x="420" y="214" fill="#fb7185" font-size="24" font-weight="900">g</text>
@@ -1181,14 +1257,14 @@
                   <text x="474" y="330" fill="#d6e5ff" font-size="16" font-weight="900">TIEMPO</text>
                   <text x="46" y="100" fill="#d6e5ff" font-size="15" font-weight="900">5</text>
                   <text x="48" y="260" fill="#d6e5ff" font-size="15" font-weight="900">1</text>
-                  <path d="M72 64 C106 124, 135 136, 188 132 C232 130, 245 96, 278 92 C320 92, 323 188, 374 206 C430 226, 504 166, 566 54" fill="none" stroke="#f87171" stroke-width="5" stroke-linecap="round" />
+                  <path class="draw-path" pathLength="1" d="M72 64 C106 124, 135 136, 188 132 C232 130, 245 96, 278 92 C318 94, 326 194, 386 230 C440 228, 514 166, 566 54" fill="none" stroke="#f87171" stroke-width="5" stroke-linecap="round" />
                   <g fill="#d6e5ff" font-size="15" font-weight="850">
                     <text x="64" y="324">E</text><text x="105" y="324">F</text><text x="146" y="324">M</text><text x="188" y="324">A</text>
                     <text x="228" y="324">My</text><text x="276" y="324">J</text><text x="318" y="324">Jl</text><text x="358" y="324">Ag</text>
                     <text x="408" y="324">S</text><text x="448" y="324">O</text><text x="488" y="324">N</text><text x="532" y="324">D</text>
                   </g>
-                  <circle cx="374" cy="206" r="7" fill="#fbbf24" />
-                  <text x="390" y="205" fill="#fbbf24" font-size="15" font-weight="900">mínimo</text>
+                  <circle cx="386" cy="230" r="7" fill="#fbbf24" />
+                  <text x="404" y="226" fill="#fbbf24" font-size="15" font-weight="900">mínimo</text>
                 </svg>
               </div>
               <div class="solution-box stepper" data-stepper>
@@ -1227,6 +1303,64 @@
                 <span class="tag">d) y = -2x² + 12x</span>
                 <span class="tag">e) y = -15/x</span>
               </div>
+            </div>
+
+            <div class="function-graph-grid" aria-label="Gráficas dibujadas de las funciones del ejercicio">
+              <article class="function-card">
+                <h4>a) y = -2x + 3</h4>
+                <svg class="diagram" viewBox="0 0 200 200" role="img" aria-label="Recta y igual a menos 2x más 3">
+                  <line x1="18" y1="120" x2="182" y2="120" stroke="#d6e5ff" stroke-width="2" />
+                  <line x1="90" y1="18" x2="90" y2="182" stroke="#d6e5ff" stroke-width="2" />
+                  <line class="draw-path" pathLength="1" x1="70" y1="0" x2="170" y2="200" stroke="#fbbf24" stroke-width="5" stroke-linecap="round" />
+                  <circle cx="90" cy="60" r="5" fill="#fbbf24" />
+                  <circle cx="110" cy="100" r="5" fill="#fbbf24" />
+                  <text x="98" y="56" fill="#ffe0a6" font-size="12" font-weight="900">(0,3)</text>
+                </svg>
+              </article>
+              <article class="function-card">
+                <h4>b) y = 4</h4>
+                <svg class="diagram" viewBox="0 0 200 200" role="img" aria-label="Recta horizontal y igual a 4">
+                  <line x1="18" y1="120" x2="182" y2="120" stroke="#d6e5ff" stroke-width="2" />
+                  <line x1="90" y1="18" x2="90" y2="182" stroke="#d6e5ff" stroke-width="2" />
+                  <line class="draw-path delay-1" pathLength="1" x1="26" y1="40" x2="174" y2="40" stroke="#60a5fa" stroke-width="5" stroke-linecap="round" />
+                  <text x="116" y="34" fill="#bfdbfe" font-size="12" font-weight="900">y = 4</text>
+                </svg>
+              </article>
+              <article class="function-card">
+                <h4>c) x² - 4x + 3</h4>
+                <svg class="diagram" viewBox="0 0 200 200" role="img" aria-label="Parábola x al cuadrado menos 4x más 3">
+                  <line x1="18" y1="120" x2="182" y2="120" stroke="#d6e5ff" stroke-width="2" />
+                  <line x1="45" y1="18" x2="45" y2="182" stroke="#d6e5ff" stroke-width="2" />
+                  <path class="draw-path delay-2" pathLength="1" d="M35 15 C50 75, 64 122, 85 140 C106 122, 120 75, 135 15" fill="none" stroke="#34d399" stroke-width="5" stroke-linecap="round" />
+                  <circle cx="65" cy="120" r="5" fill="#fbbf24" />
+                  <circle cx="105" cy="120" r="5" fill="#fbbf24" />
+                  <circle cx="85" cy="140" r="5" fill="#fbbf24" />
+                  <text x="90" y="154" fill="#ffe0a6" font-size="12" font-weight="900">V(2,-1)</text>
+                </svg>
+              </article>
+              <article class="function-card">
+                <h4>d) -2x² + 12x</h4>
+                <svg class="diagram" viewBox="0 0 200 200" role="img" aria-label="Parábola menos 2x al cuadrado más 12x">
+                  <line x1="18" y1="170" x2="182" y2="170" stroke="#d6e5ff" stroke-width="2" />
+                  <line x1="35" y1="18" x2="35" y2="182" stroke="#d6e5ff" stroke-width="2" />
+                  <path class="draw-path delay-3" pathLength="1" d="M35 170 C54 78, 74 26, 95 26 C116 26, 136 78, 155 170" fill="none" stroke="#fb7185" stroke-width="5" stroke-linecap="round" />
+                  <circle cx="35" cy="170" r="5" fill="#fbbf24" />
+                  <circle cx="155" cy="170" r="5" fill="#fbbf24" />
+                  <circle cx="95" cy="26" r="5" fill="#fbbf24" />
+                  <text x="104" y="30" fill="#ffe0a6" font-size="12" font-weight="900">V(3,18)</text>
+                </svg>
+              </article>
+              <article class="function-card">
+                <h4>e) y = -15/x</h4>
+                <svg class="diagram" viewBox="0 0 200 200" role="img" aria-label="Hipérbola y igual a menos 15 partido por x">
+                  <line x1="100" y1="18" x2="100" y2="182" stroke="#d6e5ff" stroke-width="2" stroke-dasharray="5 5" />
+                  <line x1="18" y1="100" x2="182" y2="100" stroke="#d6e5ff" stroke-width="2" stroke-dasharray="5 5" />
+                  <path class="draw-path delay-4" pathLength="1" d="M28 60 C48 44, 68 40, 84 28" fill="none" stroke="#a78bfa" stroke-width="5" stroke-linecap="round" />
+                  <path class="draw-path delay-4" pathLength="1" d="M116 172 C132 160, 152 156, 172 140" fill="none" stroke="#a78bfa" stroke-width="5" stroke-linecap="round" />
+                  <text x="24" y="32" fill="#d8b4fe" font-size="12" font-weight="900">II</text>
+                  <text x="164" y="176" fill="#d8b4fe" font-size="12" font-weight="900">IV</text>
+                </svg>
+              </article>
             </div>
 
             <div class="table-wrap">
@@ -1533,6 +1667,64 @@
   </footer>
 
   <script>
+    (() => {
+      const topCurve = document.getElementById('verticalCurveTop');
+      const bottomCurve = document.getElementById('verticalCurveBottom');
+      const scanner = document.getElementById('verticalScanner');
+      const hitTop = document.getElementById('verticalHitTop');
+      const hitBottom = document.getElementById('verticalHitBottom');
+      const label = document.getElementById('verticalScannerLabel');
+      const warningBox = document.getElementById('verticalWarningBox');
+      const warningText = document.getElementById('verticalWarningText');
+
+      if (topCurve && bottomCurve && scanner && hitTop && hitBottom) {
+        const curveX = (y) => 125 + ((y - 160) ** 2) / 46;
+        const topPoints = [];
+        const bottomPoints = [];
+
+        for (let y = 82; y <= 160; y += 3) {
+          topPoints.push(`${curveX(y).toFixed(1)},${y}`);
+        }
+
+        for (let y = 160; y <= 238; y += 3) {
+          bottomPoints.push(`${curveX(y).toFixed(1)},${y}`);
+        }
+
+        topCurve.setAttribute('points', topPoints.join(' '));
+        bottomCurve.setAttribute('points', bottomPoints.join(' '));
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const start = performance.now();
+
+        const render = (now) => {
+          const phase = reduceMotion ? 0.72 : (Math.sin((now - start) / 950) + 1) / 2;
+          const x = 145 + phase * 120;
+          const delta = Math.sqrt(Math.max(0, (x - 125) * 46));
+          const yTop = 160 - delta;
+          const yBottom = 160 + delta;
+          const textX = Math.max(130, Math.min(340, x - 58));
+          const boxX = Math.max(250, Math.min(352, x + 18));
+
+          scanner.setAttribute('x1', x);
+          scanner.setAttribute('x2', x);
+          hitTop.setAttribute('cx', x);
+          hitTop.setAttribute('cy', yTop);
+          hitBottom.setAttribute('cx', x);
+          hitBottom.setAttribute('cy', yBottom);
+
+          label?.setAttribute('x', textX);
+          warningBox?.setAttribute('x', boxX);
+          warningText?.setAttribute('x', boxX + 14);
+
+          if (!reduceMotion) {
+            requestAnimationFrame(render);
+          }
+        };
+
+        requestAnimationFrame(render);
+      }
+    })();
+
     document.querySelectorAll('[data-stepper]').forEach((stepper) => {
       const steps = Array.from(stepper.querySelectorAll('.step'));
       const next = stepper.querySelector('[data-next]');
