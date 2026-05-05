@@ -1,0 +1,2137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Repaso visual e interactivo de la Edad Moderna para 2º ESO: cronología, Humanismo, Reforma, Contrarreforma y Renacimiento." />
+  <title>Edad Moderna 2º ESO | Repaso visual</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-2: #0b1728;
+      --panel: #101d33;
+      --panel-2: #14233d;
+      --line: rgba(255,255,255,0.12);
+      --line-strong: rgba(255,255,255,0.2);
+      --text: #edf5ff;
+      --muted: #aec2df;
+      --soft: #dceaff;
+      --geo: #38bdf8;
+      --gold: #fbbf24;
+      --green: #34d399;
+      --rose: #fb7185;
+      --violet: #a78bfa;
+      --orange: #fb923c;
+      --red: #f87171;
+      --ok: #4ade80;
+      --bad: #f87171;
+      --shadow: 0 24px 70px rgba(0,0,0,0.34);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      line-height: 1.58;
+      background:
+        linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px),
+        radial-gradient(circle at 10% 12%, rgba(56,189,248,0.18), transparent 22%),
+        radial-gradient(circle at 86% 8%, rgba(251,191,36,0.14), transparent 20%),
+        linear-gradient(180deg, #061020 0%, #091424 48%, #07111f 100%);
+      background-size: 44px 44px, 44px 44px, auto, auto, auto;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      touch-action: manipulation;
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .top-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .top-link:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 18px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 460px;
+      gap: clamp(22px, 4vw, 44px);
+      align-items: center;
+      min-height: min(710px, calc(100vh - 70px));
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      min-width: 0;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      width: fit-content;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: rgba(255,255,255,0.055);
+      color: var(--soft);
+      font-size: 0.78rem;
+      font-weight: 850;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .pill.geo {
+      color: #bdefff;
+      border-color: rgba(56,189,248,0.34);
+      background: rgba(56,189,248,0.12);
+    }
+
+    .pill.gold {
+      color: #ffe5a5;
+      border-color: rgba(251,191,36,0.32);
+      background: rgba(251,191,36,0.10);
+    }
+
+    h1 {
+      max-width: 11ch;
+      font-size: clamp(2.55rem, 7vw, 6.4rem);
+      line-height: 0.9;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 68ch;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: clamp(1.04rem, 1.8vw, 1.16rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .btn {
+      min-height: 44px;
+      border: 0;
+      border-radius: var(--radius);
+      padding: 11px 15px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 850;
+      transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn.primary {
+      color: #061020;
+      background: linear-gradient(135deg, #7dd3fc, #38bdf8);
+      box-shadow: 0 18px 36px rgba(56,189,248,0.22);
+    }
+
+    .btn.ghost {
+      color: var(--text);
+      background: rgba(255,255,255,0.052);
+      border: 1px solid var(--line);
+    }
+
+    .hero-facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 28px;
+      max-width: 720px;
+    }
+
+    .fact {
+      padding: 12px 0 0;
+      border-top: 3px solid rgba(255,255,255,0.16);
+    }
+
+    .fact strong {
+      display: block;
+      color: var(--gold);
+      font-size: clamp(1.2rem, 2vw, 1.55rem);
+      line-height: 1.1;
+    }
+
+    .fact span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .hero-visual {
+      position: relative;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(150deg, rgba(20,35,61,0.86), rgba(7,17,31,0.94)),
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: auto, 34px 34px, 34px 34px;
+      border: 1px solid rgba(56,189,248,0.18);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      padding: 18px;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: auto -70px -80px auto;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(251,191,36,0.22), transparent 70%);
+      pointer-events: none;
+    }
+
+    .scene-title {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+      color: var(--soft);
+      font-size: 0.92rem;
+      font-weight: 850;
+    }
+
+    .scene-title span:last-child {
+      color: var(--geo);
+    }
+
+    .modern-scene {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius);
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(7,17,31,0.9);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav-row {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 0;
+      scrollbar-width: thin;
+    }
+
+    .nav-row a {
+      flex: 0 0 auto;
+      text-decoration: none;
+      color: var(--muted);
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    .nav-row a:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.055);
+      border-color: var(--line);
+    }
+
+    main {
+      padding-bottom: 72px;
+    }
+
+    section {
+      padding: clamp(48px, 7vw, 78px) 0;
+    }
+
+    .band {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015)),
+        rgba(12, 25, 43, 0.44);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(280px, 0.55fr);
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 30px;
+    }
+
+    .hero-grid > *,
+    .section-head > *,
+    .timeline-shell > *,
+    .idea-grid > *,
+    .reform-layout > *,
+    .studio > *,
+    .quiz-layout > * {
+      min-width: 0;
+    }
+
+    .section-label {
+      color: var(--geo);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin-top: 8px;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-head p,
+    .section-text {
+      color: var(--muted);
+      font-size: clamp(1rem, 1.4vw, 1.08rem);
+    }
+
+    .timeline-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .timeline {
+      position: relative;
+      min-height: 280px;
+      padding: 24px 0;
+      display: grid;
+      align-content: center;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--geo), var(--gold), var(--rose));
+      opacity: 0.82;
+    }
+
+    .timeline-points {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(96px, 1fr));
+      gap: 10px;
+      align-items: center;
+    }
+
+    .time-btn {
+      position: relative;
+      min-height: 106px;
+      border: 0;
+      border-radius: var(--radius);
+      padding: 12px 10px;
+      cursor: pointer;
+      color: var(--text);
+      background: rgba(9, 20, 36, 0.78);
+      border: 1px solid rgba(255,255,255,0.11);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.18);
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+    }
+
+    .time-btn::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -18px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 3px solid #07111f;
+      transform: translateX(-50%);
+      box-shadow: 0 0 0 5px rgba(251,191,36,0.12);
+    }
+
+    .time-btn:nth-child(even) {
+      transform: translateY(52px);
+    }
+
+    .time-btn:nth-child(even)::before {
+      top: auto;
+      bottom: -18px;
+    }
+
+    .time-btn:hover,
+    .time-btn.active {
+      border-color: rgba(56,189,248,0.62);
+      background: rgba(56,189,248,0.13);
+    }
+
+    .time-btn strong {
+      display: block;
+      color: var(--gold);
+      font-size: 1.3rem;
+      line-height: 1.1;
+    }
+
+    .time-btn span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.25;
+    }
+
+    .detail-panel {
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(20,35,61,0.96), rgba(10,22,38,0.94));
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .detail-panel small {
+      color: var(--geo);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .detail-panel h3 {
+      margin-top: 8px;
+      font-size: 1.55rem;
+      line-height: 1.15;
+    }
+
+    .detail-panel p {
+      margin-top: 12px;
+      color: var(--muted);
+    }
+
+    .exam-note {
+      margin-top: 14px;
+      padding-left: 14px;
+      border-left: 3px solid var(--gold);
+      color: #ffe5a5;
+      font-weight: 750;
+    }
+
+    .changes-map {
+      display: grid;
+      gap: 18px;
+    }
+
+    .change-row {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr) 230px;
+      gap: 16px;
+      align-items: center;
+      padding: 8px 0 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.09);
+    }
+
+    .change-row:last-child {
+      border-bottom: 0;
+    }
+
+    .change-key {
+      color: var(--gold);
+      font-size: 1.04rem;
+      font-weight: 900;
+    }
+
+    .change-main strong {
+      display: block;
+      color: var(--text);
+      font-size: 1.14rem;
+    }
+
+    .change-main span,
+    .change-result {
+      color: var(--muted);
+    }
+
+    .change-result {
+      position: relative;
+      padding-left: 28px;
+      font-weight: 750;
+    }
+
+    .change-result::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.72em;
+      width: 17px;
+      height: 2px;
+      background: var(--geo);
+    }
+
+    .idea-grid {
+      display: grid;
+      grid-template-columns: 430px minmax(0, 1fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    .humanism-visual {
+      min-height: 430px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(251,191,36,0.16), transparent 32%),
+        linear-gradient(160deg, rgba(20,35,61,0.84), rgba(7,17,31,0.72));
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .humanism-visual::before,
+    .humanism-visual::after {
+      content: "";
+      position: absolute;
+      border: 1px dashed rgba(255,255,255,0.18);
+      border-radius: 50%;
+    }
+
+    .humanism-visual::before {
+      width: 310px;
+      height: 310px;
+    }
+
+    .humanism-visual::after {
+      width: 220px;
+      height: 220px;
+    }
+
+    .human-core {
+      position: relative;
+      z-index: 1;
+      width: 142px;
+      height: 142px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      color: #111827;
+      font-size: 1.45rem;
+      font-weight: 950;
+      box-shadow: 0 22px 45px rgba(251,146,60,0.25);
+    }
+
+    .orbit-word {
+      position: absolute;
+      z-index: 2;
+      border-radius: 999px;
+      padding: 9px 12px;
+      background: rgba(7,17,31,0.86);
+      border: 1px solid rgba(255,255,255,0.13);
+      color: var(--soft);
+      font-weight: 850;
+      font-size: 0.9rem;
+    }
+
+    .orbit-word.one { top: 54px; left: 42px; }
+    .orbit-word.two { top: 76px; right: 34px; }
+    .orbit-word.three { bottom: 80px; left: 30px; }
+    .orbit-word.four { bottom: 54px; right: 52px; }
+
+    .concept-flow {
+      display: grid;
+      gap: 16px;
+    }
+
+    .flow-item {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .flow-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .flow-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: rgba(56,189,248,0.12);
+      color: var(--geo);
+      font-weight: 950;
+      font-size: 1.28rem;
+    }
+
+    .flow-item h3 {
+      font-size: 1.16rem;
+    }
+
+    .flow-item p {
+      margin-top: 4px;
+      color: var(--muted);
+    }
+
+    .people-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .person {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      padding: 7px 10px;
+      color: var(--soft);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .reform-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .cause-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .cause {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      color: var(--muted);
+    }
+
+    .cause b {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      color: #061020;
+      background: var(--gold);
+      font-size: 1rem;
+    }
+
+    .doctrine-panel {
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(20,35,61,0.96), rgba(10,22,38,0.95));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .tab-row {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      flex: 1 0 150px;
+      min-height: 48px;
+      border: 0;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.035);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .tab-btn:last-child {
+      border-right: 0;
+    }
+
+    .tab-btn.active {
+      background: rgba(56,189,248,0.13);
+      color: var(--text);
+    }
+
+    .tab-content {
+      padding: 24px;
+    }
+
+    .tab-content h3 {
+      font-size: 1.55rem;
+      line-height: 1.16;
+    }
+
+    .tab-content p {
+      margin-top: 10px;
+      color: var(--muted);
+    }
+
+    .check-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+      list-style: none;
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 30px;
+      color: var(--soft);
+    }
+
+    .check-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.48em;
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      background: rgba(52,211,153,0.16);
+      border: 1px solid rgba(52,211,153,0.5);
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .compare-side {
+      border-top: 4px solid var(--geo);
+      padding-top: 14px;
+    }
+
+    .compare-side:nth-child(2) {
+      border-color: var(--gold);
+    }
+
+    .compare-side h3 {
+      font-size: 1.35rem;
+    }
+
+    .compare-side p {
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
+    .studio {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 410px;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .art-tabs {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .art-btn {
+      min-height: 56px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.045);
+      color: var(--muted);
+      cursor: pointer;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 900;
+      transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+    }
+
+    .art-btn span {
+      display: block;
+      color: var(--soft);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .art-btn.active {
+      color: #07111f;
+      background: linear-gradient(135deg, #fbbf24, #fb923c);
+      border-color: transparent;
+    }
+
+    .art-btn.active span {
+      color: rgba(7,17,31,0.78);
+    }
+
+    .art-board {
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.12);
+      background:
+        radial-gradient(circle at 80% 18%, rgba(251,191,36,0.18), transparent 30%),
+        linear-gradient(180deg, rgba(20,35,61,0.96), rgba(7,17,31,0.95));
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .art-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius);
+      background: rgba(5,12,24,0.58);
+    }
+
+    .art-info {
+      margin-top: 18px;
+    }
+
+    .art-info h3 {
+      font-size: 1.5rem;
+    }
+
+    .art-info p {
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
+    .artist-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .artist-list span {
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: #ffe5a5;
+      background: rgba(251,191,36,0.10);
+      border: 1px solid rgba(251,191,36,0.22);
+      font-size: 0.88rem;
+      font-weight: 850;
+    }
+
+    .quiz-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .quiz-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .question {
+      border-radius: var(--radius);
+      background: rgba(16,29,51,0.86);
+      border: 1px solid rgba(255,255,255,0.11);
+      padding: 18px;
+    }
+
+    .question h3 {
+      font-size: 1.05rem;
+      line-height: 1.35;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .answer {
+      min-height: 48px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.045);
+      color: var(--soft);
+      cursor: pointer;
+      padding: 10px;
+      text-align: left;
+      font-weight: 760;
+    }
+
+    .answer:hover {
+      border-color: rgba(56,189,248,0.46);
+    }
+
+    .answer.correct {
+      color: #062015;
+      background: var(--ok);
+      border-color: transparent;
+    }
+
+    .answer.wrong {
+      color: #2b090e;
+      background: var(--bad);
+      border-color: transparent;
+    }
+
+    .feedback {
+      min-height: 24px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-weight: 760;
+    }
+
+    .score-panel {
+      position: sticky;
+      top: 68px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(20,35,61,0.96), rgba(10,22,38,0.95));
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .score-number {
+      color: var(--gold);
+      font-size: 3rem;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .score-panel p {
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
+    .bar {
+      height: 12px;
+      margin-top: 18px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .bar-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--geo), var(--green));
+      transition: width 0.2s ease;
+    }
+
+    .reset {
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    .exam-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    details {
+      border-radius: var(--radius);
+      background: rgba(16,29,51,0.82);
+      border: 1px solid rgba(255,255,255,0.11);
+      overflow: hidden;
+    }
+
+    summary {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      padding: 13px 16px;
+      cursor: pointer;
+      color: var(--soft);
+      font-weight: 900;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "+";
+      margin-left: auto;
+      color: var(--geo);
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    details[open] summary::after {
+      content: "-";
+    }
+
+    details p,
+    details ul {
+      padding: 0 16px 16px;
+      color: var(--muted);
+    }
+
+    details ul {
+      padding-left: 36px;
+    }
+
+    .memory-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .memory-card {
+      min-height: 150px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.045);
+      color: var(--text);
+      padding: 16px;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+    }
+
+    .memory-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(251,191,36,0.42);
+    }
+
+    .memory-card strong {
+      font-size: 1.05rem;
+      color: #ffe5a5;
+    }
+
+    .memory-card span {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .memory-card.revealed {
+      background: rgba(251,191,36,0.11);
+      border-color: rgba(251,191,36,0.38);
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .summary-item {
+      border-top: 3px solid var(--geo);
+      padding-top: 13px;
+    }
+
+    .summary-item:nth-child(2) { border-color: var(--gold); }
+    .summary-item:nth-child(3) { border-color: var(--green); }
+    .summary-item:nth-child(4) { border-color: var(--violet); }
+
+    .summary-item strong {
+      display: block;
+      color: var(--text);
+      font-size: 1.08rem;
+    }
+
+    .summary-item span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .timeline-shell,
+      .idea-grid,
+      .reform-layout,
+      .studio,
+      .quiz-layout,
+      .section-head {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-grid {
+        min-height: 0;
+      }
+
+      .hero-visual {
+        max-width: 560px;
+      }
+
+      .timeline {
+        min-height: 0;
+        padding: 0;
+      }
+
+      .timeline::before {
+        left: 18px;
+        right: auto;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        height: auto;
+      }
+
+      .timeline-points {
+        grid-template-columns: 1fr;
+      }
+
+      .time-btn,
+      .time-btn:nth-child(even) {
+        min-height: 82px;
+        transform: none;
+        text-align: left;
+        padding-left: 48px;
+      }
+
+      .time-btn::before,
+      .time-btn:nth-child(even)::before {
+        left: 18px;
+        top: 50%;
+        bottom: auto;
+        transform: translate(-50%, -50%);
+      }
+
+      .change-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .change-result {
+        padding-left: 0;
+      }
+
+      .change-result::before {
+        display: none;
+      }
+
+      .score-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 720px) {
+      body {
+        background-size: 32px 32px, 32px 32px, auto, auto, auto;
+      }
+
+      .wrap,
+      .nav-row {
+        width: min(100% - 24px, 1180px);
+      }
+
+      section {
+        padding: 44px 0;
+      }
+
+      h1 {
+        max-width: 12ch;
+        font-size: clamp(2.35rem, 15vw, 4.2rem);
+      }
+
+      .hero-facts,
+      .compare,
+      .answers,
+      .exam-grid,
+      .memory-row,
+      .summary-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-tags .pill {
+        max-width: 100%;
+        white-space: normal;
+      }
+
+      .hero-tags .pill.gold {
+        flex-basis: 100%;
+      }
+
+      .hero-visual,
+      .detail-panel,
+      .doctrine-panel,
+      .art-board,
+      .question,
+      .score-panel,
+      details,
+      .memory-card {
+        border-radius: 8px;
+      }
+
+      .humanism-visual {
+        min-height: 330px;
+      }
+
+      .humanism-visual::before {
+        width: 250px;
+        height: 250px;
+      }
+
+      .humanism-visual::after {
+        width: 170px;
+        height: 170px;
+      }
+
+      .human-core {
+        width: 116px;
+        height: 116px;
+        font-size: 1.16rem;
+      }
+
+      .orbit-word {
+        font-size: 0.78rem;
+        padding: 7px 9px;
+      }
+
+      .orbit-word.one { top: 38px; left: 16px; }
+      .orbit-word.two { top: 62px; right: 14px; }
+      .orbit-word.three { bottom: 62px; left: 12px; }
+      .orbit-word.four { bottom: 36px; right: 18px; }
+
+      .tab-content {
+        padding: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="top-link" href="index.html">← Volver al catálogo</a>
+  </div>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <div class="hero-tags">
+          <span class="pill geo">Geografía e Historia</span>
+          <span class="pill">2º ESO</span>
+          <span class="pill gold">Tema: Edad Moderna</span>
+        </div>
+        <h1>Edad Moderna</h1>
+        <p class="lead">
+          Repaso visual para contestar las preguntas del escaneo: cronología, cambios del siglo XV, Humanismo,
+          Reforma protestante, Contrarreforma y arte renacentista.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#cronologia">Empezar por la línea del tiempo</a>
+          <a class="btn ghost" href="#practica">Ir a práctica autocorregible</a>
+        </div>
+        <div class="hero-facts" aria-label="Datos clave del tema">
+          <div class="fact">
+            <strong>1453 / 1492</strong>
+            <span>Inicio: caída de Constantinopla o llegada europea a América, según el temario.</span>
+          </div>
+          <div class="fact">
+            <strong>1517</strong>
+            <span>Lutero publica sus críticas y arranca la Reforma protestante.</span>
+          </div>
+          <div class="fact">
+            <strong>1789</strong>
+            <span>Final: Revolución Francesa y comienzo de la Edad Contemporánea.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-label="Esquema visual de la Edad Moderna">
+        <div class="scene-title">
+          <span>Del mundo medieval al mundo moderno</span>
+          <span>siglos XV-XVIII</span>
+        </div>
+        <svg class="modern-scene" viewBox="0 0 520 520" role="img" aria-labelledby="sceneTitle sceneDesc">
+          <title id="sceneTitle">Escena simbólica de la Edad Moderna</title>
+          <desc id="sceneDesc">Un puerto, una imprenta, una corona y un templo clásico conectados por rutas comerciales.</desc>
+          <defs>
+            <linearGradient id="sea" x1="0" x2="1">
+              <stop offset="0" stop-color="#0ea5e9" stop-opacity="0.55" />
+              <stop offset="1" stop-color="#22d3ee" stop-opacity="0.18" />
+            </linearGradient>
+            <linearGradient id="gold" x1="0" x2="1">
+              <stop offset="0" stop-color="#fbbf24" />
+              <stop offset="1" stop-color="#fb923c" />
+            </linearGradient>
+          </defs>
+          <rect width="520" height="520" rx="8" fill="#081424" />
+          <path d="M0 352 C86 318 156 388 248 350 C337 314 414 344 520 302 L520 520 L0 520 Z" fill="url(#sea)" />
+          <path d="M38 96 C106 62 186 58 268 84 C350 110 425 96 482 56" fill="none" stroke="#38bdf8" stroke-width="3" stroke-dasharray="8 10" opacity="0.7" />
+          <path d="M74 420 C144 352 232 330 326 344 C396 354 448 320 488 282" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="7 9" opacity="0.75" />
+
+          <g transform="translate(52 286)">
+            <path d="M20 62 L142 62 L116 104 L48 104 Z" fill="#9a5c33" />
+            <path d="M34 60 L74 6 L74 60 Z" fill="#edf5ff" opacity="0.92" />
+            <path d="M81 60 L126 24 L126 60 Z" fill="#dbeafe" opacity="0.78" />
+            <path d="M75 6 L75 106" stroke="#f8fafc" stroke-width="5" stroke-linecap="round" />
+            <path d="M18 108 C52 122 96 122 146 108" fill="none" stroke="#38bdf8" stroke-width="5" stroke-linecap="round" />
+          </g>
+
+          <g transform="translate(305 265)">
+            <rect x="0" y="42" width="132" height="72" rx="8" fill="#1f3658" stroke="#5eead4" stroke-opacity="0.45" />
+            <rect x="18" y="16" width="96" height="42" rx="6" fill="#0f1f36" stroke="#fbbf24" stroke-opacity="0.58" />
+            <rect x="28" y="27" width="76" height="6" rx="3" fill="#dceaff" opacity="0.9" />
+            <rect x="28" y="40" width="58" height="6" rx="3" fill="#aec2df" opacity="0.75" />
+            <rect x="24" y="70" width="82" height="10" rx="5" fill="#fbbf24" opacity="0.88" />
+            <circle cx="28" cy="118" r="13" fill="#07111f" stroke="#aec2df" stroke-width="5" />
+            <circle cx="104" cy="118" r="13" fill="#07111f" stroke="#aec2df" stroke-width="5" />
+          </g>
+
+          <g transform="translate(75 76)">
+            <rect x="16" y="96" width="142" height="18" rx="6" fill="#2a456d" />
+            <rect x="30" y="52" width="18" height="44" fill="#dceaff" opacity="0.82" />
+            <rect x="66" y="52" width="18" height="44" fill="#dceaff" opacity="0.82" />
+            <rect x="102" y="52" width="18" height="44" fill="#dceaff" opacity="0.82" />
+            <rect x="138" y="52" width="18" height="44" fill="#dceaff" opacity="0.82" />
+            <path d="M20 48 L88 12 L160 48 Z" fill="#fbbf24" />
+            <rect x="42" y="114" width="92" height="14" rx="4" fill="#fbbf24" opacity="0.78" />
+          </g>
+
+          <g transform="translate(315 76)">
+            <path d="M20 86 H126 L116 146 H30 Z" fill="#7c3aed" opacity="0.55" />
+            <path d="M34 84 C38 48 66 40 74 16 C86 42 112 48 114 84 Z" fill="url(#gold)" />
+            <circle cx="74" cy="82" r="30" fill="#07111f" opacity="0.24" />
+            <path d="M38 124 H110" stroke="#ffe5a5" stroke-width="8" stroke-linecap="round" />
+          </g>
+
+          <g fill="#edf5ff" opacity="0.92" font-family="Avenir Next, Segoe UI, sans-serif" font-size="18" font-weight="800">
+            <text x="62" y="252">viajes</text>
+            <text x="330" y="246">imprenta</text>
+            <text x="90" y="222">Renacimiento</text>
+            <text x="328" y="58">monarquía</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="Navegación interna">
+    <div class="nav-row">
+      <a href="#cronologia">Cronología</a>
+      <a href="#cambios">Cambios del XV</a>
+      <a href="#humanismo">Humanismo</a>
+      <a href="#reforma">Reforma</a>
+      <a href="#renacimiento">Renacimiento</a>
+      <a href="#practica">Práctica</a>
+      <a href="#examen">Respuestas modelo</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="cronologia">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="section-label">1. Cronología</span>
+            <h2>Coloca cada hecho en su siglo</h2>
+          </div>
+          <p>La Edad Moderna no empieza de golpe: se abre con grandes cambios a finales del siglo XV y se cierra con una revolución política.</p>
+        </div>
+
+        <div class="timeline-shell">
+          <div class="timeline" aria-label="Línea del tiempo interactiva">
+            <div class="timeline-points">
+              <button class="time-btn active" type="button" data-time="1453">
+                <strong>1453</strong>
+                <span>Caída de Constantinopla</span>
+              </button>
+              <button class="time-btn" type="button" data-time="1492">
+                <strong>1492</strong>
+                <span>Llegada europea a América</span>
+              </button>
+              <button class="time-btn" type="button" data-time="1517">
+                <strong>1517</strong>
+                <span>Lutero inicia la Reforma</span>
+              </button>
+              <button class="time-btn" type="button" data-time="1545">
+                <strong>1545</strong>
+                <span>Comienza Trento</span>
+              </button>
+              <button class="time-btn" type="button" data-time="1563">
+                <strong>1563</strong>
+                <span>Termina Trento</span>
+              </button>
+              <button class="time-btn" type="button" data-time="1789">
+                <strong>1789</strong>
+                <span>Revolución Francesa</span>
+              </button>
+            </div>
+          </div>
+
+          <aside class="detail-panel" aria-live="polite">
+            <small id="timeTag">Inicio posible</small>
+            <h3 id="timeTitle">1453 · Caída de Constantinopla</h3>
+            <p id="timeText">Los turcos otomanos conquistan Constantinopla. Muchos manuales usan este hecho para marcar el final de la Edad Media.</p>
+            <p class="exam-note" id="timeExam">Para el examen: si te piden una fecha de inicio, mira si el tema usa 1453 o 1492. En 2º ESO suele aparecer 1492.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="cambios">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="section-label">2. Cambios a fines del siglo XV</span>
+            <h2>Cuatro transformaciones que abren la Edad Moderna</h2>
+          </div>
+          <p>Aprende esta cadena: más población, más economía urbana, más burguesía y más poder de los reyes.</p>
+        </div>
+
+        <div class="changes-map">
+          <article class="change-row">
+            <div class="change-key">A · Demografía</div>
+            <div class="change-main">
+              <strong>Recuperación demográfica</strong>
+              <span>La población vuelve a crecer tras las crisis medievales: menos epidemias, más alimentos y ciudades más activas.</span>
+            </div>
+            <div class="change-result">Más trabajadores, consumidores y soldados.</div>
+          </article>
+
+          <article class="change-row">
+            <div class="change-key">B · Economía</div>
+            <div class="change-main">
+              <strong>Recuperación económica</strong>
+              <span>El comercio se reactiva, aumenta la circulación de dinero y los puertos conectan Europa con rutas cada vez más largas.</span>
+            </div>
+            <div class="change-result">Crece el comercio atlántico y mediterráneo.</div>
+          </article>
+
+          <article class="change-row">
+            <div class="change-key">C · Sociedad</div>
+            <div class="change-main">
+              <strong>Ascenso de la burguesía</strong>
+              <span>Comerciantes, banqueros y artesanos enriquecidos ganan influencia porque financian negocios, viajes y obras de arte.</span>
+            </div>
+            <div class="change-result">El dinero empieza a dar poder social.</div>
+          </article>
+
+          <article class="change-row">
+            <div class="change-key">D · Política</div>
+            <div class="change-main">
+              <strong>Fortalecimiento de la monarquía</strong>
+              <span>Los reyes reducen el poder de la nobleza y crean ejércitos, funcionarios, impuestos y diplomacia permanente.</span>
+            </div>
+            <div class="change-result">Nacen monarquías autoritarias.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="humanismo">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="section-label">3. Humanismo</span>
+            <h2>El ser humano vuelve al centro</h2>
+          </div>
+          <p>El Humanismo fue una forma nueva de pensar: estudiar, razonar y mirar la Antigüedad clásica para entender mejor el mundo.</p>
+        </div>
+
+        <div class="idea-grid">
+          <div class="humanism-visual" aria-label="Ideas clave del Humanismo">
+            <div class="human-core">ser humano</div>
+            <div class="orbit-word one">razón</div>
+            <div class="orbit-word two">educación</div>
+            <div class="orbit-word three">Grecia y Roma</div>
+            <div class="orbit-word four">imprenta</div>
+          </div>
+
+          <div>
+            <div class="concept-flow">
+              <article class="flow-item">
+                <div class="flow-icon">1</div>
+                <div>
+                  <h3>Antropocentrismo</h3>
+                  <p>Frente al pensamiento medieval más teocéntrico, el Humanismo presta más atención a la dignidad, la libertad y la capacidad del ser humano.</p>
+                </div>
+              </article>
+              <article class="flow-item">
+                <div class="flow-icon">2</div>
+                <div>
+                  <h3>Vuelta a los clásicos</h3>
+                  <p>Se leen autores de Grecia y Roma, se estudian lenguas antiguas y se busca proporción, belleza y equilibrio.</p>
+                </div>
+              </article>
+              <article class="flow-item">
+                <div class="flow-icon">3</div>
+                <div>
+                  <h3>Difusión por la imprenta</h3>
+                  <p>La imprenta permite copiar libros mucho más rápido y abarata el acceso a nuevas ideas.</p>
+                </div>
+              </article>
+            </div>
+
+            <div class="people-strip" aria-label="Intelectuales humanistas">
+              <span class="person">Erasmo de Róterdam</span>
+              <span class="person">Tomás Moro</span>
+              <span class="person">Maquiavelo</span>
+              <span class="person">Luis Vives</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="reforma">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="section-label">4. Reforma y Contrarreforma</span>
+            <h2>La unidad religiosa de Europa se rompe</h2>
+          </div>
+          <p>El tema suele preguntar por las críticas a la Iglesia católica, los dogmas luteranos, la salvación según Calvino y la respuesta católica.</p>
+        </div>
+
+        <div class="reform-layout">
+          <div>
+            <h3>¿Por qué se criticaba a la Iglesia?</h3>
+            <div class="cause-list">
+              <div class="cause">
+                <b>1</b>
+                <span>Venta de indulgencias: se ofrecía reducir penas espirituales a cambio de dinero.</span>
+              </div>
+              <div class="cause">
+                <b>2</b>
+                <span>Lujo y riqueza de parte del alto clero, lejos del ideal de pobreza evangélica.</span>
+              </div>
+              <div class="cause">
+                <b>3</b>
+                <span>Falta de formación y disciplina en algunos sacerdotes.</span>
+              </div>
+              <div class="cause">
+                <b>4</b>
+                <span>Cargos eclesiásticos usados como fuente de poder político o económico.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="doctrine-panel">
+            <div class="tab-row" role="tablist" aria-label="Doctrinas de la Reforma y respuesta católica">
+              <button class="tab-btn active" type="button" role="tab" aria-selected="true" data-doctrine="luteranismo">Luteranismo</button>
+              <button class="tab-btn" type="button" role="tab" aria-selected="false" data-doctrine="calvinismo">Calvinismo</button>
+              <button class="tab-btn" type="button" role="tab" aria-selected="false" data-doctrine="contrarreforma">Contrarreforma</button>
+            </div>
+            <div class="tab-content" id="doctrineContent">
+              <h3>Luteranismo · Martín Lutero</h3>
+              <p>Lutero defendía que la salvación depende de la fe, no de comprar indulgencias ni de acumular obras externas.</p>
+              <ul class="check-list">
+                <li>Salvación por la fe.</li>
+                <li>La Biblia es la principal autoridad religiosa.</li>
+                <li>Rechazo de la autoridad absoluta del Papa.</li>
+                <li>Solo reconoce dos sacramentos principales: bautismo y eucaristía.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="compare">
+          <article class="compare-side">
+            <h3>Concilio de Trento</h3>
+            <p>Reunión de la Iglesia católica entre 1545 y 1563. Definió la doctrina católica, confirmó los siete sacramentos, defendió la autoridad del Papa y mejoró la formación del clero con seminarios.</p>
+          </article>
+          <article class="compare-side">
+            <h3>Inquisición</h3>
+            <p>Tribunal religioso que perseguía herejías y vigilaba la ortodoxia. En la Contrarreforma se usó para controlar ideas consideradas contrarias a la fe católica.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="renacimiento">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="section-label">5. Renacimiento</span>
+            <h2>Arte clásico, proporción y perspectiva</h2>
+          </div>
+          <p>El Renacimiento se desarrolla primero en Italia y suele dividirse en Quattrocento, siglo XV, y Cinquecento, siglo XVI.</p>
+        </div>
+
+        <div class="studio">
+          <div>
+            <p class="section-text">
+              La clave es reconocer qué busca cada arte: la arquitectura ordena el espacio, la pintura crea profundidad
+              y la escultura estudia el cuerpo humano con inspiración clásica.
+            </p>
+            <div class="art-tabs" role="tablist" aria-label="Ramas del arte renacentista">
+              <button class="art-btn active" type="button" data-art="arquitectura">
+                Arquitectura
+                <span>Arcos de medio punto, columnas, cúpulas, simetría.</span>
+              </button>
+              <button class="art-btn" type="button" data-art="pintura">
+                Pintura
+                <span>Perspectiva, realismo, anatomía, luz y profundidad.</span>
+              </button>
+              <button class="art-btn" type="button" data-art="escultura">
+                Escultura
+                <span>Cuerpo humano, movimiento, mármol y bronce.</span>
+              </button>
+            </div>
+          </div>
+
+          <aside class="art-board">
+            <svg class="art-svg" viewBox="0 0 440 330" role="img" aria-labelledby="artTitle artDesc">
+              <title id="artTitle">Taller de arte renacentista</title>
+              <desc id="artDesc">Un templo clásico con columnas, una pintura con perspectiva y una estatua humana.</desc>
+              <rect width="440" height="330" rx="8" fill="#07111f" />
+              <path d="M42 268 H398" stroke="#38bdf8" stroke-width="3" opacity="0.55" />
+              <g id="temple" transform="translate(34 70)">
+                <path d="M18 54 L102 8 L188 54 Z" fill="#fbbf24" />
+                <rect x="28" y="58" width="150" height="16" rx="4" fill="#dceaff" opacity="0.84" />
+                <rect x="42" y="78" width="18" height="110" fill="#aec2df" />
+                <rect x="82" y="78" width="18" height="110" fill="#aec2df" />
+                <rect x="122" y="78" width="18" height="110" fill="#aec2df" />
+                <rect x="162" y="78" width="18" height="110" fill="#aec2df" />
+                <rect x="22" y="190" width="166" height="18" rx="4" fill="#fbbf24" opacity="0.78" />
+              </g>
+              <g id="canvas" transform="translate(238 54)">
+                <rect x="0" y="0" width="156" height="114" rx="8" fill="#10233d" stroke="#38bdf8" stroke-opacity="0.5" />
+                <path d="M12 96 L78 18 L144 96" fill="none" stroke="#fbbf24" stroke-width="3" />
+                <path d="M78 18 V104" stroke="#dceaff" stroke-width="2" opacity="0.7" />
+                <path d="M16 90 H140 M28 72 H128 M44 54 H112" stroke="#dceaff" stroke-width="2" opacity="0.45" />
+                <circle cx="116" cy="34" r="13" fill="#fb923c" />
+              </g>
+              <g id="statue" transform="translate(252 185)">
+                <ellipse cx="54" cy="110" rx="62" ry="12" fill="#38bdf8" opacity="0.24" />
+                <circle cx="54" cy="22" r="18" fill="#dceaff" />
+                <path d="M54 42 C28 64 34 94 18 116 H90 C74 94 80 64 54 42 Z" fill="#aec2df" />
+                <path d="M36 64 C24 76 12 86 2 98" stroke="#dceaff" stroke-width="11" stroke-linecap="round" />
+                <path d="M72 64 C92 74 104 86 114 100" stroke="#dceaff" stroke-width="11" stroke-linecap="round" />
+              </g>
+            </svg>
+            <div class="art-info" id="artInfo">
+              <h3>Arquitectura renacentista</h3>
+              <p>Recupera elementos clásicos: columnas, frontones, arcos de medio punto y cúpulas. Busca proporción, orden y simetría.</p>
+              <div class="artist-list">
+                <span>Brunelleschi</span>
+                <span>Alberti</span>
+                <span>Bramante</span>
+                <span>Miguel Ángel</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="practica">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="section-label">6. Práctica autocorregible</span>
+            <h2>Comprueba si ya lo puedes explicar</h2>
+          </div>
+          <p>Responde sin mirar. Después revisa el feedback y vuelve a la sección que te haya fallado.</p>
+        </div>
+
+        <div class="quiz-layout">
+          <div class="quiz-list" id="quizList">
+            <article class="question" data-question="0" data-correct="b">
+              <h3>1. ¿Qué hecho marca normalmente el final de la Edad Moderna?</h3>
+              <div class="answers">
+                <button class="answer" type="button" data-option="a">La caída de Constantinopla</button>
+                <button class="answer" type="button" data-option="b">La Revolución Francesa</button>
+                <button class="answer" type="button" data-option="c">El Concilio de Trento</button>
+                <button class="answer" type="button" data-option="d">La invención de la imprenta</button>
+              </div>
+              <div class="feedback" aria-live="polite"></div>
+            </article>
+
+            <article class="question" data-question="1" data-correct="c">
+              <h3>2. ¿Qué grupo social crece con el comercio y la banca?</h3>
+              <div class="answers">
+                <button class="answer" type="button" data-option="a">Campesinado</button>
+                <button class="answer" type="button" data-option="b">Clero regular</button>
+                <button class="answer" type="button" data-option="c">Burguesía</button>
+                <button class="answer" type="button" data-option="d">Siervos feudales</button>
+              </div>
+              <div class="feedback" aria-live="polite"></div>
+            </article>
+
+            <article class="question" data-question="2" data-correct="a">
+              <h3>3. La idea humanista que coloca al ser humano en el centro se llama...</h3>
+              <div class="answers">
+                <button class="answer" type="button" data-option="a">Antropocentrismo</button>
+                <button class="answer" type="button" data-option="b">Feudalismo</button>
+                <button class="answer" type="button" data-option="c">Predestinación</button>
+                <button class="answer" type="button" data-option="d">Absolutismo</button>
+              </div>
+              <div class="feedback" aria-live="polite"></div>
+            </article>
+
+            <article class="question" data-question="3" data-correct="d">
+              <h3>4. ¿Qué criticó Lutero de forma especial?</h3>
+              <div class="answers">
+                <button class="answer" type="button" data-option="a">El uso de la perspectiva</button>
+                <button class="answer" type="button" data-option="b">Las monarquías autoritarias</button>
+                <button class="answer" type="button" data-option="c">La recuperación demográfica</button>
+                <button class="answer" type="button" data-option="d">La venta de indulgencias</button>
+              </div>
+              <div class="feedback" aria-live="polite"></div>
+            </article>
+
+            <article class="question" data-question="4" data-correct="b">
+              <h3>5. Según Calvino, la salvación depende sobre todo de...</h3>
+              <div class="answers">
+                <button class="answer" type="button" data-option="a">Comprar indulgencias</button>
+                <button class="answer" type="button" data-option="b">La predestinación divina</button>
+                <button class="answer" type="button" data-option="c">Pertenecer a la nobleza</button>
+                <button class="answer" type="button" data-option="d">Viajar a América</button>
+              </div>
+              <div class="feedback" aria-live="polite"></div>
+            </article>
+
+            <article class="question" data-question="5" data-correct="a">
+              <h3>6. ¿Qué fue el Concilio de Trento?</h3>
+              <div class="answers">
+                <button class="answer" type="button" data-option="a">Una reunión católica para responder a la Reforma</button>
+                <button class="answer" type="button" data-option="b">Una ruta comercial atlántica</button>
+                <button class="answer" type="button" data-option="c">Una técnica de pintura</button>
+                <button class="answer" type="button" data-option="d">Una monarquía italiana</button>
+              </div>
+              <div class="feedback" aria-live="polite"></div>
+            </article>
+
+            <article class="question" data-question="6" data-correct="c">
+              <h3>7. El Renacimiento se desarrolla primero en...</h3>
+              <div class="answers">
+                <button class="answer" type="button" data-option="a">Escandinavia</button>
+                <button class="answer" type="button" data-option="b">América</button>
+                <button class="answer" type="button" data-option="c">Italia</button>
+                <button class="answer" type="button" data-option="d">Rusia</button>
+              </div>
+              <div class="feedback" aria-live="polite"></div>
+            </article>
+
+            <article class="question" data-question="7" data-correct="d">
+              <h3>8. ¿Qué recurso técnico permite crear profundidad en la pintura renacentista?</h3>
+              <div class="answers">
+                <button class="answer" type="button" data-option="a">La predestinación</button>
+                <button class="answer" type="button" data-option="b">La simonía</button>
+                <button class="answer" type="button" data-option="c">La diplomacia permanente</button>
+                <button class="answer" type="button" data-option="d">La perspectiva</button>
+              </div>
+              <div class="feedback" aria-live="polite"></div>
+            </article>
+          </div>
+
+          <aside class="score-panel">
+            <div class="score-number"><span id="score">0</span>/8</div>
+            <p id="scoreText">Contesta las preguntas para ver tu progreso.</p>
+            <div class="bar" aria-hidden="true">
+              <div class="bar-fill" id="barFill"></div>
+            </div>
+            <button class="btn ghost reset" type="button" id="resetQuiz">Reiniciar práctica</button>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="examen">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="section-label">7. Respuestas modelo</span>
+            <h2>Preguntas del escaneo, en versión estudiable</h2>
+          </div>
+          <p>Intenta responder en voz alta antes de abrir cada respuesta. Si puedes explicarlo sin leer, vas bien.</p>
+        </div>
+
+        <div class="exam-grid">
+          <details>
+            <summary>Cronología de la Edad Moderna</summary>
+            <p>Comienza a finales del siglo XV. Se suele citar 1453, caída de Constantinopla, o 1492, llegada europea a América. Termina en 1789 con la Revolución Francesa.</p>
+          </details>
+          <details>
+            <summary>Cambios a fines del siglo XV</summary>
+            <p>Hubo recuperación demográfica, recuperación económica, ascenso de la burguesía y fortalecimiento de las monarquías autoritarias.</p>
+          </details>
+          <details>
+            <summary>Define Humanismo y nombra intelectuales</summary>
+            <p>Movimiento cultural que puso al ser humano, la razón y la educación en el centro, inspirándose en Grecia y Roma. Intelectuales: Erasmo de Róterdam, Tomás Moro, Maquiavelo y Luis Vives.</p>
+          </details>
+          <details>
+            <summary>Por qué se criticaba a la Iglesia católica</summary>
+            <p>Por la venta de indulgencias, el lujo de parte del clero, la falta de formación de algunos sacerdotes y el uso de cargos religiosos para obtener poder o riqueza.</p>
+          </details>
+          <details>
+            <summary>Dogmas del luteranismo</summary>
+            <ul>
+              <li>Salvación por la fe.</li>
+              <li>La Biblia como autoridad principal.</li>
+              <li>Rechazo de la autoridad absoluta del Papa.</li>
+              <li>Solo dos sacramentos principales: bautismo y eucaristía.</li>
+            </ul>
+          </details>
+          <details>
+            <summary>Salvación según el calvinismo</summary>
+            <p>Para Calvino, la salvación dependía de la predestinación: Dios habría decidido de antemano quién se salva. La vida austera y disciplinada se veía como señal de estar entre los elegidos.</p>
+          </details>
+          <details>
+            <summary>Contrarreforma, Trento e Inquisición</summary>
+            <p>La Contrarreforma fue la reacción católica ante la Reforma protestante. El Concilio de Trento definió la doctrina católica y reformó la disciplina del clero. La Inquisición fue un tribunal religioso para perseguir herejías.</p>
+          </details>
+          <details>
+            <summary>Renacimiento: etapas y artes</summary>
+            <p>Se desarrolla primero en Italia y se divide en Quattrocento, siglo XV, y Cinquecento, siglo XVI. Arquitectura: proporción, simetría, columnas, arcos y cúpulas. Pintura: perspectiva, realismo y luz. Escultura: cuerpo humano, movimiento y modelos clásicos.</p>
+          </details>
+        </div>
+
+        <div class="memory-row" aria-label="Tarjetas rápidas de memoria">
+          <button class="memory-card" type="button" data-front="1492" data-back="Llegada europea a América. En muchos temarios de 2º ESO marca el inicio de la Edad Moderna.">
+            <strong>1492</strong>
+            <span>Toca para comprobar</span>
+          </button>
+          <button class="memory-card" type="button" data-front="1517" data-back="Lutero publica sus críticas contra las indulgencias e inicia la Reforma protestante.">
+            <strong>1517</strong>
+            <span>Toca para comprobar</span>
+          </button>
+          <button class="memory-card" type="button" data-front="1545-1563" data-back="Concilio de Trento: respuesta doctrinal y disciplinaria de la Iglesia católica.">
+            <strong>1545-1563</strong>
+            <span>Toca para comprobar</span>
+          </button>
+          <button class="memory-card" type="button" data-front="1789" data-back="Revolución Francesa. Marca el final de la Edad Moderna y el inicio de la Edad Contemporánea.">
+            <strong>1789</strong>
+            <span>Toca para comprobar</span>
+          </button>
+        </div>
+
+        <div class="summary-strip">
+          <div class="summary-item">
+            <strong>Si preguntan "cronología"</strong>
+            <span>Di inicio a finales del XV y final en 1789.</span>
+          </div>
+          <div class="summary-item">
+            <strong>Si preguntan "cambios"</strong>
+            <span>Recita demografía, economía, burguesía y monarquía.</span>
+          </div>
+          <div class="summary-item">
+            <strong>Si preguntan "Reforma"</strong>
+            <span>Indulgencias, fe, Biblia, Papa y predestinación.</span>
+          </div>
+          <div class="summary-item">
+            <strong>Si preguntan "Renacimiento"</strong>
+            <span>Italia, Quattrocento, Cinquecento, perspectiva y proporción.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const timelineData = {
+      "1453": {
+        tag: "Inicio posible",
+        title: "1453 · Caída de Constantinopla",
+        text: "Los turcos otomanos conquistan Constantinopla. Muchos manuales usan este hecho para marcar el final de la Edad Media.",
+        exam: "Para el examen: si te piden una fecha de inicio, mira si el tema usa 1453 o 1492. En 2º ESO suele aparecer 1492."
+      },
+      "1492": {
+        tag: "Inicio habitual en 2º ESO",
+        title: "1492 · Llegada europea a América",
+        text: "El viaje de Colón abre rutas atlánticas, conquista, colonización e intercambio de productos entre continentes.",
+        exam: "Respuesta corta: la Edad Moderna comienza a finales del siglo XV, muchas veces con 1492."
+      },
+      "1517": {
+        tag: "Reforma protestante",
+        title: "1517 · Lutero publica sus tesis",
+        text: "Martín Lutero critica la venta de indulgencias y defiende la salvación por la fe. Europa cristiana se divide.",
+        exam: "Conecta esta fecha con luteranismo, Biblia, fe y crítica al Papa."
+      },
+      "1545": {
+        tag: "Contrarreforma",
+        title: "1545 · Comienza el Concilio de Trento",
+        text: "La Iglesia católica se reúne para responder a la Reforma protestante y aclarar su doctrina.",
+        exam: "Trento no es protestante: es una respuesta católica."
+      },
+      "1563": {
+        tag: "Doctrina católica",
+        title: "1563 · Termina el Concilio de Trento",
+        text: "Se confirman dogmas católicos, se refuerza la disciplina del clero y se impulsan seminarios.",
+        exam: "Recuerda: siete sacramentos, autoridad del Papa y fe más obras."
+      },
+      "1789": {
+        tag: "Final de la Edad Moderna",
+        title: "1789 · Revolución Francesa",
+        text: "La revolución cuestiona el Antiguo Régimen y abre la Edad Contemporánea.",
+        exam: "Fecha clave de cierre: 1789."
+      }
+    };
+
+    const timeButtons = document.querySelectorAll(".time-btn");
+    const timeTag = document.getElementById("timeTag");
+    const timeTitle = document.getElementById("timeTitle");
+    const timeText = document.getElementById("timeText");
+    const timeExam = document.getElementById("timeExam");
+
+    timeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = timelineData[button.dataset.time];
+        timeButtons.forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+        timeTag.textContent = item.tag;
+        timeTitle.textContent = item.title;
+        timeText.textContent = item.text;
+        timeExam.textContent = item.exam;
+      });
+    });
+
+    const doctrineData = {
+      luteranismo: {
+        title: "Luteranismo · Martín Lutero",
+        text: "Lutero defendía que la salvación depende de la fe, no de comprar indulgencias ni de acumular obras externas.",
+        items: [
+          "Salvación por la fe.",
+          "La Biblia es la principal autoridad religiosa.",
+          "Rechazo de la autoridad absoluta del Papa.",
+          "Solo reconoce dos sacramentos principales: bautismo y eucaristía."
+        ]
+      },
+      calvinismo: {
+        title: "Calvinismo · Juan Calvino",
+        text: "Su idea central es la predestinación: Dios habría decidido de antemano quién se salva.",
+        items: [
+          "Predestinación: la salvación está decidida por Dios.",
+          "Vida austera, disciplinada y trabajo constante.",
+          "Comunidades religiosas muy estrictas.",
+          "La prosperidad podía interpretarse como señal de elección divina."
+        ]
+      },
+      contrarreforma: {
+        title: "Contrarreforma católica",
+        text: "Fue la reacción de la Iglesia católica ante la expansión del protestantismo.",
+        items: [
+          "Concilio de Trento para fijar doctrina y disciplina.",
+          "Reforma del clero y creación de seminarios.",
+          "Impulso de nuevas órdenes, como los jesuitas.",
+          "Uso de la Inquisición y control de libros considerados peligrosos."
+        ]
+      }
+    };
+
+    const doctrineButtons = document.querySelectorAll("[data-doctrine]");
+    const doctrineContent = document.getElementById("doctrineContent");
+
+    doctrineButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = doctrineData[button.dataset.doctrine];
+        doctrineButtons.forEach((btn) => {
+          btn.classList.remove("active");
+          btn.setAttribute("aria-selected", "false");
+        });
+        button.classList.add("active");
+        button.setAttribute("aria-selected", "true");
+        doctrineContent.innerHTML = `
+          <h3>${item.title}</h3>
+          <p>${item.text}</p>
+          <ul class="check-list">
+            ${item.items.map((point) => `<li>${point}</li>`).join("")}
+          </ul>
+        `;
+      });
+    });
+
+    const artData = {
+      arquitectura: {
+        title: "Arquitectura renacentista",
+        text: "Recupera elementos clásicos: columnas, frontones, arcos de medio punto y cúpulas. Busca proporción, orden y simetría.",
+        artists: ["Brunelleschi", "Alberti", "Bramante", "Miguel Ángel"]
+      },
+      pintura: {
+        title: "Pintura renacentista",
+        text: "Usa perspectiva para crear profundidad, estudia la anatomía humana, trabaja la luz y representa temas religiosos, mitológicos y retratos.",
+        artists: ["Leonardo da Vinci", "Rafael", "Miguel Ángel", "Botticelli", "Tiziano"]
+      },
+      escultura: {
+        title: "Escultura renacentista",
+        text: "Se inspira en modelos clásicos, representa cuerpos proporcionados, movimiento y expresión. Destacan el mármol y el bronce.",
+        artists: ["Donatello", "Miguel Ángel", "Ghiberti", "Cellini"]
+      }
+    };
+
+    const artButtons = document.querySelectorAll("[data-art]");
+    const artInfo = document.getElementById("artInfo");
+
+    artButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = artData[button.dataset.art];
+        artButtons.forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+        artInfo.innerHTML = `
+          <h3>${item.title}</h3>
+          <p>${item.text}</p>
+          <div class="artist-list">
+            ${item.artists.map((artist) => `<span>${artist}</span>`).join("")}
+          </div>
+        `;
+      });
+    });
+
+    const explanations = {
+      0: "Correcto: 1789 se usa para cerrar la Edad Moderna.",
+      1: "Correcto: la burguesía crece con el comercio, la banca y los talleres urbanos.",
+      2: "Correcto: antropocentrismo significa poner al ser humano en el centro.",
+      3: "Correcto: Lutero criticó especialmente la venta de indulgencias.",
+      4: "Correcto: para Calvino la salvación dependía de la predestinación.",
+      5: "Correcto: Trento fue la gran respuesta católica a la Reforma.",
+      6: "Correcto: el Renacimiento nace y se desarrolla primero en ciudades italianas.",
+      7: "Correcto: la perspectiva permite representar profundidad."
+    };
+
+    const wrongHints = {
+      0: "Revisa la cronología: final de la Edad Moderna = Revolución Francesa.",
+      1: "Piensa en comerciantes, banqueros y artesanos enriquecidos.",
+      2: "La pista está en anthropos: ser humano.",
+      3: "Busca la crítica religiosa relacionada con pagar dinero.",
+      4: "Calvino se asocia con una decisión divina previa.",
+      5: "Fue una reunión de obispos y autoridades católicas.",
+      6: "Piensa en Florencia, Roma y Venecia.",
+      7: "Es una técnica de pintura para simular distancia."
+    };
+
+    const answered = new Map();
+    const answerButtons = document.querySelectorAll(".answer");
+    const score = document.getElementById("score");
+    const scoreText = document.getElementById("scoreText");
+    const barFill = document.getElementById("barFill");
+    const resetQuiz = document.getElementById("resetQuiz");
+
+    function updateScore() {
+      const correct = [...answered.values()].filter(Boolean).length;
+      const total = document.querySelectorAll(".question").length;
+      score.textContent = correct;
+      barFill.style.width = `${(correct / total) * 100}%`;
+      if (answered.size === 0) {
+        scoreText.textContent = "Contesta las preguntas para ver tu progreso.";
+      } else if (correct === total) {
+        scoreText.textContent = "Dominado: ya puedes pasar a respuestas largas.";
+      } else {
+        scoreText.textContent = `${answered.size} de ${total} preguntas respondidas. Corrige las que fallen.`;
+      }
+    }
+
+    answerButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const question = button.closest(".question");
+        const index = Number(question.dataset.question);
+        const correctOption = question.dataset.correct;
+        const isCorrect = button.dataset.option === correctOption;
+        const feedback = question.querySelector(".feedback");
+
+        question.querySelectorAll(".answer").forEach((answer) => {
+          answer.classList.remove("correct", "wrong");
+          if (answer.dataset.option === correctOption) {
+            answer.classList.add("correct");
+          }
+        });
+
+        if (!isCorrect) {
+          button.classList.add("wrong");
+          feedback.textContent = wrongHints[index];
+        } else {
+          feedback.textContent = explanations[index];
+        }
+
+        answered.set(index, isCorrect);
+        updateScore();
+      });
+    });
+
+    resetQuiz.addEventListener("click", () => {
+      answered.clear();
+      document.querySelectorAll(".answer").forEach((button) => button.classList.remove("correct", "wrong"));
+      document.querySelectorAll(".feedback").forEach((feedback) => { feedback.textContent = ""; });
+      updateScore();
+    });
+
+    document.querySelectorAll(".memory-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const revealed = card.classList.toggle("revealed");
+        card.querySelector("strong").textContent = revealed ? card.dataset.back : card.dataset.front;
+        card.querySelector("span").textContent = revealed ? "Toca para ocultar" : "Toca para comprobar";
+      });
+    });
+  </script>
+</body>
+</html>
