@@ -1322,63 +1322,83 @@
           <span>siglos XV-XVIII</span>
         </div>
         <svg class="modern-scene" viewBox="0 0 520 520" role="img" aria-labelledby="sceneTitle sceneDesc">
-          <title id="sceneTitle">Escena simbólica de la Edad Moderna</title>
-          <desc id="sceneDesc">Un puerto, una imprenta, una corona y un templo clásico conectados por rutas comerciales.</desc>
+          <title id="sceneTitle">Infografía de la Edad Moderna</title>
+          <desc id="sceneDesc">Cuatro claves de la Edad Moderna: viajes y comercio, imprenta, monarquías fuertes y Renacimiento.</desc>
           <defs>
-            <linearGradient id="sea" x1="0" x2="1">
-              <stop offset="0" stop-color="#0ea5e9" stop-opacity="0.55" />
-              <stop offset="1" stop-color="#22d3ee" stop-opacity="0.18" />
+            <linearGradient id="modernBg" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#0b1a31" />
+              <stop offset="1" stop-color="#0e3a58" />
             </linearGradient>
-            <linearGradient id="gold" x1="0" x2="1">
+            <linearGradient id="cardBlue" x1="0" x2="1">
+              <stop offset="0" stop-color="#10294a" />
+              <stop offset="1" stop-color="#123b5c" />
+            </linearGradient>
+            <linearGradient id="cardGold" x1="0" x2="1">
               <stop offset="0" stop-color="#fbbf24" />
               <stop offset="1" stop-color="#fb923c" />
             </linearGradient>
+            <marker id="arrowHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8" />
+            </marker>
           </defs>
-          <rect width="520" height="520" rx="8" fill="#081424" />
-          <path d="M0 352 C86 318 156 388 248 350 C337 314 414 344 520 302 L520 520 L0 520 Z" fill="url(#sea)" />
-          <path d="M38 96 C106 62 186 58 268 84 C350 110 425 96 482 56" fill="none" stroke="#38bdf8" stroke-width="3" stroke-dasharray="8 10" opacity="0.7" />
-          <path d="M74 420 C144 352 232 330 326 344 C396 354 448 320 488 282" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="7 9" opacity="0.75" />
 
-          <g transform="translate(52 286)">
-            <path d="M20 62 L142 62 L116 104 L48 104 Z" fill="#9a5c33" />
-            <path d="M34 60 L74 6 L74 60 Z" fill="#edf5ff" opacity="0.92" />
-            <path d="M81 60 L126 24 L126 60 Z" fill="#dbeafe" opacity="0.78" />
-            <path d="M75 6 L75 106" stroke="#f8fafc" stroke-width="5" stroke-linecap="round" />
-            <path d="M18 108 C52 122 96 122 146 108" fill="none" stroke="#38bdf8" stroke-width="5" stroke-linecap="round" />
-          </g>
+          <rect width="520" height="520" rx="8" fill="url(#modernBg)" />
+          <text x="28" y="38" fill="#edf5ff" font-family="Avenir Next, Segoe UI, sans-serif" font-size="22" font-weight="950">4 claves para entender el tema</text>
+          <path d="M28 76 H492" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowHead)" opacity="0.95" />
+          <text x="30" y="67" fill="#aec2df" font-family="Avenir Next, Segoe UI, sans-serif" font-size="15" font-weight="850">Edad Media</text>
+          <text x="356" y="67" fill="#fbbf24" font-family="Avenir Next, Segoe UI, sans-serif" font-size="15" font-weight="950">Edad Moderna</text>
 
-          <g transform="translate(305 265)">
-            <rect x="0" y="42" width="132" height="72" rx="8" fill="#1f3658" stroke="#5eead4" stroke-opacity="0.45" />
-            <rect x="18" y="16" width="96" height="42" rx="6" fill="#0f1f36" stroke="#fbbf24" stroke-opacity="0.58" />
-            <rect x="28" y="27" width="76" height="6" rx="3" fill="#dceaff" opacity="0.9" />
-            <rect x="28" y="40" width="58" height="6" rx="3" fill="#aec2df" opacity="0.75" />
-            <rect x="24" y="70" width="82" height="10" rx="5" fill="#fbbf24" opacity="0.88" />
-            <circle cx="28" cy="118" r="13" fill="#07111f" stroke="#aec2df" stroke-width="5" />
-            <circle cx="104" cy="118" r="13" fill="#07111f" stroke="#aec2df" stroke-width="5" />
-          </g>
+          <g font-family="Avenir Next, Segoe UI, sans-serif">
+            <g transform="translate(24 104)">
+              <rect width="472" height="84" rx="10" fill="url(#cardBlue)" stroke="#38bdf8" stroke-opacity="0.34" />
+              <circle cx="42" cy="42" r="25" fill="#0ea5e9" opacity="0.22" />
+              <path d="M18 60 C42 74 70 74 96 60" fill="none" stroke="#38bdf8" stroke-width="5" stroke-linecap="round" />
+              <path d="M32 50 L84 50 L72 70 L44 70 Z" fill="#9a5c33" />
+              <path d="M48 48 L48 16 L72 48 Z" fill="#edf5ff" />
+              <path d="M50 48 L88 28 L88 48 Z" fill="#bfdbfe" />
+              <text x="112" y="32" fill="#fbbf24" font-size="15" font-weight="950">1</text>
+              <text x="136" y="34" fill="#edf5ff" font-size="21" font-weight="950">Viajes y comercio</text>
+              <text x="136" y="58" fill="#c7d8f2" font-size="14" font-weight="760">Nuevas rutas atlánticas</text>
+              <text x="136" y="75" fill="#c7d8f2" font-size="14" font-weight="760">y más comercio.</text>
+            </g>
 
-          <g transform="translate(75 76)">
-            <rect x="16" y="96" width="142" height="18" rx="6" fill="#2a456d" />
-            <rect x="30" y="52" width="18" height="44" fill="#dceaff" opacity="0.82" />
-            <rect x="66" y="52" width="18" height="44" fill="#dceaff" opacity="0.82" />
-            <rect x="102" y="52" width="18" height="44" fill="#dceaff" opacity="0.82" />
-            <rect x="138" y="52" width="18" height="44" fill="#dceaff" opacity="0.82" />
-            <path d="M20 48 L88 12 L160 48 Z" fill="#fbbf24" />
-            <rect x="42" y="114" width="92" height="14" rx="4" fill="#fbbf24" opacity="0.78" />
-          </g>
+            <g transform="translate(24 204)">
+              <rect width="472" height="84" rx="10" fill="url(#cardBlue)" stroke="#fbbf24" stroke-opacity="0.34" />
+              <rect x="22" y="34" width="58" height="36" rx="7" fill="#1f3658" stroke="#7dd3fc" stroke-opacity="0.55" />
+              <rect x="34" y="13" width="70" height="38" rx="6" fill="#0b1728" stroke="#fbbf24" stroke-opacity="0.8" />
+              <rect x="46" y="25" width="46" height="5" rx="3" fill="#dceaff" />
+              <rect x="46" y="37" width="34" height="5" rx="3" fill="#9db4cf" />
+              <rect x="36" y="58" width="52" height="8" rx="4" fill="#fbbf24" />
+              <text x="112" y="32" fill="#fbbf24" font-size="15" font-weight="950">2</text>
+              <text x="136" y="34" fill="#edf5ff" font-size="21" font-weight="950">Imprenta e ideas</text>
+              <text x="136" y="58" fill="#c7d8f2" font-size="14" font-weight="760">Libros más baratos:</text>
+              <text x="136" y="75" fill="#c7d8f2" font-size="14" font-weight="760">las ideas se difunden.</text>
+            </g>
 
-          <g transform="translate(315 76)">
-            <path d="M20 86 H126 L116 146 H30 Z" fill="#7c3aed" opacity="0.55" />
-            <path d="M34 84 C38 48 66 40 74 16 C86 42 112 48 114 84 Z" fill="url(#gold)" />
-            <circle cx="74" cy="82" r="30" fill="#07111f" opacity="0.24" />
-            <path d="M38 124 H110" stroke="#ffe5a5" stroke-width="8" stroke-linecap="round" />
-          </g>
+            <g transform="translate(24 304)">
+              <rect width="472" height="84" rx="10" fill="url(#cardBlue)" stroke="#a78bfa" stroke-opacity="0.34" />
+              <path d="M22 48 H98 L90 74 H30 Z" fill="#4737b8" />
+              <path d="M34 47 C38 26 54 20 61 6 C70 23 88 31 90 47 Z" fill="url(#cardGold)" />
+              <circle cx="60" cy="46" r="20" fill="#07111f" opacity="0.22" />
+              <path d="M38 64 H82" stroke="#ffe5a5" stroke-width="6" stroke-linecap="round" />
+              <text x="112" y="32" fill="#fbbf24" font-size="15" font-weight="950">3</text>
+              <text x="136" y="34" fill="#edf5ff" font-size="21" font-weight="950">Monarquías fuertes</text>
+              <text x="136" y="58" fill="#c7d8f2" font-size="14" font-weight="760">Ejércitos, impuestos</text>
+              <text x="136" y="75" fill="#c7d8f2" font-size="14" font-weight="760">y funcionarios reales.</text>
+            </g>
 
-          <g fill="#edf5ff" opacity="0.92" font-family="Avenir Next, Segoe UI, sans-serif" font-size="18" font-weight="800">
-            <text x="62" y="252">viajes</text>
-            <text x="330" y="246">imprenta</text>
-            <text x="90" y="222">Renacimiento</text>
-            <text x="328" y="58">monarquía</text>
+            <g transform="translate(24 404)">
+              <rect width="472" height="84" rx="10" fill="url(#cardBlue)" stroke="#34d399" stroke-opacity="0.34" />
+              <path d="M20 38 L66 10 L116 38 Z" fill="#fbbf24" />
+              <rect x="28" y="42" width="78" height="10" rx="4" fill="#dceaff" />
+              <rect x="36" y="56" width="10" height="24" fill="#aec2df" />
+              <rect x="58" y="56" width="10" height="24" fill="#aec2df" />
+              <rect x="80" y="56" width="10" height="24" fill="#aec2df" />
+              <text x="136" y="32" fill="#fbbf24" font-size="15" font-weight="950">4</text>
+              <text x="160" y="34" fill="#edf5ff" font-size="21" font-weight="950">Renacimiento</text>
+              <text x="160" y="58" fill="#c7d8f2" font-size="14" font-weight="760">Arte clásico y Humanismo:</text>
+              <text x="160" y="75" fill="#c7d8f2" font-size="14" font-weight="760">ser humano en el centro.</text>
+            </g>
           </g>
         </svg>
       </div>
