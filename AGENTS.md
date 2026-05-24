@@ -200,3 +200,7 @@ Comprobar:
 - El diseno mantiene modo oscuro.
 - El contenido esta categorizado por asignatura y curso.
 - La pagina aporta valor pedagogico real: teoria clara, ejemplos, visuales y practica.
+
+## Imported Claude Cowork project instructions
+
+Páginas web educativas par alumnos de la ESO
