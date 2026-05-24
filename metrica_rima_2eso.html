@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Métrica y rima - Lengua 2º ESO</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-2: #11172a;
+      --ink: #f5f7ff;
+      --muted: #b9c3da;
+      --soft: #d8def0;
+      --line: rgba(255, 255, 255, 0.12);
+      --panel: rgba(255, 255, 255, 0.055);
+      --panel-strong: rgba(255, 255, 255, 0.09);
+      --violet: #a78bfa;
+      --violet-2: #c4b5fd;
+      --amber: #fbbf24;
+      --cyan: #22d3ee;
+      --green: #34d399;
+      --rose: #fb7185;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(167, 139, 250, 0.18), transparent 32%),
+        radial-gradient(circle at 82% 8%, rgba(34, 211, 238, 0.12), transparent 28%),
+        linear-gradient(145deg, var(--bg), #0a0f1d 58%, #131120);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 72%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(11, 16, 32, 0.82);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .topbar-inner {
+      width: min(1120px, calc(100% - 32px));
+      min-height: 64px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      color: var(--soft);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .home-link svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .top-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .top-nav a {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      padding: 9px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 720;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .top-nav a:hover,
+    .top-nav a:focus-visible {
+      color: var(--ink);
+      border-color: rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      outline: none;
+    }
+
+    .hero {
+      min-height: calc(100svh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.98fr);
+      align-items: center;
+      gap: clamp(32px, 6vw, 72px);
+      padding: clamp(42px, 8vw, 88px) 0 38px;
+    }
+
+    .hero-copy {
+      max-width: 670px;
+    }
+
+    .meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 760;
+    }
+
+    .meta-line span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 5px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: clamp(40px, 7vw, 76px);
+      max-width: 720px;
+    }
+
+    .hero-copy p {
+      max-width: 640px;
+      margin: 24px 0 0;
+      color: var(--soft);
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .btn {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 820;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      color: #08111e;
+      box-shadow: 0 18px 50px rgba(34, 211, 238, 0.22);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--ink);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .poem-visual {
+      position: relative;
+      padding: clamp(18px, 4vw, 30px);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035)),
+        rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .poem-visual::before {
+      content: "";
+      position: absolute;
+      inset: -80px auto auto -80px;
+      width: 190px;
+      height: 190px;
+      background: rgba(251, 191, 36, 0.14);
+      border-radius: 50%;
+      filter: blur(12px);
+    }
+
+    .verse-paper {
+      position: relative;
+      display: grid;
+      gap: 18px;
+    }
+
+    .verse-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      min-height: 64px;
+      padding: 4px 0 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+    }
+
+    .syllable {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      min-height: 48px;
+      padding: 9px 12px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.78);
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 830;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.09);
+    }
+
+    .syllable.joined {
+      background: rgba(34, 211, 238, 0.15);
+      color: #d8fbff;
+      box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.38);
+    }
+
+    .syllable.strong {
+      background: rgba(251, 191, 36, 0.15);
+      color: #fff4c7;
+      box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.4);
+    }
+
+    .arc {
+      position: absolute;
+      left: 50%;
+      top: -18px;
+      width: 52px;
+      height: 26px;
+      border-top: 2px solid var(--cyan);
+      border-radius: 50% 50% 0 0;
+      transform: translateX(-50%);
+    }
+
+    .visual-note {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: end;
+    }
+
+    .visual-note p {
+      margin: 0;
+      color: var(--soft);
+      font-size: 16px;
+    }
+
+    .meter-badge {
+      width: 112px;
+      height: 112px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(167, 139, 250, 0.95), rgba(34, 211, 238, 0.88));
+      color: #08111e;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 900;
+      box-shadow: 0 18px 54px rgba(167, 139, 250, 0.26);
+    }
+
+    .meter-badge strong {
+      display: block;
+      font-size: 40px;
+      line-height: 1;
+    }
+
+    section {
+      scroll-margin-top: 88px;
+    }
+
+    .band {
+      padding: clamp(58px, 8vw, 96px) 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 30px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(30px, 4vw, 50px);
+    }
+
+    .section-head p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 20px);
+    }
+
+    .idea-flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .idea-step {
+      min-height: 220px;
+      padding: 28px 24px;
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .idea-step:last-child {
+      border-right: 0;
+    }
+
+    .step-number {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 22px;
+      border-radius: 50%;
+      background: rgba(167, 139, 250, 0.14);
+      color: var(--violet-2);
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .idea-step h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .idea-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+      gap: clamp(28px, 5vw, 56px);
+      align-items: start;
+    }
+
+    .rule-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .rule {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .rule:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .rule-icon {
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--amber);
+    }
+
+    .rule-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .rule h3 {
+      font-size: 21px;
+      margin-bottom: 6px;
+    }
+
+    .rule p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .example-stage {
+      position: sticky;
+      top: 92px;
+      padding: 26px;
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.045));
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: var(--shadow);
+    }
+
+    .example-stage h3 {
+      font-size: 24px;
+      margin-bottom: 18px;
+    }
+
+    .worked-line {
+      display: grid;
+      gap: 12px;
+    }
+
+    .line-quote {
+      margin: 0;
+      padding: 18px 0;
+      color: var(--ink);
+      font-size: clamp(24px, 4vw, 36px);
+      line-height: 1.25;
+      font-weight: 850;
+    }
+
+    .count-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .count-token {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 8px 11px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.075);
+      color: var(--soft);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .count-token.merge {
+      background: rgba(34, 211, 238, 0.15);
+      color: #cffafe;
+      box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.3);
+    }
+
+    .math-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding-top: 12px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .math-line strong {
+      color: var(--ink);
+      font-size: 22px;
+    }
+
+    .mini-note {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .accent-table {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .accent-rule {
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .accent-rule strong {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .accent-rule span {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .lab {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
+      gap: clamp(24px, 4vw, 40px);
+      align-items: stretch;
+      padding: clamp(24px, 4vw, 34px);
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow);
+    }
+
+    .lab label {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 820;
+    }
+
+    textarea,
+    input[type="text"] {
+      width: 100%;
+      min-height: 54px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 18px;
+      background: rgba(5, 10, 24, 0.62);
+      color: var(--ink);
+      padding: 15px 16px;
+      outline: none;
+      font-size: 17px;
+    }
+
+    textarea {
+      min-height: 142px;
+      resize: vertical;
+    }
+
+    textarea:focus,
+    input[type="text"]:focus {
+      border-color: rgba(34, 211, 238, 0.7);
+      box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.12);
+    }
+
+    .example-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 14px 0 18px;
+    }
+
+    .chip-btn {
+      min-height: 42px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--soft);
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 760;
+    }
+
+    .chip-btn:hover,
+    .chip-btn:focus-visible {
+      border-color: rgba(167, 139, 250, 0.6);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .result-panel {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 22px;
+      border-radius: 24px;
+      background: rgba(6, 12, 28, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .result-total {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .result-total strong {
+      color: var(--cyan);
+      font-size: 62px;
+      line-height: 1;
+    }
+
+    .result-total span {
+      color: var(--soft);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .breakdown {
+      display: grid;
+      gap: 9px;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .breakdown-row strong {
+      color: var(--ink);
+      text-align: right;
+    }
+
+    .join-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-height: 34px;
+    }
+
+    .join-list span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(34, 211, 238, 0.12);
+      color: #cffafe;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .help-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .rhyme-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.85fr);
+      gap: clamp(28px, 5vw, 54px);
+      align-items: start;
+    }
+
+    .rhyme-map {
+      display: grid;
+      gap: 18px;
+    }
+
+    .rhyme-row {
+      display: grid;
+      grid-template-columns: 74px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .rhyme-row:last-child {
+      border-bottom: 0;
+    }
+
+    .letter {
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(167, 139, 250, 0.16);
+      color: var(--violet-2);
+      font-size: 24px;
+      font-weight: 950;
+    }
+
+    .rhyme-row h3 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .rhyme-row p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .rhyme-card {
+      padding: 24px;
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(167, 139, 250, 0.12), rgba(34, 211, 238, 0.08));
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      box-shadow: var(--shadow);
+    }
+
+    .rhyme-card h3 {
+      font-size: 25px;
+      margin-bottom: 14px;
+    }
+
+    .rhyme-examples {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .rhyme-pair {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .rhyme-pair:first-child {
+      border-top: 0;
+    }
+
+    .rhyme-pair strong {
+      color: var(--ink);
+      font-size: 18px;
+    }
+
+    .rhyme-pair span {
+      color: var(--muted);
+      font-size: 15px;
+      text-align: right;
+    }
+
+    .rhyme-lab {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .rhyme-lab .btn {
+      min-width: 132px;
+      border-radius: 18px;
+    }
+
+    .rhyme-result {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--soft);
+      font-size: 17px;
+    }
+
+    .rhyme-result strong {
+      color: var(--ink);
+    }
+
+    .scheme-stage {
+      display: grid;
+      grid-template-columns: 1fr 160px;
+      gap: 24px;
+      align-items: center;
+      margin-top: 36px;
+      padding: 24px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .scheme-lines {
+      display: grid;
+      gap: 12px;
+    }
+
+    .scheme-line {
+      display: grid;
+      grid-template-columns: 1fr 42px;
+      gap: 12px;
+      align-items: center;
+      color: var(--soft);
+      font-size: 17px;
+    }
+
+    .scheme-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(251, 191, 36, 0.16);
+      color: #fde68a;
+      font-weight: 950;
+    }
+
+    .scheme-answer {
+      text-align: center;
+      color: var(--ink);
+      font-size: 38px;
+      font-weight: 950;
+    }
+
+    .practice-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: clamp(24px, 4vw, 36px);
+      align-items: start;
+    }
+
+    .quiz {
+      display: grid;
+      gap: 18px;
+    }
+
+    .question {
+      padding: 24px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .question h3 {
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      width: 100%;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(10, 16, 32, 0.64);
+      color: var(--soft);
+      text-align: left;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 720;
+    }
+
+    .option:hover:not(:disabled),
+    .option:focus-visible {
+      color: var(--ink);
+      border-color: rgba(167, 139, 250, 0.6);
+      outline: none;
+    }
+
+    .option.correct {
+      border-color: rgba(52, 211, 153, 0.8);
+      background: rgba(52, 211, 153, 0.12);
+      color: #d1fae5;
+    }
+
+    .option.wrong {
+      border-color: rgba(251, 113, 133, 0.8);
+      background: rgba(251, 113, 133, 0.12);
+      color: #ffe4e6;
+    }
+
+    .option:disabled {
+      cursor: default;
+    }
+
+    .option-letter {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 14px;
+      color: var(--soft);
+      font-size: 16px;
+    }
+
+    .feedback.visible {
+      display: block;
+    }
+
+    .score-panel {
+      position: sticky;
+      top: 92px;
+      padding: 24px;
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(251, 191, 36, 0.13), rgba(167, 139, 250, 0.1));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow);
+    }
+
+    .score-panel h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .score-number {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+
+    .score-number strong {
+      color: var(--amber);
+      font-size: 58px;
+      line-height: 1;
+    }
+
+    .score-number span {
+      color: var(--soft);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .score-panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .summary-item {
+      padding: 22px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .summary-item h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .summary-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .footer {
+      padding: 36px 0 52px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .footer a {
+      color: var(--violet-2);
+      font-weight: 820;
+      text-decoration: none;
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .two-col,
+      .lab,
+      .rhyme-grid,
+      .practice-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .poem-visual {
+        order: -1;
+      }
+
+      .idea-flow {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .idea-step:nth-child(2) {
+        border-right: 0;
+      }
+
+      .idea-step:nth-child(-n + 2) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .example-stage,
+      .score-panel {
+        position: static;
+      }
+
+      .rhyme-lab {
+        grid-template-columns: 1fr;
+      }
+
+      .rhyme-lab .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page,
+      .topbar-inner {
+        width: min(100% - 22px, 1120px);
+      }
+
+      .topbar-inner {
+        min-height: auto;
+        padding: 8px 0 10px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .home-link {
+        min-height: 38px;
+      }
+
+      .top-nav {
+        width: 100%;
+      }
+
+      .top-nav a {
+        min-height: 40px;
+        font-size: 13px;
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .meta-line span {
+        font-size: 14px;
+      }
+
+      .visual-note {
+        grid-template-columns: 1fr;
+      }
+
+      .meter-badge {
+        width: 96px;
+        height: 96px;
+      }
+
+      .idea-flow,
+      .accent-table,
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .idea-step,
+      .idea-step:nth-child(2) {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .idea-step:last-child {
+        border-bottom: 0;
+      }
+
+      .rule {
+        grid-template-columns: 1fr;
+      }
+
+      .lab,
+      .question,
+      .score-panel,
+      .rhyme-card,
+      .scheme-stage,
+      .example-stage {
+        border-radius: 22px;
+      }
+
+      .scheme-stage {
+        grid-template-columns: 1fr;
+      }
+
+      .scheme-answer {
+        text-align: left;
+      }
+
+      .scheme-line {
+        grid-template-columns: 1fr 38px;
+        font-size: 16px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar" aria-label="Navegación principal">
+    <div class="topbar-inner">
+      <a class="home-link" href="index.html" aria-label="Volver a la portada">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Portada
+      </a>
+      <div class="top-nav" aria-label="Secciones">
+        <a href="#idea">Idea clave</a>
+        <a href="#silabas">Sílabas</a>
+        <a href="#laboratorio">Laboratorio</a>
+        <a href="#rima">Rima</a>
+        <a href="#practica">Practica</a>
+        <a href="#resumen">Resumen</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <header class="page hero">
+      <div class="hero-copy">
+        <div class="meta-line" aria-label="Datos del recurso">
+          <span>Lengua Castellana y Literatura</span>
+          <span>2º ESO</span>
+          <span>Poesía</span>
+        </div>
+        <h1>Métrica y rima sin perderse</h1>
+        <p>Para medir versos no basta con contar letras: hay que escuchar el ritmo. Aquí se aprende a contar sílabas métricas, localizar sinalefas y reconocer rimas con ejemplos cortos y práctica inmediata.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#laboratorio">
+            Probar con un verso
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a class="btn btn-secondary" href="#practica">Hacer ejercicios</a>
+        </div>
+      </div>
+
+      <div class="poem-visual" aria-label="Ejemplo visual de un verso dividido en sílabas">
+        <div class="verse-paper">
+          <div class="verse-line">
+            <span class="syllable">La</span>
+            <span class="syllable">lu</span>
+            <span class="syllable">na</span>
+            <span class="syllable">mi</span>
+            <span class="syllable joined"><span class="arc" aria-hidden="true"></span>ra_el</span>
+            <span class="syllable strong">rí</span>
+            <span class="syllable">o</span>
+          </div>
+          <div class="visual-note">
+            <p><strong>“mira el”</strong> se pronuncia unido: eso es una sinalefa. La palabra final <strong>río</strong> es llana, así que el total no cambia.</p>
+            <div class="meter-badge"><span><strong>7</strong>sílabas</span></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="page band" id="idea">
+      <div class="section-head">
+        <h2>La idea clave en cuatro pasos</h2>
+        <p>Un verso tiene una medida porque al leerlo suena con un ritmo. La métrica es la forma de contar ese ritmo.</p>
+      </div>
+
+      <div class="idea-flow">
+        <article class="idea-step">
+          <span class="step-number">1</span>
+          <h3>Lee en voz alta</h3>
+          <p>El verso se cuenta como se pronuncia, no como aparece separado en la página.</p>
+        </article>
+        <article class="idea-step">
+          <span class="step-number">2</span>
+          <h3>Divide palabras</h3>
+          <p>Separa cada palabra en sílabas normales: ca-mi-no, lu-na, can-tar.</p>
+        </article>
+        <article class="idea-step">
+          <span class="step-number">3</span>
+          <h3>Une vocales</h3>
+          <p>Si una palabra acaba en vocal y la siguiente empieza por vocal, suelen unirse en una sola sílaba métrica.</p>
+        </article>
+        <article class="idea-step">
+          <span class="step-number">4</span>
+          <h3>Ajusta el final</h3>
+          <p>La última palabra manda: aguda suma 1, llana no cambia, esdrújula resta 1.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="page band" id="silabas">
+      <div class="two-col">
+        <div>
+          <div class="section-head">
+            <h2>Cómo se cuentan las sílabas de un verso</h2>
+            <p>Este método sirve para la mayoría de poemas que se trabajan en ESO.</p>
+          </div>
+
+          <div class="rule-list">
+            <article class="rule">
+              <div class="rule-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 7h16M4 12h10M4 17h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div>
+                <h3>Primero cuenta las sílabas gramaticales</h3>
+                <p>Hazlo palabra por palabra: “camino” tiene ca-mi-no, tres sílabas; “estrella” tiene es-tre-lla, tres.</p>
+              </div>
+            </article>
+
+            <article class="rule">
+              <div class="rule-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M8 8c-3 0-5 2-5 4s2 4 5 4h2m6-8c3 0 5 2 5 4s-2 4-5 4h-2M9 12h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div>
+                <h3>Después busca sinalefas</h3>
+                <p>“mi amigo” puede sonar como “mi_a-mi-go”: dos vocales de palabras distintas se abrazan y cuentan como una sílaba.</p>
+              </div>
+            </article>
+
+            <article class="rule">
+              <div class="rule-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 19V5m0 14h14M8 15l3-4 3 2 5-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div>
+                <h3>Aplica la ley del acento final</h3>
+                <p>Si el verso acaba en palabra aguda, suma una sílaba. Si acaba en palabra llana, se queda igual. Si acaba en esdrújula, resta una.</p>
+              </div>
+            </article>
+
+            <article class="rule">
+              <div class="rule-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 4h10M12 4v16M8 20h8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div>
+                <h3>Nombra el verso por su medida</h3>
+                <p>De 8 sílabas: octosílabo. De 11: endecasílabo. Hasta 8 es arte menor; desde 9, arte mayor.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <aside class="example-stage" aria-label="Ejemplo resuelto">
+          <h3>Ejemplo resuelto</h3>
+          <div class="worked-line">
+            <p class="line-quote">Mi amigo mira el mar</p>
+            <div class="count-row" aria-label="Separación en sílabas métricas">
+              <span class="count-token merge">Mi_a</span>
+              <span class="count-token">mi</span>
+              <span class="count-token">go</span>
+              <span class="count-token">mi</span>
+              <span class="count-token merge">ra_el</span>
+              <span class="count-token">mar</span>
+            </div>
+            <div class="math-line">
+              <span>6 sílabas al pronunciar</span>
+              <span>+</span>
+              <span>1 por final agudo</span>
+              <span>=</span>
+              <strong>7</strong>
+            </div>
+            <p class="mini-note">“mar” es una palabra aguda porque la fuerza está al final. Por eso el verso suma una sílaba métrica.</p>
+          </div>
+
+          <div class="accent-table" aria-label="Ley del acento final">
+            <div class="accent-rule">
+              <strong>Aguda: +1</strong>
+              <span>amor, cantar, mar</span>
+            </div>
+            <div class="accent-rule">
+              <strong>Llana: =</strong>
+              <span>casa, río, luna</span>
+            </div>
+            <div class="accent-rule">
+              <strong>Esdrújula: -1</strong>
+              <span>pájaro, música</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page band" id="laboratorio">
+      <div class="section-head">
+        <h2>Laboratorio de sílabas métricas</h2>
+        <p>Escribe un verso y observa una estimación paso a paso. Sirve para practicar; en poesía real puede haber licencias que el poeta decide usar.</p>
+      </div>
+
+      <div class="lab">
+        <div>
+          <label for="verseInput">Verso para analizar</label>
+          <textarea id="verseInput">Mi amigo mira el mar</textarea>
+          <div class="example-buttons" aria-label="Ejemplos rápidos">
+            <button class="chip-btn" type="button" data-verse="La luna mira el río">La luna mira el río</button>
+            <button class="chip-btn" type="button" data-verse="Hoy quiero cantar amor">Hoy quiero cantar amor</button>
+            <button class="chip-btn" type="button" data-verse="Mi alma vuela hacia el cielo">Mi alma vuela hacia el cielo</button>
+          </div>
+          <button class="btn btn-primary" type="button" id="analyzeVerse">Contar sílabas</button>
+        </div>
+
+        <div class="result-panel" aria-live="polite">
+          <div class="result-total">
+            <strong id="meterTotal">7</strong>
+            <span id="meterName">sílabas métricas</span>
+          </div>
+          <div class="breakdown">
+            <div class="breakdown-row">
+              <span>Sílabas de las palabras</span>
+              <strong id="wordCount">8</strong>
+            </div>
+            <div class="breakdown-row">
+              <span>Sinalefas detectadas</span>
+              <strong id="joinCount">2</strong>
+            </div>
+            <div class="breakdown-row">
+              <span>Ajuste por palabra final</span>
+              <strong id="finalAdjust">+1 aguda</strong>
+            </div>
+          </div>
+          <div>
+            <p class="help-text"><strong>Sinalefas:</strong></p>
+            <div class="join-list" id="joinList"></div>
+          </div>
+          <p class="help-text" id="meterExplain">Verso heptasílabo: tiene 7 sílabas métricas.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page band" id="rima">
+      <div class="section-head">
+        <h2>Cómo funciona la rima</h2>
+        <p>Para comparar rimas se mira la última palabra de cada verso desde su vocal tónica: la vocal que suena con más fuerza.</p>
+      </div>
+
+      <div class="rhyme-grid">
+        <div class="rhyme-map">
+          <article class="rhyme-row">
+            <div class="letter">C</div>
+            <div>
+              <h3>Rima consonante</h3>
+              <p>Coinciden vocales y consonantes desde la vocal tónica: <strong>canción</strong> y <strong>corazón</strong> terminan en “ón”.</p>
+            </div>
+          </article>
+          <article class="rhyme-row">
+            <div class="letter">A</div>
+            <div>
+              <h3>Rima asonante</h3>
+              <p>Coinciden solo las vocales desde la vocal tónica: <strong>casa</strong> y <strong>rama</strong> comparten “a-a”, aunque cambian consonantes.</p>
+            </div>
+          </article>
+          <article class="rhyme-row">
+            <div class="letter">-</div>
+            <div>
+              <h3>Verso suelto</h3>
+              <p>Si un verso no rima con los otros, se marca con un guion en el esquema.</p>
+            </div>
+          </article>
+        </div>
+
+        <aside class="rhyme-card">
+          <h3>Truco rápido</h3>
+          <p class="help-text">Subraya la última palabra, encuentra dónde cae la fuerza y compara desde ahí hasta el final.</p>
+          <div class="rhyme-examples">
+            <div class="rhyme-pair">
+              <strong>flor / amor</strong>
+              <span>consonante</span>
+            </div>
+            <div class="rhyme-pair">
+              <strong>cielo / sueño</strong>
+              <span>asonante: e-o</span>
+            </div>
+            <div class="rhyme-pair">
+              <strong>luna / cantar</strong>
+              <span>no riman</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="rhyme-lab" aria-label="Comparador de rima">
+        <div>
+          <label for="wordOne">Palabra 1</label>
+          <input id="wordOne" type="text" value="casa" />
+        </div>
+        <div>
+          <label for="wordTwo">Palabra 2</label>
+          <input id="wordTwo" type="text" value="rama" />
+        </div>
+        <button class="btn btn-primary" type="button" id="compareRhyme">Comparar</button>
+      </div>
+      <div class="rhyme-result" id="rhymeResult" aria-live="polite"></div>
+
+      <div class="scheme-stage" aria-label="Ejemplo de esquema de rima">
+        <div class="scheme-lines">
+          <div class="scheme-line"><span>La tarde cae serena</span><span class="scheme-mark">a</span></div>
+          <div class="scheme-line"><span>sobre la plaza dorada</span><span class="scheme-mark">b</span></div>
+          <div class="scheme-line"><span>mi corazón se llena</span><span class="scheme-mark">a</span></div>
+          <div class="scheme-line"><span>de una música callada</span><span class="scheme-mark">b</span></div>
+        </div>
+        <div class="scheme-answer">abab</div>
+      </div>
+    </section>
+
+    <section class="page band" id="practica">
+      <div class="section-head">
+        <h2>Practica con feedback inmediato</h2>
+        <p>Responde sin miedo. Si fallas, fíjate en la explicación y vuelve a mirar las reglas de arriba.</p>
+      </div>
+
+      <div class="practice-layout">
+        <div class="quiz" id="quiz"></div>
+        <aside class="score-panel" aria-live="polite">
+          <h3>Progreso</h3>
+          <div class="score-number">
+            <strong id="score">0</strong>
+            <span>/ 6</span>
+          </div>
+          <p id="scoreMessage">Empieza por cualquier pregunta. Cada acierto suma un punto.</p>
+          <button class="btn btn-secondary" type="button" id="resetQuiz" style="margin-top: 18px; width: 100%;">Reiniciar</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page band" id="resumen">
+      <div class="section-head">
+        <h2>Resumen para recordar</h2>
+        <p>Antes de un examen o una lectura de poesía, repasa esta lista.</p>
+      </div>
+
+      <div class="summary-grid">
+        <article class="summary-item">
+          <h3>Métrica</h3>
+          <p>Cuenta sílabas como suenan, no solo como se escriben. La sinalefa puede unir vocales de palabras distintas.</p>
+        </article>
+        <article class="summary-item">
+          <h3>Acento final</h3>
+          <p>Aguda suma 1, llana no cambia, esdrújula resta 1. Este paso se hace siempre al final.</p>
+        </article>
+        <article class="summary-item">
+          <h3>Rima consonante</h3>
+          <p>Coinciden vocales y consonantes desde la vocal tónica de la última palabra.</p>
+        </article>
+        <article class="summary-item">
+          <h3>Rima asonante</h3>
+          <p>Coinciden solo las vocales desde la vocal tónica. Por eso casa y rama riman en asonante.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a href="index.html">Volver al catálogo de recursos</a>
+  </footer>
+
+  <script>
+    const vowels = "aeiouáéíóúü";
+    const strongVowels = "aáeéoó";
+    const weakVowels = "iuü";
+    const accentedWeak = "íú";
+    const accentMap = { á: "a", é: "e", í: "i", ó: "o", ú: "u", ü: "u" };
+
+    function cleanWord(word) {
+      return word
+        .toLowerCase()
+        .trim()
+        .replace(/^[^a-záéíóúüñ]+|[^a-záéíóúüñ]+$/gi, "");
+    }
+
+    function removeAccents(text) {
+      return text.replace(/[áéíóúü]/g, char => accentMap[char] || char);
+    }
+
+    function isVowel(char) {
+      return vowels.includes(char);
+    }
+
+    function isStrong(char) {
+      return strongVowels.includes(char);
+    }
+
+    function isAccented(char) {
+      return "áéíóú".includes(char);
+    }
+
+    function startsWithVowelSound(word) {
+      const clean = cleanWord(word);
+      if (!clean) return false;
+      if (isVowel(clean[0])) return true;
+      return clean[0] === "h" && isVowel(clean[1] || "");
+    }
+
+    function endsWithVowelSound(word) {
+      const clean = cleanWord(word);
+      if (!clean) return false;
+      const last = clean[clean.length - 1];
+      return isVowel(last) || last === "y";
+    }
+
+    function splitVowelGroup(group, startIndex) {
+      const chars = [...group];
+      if (chars.length === 1) {
+        return [{ text: group, start: startIndex, end: startIndex, accented: isAccented(chars[0]) }];
+      }
+
+      if (chars.some(char => accentedWeak.includes(char))) {
+        return chars.map((char, index) => ({
+          text: char,
+          start: startIndex + index,
+          end: startIndex + index,
+          accented: isAccented(char)
+        }));
+      }
+
+      const nuclei = [];
+      let current = chars[0];
+      let currentStart = startIndex;
+
+      for (let i = 1; i < chars.length; i++) {
+        const previous = chars[i - 1];
+        const char = chars[i];
+        const hiatus = isStrong(previous) && isStrong(char);
+        if (hiatus) {
+          nuclei.push({
+            text: current,
+            start: currentStart,
+            end: startIndex + i - 1,
+            accented: [...current].some(isAccented)
+          });
+          current = char;
+          currentStart = startIndex + i;
+        } else {
+          current += char;
+        }
+      }
+
+      nuclei.push({
+        text: current,
+        start: currentStart,
+        end: startIndex + chars.length - 1,
+        accented: [...current].some(isAccented)
+      });
+      return nuclei;
+    }
+
+    function nucleiForWord(word) {
+      const clean = cleanWord(word);
+      const nuclei = [];
+      let i = 0;
+
+      while (i < clean.length) {
+        if (!isVowel(clean[i])) {
+          i++;
+          continue;
+        }
+
+        let group = "";
+        const start = i;
+        while (i < clean.length && isVowel(clean[i])) {
+          group += clean[i];
+          i++;
+        }
+        nuclei.push(...splitVowelGroup(group, start));
+      }
+
+      return nuclei.length ? nuclei : [{ text: clean, start: 0, end: Math.max(0, clean.length - 1), accented: false }];
+    }
+
+    function countWordSyllables(word) {
+      return Math.max(1, nucleiForWord(word).length);
+    }
+
+    function classifyFinalWord(word) {
+      const clean = cleanWord(word);
+      const nuclei = nucleiForWord(clean);
+      const syllables = nuclei.length;
+      const accentedIndex = nuclei.findIndex(nucleus => nucleus.accented);
+      let stressIndex;
+
+      if (accentedIndex >= 0) {
+        stressIndex = accentedIndex;
+      } else if (/[aeiounsáéíóúü]$/.test(clean)) {
+        stressIndex = Math.max(0, syllables - 2);
+      } else {
+        stressIndex = syllables - 1;
+      }
+
+      const fromEnd = syllables - stressIndex;
+      if (fromEnd === 1) return { type: "aguda", adjust: 1, stressIndex, nuclei };
+      if (fromEnd === 2) return { type: "llana", adjust: 0, stressIndex, nuclei };
+      return { type: "esdrújula", adjust: -1, stressIndex, nuclei };
+    }
+
+    function meterName(count) {
+      const names = {
+        2: "bisílabo",
+        3: "trisílabo",
+        4: "tetrasílabo",
+        5: "pentasílabo",
+        6: "hexasílabo",
+        7: "heptasílabo",
+        8: "octosílabo",
+        9: "eneasílabo",
+        10: "decasílabo",
+        11: "endecasílabo",
+        12: "dodecasílabo",
+        14: "alejandrino"
+      };
+      return names[count] || `${count} sílabas`;
+    }
+
+    function analyzeVerseText(text) {
+      const words = text.split(/\s+/).map(cleanWord).filter(Boolean);
+      const wordSyllables = words.reduce((sum, word) => sum + countWordSyllables(word), 0);
+      const joins = [];
+
+      for (let i = 0; i < words.length - 1; i++) {
+        if (endsWithVowelSound(words[i]) && startsWithVowelSound(words[i + 1])) {
+          joins.push(`${words[i]}_${words[i + 1]}`);
+        }
+      }
+
+      const finalInfo = words.length ? classifyFinalWord(words[words.length - 1]) : { type: "llana", adjust: 0 };
+      const total = Math.max(1, wordSyllables - joins.length + finalInfo.adjust);
+      return { words, wordSyllables, joins, finalInfo, total };
+    }
+
+    function renderMeter() {
+      const input = document.getElementById("verseInput");
+      const result = analyzeVerseText(input.value);
+      const adjustLabel = result.finalInfo.adjust > 0
+        ? `+${result.finalInfo.adjust} ${result.finalInfo.type}`
+        : `${result.finalInfo.adjust} ${result.finalInfo.type}`;
+
+      document.getElementById("meterTotal").textContent = result.total;
+      document.getElementById("meterName").textContent = "sílabas métricas";
+      document.getElementById("wordCount").textContent = result.wordSyllables;
+      document.getElementById("joinCount").textContent = result.joins.length;
+      document.getElementById("finalAdjust").textContent = adjustLabel;
+      document.getElementById("meterExplain").textContent = `Verso ${meterName(result.total)}: tiene ${result.total} sílabas métricas.`;
+
+      const joinList = document.getElementById("joinList");
+      joinList.innerHTML = "";
+      if (!result.joins.length) {
+        const empty = document.createElement("span");
+        empty.textContent = "ninguna";
+        joinList.appendChild(empty);
+        return;
+      }
+
+      result.joins.forEach(join => {
+        const item = document.createElement("span");
+        item.textContent = join;
+        joinList.appendChild(item);
+      });
+    }
+
+    function rhymeParts(word) {
+      const clean = cleanWord(word);
+      if (!clean) return null;
+      const finalInfo = classifyFinalWord(clean);
+      const nucleus = finalInfo.nuclei[finalInfo.stressIndex] || finalInfo.nuclei[finalInfo.nuclei.length - 1];
+      const ending = removeAccents(clean.slice(nucleus.start));
+      const assonance = [...ending].filter(isVowel).join("");
+      return { clean, ending, assonance };
+    }
+
+    function compareRhymeWords() {
+      const one = rhymeParts(document.getElementById("wordOne").value);
+      const two = rhymeParts(document.getElementById("wordTwo").value);
+      const result = document.getElementById("rhymeResult");
+
+      if (!one || !two) {
+        result.textContent = "Escribe dos palabras para comparar su rima.";
+        return;
+      }
+
+      if (one.ending === two.ending) {
+        result.innerHTML = `<strong>${one.clean}</strong> y <strong>${two.clean}</strong> tienen rima consonante: coinciden en “${one.ending}”.`;
+      } else if (one.assonance && one.assonance === two.assonance) {
+        result.innerHTML = `<strong>${one.clean}</strong> y <strong>${two.clean}</strong> tienen rima asonante: comparten las vocales “${one.assonance}”.`;
+      } else {
+        result.innerHTML = `<strong>${one.clean}</strong> y <strong>${two.clean}</strong> no riman: sus sonidos finales no coinciden lo suficiente.`;
+      }
+    }
+
+    const questions = [
+      {
+        text: "En “Mi amigo mira el mar”, ¿cuántas sinalefas hay?",
+        options: ["Ninguna", "Una", "Dos"],
+        answer: 2,
+        feedback: "Hay dos: mi_amigo y mira_el. Después, como “mar” es aguda, se suma una sílaba."
+      },
+      {
+        text: "Si un verso termina en palabra aguda, ¿qué se hace?",
+        options: ["Se suma una sílaba", "Se resta una sílaba", "No se cambia nada"],
+        answer: 0,
+        feedback: "Correcto: final agudo suma 1. Ejemplo: amor, cantar, mar."
+      },
+      {
+        text: "¿Cómo se llama un verso de 8 sílabas?",
+        options: ["Heptasílabo", "Octosílabo", "Endecasílabo"],
+        answer: 1,
+        feedback: "Un verso de 8 sílabas es octosílabo. Es muy frecuente en romances y canciones."
+      },
+      {
+        text: "“Casa” y “rama” tienen...",
+        options: ["Rima consonante", "Rima asonante", "Ninguna rima"],
+        answer: 1,
+        feedback: "Comparten las vocales a-a, pero no todas las consonantes. Por eso es asonante."
+      },
+      {
+        text: "En la rima consonante coinciden...",
+        options: ["Solo las vocales", "Solo las consonantes", "Vocales y consonantes desde la vocal tónica"],
+        answer: 2,
+        feedback: "La rima consonante es la más completa: coinciden vocales y consonantes desde la vocal tónica."
+      },
+      {
+        text: "Si un verso no rima con los demás, en el esquema se marca con...",
+        options: ["Un guion", "Una estrella", "Una mayúscula siempre"],
+        answer: 0,
+        feedback: "El verso suelto se suele marcar con un guion: -."
+      }
+    ];
+
+    const answered = new Map();
+
+    function renderQuiz() {
+      const quiz = document.getElementById("quiz");
+      quiz.innerHTML = "";
+
+      questions.forEach((question, questionIndex) => {
+        const article = document.createElement("article");
+        article.className = "question";
+
+        const title = document.createElement("h3");
+        title.textContent = question.text;
+        article.appendChild(title);
+
+        const options = document.createElement("div");
+        options.className = "options";
+
+        question.options.forEach((option, optionIndex) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "option";
+          button.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + optionIndex)}</span><span>${option}</span>`;
+          button.addEventListener("click", () => answerQuestion(questionIndex, optionIndex, article));
+          options.appendChild(button);
+        });
+
+        const feedback = document.createElement("p");
+        feedback.className = "feedback";
+        feedback.textContent = question.feedback;
+
+        article.appendChild(options);
+        article.appendChild(feedback);
+        quiz.appendChild(article);
+      });
+    }
+
+    function answerQuestion(questionIndex, optionIndex, article) {
+      if (answered.has(questionIndex)) return;
+
+      const question = questions[questionIndex];
+      const buttons = article.querySelectorAll(".option");
+      buttons.forEach((button, index) => {
+        button.disabled = true;
+        if (index === question.answer) button.classList.add("correct");
+        if (index === optionIndex && index !== question.answer) button.classList.add("wrong");
+      });
+
+      article.querySelector(".feedback").classList.add("visible");
+      answered.set(questionIndex, optionIndex === question.answer);
+      updateScore();
+    }
+
+    function updateScore() {
+      const correct = [...answered.values()].filter(Boolean).length;
+      document.getElementById("score").textContent = correct;
+      const message = document.getElementById("scoreMessage");
+
+      if (answered.size === questions.length && correct === questions.length) {
+        message.textContent = "Perfecto: ya dominas las reglas básicas.";
+      } else if (answered.size === questions.length) {
+        message.textContent = "Repasa las explicaciones de las preguntas falladas y vuelve a intentarlo.";
+      } else {
+        message.textContent = `Has respondido ${answered.size} de ${questions.length} preguntas.`;
+      }
+    }
+
+    document.getElementById("analyzeVerse").addEventListener("click", renderMeter);
+    document.getElementById("verseInput").addEventListener("input", renderMeter);
+    document.querySelectorAll("[data-verse]").forEach(button => {
+      button.addEventListener("click", () => {
+        document.getElementById("verseInput").value = button.dataset.verse;
+        renderMeter();
+      });
+    });
+
+    document.getElementById("compareRhyme").addEventListener("click", compareRhymeWords);
+    document.getElementById("wordOne").addEventListener("input", compareRhymeWords);
+    document.getElementById("wordTwo").addEventListener("input", compareRhymeWords);
+    document.getElementById("resetQuiz").addEventListener("click", () => {
+      answered.clear();
+      renderQuiz();
+      updateScore();
+    });
+
+    renderMeter();
+    compareRhymeWords();
+    renderQuiz();
+  </script>
+</body>
+</html>
