@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Superficies de figuras geométricas 2º ESO | Ejercicios paso a paso</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-2: #0c1830;
+      --ink: #eef6ff;
+      --soft: #d9e8ff;
+      --muted: #a9bad7;
+      --faint: #7e93b4;
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel-strong: rgba(255, 255, 255, 0.1);
+      --line: rgba(255, 255, 255, 0.14);
+      --amber: #f59e0b;
+      --amber-2: #fbbf24;
+      --cyan: #22d3ee;
+      --blue: #60a5fa;
+      --green: #34d399;
+      --rose: #fb7185;
+      --violet: #a78bfa;
+      --radius: 8px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      line-height: 1.6;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        radial-gradient(circle at 12% 8%, rgba(245, 158, 11, 0.16), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(34, 211, 238, 0.12), transparent 30%),
+        linear-gradient(180deg, var(--bg), var(--bg-2) 48%, #07101d);
+      background-size: 40px 40px, 40px 40px, auto, auto, auto;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent, rgba(7, 17, 31, 0.74) 58%, rgba(7, 17, 31, 0.95));
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      min-height: 46px;
+    }
+
+    svg {
+      max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    .page {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(7, 17, 31, 0.88);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      width: min(1160px, calc(100% - 32px));
+      min-height: 64px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      color: var(--soft);
+      text-decoration: none;
+      font-size: 0.96rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .home-link svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .top-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .top-nav a {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 780;
+      white-space: nowrap;
+    }
+
+    .top-nav a:hover,
+    .top-nav a:focus-visible {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.14);
+      outline: none;
+    }
+
+    .hero {
+      min-height: calc(82svh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.88fr);
+      align-items: center;
+      gap: 52px;
+      padding: 56px 0 38px;
+    }
+
+    .meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: var(--soft);
+      font-size: 0.98rem;
+      font-weight: 800;
+    }
+
+    .meta-line span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 5px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    h1 {
+      max-width: 13ch;
+      font-size: clamp(2.55rem, 8vw, 4.7rem);
+      line-height: 0.97;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 66ch;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 15px;
+      border: 0;
+      border-radius: var(--radius);
+      color: var(--ink);
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.96rem;
+      font-weight: 850;
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn.primary {
+      color: #111827;
+      background: linear-gradient(135deg, var(--amber-2), var(--amber));
+      box-shadow: 0 16px 34px rgba(245, 158, 11, 0.24);
+    }
+
+    .btn.ghost {
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid var(--line);
+    }
+
+    .hero-stage {
+      min-height: 510px;
+      display: grid;
+      align-items: center;
+    }
+
+    .figure-lab {
+      position: relative;
+      min-height: 460px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 20% 18%, rgba(245, 158, 11, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .figure-lab::before {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      pointer-events: none;
+    }
+
+    .lab-grid {
+      position: absolute;
+      inset: 0;
+      opacity: 0.34;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .hero-svg {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+    }
+
+    .formula-chip {
+      position: relative;
+      z-index: 2;
+      max-width: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--amber);
+      background: rgba(7, 17, 31, 0.82);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+    }
+
+    .formula-chip strong {
+      display: block;
+      color: var(--amber-2);
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+
+    .formula-chip span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .section {
+      padding: 68px 0;
+      scroll-margin-top: 82px;
+    }
+
+    .section.alt {
+      border-block: 1px solid rgba(255, 255, 255, 0.075);
+      background: rgba(255, 255, 255, 0.028);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.78fr) minmax(240px, 0.42fr);
+      align-items: end;
+      gap: 26px;
+      margin-bottom: 28px;
+    }
+
+    .section-label {
+      color: var(--amber-2);
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin-top: 7px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .method-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .method-step {
+      min-height: 168px;
+      padding: 18px;
+      border-top: 4px solid var(--amber);
+      background: rgba(255, 255, 255, 0.058);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .method-step:nth-child(2) {
+      border-color: var(--cyan);
+    }
+
+    .method-step:nth-child(3) {
+      border-color: var(--green);
+    }
+
+    .method-step:nth-child(4) {
+      border-color: var(--violet);
+    }
+
+    .method-step .num {
+      display: inline-grid;
+      width: 36px;
+      height: 36px;
+      margin-bottom: 14px;
+      place-items: center;
+      border-radius: 50%;
+      color: #111827;
+      background: var(--amber-2);
+      font-weight: 900;
+    }
+
+    .method-step:nth-child(2) .num {
+      background: var(--cyan);
+    }
+
+    .method-step:nth-child(3) .num {
+      background: var(--green);
+    }
+
+    .method-step:nth-child(4) .num {
+      background: var(--violet);
+    }
+
+    .method-step h3 {
+      color: var(--soft);
+      font-size: 1.08rem;
+      line-height: 1.3;
+    }
+
+    .method-step p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .example-walk {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+      margin-top: 34px;
+      padding: 22px;
+      border: 1px solid rgba(245, 158, 11, 0.22);
+      background: rgba(245, 158, 11, 0.07);
+    }
+
+    .example-walk h3 {
+      color: var(--amber-2);
+      font-size: 1.28rem;
+    }
+
+    .example-walk p {
+      color: var(--muted);
+    }
+
+    .steps {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .step:last-child {
+      border-bottom: 0;
+    }
+
+    .step b {
+      display: inline-grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      color: #111827;
+      background: var(--amber-2);
+      font-size: 0.92rem;
+      font-weight: 900;
+    }
+
+    .step span {
+      color: var(--soft);
+      font-size: 0.98rem;
+    }
+
+    .math {
+      display: inline-block;
+      margin-top: 3px;
+      color: #fff7d7;
+      font-weight: 850;
+    }
+
+    .shape-bank {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .formula-item {
+      min-height: 270px;
+      display: grid;
+      grid-template-rows: 132px auto;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      background: rgba(255, 255, 255, 0.055);
+      overflow: hidden;
+    }
+
+    .formula-figure {
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-color: rgba(0, 0, 0, 0.1);
+      background-size: 18px 18px;
+    }
+
+    .formula-copy {
+      padding: 16px;
+    }
+
+    .formula-copy h3 {
+      color: var(--soft);
+      font-size: 1.08rem;
+    }
+
+    .formula-copy .rule {
+      margin-top: 8px;
+      color: var(--amber-2);
+      font-size: 1.08rem;
+      font-weight: 900;
+    }
+
+    .formula-copy p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .exercise {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-top: 4px solid var(--amber);
+      background: rgba(255, 255, 255, 0.052);
+    }
+
+    .exercise:nth-child(2n) {
+      border-top-color: var(--cyan);
+    }
+
+    .exercise:nth-child(3n) {
+      border-top-color: var(--green);
+    }
+
+    .exercise-figure {
+      min-height: 180px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-color: rgba(0, 0, 0, 0.12);
+      background-size: 18px 18px;
+    }
+
+    .exercise h3 {
+      color: var(--soft);
+      font-size: 1.13rem;
+      line-height: 1.28;
+    }
+
+    .exercise p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .answer-row {
+      display: grid;
+      grid-template-columns: minmax(110px, 1fr) auto auto;
+      gap: 9px;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .answer-row label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+
+    .answer-row input {
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 12px;
+      color: var(--ink);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      background: rgba(7, 17, 31, 0.72);
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .answer-row input:focus {
+      border-color: var(--amber-2);
+      outline: 3px solid rgba(245, 158, 11, 0.16);
+    }
+
+    .small-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: var(--radius);
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .small-btn.check {
+      color: #111827;
+      border: 0;
+      background: var(--amber-2);
+    }
+
+    .feedback {
+      min-height: 28px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      font-weight: 760;
+    }
+
+    .feedback.ok {
+      color: #a7f3d0;
+    }
+
+    .feedback.bad {
+      color: #fecdd3;
+    }
+
+    .solution {
+      display: none;
+      grid-column: 1 / -1;
+      margin-top: 4px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--amber);
+      background: rgba(7, 17, 31, 0.62);
+    }
+
+    .solution.visible {
+      display: block;
+    }
+
+    .solution h4 {
+      margin: 0 0 6px;
+      color: var(--amber-2);
+      font-size: 1rem;
+    }
+
+    .solution ol {
+      margin: 8px 0 0;
+      padding-left: 22px;
+      color: var(--soft);
+    }
+
+    .solution li {
+      margin: 7px 0;
+    }
+
+    .score-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+      padding: 16px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .score-panel strong {
+      color: var(--amber-2);
+      font-size: 1.05rem;
+    }
+
+    .progress-track {
+      flex: 1 1 260px;
+      height: 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.09);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--amber-2), var(--green));
+      transition: width 0.22s ease;
+    }
+
+    .trainer {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.86fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: stretch;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.054);
+      box-shadow: var(--shadow);
+    }
+
+    .trainer-stage {
+      display: grid;
+      min-height: 320px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-color: rgba(0, 0, 0, 0.12);
+      background-size: 20px 20px;
+    }
+
+    .trainer-copy h3 {
+      color: var(--soft);
+      font-size: 1.3rem;
+    }
+
+    .trainer-copy p {
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
+    .trainer-controls {
+      display: grid;
+      grid-template-columns: minmax(120px, 1fr) auto auto;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .trainer-controls input {
+      min-height: 48px;
+      padding: 10px 12px;
+      color: var(--ink);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      background: rgba(7, 17, 31, 0.72);
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .trainer-steps {
+      margin-top: 18px;
+      padding: 16px;
+      border-left: 4px solid var(--green);
+      background: rgba(7, 17, 31, 0.62);
+    }
+
+    .trainer-steps[hidden] {
+      display: none;
+    }
+
+    .trainer-steps h4 {
+      margin: 0 0 8px;
+      color: #a7f3d0;
+      font-size: 1rem;
+    }
+
+    .trainer-steps ol {
+      margin: 0;
+      padding-left: 22px;
+      color: var(--soft);
+    }
+
+    .trainer-steps li {
+      margin: 7px 0;
+    }
+
+    .summary-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .summary-item {
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      background: rgba(255, 255, 255, 0.052);
+    }
+
+    .summary-item h3 {
+      color: var(--soft);
+      font-size: 1.05rem;
+    }
+
+    .summary-item p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .shape-fill-amber {
+      fill: rgba(245, 158, 11, 0.36);
+      stroke: #fbbf24;
+    }
+
+    .shape-fill-cyan {
+      fill: rgba(34, 211, 238, 0.32);
+      stroke: #22d3ee;
+    }
+
+    .shape-fill-green {
+      fill: rgba(52, 211, 153, 0.32);
+      stroke: #34d399;
+    }
+
+    .shape-fill-violet {
+      fill: rgba(167, 139, 250, 0.32);
+      stroke: #a78bfa;
+    }
+
+    .measure {
+      fill: #eef6ff;
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .measure-small {
+      fill: #d9e8ff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .dash {
+      stroke: rgba(238, 246, 255, 0.72);
+      stroke-width: 3;
+      stroke-dasharray: 7 6;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .section-head,
+      .example-walk,
+      .trainer {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 42px;
+      }
+
+      .hero-stage {
+        min-height: 420px;
+      }
+
+      .method-strip,
+      .shape-bank,
+      .summary-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .exercise-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page,
+      .topbar-inner {
+        width: min(100% - 22px, 1160px);
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 10px 0;
+        gap: 8px;
+      }
+
+      .top-nav {
+        width: 100%;
+        padding-bottom: 2px;
+      }
+
+      h1 {
+        max-width: 12ch;
+      }
+
+      .hero {
+        gap: 28px;
+        padding-bottom: 22px;
+      }
+
+      .figure-lab {
+        min-height: 380px;
+        padding: 14px;
+      }
+
+      .hero-svg {
+        min-height: 330px;
+      }
+
+      .method-strip,
+      .shape-bank,
+      .summary-list {
+        grid-template-columns: 1fr;
+      }
+
+      .exercise {
+        grid-template-columns: 1fr;
+      }
+
+      .exercise-figure {
+        min-height: 210px;
+      }
+
+      .answer-row,
+      .trainer-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .small-btn,
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="home-link" href="index.html" aria-label="Volver a la portada">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        Portada
+      </a>
+      <nav class="top-nav" aria-label="Navegación de la página">
+        <a href="#metodo">Método</a>
+        <a href="#formulas">Fórmulas</a>
+        <a href="#ejercicios">Ejercicios</a>
+        <a href="#entrenador">Entrenador</a>
+        <a href="#resumen">Resumen</a>
+      </nav>
+    </div>
+  </div>
+
+  <header class="page hero">
+    <div class="hero-copy">
+      <div class="meta-line">
+        <span>Matemáticas</span>
+        <span>2º ESO</span>
+        <span>Superficies</span>
+      </div>
+      <h1>Áreas de figuras geométricas</h1>
+      <p class="lead">Practica el cálculo de superficies con dibujos, fórmulas claras y explicaciones paso a paso. En cada ejercicio se ve qué fórmula se elige, cómo se sustituyen los datos y cómo se escriben las unidades cuadradas.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#ejercicios">Empezar ejercicios</a>
+        <a class="btn ghost" href="#formulas">Repasar fórmulas</a>
+      </div>
+    </div>
+
+    <div class="hero-stage" aria-hidden="true">
+      <div class="figure-lab">
+        <div class="lab-grid"></div>
+        <svg class="hero-svg" viewBox="0 0 520 440" role="img" aria-label="Figuras geométricas con medidas">
+          <rect x="48" y="74" width="128" height="94" rx="6" class="shape-fill-amber" stroke-width="4"></rect>
+          <text x="88" y="67" class="measure">8 cm</text>
+          <text x="183" y="126" class="measure">5 cm</text>
+          <line x1="48" y1="184" x2="176" y2="184" class="dash"></line>
+          <text x="58" y="211" class="measure-small">A = b x h</text>
+
+          <polygon points="298,72 226,170 378,170" class="shape-fill-cyan" stroke-width="4"></polygon>
+          <line x1="298" y1="72" x2="298" y2="170" class="dash"></line>
+          <text x="268" y="188" class="measure">10 cm</text>
+          <text x="310" y="126" class="measure">7 cm</text>
+          <text x="244" y="213" class="measure-small">A = b x h / 2</text>
+
+          <polygon points="99,255 191,255 156,352 64,352" class="shape-fill-green" stroke-width="4"></polygon>
+          <line x1="64" y1="352" x2="156" y2="352" class="dash"></line>
+          <line x1="156" y1="255" x2="156" y2="352" class="dash"></line>
+          <text x="82" y="377" class="measure">9 cm</text>
+          <text x="163" y="309" class="measure">6 cm</text>
+
+          <circle cx="348" cy="307" r="62" class="shape-fill-violet" stroke-width="4"></circle>
+          <line x1="348" y1="307" x2="410" y2="307" class="dash"></line>
+          <text x="367" y="295" class="measure">r = 4</text>
+          <text x="307" y="390" class="measure-small">A = pi x r²</text>
+        </svg>
+        <div class="formula-chip">
+          <strong>Siempre se termina con unidades cuadradas.</strong>
+          <span>Si las longitudes están en cm, el área se escribe en cm².</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section alt" id="metodo">
+      <div class="page">
+        <div class="section-head">
+          <div>
+            <p class="section-label">Método de cálculo</p>
+            <h2>El mismo camino para cualquier figura.</h2>
+          </div>
+          <p>Antes de calcular, mira el dibujo y decide qué datos son base, altura, radio, diagonal o apotema. No empieces multiplicando números al azar.</p>
+        </div>
+
+        <div class="method-strip" aria-label="Pasos para calcular un área">
+          <article class="method-step">
+            <span class="num">1</span>
+            <h3>Reconoce la figura</h3>
+            <p>Pregunta: ¿es rectángulo, triángulo, trapecio, círculo o una figura compuesta?</p>
+          </article>
+          <article class="method-step">
+            <span class="num">2</span>
+            <h3>Elige la fórmula</h3>
+            <p>Escribe la fórmula antes de sustituir. Así evitas olvidar divisiones como la del triángulo.</p>
+          </article>
+          <article class="method-step">
+            <span class="num">3</span>
+            <h3>Sustituye los datos</h3>
+            <p>Cambia cada letra por su medida. Si falta una altura, primero hay que encontrarla o descomponer la figura.</p>
+          </article>
+          <article class="method-step">
+            <span class="num">4</span>
+            <h3>Calcula y pon unidades</h3>
+            <p>El resultado es una superficie: cm², m², dm²... No uses cm si has calculado un área.</p>
+          </article>
+        </div>
+
+        <article class="example-walk">
+          <svg viewBox="0 0 360 230" role="img" aria-label="Rectángulo de base 12 centímetros y altura 5 centímetros">
+            <rect x="64" y="58" width="220" height="100" rx="5" class="shape-fill-amber" stroke-width="4"></rect>
+            <line x1="64" y1="174" x2="284" y2="174" class="dash"></line>
+            <line x1="302" y1="58" x2="302" y2="158" class="dash"></line>
+            <text x="146" y="203" class="measure">12 cm</text>
+            <text x="312" y="113" class="measure">5 cm</text>
+          </svg>
+          <div>
+            <h3>Ejemplo resuelto: rectángulo</h3>
+            <p>Un rectángulo mide 12 cm de base y 5 cm de altura. Calculamos su superficie.</p>
+            <div class="steps">
+              <div class="step"><b>1</b><span>Figura: rectángulo. Sus datos útiles son base y altura.</span></div>
+              <div class="step"><b>2</b><span>Fórmula: <span class="math">A = b x h</span></span></div>
+              <div class="step"><b>3</b><span>Sustitución: <span class="math">A = 12 x 5</span></span></div>
+              <div class="step"><b>4</b><span>Cálculo: <span class="math">A = 60 cm²</span>. La unidad queda al cuadrado porque es superficie.</span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="formulas">
+      <div class="page">
+        <div class="section-head">
+          <div>
+            <p class="section-label">Fórmulas con dibujo</p>
+            <h2>Qué dato usa cada figura.</h2>
+          </div>
+          <p>La altura siempre se mide perpendicular a la base. En círculos usa el radio, no el diámetro, salvo que primero lo dividas entre dos.</p>
+        </div>
+
+        <div class="shape-bank">
+          <article class="formula-item">
+            <div class="formula-figure">
+              <svg viewBox="0 0 210 140" aria-label="Cuadrado">
+                <rect x="54" y="25" width="90" height="90" rx="5" class="shape-fill-amber" stroke-width="4"></rect>
+                <text x="88" y="132" class="measure">l</text>
+                <text x="151" y="75" class="measure">l</text>
+              </svg>
+            </div>
+            <div class="formula-copy">
+              <h3>Cuadrado</h3>
+              <div class="rule">A = l²</div>
+              <p>Multiplica lado por lado. Si el lado es 6 cm: 6 x 6 = 36 cm².</p>
+            </div>
+          </article>
+
+          <article class="formula-item">
+            <div class="formula-figure">
+              <svg viewBox="0 0 210 140" aria-label="Rectángulo">
+                <rect x="32" y="38" width="145" height="66" rx="5" class="shape-fill-cyan" stroke-width="4"></rect>
+                <text x="93" y="125" class="measure">b</text>
+                <text x="184" y="75" class="measure">h</text>
+              </svg>
+            </div>
+            <div class="formula-copy">
+              <h3>Rectángulo</h3>
+              <div class="rule">A = b x h</div>
+              <p>Base por altura. Sirve también para contar cuadritos de una cuadrícula.</p>
+            </div>
+          </article>
+
+          <article class="formula-item">
+            <div class="formula-figure">
+              <svg viewBox="0 0 210 140" aria-label="Triángulo">
+                <polygon points="106,21 32,112 178,112" class="shape-fill-green" stroke-width="4"></polygon>
+                <line x1="106" y1="21" x2="106" y2="112" class="dash"></line>
+                <text x="94" y="132" class="measure">b</text>
+                <text x="116" y="70" class="measure">h</text>
+              </svg>
+            </div>
+            <div class="formula-copy">
+              <h3>Triángulo</h3>
+              <div class="rule">A = (b x h) / 2</div>
+              <p>Es la mitad de un rectángulo o romboide con la misma base y altura.</p>
+            </div>
+          </article>
+
+          <article class="formula-item">
+            <div class="formula-figure">
+              <svg viewBox="0 0 210 140" aria-label="Romboide">
+                <polygon points="64,34 178,34 145,109 31,109" class="shape-fill-violet" stroke-width="4"></polygon>
+                <line x1="145" y1="34" x2="145" y2="109" class="dash"></line>
+                <text x="80" y="130" class="measure">b</text>
+                <text x="153" y="75" class="measure">h</text>
+              </svg>
+            </div>
+            <div class="formula-copy">
+              <h3>Romboide</h3>
+              <div class="rule">A = b x h</div>
+              <p>No multipliques por el lado inclinado: usa la altura perpendicular.</p>
+            </div>
+          </article>
+
+          <article class="formula-item">
+            <div class="formula-figure">
+              <svg viewBox="0 0 210 140" aria-label="Trapecio">
+                <polygon points="64,34 146,34 181,109 30,109" class="shape-fill-cyan" stroke-width="4"></polygon>
+                <line x1="146" y1="34" x2="146" y2="109" class="dash"></line>
+                <text x="93" y="28" class="measure">B</text>
+                <text x="96" y="130" class="measure">b</text>
+                <text x="154" y="75" class="measure">h</text>
+              </svg>
+            </div>
+            <div class="formula-copy">
+              <h3>Trapecio</h3>
+              <div class="rule">A = ((B + b) x h) / 2</div>
+              <p>Suma las dos bases, multiplica por la altura y divide entre dos.</p>
+            </div>
+          </article>
+
+          <article class="formula-item">
+            <div class="formula-figure">
+              <svg viewBox="0 0 210 140" aria-label="Rombo">
+                <polygon points="105,18 178,70 105,122 32,70" class="shape-fill-amber" stroke-width="4"></polygon>
+                <line x1="32" y1="70" x2="178" y2="70" class="dash"></line>
+                <line x1="105" y1="18" x2="105" y2="122" class="dash"></line>
+                <text x="112" y="54" class="measure">D</text>
+                <text x="66" y="63" class="measure">d</text>
+              </svg>
+            </div>
+            <div class="formula-copy">
+              <h3>Rombo</h3>
+              <div class="rule">A = (D x d) / 2</div>
+              <p>Multiplica diagonal mayor por diagonal menor y divide entre dos.</p>
+            </div>
+          </article>
+
+          <article class="formula-item">
+            <div class="formula-figure">
+              <svg viewBox="0 0 210 140" aria-label="Círculo">
+                <circle cx="104" cy="70" r="52" class="shape-fill-violet" stroke-width="4"></circle>
+                <line x1="104" y1="70" x2="156" y2="70" class="dash"></line>
+                <text x="124" y="62" class="measure">r</text>
+              </svg>
+            </div>
+            <div class="formula-copy">
+              <h3>Círculo</h3>
+              <div class="rule">A = pi x r²</div>
+              <p>Primero eleva el radio al cuadrado. Después multiplica por pi.</p>
+            </div>
+          </article>
+
+          <article class="formula-item">
+            <div class="formula-figure">
+              <svg viewBox="0 0 210 140" aria-label="Polígono regular">
+                <polygon points="105,18 150,43 150,96 105,122 60,96 60,43" class="shape-fill-green" stroke-width="4"></polygon>
+                <line x1="105" y1="70" x2="150" y2="96" class="dash"></line>
+                <line x1="105" y1="70" x2="105" y2="122" class="dash"></line>
+                <text x="112" y="99" class="measure">a</text>
+                <text x="120" y="125" class="measure-small">lado</text>
+              </svg>
+            </div>
+            <div class="formula-copy">
+              <h3>Polígono regular</h3>
+              <div class="rule">A = (P x a) / 2</div>
+              <p>Calcula el perímetro P y multiplícalo por la apotema.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="ejercicios">
+      <div class="page">
+        <div class="section-head">
+          <div>
+            <p class="section-label">Práctica guiada</p>
+            <h2>Ejercicios con solución paso a paso.</h2>
+          </div>
+          <p>Escribe solo el número. Puedes usar coma o punto decimal. Después comprueba tu respuesta o abre la explicación completa.</p>
+        </div>
+
+        <div class="score-panel" aria-live="polite">
+          <strong id="scoreText">0 de 8 ejercicios correctos</strong>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+
+        <div class="exercise-grid">
+          <article class="exercise" data-answer="49" data-unit="cm²">
+            <div class="exercise-figure">
+              <svg viewBox="0 0 210 180" aria-label="Cuadrado de lado 7 centímetros">
+                <rect x="52" y="32" width="106" height="106" rx="5" class="shape-fill-amber" stroke-width="4"></rect>
+                <text x="84" y="162" class="measure">7 cm</text>
+                <text x="164" y="91" class="measure">7 cm</text>
+              </svg>
+            </div>
+            <div>
+              <h3>1. Cuadrado de lado 7 cm</h3>
+              <p>Calcula la superficie del cuadrado.</p>
+              <div class="answer-row">
+                <label for="ans1">Respuesta del ejercicio 1</label>
+                <input id="ans1" type="text" inputmode="decimal" placeholder="Área" />
+                <button class="small-btn check" type="button">Comprobar</button>
+                <button class="small-btn reveal" type="button">Ver pasos</button>
+              </div>
+              <p class="feedback" aria-live="polite"></p>
+            </div>
+            <div class="solution">
+              <h4>Solución paso a paso</h4>
+              <ol>
+                <li>Figura: cuadrado. Todos sus lados miden lo mismo.</li>
+                <li>Fórmula: <span class="math">A = l²</span>.</li>
+                <li>Sustituimos: <span class="math">A = 7²</span>.</li>
+                <li>Calculamos: <span class="math">7 x 7 = 49</span>.</li>
+                <li>Respuesta final: <span class="math">49 cm²</span>.</li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="exercise" data-answer="96" data-unit="m²">
+            <div class="exercise-figure">
+              <svg viewBox="0 0 210 180" aria-label="Rectángulo de base 12 metros y altura 8 metros">
+                <rect x="30" y="48" width="150" height="84" rx="5" class="shape-fill-cyan" stroke-width="4"></rect>
+                <text x="83" y="158" class="measure">12 m</text>
+                <text x="185" y="96" class="measure">8 m</text>
+              </svg>
+            </div>
+            <div>
+              <h3>2. Rectángulo de 12 m por 8 m</h3>
+              <p>Calcula el área de una pista rectangular.</p>
+              <div class="answer-row">
+                <label for="ans2">Respuesta del ejercicio 2</label>
+                <input id="ans2" type="text" inputmode="decimal" placeholder="Área" />
+                <button class="small-btn check" type="button">Comprobar</button>
+                <button class="small-btn reveal" type="button">Ver pasos</button>
+              </div>
+              <p class="feedback" aria-live="polite"></p>
+            </div>
+            <div class="solution">
+              <h4>Solución paso a paso</h4>
+              <ol>
+                <li>Figura: rectángulo. Datos: base 12 m y altura 8 m.</li>
+                <li>Fórmula: <span class="math">A = b x h</span>.</li>
+                <li>Sustituimos: <span class="math">A = 12 x 8</span>.</li>
+                <li>Calculamos: <span class="math">12 x 8 = 96</span>.</li>
+                <li>Respuesta final: <span class="math">96 m²</span>.</li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="exercise" data-answer="30" data-unit="cm²">
+            <div class="exercise-figure">
+              <svg viewBox="0 0 210 180" aria-label="Triángulo de base 10 centímetros y altura 6 centímetros">
+                <polygon points="105,31 38,138 172,138" class="shape-fill-green" stroke-width="4"></polygon>
+                <line x1="105" y1="31" x2="105" y2="138" class="dash"></line>
+                <text x="82" y="164" class="measure">10 cm</text>
+                <text x="112" y="91" class="measure">6 cm</text>
+              </svg>
+            </div>
+            <div>
+              <h3>3. Triángulo: base 10 cm y altura 6 cm</h3>
+              <p>Recuerda que un triángulo es la mitad de un rectángulo con la misma base y altura.</p>
+              <div class="answer-row">
+                <label for="ans3">Respuesta del ejercicio 3</label>
+                <input id="ans3" type="text" inputmode="decimal" placeholder="Área" />
+                <button class="small-btn check" type="button">Comprobar</button>
+                <button class="small-btn reveal" type="button">Ver pasos</button>
+              </div>
+              <p class="feedback" aria-live="polite"></p>
+            </div>
+            <div class="solution">
+              <h4>Solución paso a paso</h4>
+              <ol>
+                <li>Figura: triángulo. Datos: base 10 cm y altura 6 cm.</li>
+                <li>Fórmula: <span class="math">A = (b x h) / 2</span>.</li>
+                <li>Sustituimos: <span class="math">A = (10 x 6) / 2</span>.</li>
+                <li>Multiplicamos: <span class="math">10 x 6 = 60</span>.</li>
+                <li>Dividimos entre dos: <span class="math">60 / 2 = 30</span>.</li>
+                <li>Respuesta final: <span class="math">30 cm²</span>.</li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="exercise" data-answer="54" data-unit="dm²">
+            <div class="exercise-figure">
+              <svg viewBox="0 0 210 180" aria-label="Romboide de base 9 decímetros y altura 6 decímetros">
+                <polygon points="70,44 176,44 140,137 34,137" class="shape-fill-violet" stroke-width="4"></polygon>
+                <line x1="140" y1="44" x2="140" y2="137" class="dash"></line>
+                <text x="78" y="162" class="measure">9 dm</text>
+                <text x="148" y="93" class="measure">6 dm</text>
+              </svg>
+            </div>
+            <div>
+              <h3>4. Romboide: base 9 dm y altura 6 dm</h3>
+              <p>La altura es la línea perpendicular, no el lado inclinado.</p>
+              <div class="answer-row">
+                <label for="ans4">Respuesta del ejercicio 4</label>
+                <input id="ans4" type="text" inputmode="decimal" placeholder="Área" />
+                <button class="small-btn check" type="button">Comprobar</button>
+                <button class="small-btn reveal" type="button">Ver pasos</button>
+              </div>
+              <p class="feedback" aria-live="polite"></p>
+            </div>
+            <div class="solution">
+              <h4>Solución paso a paso</h4>
+              <ol>
+                <li>Figura: romboide. Datos: base 9 dm y altura 6 dm.</li>
+                <li>Fórmula: <span class="math">A = b x h</span>.</li>
+                <li>Sustituimos: <span class="math">A = 9 x 6</span>.</li>
+                <li>Calculamos: <span class="math">9 x 6 = 54</span>.</li>
+                <li>Respuesta final: <span class="math">54 dm²</span>.</li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="exercise" data-answer="75" data-unit="cm²">
+            <div class="exercise-figure">
+              <svg viewBox="0 0 210 180" aria-label="Trapecio con bases 14 y 11 centímetros y altura 6 centímetros">
+                <polygon points="59,43 151,43 181,137 28,137" class="shape-fill-cyan" stroke-width="4"></polygon>
+                <line x1="151" y1="43" x2="151" y2="137" class="dash"></line>
+                <text x="82" y="35" class="measure">11 cm</text>
+                <text x="76" y="164" class="measure">14 cm</text>
+                <text x="158" y="92" class="measure">6 cm</text>
+              </svg>
+            </div>
+            <div>
+              <h3>5. Trapecio: bases 14 cm y 11 cm, altura 6 cm</h3>
+              <p>Primero se suman las dos bases.</p>
+              <div class="answer-row">
+                <label for="ans5">Respuesta del ejercicio 5</label>
+                <input id="ans5" type="text" inputmode="decimal" placeholder="Área" />
+                <button class="small-btn check" type="button">Comprobar</button>
+                <button class="small-btn reveal" type="button">Ver pasos</button>
+              </div>
+              <p class="feedback" aria-live="polite"></p>
+            </div>
+            <div class="solution">
+              <h4>Solución paso a paso</h4>
+              <ol>
+                <li>Figura: trapecio. Datos: base mayor 14 cm, base menor 11 cm y altura 6 cm.</li>
+                <li>Fórmula: <span class="math">A = ((B + b) x h) / 2</span>.</li>
+                <li>Sustituimos: <span class="math">A = ((14 + 11) x 6) / 2</span>.</li>
+                <li>Sumamos las bases: <span class="math">14 + 11 = 25</span>.</li>
+                <li>Multiplicamos por la altura: <span class="math">25 x 6 = 150</span>.</li>
+                <li>Dividimos entre dos: <span class="math">150 / 2 = 75</span>.</li>
+                <li>Respuesta final: <span class="math">75 cm²</span>.</li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="exercise" data-answer="48" data-unit="cm²">
+            <div class="exercise-figure">
+              <svg viewBox="0 0 210 180" aria-label="Rombo con diagonales 12 centímetros y 8 centímetros">
+                <polygon points="105,25 178,90 105,155 32,90" class="shape-fill-amber" stroke-width="4"></polygon>
+                <line x1="32" y1="90" x2="178" y2="90" class="dash"></line>
+                <line x1="105" y1="25" x2="105" y2="155" class="dash"></line>
+                <text x="112" y="65" class="measure">12 cm</text>
+                <text x="72" y="84" class="measure">8 cm</text>
+              </svg>
+            </div>
+            <div>
+              <h3>6. Rombo: diagonales 12 cm y 8 cm</h3>
+              <p>Usa las dos diagonales, no el lado.</p>
+              <div class="answer-row">
+                <label for="ans6">Respuesta del ejercicio 6</label>
+                <input id="ans6" type="text" inputmode="decimal" placeholder="Área" />
+                <button class="small-btn check" type="button">Comprobar</button>
+                <button class="small-btn reveal" type="button">Ver pasos</button>
+              </div>
+              <p class="feedback" aria-live="polite"></p>
+            </div>
+            <div class="solution">
+              <h4>Solución paso a paso</h4>
+              <ol>
+                <li>Figura: rombo. Datos: diagonal mayor 12 cm y diagonal menor 8 cm.</li>
+                <li>Fórmula: <span class="math">A = (D x d) / 2</span>.</li>
+                <li>Sustituimos: <span class="math">A = (12 x 8) / 2</span>.</li>
+                <li>Multiplicamos diagonales: <span class="math">12 x 8 = 96</span>.</li>
+                <li>Dividimos entre dos: <span class="math">96 / 2 = 48</span>.</li>
+                <li>Respuesta final: <span class="math">48 cm²</span>.</li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="exercise" data-answer="50.24" data-unit="cm²">
+            <div class="exercise-figure">
+              <svg viewBox="0 0 210 180" aria-label="Círculo de radio 4 centímetros">
+                <circle cx="105" cy="89" r="58" class="shape-fill-violet" stroke-width="4"></circle>
+                <line x1="105" y1="89" x2="163" y2="89" class="dash"></line>
+                <text x="124" y="79" class="measure">4 cm</text>
+              </svg>
+            </div>
+            <div>
+              <h3>7. Círculo de radio 4 cm</h3>
+              <p>Usa pi = 3,14 y redondea a dos decimales.</p>
+              <div class="answer-row">
+                <label for="ans7">Respuesta del ejercicio 7</label>
+                <input id="ans7" type="text" inputmode="decimal" placeholder="Área" />
+                <button class="small-btn check" type="button">Comprobar</button>
+                <button class="small-btn reveal" type="button">Ver pasos</button>
+              </div>
+              <p class="feedback" aria-live="polite"></p>
+            </div>
+            <div class="solution">
+              <h4>Solución paso a paso</h4>
+              <ol>
+                <li>Figura: círculo. Dato: radio 4 cm.</li>
+                <li>Fórmula: <span class="math">A = pi x r²</span>.</li>
+                <li>Sustituimos con pi = 3,14: <span class="math">A = 3,14 x 4²</span>.</li>
+                <li>Elevamos el radio: <span class="math">4² = 16</span>.</li>
+                <li>Multiplicamos: <span class="math">3,14 x 16 = 50,24</span>.</li>
+                <li>Respuesta final: <span class="math">50,24 cm²</span>. Se acepta una pequeña diferencia por redondeo.</li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="exercise" data-answer="132" data-unit="m²">
+            <div class="exercise-figure">
+              <svg viewBox="0 0 210 180" aria-label="Figura compuesta en forma de L con dos rectángulos">
+                <path d="M42 38 H138 V86 H174 V140 H42 Z" class="shape-fill-green" stroke-width="4"></path>
+                <line x1="42" y1="24" x2="138" y2="24" class="dash"></line>
+                <line x1="42" y1="155" x2="174" y2="155" class="dash"></line>
+                <line x1="190" y1="86" x2="190" y2="140" class="dash"></line>
+                <line x1="138" y1="38" x2="138" y2="86" class="dash"></line>
+                <text x="76" y="19" class="measure">12 m</text>
+                <text x="83" y="173" class="measure">15 m</text>
+                <text x="145" y="66" class="measure">6 m</text>
+                <text x="157" y="123" class="measure">4 m</text>
+              </svg>
+            </div>
+            <div>
+              <h3>8. Figura compuesta en L</h3>
+              <p>Descompón en dos rectángulos: uno de 12 m x 6 m y otro de 15 m x 4 m.</p>
+              <div class="answer-row">
+                <label for="ans8">Respuesta del ejercicio 8</label>
+                <input id="ans8" type="text" inputmode="decimal" placeholder="Área" />
+                <button class="small-btn check" type="button">Comprobar</button>
+                <button class="small-btn reveal" type="button">Ver pasos</button>
+              </div>
+              <p class="feedback" aria-live="polite"></p>
+            </div>
+            <div class="solution">
+              <h4>Solución paso a paso</h4>
+              <ol>
+                <li>Figura: compuesta. La dividimos en dos rectángulos que no se pisan.</li>
+                <li>Rectángulo superior: <span class="math">A1 = 12 x 6 = 72</span>.</li>
+                <li>Rectángulo inferior: <span class="math">A2 = 15 x 4 = 60</span>.</li>
+                <li>Sumamos superficies: <span class="math">A = A1 + A2 = 72 + 60</span>.</li>
+                <li>Calculamos: <span class="math">A = 132 m²</span>.</li>
+                <li>Respuesta final: <span class="math">132 m²</span>.</li>
+              </ol>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="entrenador">
+      <div class="page">
+        <div class="section-head">
+          <div>
+            <p class="section-label">Entrenador rápido</p>
+            <h2>Un ejercicio nuevo cada vez.</h2>
+          </div>
+          <p>Sirve para repetir el proceso: identificar figura, elegir fórmula, sustituir y calcular.</p>
+        </div>
+
+        <div class="trainer">
+          <div class="trainer-stage" id="trainerStage" aria-live="polite"></div>
+          <div class="trainer-copy">
+            <h3 id="trainerTitle">Ejercicio</h3>
+            <p id="trainerQuestion"></p>
+            <div class="trainer-controls">
+              <input id="trainerAnswer" type="text" inputmode="decimal" placeholder="Área" aria-label="Respuesta del entrenador" />
+              <button class="small-btn check" id="trainerCheck" type="button">Comprobar</button>
+              <button class="small-btn" id="trainerNew" type="button">Nuevo</button>
+            </div>
+            <p class="feedback" id="trainerFeedback" aria-live="polite"></p>
+            <div class="trainer-steps" id="trainerSteps" hidden>
+              <h4>Explicación paso a paso</h4>
+              <ol id="trainerStepList"></ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="resumen">
+      <div class="page">
+        <div class="section-head">
+          <div>
+            <p class="section-label">Resumen final</p>
+            <h2>Antes de dar el resultado, revisa esto.</h2>
+          </div>
+          <p>Estos tres errores explican la mayoría de fallos en ejercicios de superficies.</p>
+        </div>
+
+        <div class="summary-list">
+          <article class="summary-item">
+            <h3>No confundas altura y lado inclinado</h3>
+            <p>En triángulos, romboides y trapecios, la altura tiene que ser perpendicular a la base.</p>
+          </article>
+          <article class="summary-item">
+            <h3>Divide cuando toca</h3>
+            <p>Triángulo, rombo, trapecio y polígono regular tienen una división entre 2 en la fórmula.</p>
+          </article>
+          <article class="summary-item">
+            <h3>Escribe unidades cuadradas</h3>
+            <p>Área significa superficie. Si las medidas están en metros, el resultado se expresa en m².</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const exercises = Array.from(document.querySelectorAll(".exercise"));
+    const scoreText = document.getElementById("scoreText");
+    const progressFill = document.getElementById("progressFill");
+    const solved = new Set();
+
+    function parseAnswer(value) {
+      const normalized = value.trim().replace(",", ".");
+      const match = normalized.match(/-?\d+(?:\.\d+)?/);
+      return match ? Number(match[0]) : NaN;
+    }
+
+    function formatDecimal(value) {
+      return Number.isInteger(value) ? String(value) : String(value).replace(".", ",");
+    }
+
+    function closeEnough(userValue, expected) {
+      const tolerance = unitNeedsRounding(expected) ? 0.08 : 0.01;
+      return Math.abs(userValue - expected) <= tolerance;
+    }
+
+    function unitNeedsRounding(expected) {
+      return !Number.isInteger(expected);
+    }
+
+    function updateProgress() {
+      const total = exercises.length;
+      const count = solved.size;
+      scoreText.textContent = `${count} de ${total} ejercicios correctos`;
+      progressFill.style.width = `${(count / total) * 100}%`;
+    }
+
+    exercises.forEach((exercise, index) => {
+      const input = exercise.querySelector("input");
+      const check = exercise.querySelector(".check");
+      const reveal = exercise.querySelector(".reveal");
+      const feedback = exercise.querySelector(".feedback");
+      const solution = exercise.querySelector(".solution");
+      const expected = Number(exercise.dataset.answer);
+      const unit = exercise.dataset.unit;
+
+      check.addEventListener("click", () => {
+        const value = parseAnswer(input.value);
+        feedback.className = "feedback";
+
+        if (Number.isNaN(value)) {
+          feedback.textContent = "Escribe un número para poder comprobarlo.";
+          feedback.classList.add("bad");
+          return;
+        }
+
+        if (closeEnough(value, expected)) {
+          feedback.textContent = `Correcto: ${formatDecimal(expected)} ${unit}.`;
+          feedback.classList.add("ok");
+          solved.add(index);
+          updateProgress();
+        } else {
+          feedback.textContent = `Aún no. Revisa la fórmula y mira los pasos: el resultado correcto es ${formatDecimal(expected)} ${unit}.`;
+          feedback.classList.add("bad");
+          solution.classList.add("visible");
+        }
+      });
+
+      reveal.addEventListener("click", () => {
+        solution.classList.toggle("visible");
+        reveal.textContent = solution.classList.contains("visible") ? "Ocultar pasos" : "Ver pasos";
+      });
+    });
+
+    const trainerBank = [
+      {
+        title: "Triángulo",
+        question: "Base 14 cm y altura 9 cm. Calcula el área.",
+        answer: 63,
+        unit: "cm²",
+        svg: `<svg viewBox="0 0 260 220" aria-label="Triángulo de base 14 centímetros y altura 9 centímetros"><polygon points="130,28 44,176 216,176" class="shape-fill-green" stroke-width="4"></polygon><line x1="130" y1="28" x2="130" y2="176" class="dash"></line><text x="94" y="203" class="measure">14 cm</text><text x="139" y="105" class="measure">9 cm</text></svg>`,
+        steps: [
+          "Figura: triángulo. Datos: base 14 cm y altura 9 cm.",
+          "Fórmula: A = (b x h) / 2.",
+          "Sustituimos: A = (14 x 9) / 2.",
+          "Multiplicamos: 14 x 9 = 126.",
+          "Dividimos: 126 / 2 = 63.",
+          "Resultado: 63 cm²."
+        ]
+      },
+      {
+        title: "Trapecio",
+        question: "Base mayor 18 m, base menor 10 m y altura 5 m. Calcula el área.",
+        answer: 70,
+        unit: "m²",
+        svg: `<svg viewBox="0 0 260 220" aria-label="Trapecio con bases 18 y 10 metros y altura 5 metros"><polygon points="84,50 176,50 222,172 38,172" class="shape-fill-cyan" stroke-width="4"></polygon><line x1="176" y1="50" x2="176" y2="172" class="dash"></line><text x="105" y="42" class="measure">10 m</text><text x="96" y="202" class="measure">18 m</text><text x="184" y="116" class="measure">5 m</text></svg>`,
+        steps: [
+          "Figura: trapecio. Se usan las dos bases y la altura.",
+          "Fórmula: A = ((B + b) x h) / 2.",
+          "Sustituimos: A = ((18 + 10) x 5) / 2.",
+          "Sumamos bases: 18 + 10 = 28.",
+          "Multiplicamos: 28 x 5 = 140.",
+          "Dividimos: 140 / 2 = 70 m²."
+        ]
+      },
+      {
+        title: "Círculo",
+        question: "Radio 6 cm. Usa pi = 3,14 y redondea a dos decimales.",
+        answer: 113.04,
+        unit: "cm²",
+        svg: `<svg viewBox="0 0 260 220" aria-label="Círculo de radio 6 centímetros"><circle cx="130" cy="110" r="70" class="shape-fill-violet" stroke-width="4"></circle><line x1="130" y1="110" x2="200" y2="110" class="dash"></line><text x="154" y="99" class="measure">6 cm</text></svg>`,
+        steps: [
+          "Figura: círculo. Dato: radio 6 cm.",
+          "Fórmula: A = pi x r².",
+          "Sustituimos: A = 3,14 x 6².",
+          "Elevamos el radio: 6² = 36.",
+          "Multiplicamos: 3,14 x 36 = 113,04.",
+          "Resultado: 113,04 cm²."
+        ]
+      },
+      {
+        title: "Polígono regular",
+        question: "Hexágono regular de lado 5 cm y apotema 4,3 cm. Calcula el área.",
+        answer: 64.5,
+        unit: "cm²",
+        svg: `<svg viewBox="0 0 260 220" aria-label="Hexágono regular con lado 5 centímetros y apotema 4,3 centímetros"><polygon points="130,34 194,72 194,148 130,186 66,148 66,72" class="shape-fill-green" stroke-width="4"></polygon><line x1="130" y1="110" x2="130" y2="186" class="dash"></line><text x="138" y="153" class="measure">4,3 cm</text><text x="100" y="207" class="measure">lado 5 cm</text></svg>`,
+        steps: [
+          "Figura: hexágono regular. Tiene 6 lados iguales.",
+          "Primero calculamos el perímetro: P = 6 x 5 = 30 cm.",
+          "Fórmula: A = (P x a) / 2.",
+          "Sustituimos: A = (30 x 4,3) / 2.",
+          "Multiplicamos: 30 x 4,3 = 129.",
+          "Dividimos: 129 / 2 = 64,5 cm²."
+        ]
+      }
+    ];
+
+    const trainerStage = document.getElementById("trainerStage");
+    const trainerTitle = document.getElementById("trainerTitle");
+    const trainerQuestion = document.getElementById("trainerQuestion");
+    const trainerAnswer = document.getElementById("trainerAnswer");
+    const trainerCheck = document.getElementById("trainerCheck");
+    const trainerNew = document.getElementById("trainerNew");
+    const trainerFeedback = document.getElementById("trainerFeedback");
+    const trainerSteps = document.getElementById("trainerSteps");
+    const trainerStepList = document.getElementById("trainerStepList");
+    let trainerIndex = 0;
+
+    function renderTrainer() {
+      const item = trainerBank[trainerIndex];
+      trainerStage.innerHTML = item.svg;
+      trainerTitle.textContent = item.title;
+      trainerQuestion.textContent = item.question;
+      trainerAnswer.value = "";
+      trainerFeedback.textContent = "";
+      trainerFeedback.className = "feedback";
+      trainerSteps.hidden = true;
+      trainerStepList.innerHTML = item.steps.map((step) => `<li>${step}</li>`).join("");
+    }
+
+    function checkTrainer() {
+      const item = trainerBank[trainerIndex];
+      const value = parseAnswer(trainerAnswer.value);
+      trainerFeedback.className = "feedback";
+
+      if (Number.isNaN(value)) {
+        trainerFeedback.textContent = "Escribe un número para comprobarlo.";
+        trainerFeedback.classList.add("bad");
+        return;
+      }
+
+      if (Math.abs(value - item.answer) <= 0.08) {
+        trainerFeedback.textContent = `Correcto: ${formatDecimal(item.answer)} ${item.unit}.`;
+        trainerFeedback.classList.add("ok");
+      } else {
+        trainerFeedback.textContent = `No coincide. El resultado es ${formatDecimal(item.answer)} ${item.unit}; revisa los pasos.`;
+        trainerFeedback.classList.add("bad");
+      }
+      trainerSteps.hidden = false;
+    }
+
+    trainerCheck.addEventListener("click", checkTrainer);
+    trainerAnswer.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        checkTrainer();
+      }
+    });
+    trainerNew.addEventListener("click", () => {
+      trainerIndex = (trainerIndex + 1) % trainerBank.length;
+      renderTrainer();
+    });
+
+    renderTrainer();
+  </script>
+</body>
+</html>
