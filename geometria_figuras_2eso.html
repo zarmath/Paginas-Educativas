@@ -687,8 +687,12 @@
       color: var(--soft);
     }
 
+    .circle-part {
+      transition: opacity 0.18s ease;
+    }
+
     .hidden-part {
-      opacity: 0.12;
+      opacity: 0;
     }
 
     .active-part {
@@ -1472,10 +1476,12 @@
               </g>
               <g id="sectorPart" class="circle-part hidden-part">
                 <path d="M210 210 L210 75 A135 135 0 0 1 327 277 Z" fill="rgba(245,158,11,0.58)" stroke="#fbbf24" stroke-width="3"></path>
+                <path d="M210 210 L210 75 M210 210 L327 277" stroke="#fff1c2" stroke-width="4" stroke-linecap="round"></path>
               </g>
               <g id="segmentPart" class="circle-part hidden-part">
-                <path d="M91 250 A135 135 0 0 0 329 250 Q210 184 91 250 Z" fill="rgba(34,211,238,0.48)" stroke="#22d3ee" stroke-width="3"></path>
-                <path d="M91 250 Q210 184 329 250" fill="none" stroke="#d7e6ff" stroke-width="3"></path>
+                <path d="M91 250 A135 135 0 0 0 329 250 L91 250 Z" fill="rgba(34,211,238,0.48)" stroke="#22d3ee" stroke-width="3"></path>
+                <path d="M91 250 L329 250" fill="none" stroke="#d7e6ff" stroke-width="5" stroke-linecap="round"></path>
+                <text x="176" y="240" fill="#d7e6ff" font-size="17" font-weight="850">cuerda</text>
               </g>
               <g id="zonePart" class="circle-part hidden-part" mask="url(#zoneMask)">
                 <rect x="70" y="168" width="280" height="84" fill="rgba(52,211,153,0.48)" stroke="#34d399" stroke-width="3"></rect>
@@ -1917,12 +1923,12 @@
       },
       sector: {
         title: "Sector circular",
-        text: "Parte del círculo limitada por dos radios y un arco. Se parece a una porción de pizza.",
+        text: "Parte del círculo limitada por dos radios rectos que salen del centro y un arco. Se parece a una porción de pizza.",
         ids: ["sectorPart", "circumferencePart"]
       },
       segment: {
         title: "Segmento circular",
-        text: "Parte del círculo limitada por una cuerda y el arco correspondiente.",
+        text: "Parte del círculo limitada por una cuerda recta y el arco correspondiente. No sale del centro; eso es el sector circular.",
         ids: ["segmentPart", "circumferencePart"]
       },
       zone: {
