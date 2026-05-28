@@ -1,0 +1,2199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Figuras y cuerpos geométricos 2º ESO | Repaso visual</title>
+  <style>
+    :root {
+      --bg: #08111f;
+      --bg-2: #0c1628;
+      --ink: #edf5ff;
+      --soft: #d7e6ff;
+      --muted: #aabdda;
+      --faint: #7890b5;
+      --line: rgba(255, 255, 255, 0.13);
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel-strong: rgba(255, 255, 255, 0.1);
+      --amber: #f59e0b;
+      --amber-2: #fbbf24;
+      --cyan: #22d3ee;
+      --blue: #60a5fa;
+      --green: #34d399;
+      --rose: #fb7185;
+      --violet: #a78bfa;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.027) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.027) 1px, transparent 1px),
+        radial-gradient(circle at 12% 8%, rgba(34, 211, 238, 0.13), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(245, 158, 11, 0.12), transparent 28%),
+        linear-gradient(180deg, var(--bg), #0a1425 46%, #07101d);
+      background-size: 42px 42px, 42px 42px, auto, auto, auto;
+      color: var(--ink);
+      font-family: Inter, "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent, rgba(8, 17, 31, 0.72) 58%, rgba(8, 17, 31, 0.94));
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    svg {
+      max-width: 100%;
+    }
+
+    .page {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(8, 17, 31, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .topbar-inner {
+      width: min(1160px, calc(100% - 32px));
+      min-height: 64px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      color: var(--soft);
+      text-decoration: none;
+      font-size: 0.96rem;
+      font-weight: 780;
+      white-space: nowrap;
+    }
+
+    .home-link svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .top-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .top-nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .top-nav a:hover,
+    .top-nav a:focus-visible {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.14);
+      outline: none;
+    }
+
+    .hero {
+      min-height: calc(84svh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 0.98fr) minmax(360px, 1.02fr);
+      align-items: center;
+      gap: 54px;
+      padding: 56px 0 38px;
+    }
+
+    .hero-copy {
+      max-width: 660px;
+    }
+
+    .meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: var(--soft);
+      font-size: 0.98rem;
+      font-weight: 780;
+    }
+
+    .meta-line span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 5px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 12ch;
+      font-size: 4.2rem;
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 63ch;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: var(--radius);
+      padding: 11px 15px;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 0.96rem;
+      font-weight: 850;
+      transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn.primary {
+      color: #111827;
+      background: linear-gradient(135deg, var(--amber-2), var(--amber));
+      box-shadow: 0 16px 34px rgba(245, 158, 11, 0.24);
+    }
+
+    .btn.ghost {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .hero-stage {
+      position: relative;
+      min-height: 510px;
+      display: grid;
+      align-items: center;
+      isolation: isolate;
+    }
+
+    .hero-stage::before {
+      content: "";
+      position: absolute;
+      inset: 18px 4px 8px;
+      background:
+        radial-gradient(circle at 22% 24%, rgba(34, 211, 238, 0.15), transparent 29%),
+        radial-gradient(circle at 72% 70%, rgba(52, 211, 153, 0.13), transparent 28%);
+      filter: blur(2px);
+      z-index: -1;
+    }
+
+    .geometry-board {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(150deg, rgba(13, 27, 49, 0.97), rgba(7, 17, 31, 0.92));
+      background-size: 28px 28px, 28px 28px, auto;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .board-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(5, 12, 24, 0.6);
+    }
+
+    .board-strip div {
+      min-height: 84px;
+      padding: 14px 16px;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .board-strip div:last-child {
+      border-right: 0;
+    }
+
+    .board-strip strong {
+      display: block;
+      color: #ffe0a6;
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+
+    .board-strip span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .section {
+      padding: 86px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .section.alt {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01));
+      margin-inline: calc(50% - 50vw);
+      padding-inline: calc(50vw - 50%);
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 0.78fr) minmax(280px, 0.42fr);
+      gap: 34px;
+      align-items: end;
+      margin-bottom: 32px;
+    }
+
+    .section-heading h2 {
+      font-size: 2.25rem;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .accent {
+      color: #ffd894;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.86fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .wide-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .panel.pad {
+      padding: 20px;
+    }
+
+    .open-note {
+      display: grid;
+      gap: 14px;
+    }
+
+    .note-row {
+      display: grid;
+      grid-template-columns: 56px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .note-row:last-child {
+      border-bottom: 0;
+    }
+
+    .note-mark {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      color: #07111f;
+      background: linear-gradient(135deg, var(--amber-2), var(--amber));
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .note-row h3 {
+      color: var(--ink);
+      font-size: 1.1rem;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .note-row p {
+      color: var(--muted);
+    }
+
+    .shape-console {
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+      gap: 18px;
+      min-height: 430px;
+    }
+
+    .control-rail {
+      padding: 18px;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .control-rail h3,
+    .figure-info h3,
+    .practice-card h3 {
+      color: var(--soft);
+      font-size: 1.12rem;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .shape-buttons,
+    .part-buttons,
+    .triangle-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .mini-btn {
+      min-height: 42px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--soft);
+      padding: 8px 11px;
+      cursor: pointer;
+      font-weight: 780;
+    }
+
+    .mini-btn:hover,
+    .mini-btn:focus-visible {
+      color: var(--ink);
+      border-color: rgba(255, 255, 255, 0.28);
+      outline: none;
+    }
+
+    .mini-btn.active {
+      background: rgba(245, 158, 11, 0.16);
+      border-color: rgba(245, 158, 11, 0.55);
+      color: #ffe0a6;
+    }
+
+    .figure-info {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(250px, 0.85fr);
+      gap: 20px;
+      padding: 18px;
+      align-items: center;
+    }
+
+    .svg-panel {
+      min-height: 330px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        rgba(3, 10, 22, 0.46);
+      background-size: 26px 26px;
+      overflow: hidden;
+    }
+
+    .stat-list {
+      display: grid;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+    }
+
+    .stat strong {
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .formula-line {
+      margin-top: 14px;
+      padding: 13px 14px;
+      border-radius: var(--radius);
+      background: rgba(245, 158, 11, 0.12);
+      color: #ffe2ad;
+      font-weight: 850;
+    }
+
+    .name-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .name-chip {
+      min-height: 72px;
+      padding: 11px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .name-chip strong {
+      display: block;
+      color: var(--ink);
+      font-size: 0.98rem;
+    }
+
+    .name-chip span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .triangle-map {
+      grid-column: span 7;
+      display: grid;
+      gap: 16px;
+    }
+
+    .triangle-lab {
+      grid-column: span 5;
+    }
+
+    .mini-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .shape-card {
+      min-height: 210px;
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+      align-content: space-between;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .shape-card h3 {
+      font-size: 1rem;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    .shape-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .triangle-readout {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: var(--radius);
+      background: rgba(34, 211, 238, 0.09);
+      border: 1px solid rgba(34, 211, 238, 0.22);
+    }
+
+    .slider-row {
+      display: grid;
+      gap: 7px;
+      margin: 16px 0;
+    }
+
+    .slider-row label {
+      color: var(--soft);
+      font-weight: 760;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--amber);
+    }
+
+    .angle-sum {
+      min-height: 80px;
+      display: grid;
+      place-items: center;
+      margin-top: 14px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.055);
+      color: var(--ink);
+      font-size: 1.25rem;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .quad-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .quad-card {
+      min-height: 230px;
+      padding: 16px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.052);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .quad-card h3 {
+      color: var(--ink);
+      font-size: 1.04rem;
+    }
+
+    .quad-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .quad-card svg {
+      width: 100%;
+      height: 112px;
+    }
+
+    .circle-layout {
+      display: grid;
+      grid-template-columns: minmax(330px, 0.9fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .circle-stage {
+      padding: 18px;
+      display: grid;
+      place-items: center;
+      min-height: 480px;
+    }
+
+    .circle-stage svg {
+      width: min(420px, 100%);
+      height: auto;
+    }
+
+    .part-controls {
+      padding: 22px;
+      display: grid;
+      align-content: start;
+      gap: 18px;
+    }
+
+    .part-explain {
+      min-height: 146px;
+      padding: 17px;
+      border-radius: var(--radius);
+      background: rgba(96, 165, 250, 0.1);
+      border: 1px solid rgba(96, 165, 250, 0.22);
+    }
+
+    .part-explain h3 {
+      color: #bfdbfe;
+      font-size: 1.16rem;
+      margin-bottom: 6px;
+    }
+
+    .part-explain p {
+      color: var(--soft);
+    }
+
+    .hidden-part {
+      opacity: 0.12;
+    }
+
+    .active-part {
+      opacity: 1;
+    }
+
+    .similarity-area {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.78fr);
+      gap: 22px;
+      align-items: center;
+    }
+
+    .criteria-list {
+      display: grid;
+      gap: 13px;
+    }
+
+    .criterion {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .criterion:last-child {
+      border-bottom: 0;
+    }
+
+    .criterion-badge {
+      min-height: 42px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      background: rgba(52, 211, 153, 0.15);
+      color: #b9f6d8;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      font-weight: 900;
+    }
+
+    .criterion h3 {
+      color: var(--ink);
+      font-size: 1.04rem;
+      margin-bottom: 4px;
+    }
+
+    .criterion p {
+      color: var(--muted);
+    }
+
+    .formula-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .formula-card {
+      min-height: 168px;
+      padding: 15px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .formula-card h3 {
+      color: var(--ink);
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .formula-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .math {
+      display: inline-block;
+      margin: 6px 0;
+      color: #ffe0a6;
+      font-weight: 900;
+    }
+
+    .calculator {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: minmax(260px, 0.5fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      color: var(--soft);
+      font-size: 0.94rem;
+      font-weight: 760;
+    }
+
+    .field input,
+    .field select {
+      min-height: 44px;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: var(--radius);
+      background: rgba(3, 10, 22, 0.55);
+      color: var(--ink);
+      padding: 9px 11px;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: rgba(245, 158, 11, 0.55);
+    }
+
+    .calc-result {
+      min-height: 100%;
+      display: grid;
+      align-content: center;
+      gap: 12px;
+      padding: 22px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(245, 158, 11, 0.14), transparent 44%),
+        rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(245, 158, 11, 0.24);
+    }
+
+    .calc-result strong {
+      font-size: 1.7rem;
+      color: #ffe0a6;
+      line-height: 1.1;
+    }
+
+    .bodies {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .body-card {
+      min-height: 230px;
+      padding: 15px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.052);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      display: grid;
+      align-content: space-between;
+      gap: 12px;
+    }
+
+    .body-card h3 {
+      color: var(--ink);
+      font-size: 1rem;
+    }
+
+    .body-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .body-card svg {
+      width: 100%;
+      height: 120px;
+    }
+
+    .practice-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(330px, 0.62fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .question-box {
+      display: grid;
+      gap: 16px;
+    }
+
+    .question-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-weight: 780;
+    }
+
+    .progress-track {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.09);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      transition: width 0.2s ease;
+    }
+
+    .question {
+      color: var(--ink);
+      font-size: 1.28rem;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .answers {
+      display: grid;
+      gap: 10px;
+    }
+
+    .answer {
+      min-height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.052);
+      color: var(--soft);
+      padding: 12px 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 760;
+    }
+
+    .answer:hover,
+    .answer:focus-visible {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .answer.correct {
+      border-color: rgba(52, 211, 153, 0.72);
+      background: rgba(52, 211, 153, 0.16);
+      color: #c8fbe0;
+    }
+
+    .answer.wrong {
+      border-color: rgba(251, 113, 133, 0.72);
+      background: rgba(251, 113, 133, 0.14);
+      color: #ffd0d8;
+    }
+
+    .feedback {
+      min-height: 84px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.052);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: var(--soft);
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    .summary-list li {
+      margin-left: 18px;
+    }
+
+    .footer {
+      padding: 40px 0 64px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .section-heading,
+      .two-col,
+      .shape-console,
+      .figure-info,
+      .circle-layout,
+      .similarity-area,
+      .calculator,
+      .practice-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 36px;
+      }
+
+      h1 {
+        max-width: 14ch;
+        font-size: 3rem;
+      }
+
+      .hero-stage {
+        min-height: auto;
+      }
+
+      .control-rail {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .triangle-map,
+      .triangle-lab {
+        grid-column: span 12;
+      }
+
+      .formula-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .bodies,
+      .quad-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar-inner {
+        min-height: auto;
+        padding: 10px 0;
+        display: grid;
+      }
+
+      .top-nav {
+        width: 100%;
+      }
+
+      .hero {
+        gap: 28px;
+      }
+
+      h1 {
+        font-size: 2.42rem;
+      }
+
+      .lead {
+        font-size: 1rem;
+      }
+
+      .section {
+        padding: 62px 0;
+      }
+
+      .section-heading h2 {
+        font-size: 1.8rem;
+      }
+
+      .board-strip,
+      .mini-gallery,
+      .quad-grid,
+      .formula-grid,
+      .bodies {
+        grid-template-columns: 1fr;
+      }
+
+      .board-strip div {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .board-strip div:last-child {
+        border-bottom: 0;
+      }
+
+      .note-row,
+      .criterion {
+        grid-template-columns: 1fr;
+      }
+
+      .note-mark {
+        width: 44px;
+        height: 44px;
+      }
+
+      .shape-card,
+      .quad-card,
+      .formula-card,
+      .body-card {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="home-link" href="index.html" aria-label="Volver a la portada">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="m12 19-7-7 7-7"></path>
+        </svg>
+        Portada
+      </a>
+      <nav class="top-nav" aria-label="Navegación interna">
+        <a href="#poligonos">Polígonos</a>
+        <a href="#triangulos">Triángulos</a>
+        <a href="#cuadrilateros">Cuadriláteros</a>
+        <a href="#circulo">Círculo</a>
+        <a href="#semejanza">Semejanza</a>
+        <a href="#formulas">Fórmulas</a>
+        <a href="#cuerpos">Cuerpos</a>
+        <a href="#practica">Práctica</a>
+      </nav>
+    </div>
+  </div>
+
+  <main>
+    <header class="page hero">
+      <div class="hero-copy">
+        <div class="meta-line" aria-label="Datos del recurso">
+          <span>Matemáticas</span>
+          <span>2º ESO</span>
+          <span>Geometría visual</span>
+        </div>
+        <h1>Figuras y cuerpos geométricos</h1>
+        <p class="lead">Reconoce polígonos, triángulos, cuadriláteros, circunferencias y cuerpos 3D. Después practica con fórmulas, semejanza y ejercicios autocorregibles.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#poligonos">Empezar el repaso</a>
+          <a class="btn ghost" href="#practica">Ir a ejercicios</a>
+        </div>
+      </div>
+
+      <div class="hero-stage" aria-hidden="true">
+        <div class="geometry-board">
+          <svg class="hero-svg" viewBox="0 0 650 470" role="img" aria-label="Composición de figuras geométricas">
+            <defs>
+              <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                <feMerge>
+                  <feMergeNode in="blur"></feMergeNode>
+                  <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+              </filter>
+              <linearGradient id="polyFill" x1="0" x2="1" y1="0" y2="1">
+                <stop stop-color="#22d3ee" stop-opacity="0.34"></stop>
+                <stop offset="1" stop-color="#f59e0b" stop-opacity="0.23"></stop>
+              </linearGradient>
+            </defs>
+            <path d="M52 80 C150 32 282 50 380 90 C504 140 560 235 528 337 C500 429 370 436 246 400 C112 361 18 282 42 168 Z" fill="rgba(255,255,255,0.035)" stroke="rgba(255,255,255,0.11)"></path>
+            <polygon points="120,318 198,178 278,318" fill="rgba(52,211,153,0.20)" stroke="#34d399" stroke-width="5" stroke-linejoin="round"></polygon>
+            <path d="M198 178 L198 318" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="6 7"></path>
+            <text x="145" y="344" fill="#d7e6ff" font-size="22" font-weight="800">triángulo</text>
+
+            <polygon points="382,92 470,126 492,218 430,287 338,266 306,170" fill="url(#polyFill)" stroke="#fbbf24" stroke-width="5" stroke-linejoin="round" filter="url(#softGlow)"></polygon>
+            <circle cx="400" cy="190" r="79" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-dasharray="7 8"></circle>
+            <text x="331" y="326" fill="#ffe0a6" font-size="22" font-weight="800">hexágono regular</text>
+
+            <circle cx="488" cy="358" r="64" fill="rgba(96,165,250,0.16)" stroke="#60a5fa" stroke-width="5"></circle>
+            <path d="M488 358 L488 294 A64 64 0 0 1 543 390 Z" fill="rgba(251,191,36,0.48)" stroke="#fbbf24" stroke-width="3"></path>
+            <path d="M424 358 H552" stroke="#fb7185" stroke-width="4"></path>
+            <text x="426" y="447" fill="#bfdbfe" font-size="21" font-weight="800">círculo y sector</text>
+
+            <path d="M74 104 H204 V222 H74 Z" fill="rgba(245,158,11,0.13)" stroke="#f59e0b" stroke-width="5"></path>
+            <path d="M74 222 L204 104" stroke="rgba(251,191,36,0.55)" stroke-width="3"></path>
+            <text x="66" y="78" fill="#ffe0a6" font-size="22" font-weight="800">área = superficie</text>
+            <text x="77" y="252" fill="#aabdda" font-size="18" font-weight="700">perímetro = borde</text>
+          </svg>
+          <div class="board-strip">
+            <div>
+              <strong>2D</strong>
+              <span>Figuras planas: largo y ancho.</span>
+            </div>
+            <div>
+              <strong>3D</strong>
+              <span>Cuerpos: largo, ancho y alto.</span>
+            </div>
+            <div>
+              <strong>Medir</strong>
+              <span>Longitudes, áreas y volúmenes.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section alt" id="esencial">
+      <div class="page">
+        <div class="section-heading">
+          <div>
+            <h2>La idea esencial</h2>
+          </div>
+          <p>Antes de aprender nombres y fórmulas, separa tres preguntas: qué figura es, qué partes tiene y qué medida te piden.</p>
+        </div>
+
+        <div class="open-note">
+          <article class="note-row">
+            <div class="note-mark">2D</div>
+            <div>
+              <h3>Una figura plana vive en el plano.</h3>
+              <p>Tiene dos dimensiones. Ejemplos: triángulo, cuadrado, pentágono, círculo. Medimos su perímetro y su área.</p>
+            </div>
+          </article>
+          <article class="note-row">
+            <div class="note-mark">3D</div>
+            <div>
+              <h3>Un cuerpo geométrico ocupa espacio.</h3>
+              <p>Tiene tres dimensiones. Ejemplos: prisma, pirámide, cilindro, cono y esfera. Medimos superficie y volumen.</p>
+            </div>
+          </article>
+          <article class="note-row">
+            <div class="note-mark">P</div>
+            <div>
+              <h3>El perímetro es el borde.</h3>
+              <p>Se expresa en unidades de longitud: cm, m, km. En un polígono se suman sus lados; en una circunferencia se usa <strong>L = 2πr</strong>.</p>
+            </div>
+          </article>
+          <article class="note-row">
+            <div class="note-mark">A</div>
+            <div>
+              <h3>El área es la superficie.</h3>
+              <p>Se expresa en unidades cuadradas: cm², m². No es lo mismo que el perímetro: dos figuras pueden tener el mismo perímetro y áreas distintas.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="poligonos">
+      <div class="page">
+        <div class="section-heading">
+          <div>
+            <h2>Polígonos: lados, vértices y nombres</h2>
+          </div>
+          <p>Un polígono es una figura plana cerrada formada por segmentos rectos. Si todos sus lados y ángulos son iguales, es regular.</p>
+        </div>
+
+        <div class="panel shape-console">
+          <div class="control-rail">
+            <h3>Elige número de lados</h3>
+            <div class="shape-buttons" id="polygonButtons" aria-label="Polígonos por número de lados">
+              <button class="mini-btn" type="button" data-sides="3">3</button>
+              <button class="mini-btn" type="button" data-sides="4">4</button>
+              <button class="mini-btn" type="button" data-sides="5">5</button>
+              <button class="mini-btn active" type="button" data-sides="6">6</button>
+              <button class="mini-btn" type="button" data-sides="7">7</button>
+              <button class="mini-btn" type="button" data-sides="8">8</button>
+              <button class="mini-btn" type="button" data-sides="9">9</button>
+              <button class="mini-btn" type="button" data-sides="10">10</button>
+              <button class="mini-btn" type="button" data-sides="12">12</button>
+            </div>
+            <div class="formula-line">Regular = lados iguales + ángulos iguales</div>
+          </div>
+
+          <div class="figure-info">
+            <div class="svg-panel">
+              <svg id="polygonSvg" viewBox="0 0 320 320" role="img" aria-label="Polígono regular seleccionado"></svg>
+            </div>
+            <div>
+              <h3 id="polygonName">Hexágono regular</h3>
+              <p id="polygonText">Tiene 6 lados. Es la forma que encaja muy bien en mosaicos, como las celdas de un panal.</p>
+              <div class="stat-list">
+                <div class="stat"><span>Lados</span><strong id="polygonSides">6</strong></div>
+                <div class="stat"><span>Vértices</span><strong id="polygonVertices">6</strong></div>
+                <div class="stat"><span>Ángulo interior</span><strong id="polygonInterior">120º</strong></div>
+                <div class="stat"><span>Ángulo exterior</span><strong id="polygonExterior">60º</strong></div>
+              </div>
+              <p class="formula-line">Perímetro de un regular: P = número de lados · longitud del lado</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="name-grid" aria-label="Nombres de polígonos">
+          <div class="name-chip"><strong>3 lados</strong><span>Triángulo</span></div>
+          <div class="name-chip"><strong>4 lados</strong><span>Cuadrilátero</span></div>
+          <div class="name-chip"><strong>5 lados</strong><span>Pentágono</span></div>
+          <div class="name-chip"><strong>6 lados</strong><span>Hexágono</span></div>
+          <div class="name-chip"><strong>7 lados</strong><span>Heptágono</span></div>
+          <div class="name-chip"><strong>8 lados</strong><span>Octógono</span></div>
+          <div class="name-chip"><strong>9 lados</strong><span>Eneágono o nonágono</span></div>
+          <div class="name-chip"><strong>10 lados</strong><span>Decágono</span></div>
+          <div class="name-chip"><strong>12 lados</strong><span>Dodecágono</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="triangulos">
+      <div class="page">
+        <div class="section-heading">
+          <div>
+            <h2>Triángulos: se clasifican de dos maneras</h2>
+          </div>
+          <p>Siempre tienen 3 lados, 3 vértices y 3 ángulos. La suma de sus ángulos interiores es siempre <strong>180º</strong>.</p>
+        </div>
+
+        <div class="wide-grid">
+          <div class="triangle-map">
+            <div class="mini-gallery">
+              <article class="shape-card">
+                <svg viewBox="0 0 220 130" aria-hidden="true">
+                  <polygon points="110,18 36,112 184,112" fill="rgba(52,211,153,0.17)" stroke="#34d399" stroke-width="5" stroke-linejoin="round"></polygon>
+                  <text x="74" y="124" fill="#d7e6ff" font-size="14" font-weight="800">3 lados iguales</text>
+                </svg>
+                <div>
+                  <h3>Equilátero</h3>
+                  <p>Tres lados iguales y tres ángulos de 60º.</p>
+                </div>
+              </article>
+
+              <article class="shape-card">
+                <svg viewBox="0 0 220 130" aria-hidden="true">
+                  <polygon points="110,18 48,112 172,112" fill="rgba(34,211,238,0.16)" stroke="#22d3ee" stroke-width="5" stroke-linejoin="round"></polygon>
+                  <path d="M76 68 l10 7 M144 68 l-10 7" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"></path>
+                  <text x="82" y="124" fill="#d7e6ff" font-size="14" font-weight="800">2 lados iguales</text>
+                </svg>
+                <div>
+                  <h3>Isósceles</h3>
+                  <p>Dos lados iguales y dos ángulos iguales.</p>
+                </div>
+              </article>
+
+              <article class="shape-card">
+                <svg viewBox="0 0 220 130" aria-hidden="true">
+                  <polygon points="48,112 188,108 93,22" fill="rgba(251,113,133,0.14)" stroke="#fb7185" stroke-width="5" stroke-linejoin="round"></polygon>
+                  <text x="76" y="124" fill="#d7e6ff" font-size="14" font-weight="800">todos distintos</text>
+                </svg>
+                <div>
+                  <h3>Escaleno</h3>
+                  <p>Sus tres lados tienen longitudes distintas.</p>
+                </div>
+              </article>
+
+              <article class="shape-card">
+                <svg viewBox="0 0 220 130" aria-hidden="true">
+                  <polygon points="48,112 176,112 48,30" fill="rgba(96,165,250,0.16)" stroke="#60a5fa" stroke-width="5" stroke-linejoin="round"></polygon>
+                  <path d="M48 92 H68 V112" stroke="#fbbf24" stroke-width="4" fill="none"></path>
+                  <text x="84" y="124" fill="#d7e6ff" font-size="14" font-weight="800">90º</text>
+                </svg>
+                <div>
+                  <h3>Rectángulo</h3>
+                  <p>Tiene un ángulo recto. Los otros dos son agudos.</p>
+                </div>
+              </article>
+
+              <article class="shape-card">
+                <svg viewBox="0 0 220 130" aria-hidden="true">
+                  <polygon points="34,112 190,112 150,34" fill="rgba(167,139,250,0.16)" stroke="#a78bfa" stroke-width="5" stroke-linejoin="round"></polygon>
+                  <path d="M65 112 A35 35 0 0 1 41 83" stroke="#fbbf24" stroke-width="4" fill="none"></path>
+                  <text x="78" y="124" fill="#d7e6ff" font-size="14" font-weight="800">más de 90º</text>
+                </svg>
+                <div>
+                  <h3>Obtusángulo</h3>
+                  <p>Tiene un ángulo obtuso, mayor que 90º.</p>
+                </div>
+              </article>
+
+              <article class="shape-card">
+                <svg viewBox="0 0 220 130" aria-hidden="true">
+                  <polygon points="110,22 42,112 184,112" fill="rgba(245,158,11,0.15)" stroke="#f59e0b" stroke-width="5" stroke-linejoin="round"></polygon>
+                  <text x="70" y="124" fill="#d7e6ff" font-size="14" font-weight="800">todos &lt; 90º</text>
+                </svg>
+                <div>
+                  <h3>Acutángulo</h3>
+                  <p>Sus tres ángulos son agudos.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <aside class="triangle-lab panel pad">
+            <h3>Laboratorio de ángulos</h3>
+            <p style="color: var(--muted);">Cambia dos ángulos y observa el tercero: un triángulo siempre cierra en 180º.</p>
+            <div class="slider-row">
+              <label for="angleA">Ángulo A: <span id="angleAValue">60º</span></label>
+              <input id="angleA" type="range" min="20" max="120" value="60" />
+            </div>
+            <div class="slider-row">
+              <label for="angleB">Ángulo B: <span id="angleBValue">60º</span></label>
+              <input id="angleB" type="range" min="20" max="120" value="60" />
+            </div>
+            <div class="angle-sum" id="angleReadout">60º + 60º + 60º = 180º</div>
+            <div class="triangle-readout" id="triangleTypeText">Es acutángulo: todos sus ángulos son menores de 90º.</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cuadrilateros">
+      <div class="page">
+        <div class="section-heading">
+          <div>
+            <h2>Cuadriláteros: cuatro lados, familias distintas</h2>
+          </div>
+          <p>Todos tienen 4 lados y sus ángulos interiores suman 360º. La clave está en mirar lados paralelos, lados iguales y ángulos rectos.</p>
+        </div>
+
+        <div class="quad-grid">
+          <article class="quad-card">
+            <svg viewBox="0 0 220 130" aria-hidden="true">
+              <rect x="54" y="24" width="112" height="84" rx="0" fill="rgba(245,158,11,0.14)" stroke="#f59e0b" stroke-width="5"></rect>
+              <path d="M54 44 h20 v-20" stroke="#fbbf24" stroke-width="4" fill="none"></path>
+            </svg>
+            <h3>Cuadrado</h3>
+            <p>4 lados iguales y 4 ángulos rectos. Es regular.</p>
+          </article>
+
+          <article class="quad-card">
+            <svg viewBox="0 0 220 130" aria-hidden="true">
+              <rect x="38" y="35" width="144" height="72" fill="rgba(96,165,250,0.14)" stroke="#60a5fa" stroke-width="5"></rect>
+              <path d="M38 55 h20 v-20" stroke="#fbbf24" stroke-width="4" fill="none"></path>
+            </svg>
+            <h3>Rectángulo</h3>
+            <p>Lados opuestos iguales y 4 ángulos rectos.</p>
+          </article>
+
+          <article class="quad-card">
+            <svg viewBox="0 0 220 130" aria-hidden="true">
+              <polygon points="110,18 174,65 110,112 46,65" fill="rgba(52,211,153,0.15)" stroke="#34d399" stroke-width="5" stroke-linejoin="round"></polygon>
+              <path d="M78 42 l12 8 M142 42 l-12 8 M78 88 l12-8 M142 88 l-12-8" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"></path>
+            </svg>
+            <h3>Rombo</h3>
+            <p>4 lados iguales. Sus ángulos no tienen por qué ser rectos.</p>
+          </article>
+
+          <article class="quad-card">
+            <svg viewBox="0 0 220 130" aria-hidden="true">
+              <polygon points="64,28 178,28 154,108 40,108" fill="rgba(34,211,238,0.13)" stroke="#22d3ee" stroke-width="5" stroke-linejoin="round"></polygon>
+              <path d="M70 18 H170 M46 118 H148" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"></path>
+            </svg>
+            <h3>Paralelogramo</h3>
+            <p>Tiene dos pares de lados paralelos. Incluye cuadrado, rectángulo, rombo y romboide.</p>
+          </article>
+
+          <article class="quad-card">
+            <svg viewBox="0 0 220 130" aria-hidden="true">
+              <polygon points="72,30 156,30 184,108 38,108" fill="rgba(167,139,250,0.14)" stroke="#a78bfa" stroke-width="5" stroke-linejoin="round"></polygon>
+              <path d="M74 20 H154 M40 118 H182" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"></path>
+            </svg>
+            <h3>Trapecio</h3>
+            <p>Tiene un par de lados paralelos: base mayor y base menor.</p>
+          </article>
+
+          <article class="quad-card">
+            <svg viewBox="0 0 220 130" aria-hidden="true">
+              <polygon points="46,34 174,22 154,110 70,96" fill="rgba(251,113,133,0.13)" stroke="#fb7185" stroke-width="5" stroke-linejoin="round"></polygon>
+              <path d="M62 28 l14 14 M154 24 l14 14 M66 92 l14 14 M146 94 l14 14" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"></path>
+            </svg>
+            <h3>Trapezoide</h3>
+            <p>No tiene lados paralelos. Es el cuadrilátero más libre.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="circulo">
+      <div class="page">
+        <div class="section-heading">
+          <div>
+            <h2>Circunferencia y círculo no son lo mismo</h2>
+          </div>
+          <p>La circunferencia es solo la línea curva. El círculo es toda la superficie interior limitada por esa línea.</p>
+        </div>
+
+        <div class="circle-layout">
+          <div class="circle-stage panel">
+            <svg viewBox="0 0 420 420" role="img" aria-label="Partes de una circunferencia y un círculo">
+              <defs>
+                <mask id="ringMask">
+                  <rect width="420" height="420" fill="black"></rect>
+                  <circle cx="210" cy="210" r="135" fill="white"></circle>
+                  <circle cx="210" cy="210" r="74" fill="black"></circle>
+                </mask>
+                <mask id="zoneMask">
+                  <rect width="420" height="420" fill="black"></rect>
+                  <circle cx="210" cy="210" r="135" fill="white"></circle>
+                </mask>
+              </defs>
+              <circle cx="210" cy="210" r="135" fill="rgba(96,165,250,0.09)" stroke="rgba(255,255,255,0.25)" stroke-width="2"></circle>
+              <g id="circleFill" class="circle-part hidden-part">
+                <circle cx="210" cy="210" r="135" fill="rgba(96,165,250,0.32)"></circle>
+              </g>
+              <g id="sectorPart" class="circle-part hidden-part">
+                <path d="M210 210 L210 75 A135 135 0 0 1 327 277 Z" fill="rgba(245,158,11,0.58)" stroke="#fbbf24" stroke-width="3"></path>
+              </g>
+              <g id="segmentPart" class="circle-part hidden-part">
+                <path d="M91 250 A135 135 0 0 0 329 250 Q210 184 91 250 Z" fill="rgba(34,211,238,0.48)" stroke="#22d3ee" stroke-width="3"></path>
+                <path d="M91 250 Q210 184 329 250" fill="none" stroke="#d7e6ff" stroke-width="3"></path>
+              </g>
+              <g id="zonePart" class="circle-part hidden-part" mask="url(#zoneMask)">
+                <rect x="70" y="168" width="280" height="84" fill="rgba(52,211,153,0.48)" stroke="#34d399" stroke-width="3"></rect>
+              </g>
+              <g id="coronaPart" class="circle-part hidden-part" mask="url(#ringMask)">
+                <rect width="420" height="420" fill="rgba(167,139,250,0.52)"></rect>
+              </g>
+              <g id="trapecioCircularPart" class="circle-part hidden-part">
+                <path d="M210 95 A115 115 0 0 1 309 268 L257 238 A55 55 0 0 0 210 155 Z" fill="rgba(251,113,133,0.5)" stroke="#fb7185" stroke-width="3"></path>
+              </g>
+              <g id="radiusPart" class="circle-part hidden-part">
+                <path d="M210 210 L318 130" stroke="#fbbf24" stroke-width="6" stroke-linecap="round"></path>
+                <circle cx="210" cy="210" r="7" fill="#fbbf24"></circle>
+              </g>
+              <g id="diameterPart" class="circle-part hidden-part">
+                <path d="M75 210 H345" stroke="#fb7185" stroke-width="6" stroke-linecap="round"></path>
+                <circle cx="210" cy="210" r="7" fill="#fb7185"></circle>
+              </g>
+              <circle id="circumferencePart" class="circle-part active-part" cx="210" cy="210" r="135" fill="none" stroke="#60a5fa" stroke-width="7"></circle>
+              <text x="176" y="214" fill="#d7e6ff" font-size="18" font-weight="800">centro</text>
+            </svg>
+          </div>
+
+          <div class="part-controls panel">
+            <div class="part-buttons" id="circleButtons" aria-label="Partes del círculo">
+              <button class="mini-btn active" type="button" data-part="circumference">Circunferencia</button>
+              <button class="mini-btn" type="button" data-part="circle">Círculo</button>
+              <button class="mini-btn" type="button" data-part="radius">Radio</button>
+              <button class="mini-btn" type="button" data-part="diameter">Diámetro</button>
+              <button class="mini-btn" type="button" data-part="sector">Sector</button>
+              <button class="mini-btn" type="button" data-part="segment">Segmento</button>
+              <button class="mini-btn" type="button" data-part="zone">Zona</button>
+              <button class="mini-btn" type="button" data-part="corona">Corona</button>
+              <button class="mini-btn" type="button" data-part="trapecio">Trapecio circular</button>
+            </div>
+            <div class="part-explain" id="circleExplain">
+              <h3>Circunferencia</h3>
+              <p>Es la línea curva cerrada cuyos puntos están a la misma distancia del centro. Esa distancia se llama radio.</p>
+            </div>
+            <p class="formula-line">Longitud de la circunferencia: L = 2πr = πd</p>
+            <p class="formula-line">Área del círculo: A = πr²</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="semejanza">
+      <div class="page">
+        <div class="section-heading">
+          <div>
+            <h2>Semejanza de triángulos</h2>
+          </div>
+          <p>Dos triángulos son semejantes si tienen la misma forma, aunque no tengan el mismo tamaño. Conservan los ángulos y multiplican los lados por la misma escala.</p>
+        </div>
+
+        <div class="similarity-area">
+          <div class="panel pad">
+            <svg id="similaritySvg" viewBox="0 0 560 320" role="img" aria-label="Dos triángulos semejantes">
+              <polygon points="62,255 232,255 106,82" fill="rgba(34,211,238,0.16)" stroke="#22d3ee" stroke-width="5" stroke-linejoin="round"></polygon>
+              <polygon id="scaledTriangle" points="332,255 502,255 376,82" fill="rgba(245,158,11,0.16)" stroke="#f59e0b" stroke-width="5" stroke-linejoin="round"></polygon>
+              <path d="M62 255 L106 82" stroke="#34d399" stroke-width="3" stroke-dasharray="7 8"></path>
+              <path id="scaledSide" d="M332 255 L376 82" stroke="#34d399" stroke-width="3" stroke-dasharray="7 8"></path>
+              <text x="82" y="282" fill="#d7e6ff" font-size="18" font-weight="800">Original</text>
+              <text id="scaledLabel" x="354" y="282" fill="#ffe0a6" font-size="18" font-weight="800">Escala x1.0</text>
+              <text x="48" y="245" fill="#34d399" font-size="18" font-weight="900">A</text>
+              <text x="226" y="245" fill="#fbbf24" font-size="18" font-weight="900">B</text>
+              <text x="104" y="74" fill="#fb7185" font-size="18" font-weight="900">C</text>
+              <text id="ratioText" x="320" y="42" fill="#d7e6ff" font-size="19" font-weight="850">lados proporcionales</text>
+            </svg>
+            <div class="slider-row">
+              <label for="scaleRange">Escala del segundo triángulo: <span id="scaleValue">1.0</span></label>
+              <input id="scaleRange" type="range" min="60" max="150" value="100" />
+            </div>
+          </div>
+
+          <div class="criteria-list">
+            <article class="criterion">
+              <div class="criterion-badge">AA</div>
+              <div>
+                <h3>Dos ángulos iguales</h3>
+                <p>Si dos ángulos coinciden, el tercero también coincide porque todos suman 180º.</p>
+              </div>
+            </article>
+            <article class="criterion">
+              <div class="criterion-badge">LLL</div>
+              <div>
+                <h3>Tres lados proporcionales</h3>
+                <p>Ejemplo: 3, 4, 5 y 6, 8, 10 son semejantes porque todos se multiplican por 2.</p>
+              </div>
+            </article>
+            <article class="criterion">
+              <div class="criterion-badge">LAL</div>
+              <div>
+                <h3>Dos lados proporcionales y el ángulo comprendido igual</h3>
+                <p>Sirve cuando conoces dos lados que forman el mismo ángulo en ambos triángulos.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="formulas">
+      <div class="page">
+        <div class="section-heading">
+          <div>
+            <h2>Áreas y longitudes que conviene dominar</h2>
+          </div>
+          <p>Elige la fórmula según lo que mida la pregunta: borde, superficie o arco. Comprueba siempre las unidades.</p>
+        </div>
+
+        <div class="formula-grid">
+          <article class="formula-card">
+            <h3>Cuadrado</h3>
+            <p><span class="math">P = 4l</span><br><span class="math">A = l²</span></p>
+            <p>Todos los lados miden lo mismo.</p>
+          </article>
+          <article class="formula-card">
+            <h3>Rectángulo</h3>
+            <p><span class="math">P = 2(b + h)</span><br><span class="math">A = b · h</span></p>
+            <p>Base por altura para la superficie.</p>
+          </article>
+          <article class="formula-card">
+            <h3>Triángulo</h3>
+            <p><span class="math">A = b · h / 2</span></p>
+            <p>Es la mitad de un paralelogramo.</p>
+          </article>
+          <article class="formula-card">
+            <h3>Rombo</h3>
+            <p><span class="math">A = D · d / 2</span></p>
+            <p>D y d son sus diagonales.</p>
+          </article>
+          <article class="formula-card">
+            <h3>Trapecio</h3>
+            <p><span class="math">A = (B + b) · h / 2</span></p>
+            <p>B y b son las dos bases paralelas.</p>
+          </article>
+          <article class="formula-card">
+            <h3>Polígono regular</h3>
+            <p><span class="math">P = n · l</span><br><span class="math">A = P · a / 2</span></p>
+            <p>a es la apotema.</p>
+          </article>
+          <article class="formula-card">
+            <h3>Círculo</h3>
+            <p><span class="math">L = 2πr</span><br><span class="math">A = πr²</span></p>
+            <p>L mide la circunferencia.</p>
+          </article>
+          <article class="formula-card">
+            <h3>Sector circular</h3>
+            <p><span class="math">A = πr² · α / 360</span><br><span class="math">arco = 2πr · α / 360</span></p>
+            <p>α es el ángulo central.</p>
+          </article>
+        </div>
+
+        <div class="calculator panel pad" aria-label="Calculadora rápida de áreas">
+          <div class="form-grid">
+            <h3>Calculadora rápida</h3>
+            <div class="field">
+              <label for="calcShape">Figura</label>
+              <select id="calcShape">
+                <option value="triangle">Triángulo</option>
+                <option value="rectangle">Rectángulo</option>
+                <option value="trapezoid">Trapecio</option>
+                <option value="circle">Círculo</option>
+                <option value="regular">Polígono regular</option>
+              </select>
+            </div>
+            <div class="field calc-field" data-field="base">
+              <label for="calcBase" id="baseLabel">Base</label>
+              <input id="calcBase" type="number" min="0" step="0.1" value="8" />
+            </div>
+            <div class="field calc-field" data-field="height">
+              <label for="calcHeight" id="heightLabel">Altura</label>
+              <input id="calcHeight" type="number" min="0" step="0.1" value="5" />
+            </div>
+            <div class="field calc-field" data-field="smallBase">
+              <label for="calcSmallBase">Base menor</label>
+              <input id="calcSmallBase" type="number" min="0" step="0.1" value="4" />
+            </div>
+            <div class="field calc-field" data-field="sides">
+              <label for="calcSides">Número de lados</label>
+              <input id="calcSides" type="number" min="3" step="1" value="6" />
+            </div>
+          </div>
+          <div class="calc-result">
+            <p id="calcFormula">A = b · h / 2</p>
+            <strong id="calcArea">20 u²</strong>
+            <p id="calcHelp">Para el triángulo necesitas la base y la altura perpendicular.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cuerpos">
+      <div class="page">
+        <div class="section-heading">
+          <div>
+            <h2>Del plano al espacio: cuerpos geométricos</h2>
+          </div>
+          <p>Un cuerpo geométrico tiene volumen. Sus partes básicas son caras, aristas y vértices; en los cuerpos redondos aparecen bases curvas y superficies laterales.</p>
+        </div>
+
+        <div class="bodies">
+          <article class="body-card">
+            <svg viewBox="0 0 180 140" aria-hidden="true">
+              <polygon points="42,46 100,24 138,54 80,78" fill="rgba(34,211,238,0.18)" stroke="#22d3ee" stroke-width="4" stroke-linejoin="round"></polygon>
+              <polygon points="42,46 80,78 80,118 42,88" fill="rgba(34,211,238,0.1)" stroke="#22d3ee" stroke-width="4" stroke-linejoin="round"></polygon>
+              <polygon points="80,78 138,54 138,94 80,118" fill="rgba(34,211,238,0.12)" stroke="#22d3ee" stroke-width="4" stroke-linejoin="round"></polygon>
+            </svg>
+            <div>
+              <h3>Prisma</h3>
+              <p>Dos bases iguales y paralelas. Volumen: área de la base · altura.</p>
+            </div>
+          </article>
+
+          <article class="body-card">
+            <svg viewBox="0 0 180 140" aria-hidden="true">
+              <polygon points="90,18 38,112 142,112" fill="rgba(245,158,11,0.16)" stroke="#f59e0b" stroke-width="4" stroke-linejoin="round"></polygon>
+              <path d="M90 18 L90 112" stroke="rgba(255,255,255,0.34)" stroke-width="3" stroke-dasharray="6 6"></path>
+              <path d="M38 112 L78 92 L142 112" fill="none" stroke="#fbbf24" stroke-width="4"></path>
+            </svg>
+            <div>
+              <h3>Pirámide</h3>
+              <p>Una base y caras laterales triangulares. Volumen: área de la base · altura / 3.</p>
+            </div>
+          </article>
+
+          <article class="body-card">
+            <svg viewBox="0 0 180 140" aria-hidden="true">
+              <ellipse cx="90" cy="34" rx="52" ry="18" fill="rgba(96,165,250,0.18)" stroke="#60a5fa" stroke-width="4"></ellipse>
+              <path d="M38 34 V100 M142 34 V100" stroke="#60a5fa" stroke-width="4"></path>
+              <ellipse cx="90" cy="100" rx="52" ry="18" fill="rgba(96,165,250,0.12)" stroke="#60a5fa" stroke-width="4"></ellipse>
+            </svg>
+            <div>
+              <h3>Cilindro</h3>
+              <p>Dos bases circulares. Volumen: πr² · h.</p>
+            </div>
+          </article>
+
+          <article class="body-card">
+            <svg viewBox="0 0 180 140" aria-hidden="true">
+              <path d="M90 18 L38 102" stroke="#34d399" stroke-width="4"></path>
+              <path d="M90 18 L142 102" stroke="#34d399" stroke-width="4"></path>
+              <ellipse cx="90" cy="102" rx="52" ry="18" fill="rgba(52,211,153,0.16)" stroke="#34d399" stroke-width="4"></ellipse>
+            </svg>
+            <div>
+              <h3>Cono</h3>
+              <p>Una base circular y un vértice. Volumen: πr² · h / 3.</p>
+            </div>
+          </article>
+
+          <article class="body-card">
+            <svg viewBox="0 0 180 140" aria-hidden="true">
+              <circle cx="90" cy="70" r="52" fill="rgba(251,113,133,0.15)" stroke="#fb7185" stroke-width="4"></circle>
+              <ellipse cx="90" cy="70" rx="52" ry="16" fill="none" stroke="rgba(251,113,133,0.55)" stroke-width="3"></ellipse>
+              <path d="M90 18 C112 38 112 102 90 122 C68 102 68 38 90 18" fill="none" stroke="rgba(255,255,255,0.32)" stroke-width="3"></path>
+            </svg>
+            <div>
+              <h3>Esfera</h3>
+              <p>Todos sus puntos están a la misma distancia del centro. Volumen: 4/3πr³.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="practica">
+      <div class="page">
+        <div class="section-heading">
+          <div>
+            <h2>Práctica autocorregible</h2>
+          </div>
+          <p>Repasa conceptos clave mezclando identificación, fórmulas y razonamiento geométrico.</p>
+        </div>
+
+        <div class="practice-layout">
+          <div class="practice-card panel pad">
+            <div class="question-box">
+              <div class="question-top">
+                <span id="questionCounter">Pregunta 1 de 8</span>
+                <span id="scoreText">0 aciertos</span>
+              </div>
+              <div class="progress-track" aria-hidden="true">
+                <div class="progress-bar" id="progressBar"></div>
+              </div>
+              <div class="question" id="questionText"></div>
+              <div class="answers" id="answers"></div>
+              <div class="feedback" id="feedback">Elige una respuesta para ver la explicación.</div>
+              <button class="btn primary" id="nextQuestion" type="button">Siguiente</button>
+            </div>
+          </div>
+
+          <aside class="panel pad">
+            <h3>Resumen final</h3>
+            <ul class="summary-list">
+              <li>Polígono regular: lados y ángulos iguales.</li>
+              <li>Triángulo: sus ángulos suman 180º.</li>
+              <li>Cuadrilátero: sus ángulos suman 360º.</li>
+              <li>Circunferencia = borde; círculo = superficie interior.</li>
+              <li>Semejanza: misma forma, lados proporcionales y ángulos iguales.</li>
+              <li>Área se expresa en unidades cuadradas; volumen en unidades cúbicas.</li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="page">Recurso de Matemáticas 2º ESO · Geometría plana y cuerpos geométricos</div>
+  </footer>
+
+  <script>
+    const polygonData = {
+      3: { name: "Triángulo regular", text: "Tiene 3 lados. Si es regular, se llama equilátero y sus tres ángulos miden 60º." },
+      4: { name: "Cuadrado", text: "Tiene 4 lados. Es el único cuadrilátero regular: todos sus lados y ángulos son iguales." },
+      5: { name: "Pentágono regular", text: "Tiene 5 lados. Su ángulo interior mide 108º." },
+      6: { name: "Hexágono regular", text: "Tiene 6 lados. Encaja muy bien en mosaicos, como las celdas de un panal." },
+      7: { name: "Heptágono regular", text: "Tiene 7 lados. Sus ángulos interiores miden aproximadamente 128,6º." },
+      8: { name: "Octógono regular", text: "Tiene 8 lados. Es habitual en señales de stop y diseños simétricos." },
+      9: { name: "Eneágono regular", text: "Tiene 9 lados. También puede llamarse nonágono." },
+      10: { name: "Decágono regular", text: "Tiene 10 lados. Su ángulo exterior es de 36º." },
+      12: { name: "Dodecágono regular", text: "Tiene 12 lados. Cada ángulo exterior mide 30º." }
+    };
+
+    const polygonSvg = document.getElementById("polygonSvg");
+    const polygonName = document.getElementById("polygonName");
+    const polygonText = document.getElementById("polygonText");
+    const polygonSides = document.getElementById("polygonSides");
+    const polygonVertices = document.getElementById("polygonVertices");
+    const polygonInterior = document.getElementById("polygonInterior");
+    const polygonExterior = document.getElementById("polygonExterior");
+
+    function formatAngle(value) {
+      return Number.isInteger(value) ? `${value}º` : `${value.toFixed(1).replace(".", ",")}º`;
+    }
+
+    function drawPolygon(sides) {
+      const cx = 160;
+      const cy = 160;
+      const radius = 112;
+      const start = -Math.PI / 2;
+      const points = Array.from({ length: sides }, (_, index) => {
+        const angle = start + (index * 2 * Math.PI) / sides;
+        return `${cx + Math.cos(angle) * radius},${cy + Math.sin(angle) * radius}`;
+      }).join(" ");
+      const interior = ((sides - 2) * 180) / sides;
+      const exterior = 360 / sides;
+
+      polygonSvg.innerHTML = `
+        <defs>
+          <radialGradient id="shapeGlow" cx="50%" cy="45%">
+            <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.42"></stop>
+            <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.18"></stop>
+          </radialGradient>
+        </defs>
+        <circle cx="160" cy="160" r="122" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="2" stroke-dasharray="7 9"></circle>
+        <polygon points="${points}" fill="url(#shapeGlow)" stroke="#fbbf24" stroke-width="6" stroke-linejoin="round"></polygon>
+        ${points.split(" ").map((point) => {
+          const [x, y] = point.split(",");
+          return `<circle cx="${x}" cy="${y}" r="5" fill="#22d3ee"></circle>`;
+        }).join("")}
+        <text x="160" y="171" text-anchor="middle" fill="#edf5ff" font-size="56" font-weight="900">${sides}</text>
+        <text x="160" y="206" text-anchor="middle" fill="#aabdda" font-size="17" font-weight="800">lados</text>
+      `;
+      polygonName.textContent = polygonData[sides].name;
+      polygonText.textContent = polygonData[sides].text;
+      polygonSides.textContent = sides;
+      polygonVertices.textContent = sides;
+      polygonInterior.textContent = formatAngle(interior);
+      polygonExterior.textContent = formatAngle(exterior);
+    }
+
+    document.getElementById("polygonButtons").addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-sides]");
+      if (!button) return;
+      document.querySelectorAll("#polygonButtons .mini-btn").forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+      drawPolygon(Number(button.dataset.sides));
+    });
+
+    const angleA = document.getElementById("angleA");
+    const angleB = document.getElementById("angleB");
+    const angleAValue = document.getElementById("angleAValue");
+    const angleBValue = document.getElementById("angleBValue");
+    const angleReadout = document.getElementById("angleReadout");
+    const triangleTypeText = document.getElementById("triangleTypeText");
+
+    function updateAngles(changed) {
+      let a = Number(angleA.value);
+      let b = Number(angleB.value);
+      if (a + b >= 170) {
+        if (changed === "a") {
+          b = 169 - a;
+          angleB.value = b;
+        } else {
+          a = 169 - b;
+          angleA.value = a;
+        }
+      }
+      const c = 180 - a - b;
+      angleAValue.textContent = `${a}º`;
+      angleBValue.textContent = `${b}º`;
+      angleReadout.textContent = `${a}º + ${b}º + ${c}º = 180º`;
+
+      const angles = [a, b, c];
+      let type = "acutángulo: todos sus ángulos son menores de 90º.";
+      if (angles.some((value) => value === 90)) {
+        type = "rectángulo: tiene un ángulo de 90º.";
+      } else if (angles.some((value) => value > 90)) {
+        type = "obtusángulo: tiene un ángulo mayor que 90º.";
+      }
+      triangleTypeText.textContent = `Es ${type}`;
+    }
+
+    angleA.addEventListener("input", () => updateAngles("a"));
+    angleB.addEventListener("input", () => updateAngles("b"));
+
+    const circleInfo = {
+      circumference: {
+        title: "Circunferencia",
+        text: "Es la línea curva cerrada cuyos puntos están a la misma distancia del centro. Esa distancia se llama radio.",
+        ids: ["circumferencePart"]
+      },
+      circle: {
+        title: "Círculo",
+        text: "Es toda la superficie interior limitada por la circunferencia. Su área se calcula con A = πr².",
+        ids: ["circleFill", "circumferencePart"]
+      },
+      radius: {
+        title: "Radio",
+        text: "Segmento que une el centro con cualquier punto de la circunferencia. El diámetro mide dos radios.",
+        ids: ["radiusPart", "circumferencePart"]
+      },
+      diameter: {
+        title: "Diámetro",
+        text: "Segmento que pasa por el centro y une dos puntos de la circunferencia. d = 2r.",
+        ids: ["diameterPart", "circumferencePart"]
+      },
+      sector: {
+        title: "Sector circular",
+        text: "Parte del círculo limitada por dos radios y un arco. Se parece a una porción de pizza.",
+        ids: ["sectorPart", "circumferencePart"]
+      },
+      segment: {
+        title: "Segmento circular",
+        text: "Parte del círculo limitada por una cuerda y el arco correspondiente.",
+        ids: ["segmentPart", "circumferencePart"]
+      },
+      zone: {
+        title: "Zona circular",
+        text: "Parte del círculo comprendida entre dos cuerdas paralelas.",
+        ids: ["zonePart", "circumferencePart"]
+      },
+      corona: {
+        title: "Corona circular",
+        text: "Región comprendida entre dos circunferencias concéntricas. Área = π(R² - r²).",
+        ids: ["coronaPart", "circumferencePart"]
+      },
+      trapecio: {
+        title: "Trapecio circular",
+        text: "Parte de una corona circular limitada por dos radios y dos arcos concéntricos.",
+        ids: ["trapecioCircularPart", "circumferencePart"]
+      }
+    };
+
+    const circleExplain = document.getElementById("circleExplain");
+    document.getElementById("circleButtons").addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-part]");
+      if (!button) return;
+      const info = circleInfo[button.dataset.part];
+      document.querySelectorAll("#circleButtons .mini-btn").forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+      document.querySelectorAll(".circle-part").forEach((part) => {
+        part.classList.remove("active-part");
+        part.classList.add("hidden-part");
+      });
+      info.ids.forEach((id) => {
+        const item = document.getElementById(id);
+        item.classList.add("active-part");
+        item.classList.remove("hidden-part");
+      });
+      circleExplain.innerHTML = `<h3>${info.title}</h3><p>${info.text}</p>`;
+    });
+
+    const scaleRange = document.getElementById("scaleRange");
+    const scaleValue = document.getElementById("scaleValue");
+    const scaledTriangle = document.getElementById("scaledTriangle");
+    const scaledSide = document.getElementById("scaledSide");
+    const scaledLabel = document.getElementById("scaledLabel");
+    const ratioText = document.getElementById("ratioText");
+
+    function updateSimilarity() {
+      const scale = Number(scaleRange.value) / 100;
+      const origin = { x: 332, y: 255 };
+      const original = [
+        { x: 0, y: 0 },
+        { x: 170, y: 0 },
+        { x: 44, y: -173 }
+      ];
+      const points = original.map((point) => `${origin.x + point.x * scale},${origin.y + point.y * scale}`).join(" ");
+      const top = { x: origin.x + 44 * scale, y: origin.y - 173 * scale };
+      scaledTriangle.setAttribute("points", points);
+      scaledSide.setAttribute("d", `M${origin.x} ${origin.y} L${top.x} ${top.y}`);
+      scaleValue.textContent = scale.toFixed(1);
+      scaledLabel.textContent = `Escala x${scale.toFixed(1)}`;
+      ratioText.textContent = `cada lado se multiplica por ${scale.toFixed(1)}`;
+    }
+
+    scaleRange.addEventListener("input", updateSimilarity);
+
+    const calcShape = document.getElementById("calcShape");
+    const calcBase = document.getElementById("calcBase");
+    const calcHeight = document.getElementById("calcHeight");
+    const calcSmallBase = document.getElementById("calcSmallBase");
+    const calcSides = document.getElementById("calcSides");
+    const calcFormula = document.getElementById("calcFormula");
+    const calcArea = document.getElementById("calcArea");
+    const calcHelp = document.getElementById("calcHelp");
+    const baseLabel = document.getElementById("baseLabel");
+    const heightLabel = document.getElementById("heightLabel");
+
+    function value(input) {
+      return Math.max(0, Number(input.value) || 0);
+    }
+
+    function showCalcFields(fields) {
+      document.querySelectorAll(".calc-field").forEach((field) => {
+        field.style.display = fields.includes(field.dataset.field) ? "grid" : "none";
+      });
+    }
+
+    function formatNumber(number) {
+      return Number.isInteger(number) ? String(number) : number.toFixed(2).replace(".", ",");
+    }
+
+    function updateCalculator() {
+      const shape = calcShape.value;
+      let area = 0;
+      let formula = "";
+      let help = "";
+
+      if (shape === "triangle") {
+        showCalcFields(["base", "height"]);
+        baseLabel.textContent = "Base";
+        heightLabel.textContent = "Altura";
+        area = value(calcBase) * value(calcHeight) / 2;
+        formula = "A = b · h / 2";
+        help = "Para el triángulo necesitas la base y la altura perpendicular.";
+      }
+
+      if (shape === "rectangle") {
+        showCalcFields(["base", "height"]);
+        baseLabel.textContent = "Base";
+        heightLabel.textContent = "Altura";
+        area = value(calcBase) * value(calcHeight);
+        formula = "A = b · h";
+        help = "En rectángulos y paralelogramos, multiplica base por altura.";
+      }
+
+      if (shape === "trapezoid") {
+        showCalcFields(["base", "smallBase", "height"]);
+        baseLabel.textContent = "Base mayor";
+        heightLabel.textContent = "Altura";
+        area = (value(calcBase) + value(calcSmallBase)) * value(calcHeight) / 2;
+        formula = "A = (B + b) · h / 2";
+        help = "Suma las dos bases paralelas antes de multiplicar por la altura.";
+      }
+
+      if (shape === "circle") {
+        showCalcFields(["base"]);
+        baseLabel.textContent = "Radio";
+        area = Math.PI * value(calcBase) * value(calcBase);
+        formula = "A = πr²";
+        help = "El radio es la distancia del centro a la circunferencia.";
+      }
+
+      if (shape === "regular") {
+        showCalcFields(["sides", "base", "height"]);
+        baseLabel.textContent = "Longitud del lado";
+        heightLabel.textContent = "Apotema";
+        const perimeter = Math.max(3, Math.round(value(calcSides))) * value(calcBase);
+        area = perimeter * value(calcHeight) / 2;
+        formula = "A = P · a / 2";
+        help = `Perímetro usado: ${formatNumber(perimeter)} unidades.`;
+      }
+
+      calcFormula.textContent = formula;
+      calcArea.textContent = `${formatNumber(area)} u²`;
+      calcHelp.textContent = help;
+    }
+
+    [calcShape, calcBase, calcHeight, calcSmallBase, calcSides].forEach((item) => {
+      item.addEventListener("input", updateCalculator);
+      item.addEventListener("change", updateCalculator);
+    });
+
+    const quiz = [
+      {
+        question: "¿Qué dos condiciones debe cumplir un polígono regular?",
+        answers: ["Lados iguales y ángulos iguales", "Solo lados iguales", "Solo ángulos rectos"],
+        correct: 0,
+        explanation: "Regular significa que todos sus lados y todos sus ángulos son iguales."
+      },
+      {
+        question: "Un triángulo con lados 5 cm, 5 cm y 8 cm es...",
+        answers: ["Escaleno", "Isósceles", "Equilátero"],
+        correct: 1,
+        explanation: "Es isósceles porque tiene exactamente dos lados iguales."
+      },
+      {
+        question: "¿Cuánto suman los ángulos interiores de cualquier triángulo?",
+        answers: ["90º", "180º", "360º"],
+        correct: 1,
+        explanation: "Siempre suman 180º, aunque el triángulo sea grande, pequeño o irregular."
+      },
+      {
+        question: "La circunferencia es...",
+        answers: ["La superficie completa", "La línea que rodea el círculo", "Un sector circular"],
+        correct: 1,
+        explanation: "La circunferencia es el borde. El círculo incluye la superficie interior."
+      },
+      {
+        question: "¿Qué fórmula calcula el área de un trapecio?",
+        answers: ["A = (B + b) · h / 2", "A = b · h / 2", "A = πr²"],
+        correct: 0,
+        explanation: "En un trapecio se suman las dos bases paralelas y se multiplica por la altura."
+      },
+      {
+        question: "Dos triángulos semejantes conservan...",
+        answers: ["El mismo perímetro", "Los mismos ángulos", "La misma área"],
+        correct: 1,
+        explanation: "En la semejanza los ángulos son iguales; los lados son proporcionales."
+      },
+      {
+        question: "Un cilindro tiene...",
+        answers: ["Dos bases circulares", "Una sola base y caras triangulares", "Solo caras planas"],
+        correct: 0,
+        explanation: "El cilindro tiene dos bases circulares y una superficie lateral curva."
+      },
+      {
+        question: "¿En qué unidades se expresa un área?",
+        answers: ["cm", "cm²", "cm³"],
+        correct: 1,
+        explanation: "El área mide superficie, por eso usa unidades cuadradas."
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+    const questionCounter = document.getElementById("questionCounter");
+    const scoreText = document.getElementById("scoreText");
+    const progressBar = document.getElementById("progressBar");
+    const questionText = document.getElementById("questionText");
+    const answers = document.getElementById("answers");
+    const feedback = document.getElementById("feedback");
+    const nextQuestion = document.getElementById("nextQuestion");
+
+    function renderQuestion() {
+      const item = quiz[currentQuestion];
+      answered = false;
+      questionCounter.textContent = `Pregunta ${currentQuestion + 1} de ${quiz.length}`;
+      scoreText.textContent = `${score} aciertos`;
+      progressBar.style.width = `${(currentQuestion / quiz.length) * 100}%`;
+      questionText.textContent = item.question;
+      feedback.textContent = "Elige una respuesta para ver la explicación.";
+      nextQuestion.textContent = currentQuestion === quiz.length - 1 ? "Ver resultado" : "Siguiente";
+      answers.innerHTML = item.answers.map((answer, index) => `<button class="answer" type="button" data-index="${index}">${answer}</button>`).join("");
+    }
+
+    answers.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-index]");
+      if (!button || answered) return;
+      answered = true;
+      const item = quiz[currentQuestion];
+      const selected = Number(button.dataset.index);
+      const isCorrect = selected === item.correct;
+      if (isCorrect) score += 1;
+
+      answers.querySelectorAll(".answer").forEach((answerButton) => {
+        const index = Number(answerButton.dataset.index);
+        if (index === item.correct) answerButton.classList.add("correct");
+        if (index === selected && !isCorrect) answerButton.classList.add("wrong");
+      });
+      feedback.textContent = `${isCorrect ? "Correcto." : "Revisa."} ${item.explanation}`;
+      scoreText.textContent = `${score} aciertos`;
+    });
+
+    nextQuestion.addEventListener("click", () => {
+      if (currentQuestion === -1) {
+        currentQuestion = 0;
+        renderQuestion();
+        return;
+      }
+
+      if (currentQuestion < quiz.length - 1) {
+        currentQuestion += 1;
+        renderQuestion();
+      } else {
+        progressBar.style.width = "100%";
+        questionText.textContent = `Resultado: ${score} de ${quiz.length}`;
+        answers.innerHTML = "";
+        feedback.textContent = score >= 6
+          ? "Buen dominio del tema. Repasa solo las fórmulas donde hayas dudado."
+          : "Conviene volver a mirar polígonos, circunferencia y semejanza antes de repetir.";
+        nextQuestion.textContent = "Repetir";
+        currentQuestion = -1;
+        score = 0;
+      }
+    });
+
+    drawPolygon(6);
+    updateAngles("a");
+    updateSimilarity();
+    updateCalculator();
+    renderQuestion();
+  </script>
+</body>
+</html>
