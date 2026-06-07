@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuerpos geométricos 2º ESO | Superficie y volumen</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-2: #0b172a;
+      --ink: #eef6ff;
+      --soft: #dbeafe;
+      --muted: #a9bad7;
+      --faint: #7d91b2;
+      --line: rgba(255, 255, 255, 0.13);
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel-strong: rgba(255, 255, 255, 0.1);
+      --amber: #f59e0b;
+      --amber-2: #fbbf24;
+      --cyan: #22d3ee;
+      --blue: #60a5fa;
+      --green: #34d399;
+      --rose: #fb7185;
+      --violet: #a78bfa;
+      --radius: 8px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      line-height: 1.6;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.024) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.024) 1px, transparent 1px),
+        radial-gradient(circle at 12% 8%, rgba(245, 158, 11, 0.15), transparent 30%),
+        radial-gradient(circle at 86% 14%, rgba(34, 211, 238, 0.13), transparent 31%),
+        linear-gradient(180deg, var(--bg), var(--bg-2) 48%, #06101d);
+      background-size: 42px 42px, 42px 42px, auto, auto, auto;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent, rgba(7, 17, 31, 0.76) 58%, rgba(7, 17, 31, 0.96));
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button,
+    select,
+    input {
+      min-height: 46px;
+    }
+
+    svg {
+      max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    .page {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(7, 17, 31, 0.88);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      width: min(1160px, calc(100% - 32px));
+      min-height: 64px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      color: var(--soft);
+      text-decoration: none;
+      font-size: 0.96rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .home-link svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .top-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .top-nav a {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 780;
+      white-space: nowrap;
+    }
+
+    .top-nav a:hover,
+    .top-nav a:focus-visible {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.14);
+      outline: none;
+    }
+
+    .hero {
+      min-height: calc(84svh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 0.96fr) minmax(360px, 1.04fr);
+      align-items: center;
+      gap: 54px;
+      padding: 56px 0 40px;
+    }
+
+    .meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: var(--soft);
+      font-size: 0.98rem;
+      font-weight: 800;
+    }
+
+    .meta-line span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 5px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    h1 {
+      max-width: 12ch;
+      font-size: clamp(2.55rem, 7.5vw, 4.8rem);
+      line-height: 0.97;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 65ch;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 11px 15px;
+      border: 0;
+      border-radius: var(--radius);
+      color: var(--ink);
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.96rem;
+      font-weight: 850;
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn.primary {
+      color: #111827;
+      background: linear-gradient(135deg, var(--amber-2), var(--amber));
+      box-shadow: 0 16px 34px rgba(245, 158, 11, 0.24);
+    }
+
+    .btn.ghost {
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid var(--line);
+    }
+
+    .hero-stage {
+      min-height: 520px;
+      display: grid;
+      align-items: center;
+    }
+
+    .solid-scene {
+      position: relative;
+      min-height: 470px;
+      padding: 22px;
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 24% 20%, rgba(245, 158, 11, 0.13), transparent 35%),
+        radial-gradient(circle at 74% 70%, rgba(34, 211, 238, 0.13), transparent 35%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.032));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .solid-scene::before {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border: 1px dashed rgba(255, 255, 255, 0.13);
+      pointer-events: none;
+    }
+
+    .scene-grid {
+      position: absolute;
+      inset: 0;
+      opacity: 0.35;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .hero-svg {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 390px;
+      height: 100%;
+    }
+
+    .scene-caption {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .scene-caption span {
+      padding: 12px 13px;
+      color: var(--muted);
+      background: rgba(7, 17, 31, 0.78);
+      border-left: 4px solid var(--amber);
+      font-size: 0.88rem;
+    }
+
+    .scene-caption strong {
+      display: block;
+      color: var(--amber-2);
+      font-size: 1rem;
+    }
+
+    .section {
+      padding: 70px 0;
+      scroll-margin-top: 82px;
+    }
+
+    .section.alt {
+      border-block: 1px solid rgba(255, 255, 255, 0.075);
+      background: rgba(255, 255, 255, 0.028);
+      margin-inline: calc(50% - 50vw);
+      padding-inline: calc(50vw - 50%);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.78fr) minmax(240px, 0.42fr);
+      align-items: end;
+      gap: 26px;
+      margin-bottom: 28px;
+    }
+
+    .section-label {
+      color: var(--amber-2);
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin-top: 7px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .idea-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 28px;
+    }
+
+    .idea {
+      padding: 0 0 0 18px;
+      border-left: 4px solid var(--amber);
+    }
+
+    .idea:nth-child(2) {
+      border-color: var(--cyan);
+    }
+
+    .idea:nth-child(3) {
+      border-color: var(--green);
+    }
+
+    .idea h3 {
+      color: var(--soft);
+      font-size: 1.15rem;
+      line-height: 1.25;
+    }
+
+    .idea p {
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
+    .solid-lab {
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+      min-height: 520px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+      overflow: hidden;
+    }
+
+    .solid-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 18px;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .solid-tab {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--soft);
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 820;
+      text-align: left;
+    }
+
+    .solid-tab .short {
+      color: var(--faint);
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .solid-tab:hover,
+    .solid-tab:focus-visible {
+      color: var(--ink);
+      border-color: rgba(255, 255, 255, 0.28);
+      outline: none;
+    }
+
+    .solid-tab.active {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.55);
+      color: #ffe0a6;
+    }
+
+    .solid-detail {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(280px, 0.72fr);
+      gap: 22px;
+      align-items: center;
+      padding: 22px;
+    }
+
+    .diagram-zone {
+      min-height: 390px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        rgba(3, 10, 22, 0.46);
+      background-size: 26px 26px;
+      overflow: hidden;
+    }
+
+    .solid-copy h3 {
+      color: var(--soft);
+      font-size: clamp(1.45rem, 3vw, 2.1rem);
+      line-height: 1.08;
+    }
+
+    .solid-copy .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      margin-top: 12px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      color: #111827;
+      background: var(--amber-2);
+      font-size: 0.86rem;
+      font-weight: 900;
+    }
+
+    .solid-copy p {
+      margin-top: 14px;
+      color: var(--muted);
+    }
+
+    .fact-list {
+      display: grid;
+      gap: 9px;
+      margin: 16px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .fact-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--soft);
+    }
+
+    .formula-line {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .formula-line div {
+      padding: 12px 13px;
+      border-radius: var(--radius);
+      background: rgba(245, 158, 11, 0.12);
+      color: #ffe2ad;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .formula-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .formula-card {
+      min-height: 300px;
+      display: grid;
+      grid-template-rows: 120px auto;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.055);
+      overflow: hidden;
+    }
+
+    .formula-art {
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-color: rgba(0, 0, 0, 0.1);
+      background-size: 18px 18px;
+    }
+
+    .formula-copy {
+      padding: 15px;
+    }
+
+    .formula-copy h3 {
+      color: var(--soft);
+      font-size: 1.08rem;
+      line-height: 1.25;
+    }
+
+    .formula-copy .rule {
+      margin-top: 9px;
+      color: var(--amber-2);
+      font-size: 1.02rem;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .formula-copy p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .examples {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .example {
+      padding: 20px;
+      border-top: 4px solid var(--amber);
+      background: rgba(255, 255, 255, 0.058);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .example:nth-child(2) {
+      border-color: var(--cyan);
+    }
+
+    .example:nth-child(3) {
+      border-color: var(--green);
+    }
+
+    .example h3 {
+      color: var(--soft);
+      font-size: 1.15rem;
+      line-height: 1.25;
+    }
+
+    .steps {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .step:last-child {
+      border-bottom: 0;
+    }
+
+    .step b {
+      display: inline-grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      color: #111827;
+      background: var(--amber-2);
+      font-size: 0.92rem;
+      font-weight: 900;
+    }
+
+    .step span {
+      color: var(--soft);
+      font-size: 0.96rem;
+    }
+
+    .math {
+      display: inline-block;
+      color: #fff3c4;
+      font-weight: 900;
+    }
+
+    .calculator {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.45fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: stretch;
+      border: 1px solid rgba(245, 158, 11, 0.22);
+      border-radius: var(--radius);
+      background: rgba(245, 158, 11, 0.07);
+      padding: 22px;
+    }
+
+    .calc-controls {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: var(--soft);
+      font-size: 0.94rem;
+      font-weight: 800;
+    }
+
+    select,
+    input {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      background: rgba(4, 11, 22, 0.78);
+      color: var(--ink);
+      padding: 10px 12px;
+      outline: none;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: rgba(245, 158, 11, 0.72);
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.12);
+    }
+
+    .calc-fields {
+      display: grid;
+      gap: 12px;
+    }
+
+    .calc-result {
+      display: grid;
+      align-content: center;
+      gap: 14px;
+      min-height: 260px;
+      padding: 22px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        rgba(3, 10, 22, 0.56);
+      background-size: 24px 24px;
+    }
+
+    .result-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .result-row:last-child {
+      border-bottom: 0;
+    }
+
+    .result-row span {
+      color: var(--muted);
+    }
+
+    .result-row strong {
+      color: #ffe0a6;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      line-height: 1;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .calc-note {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .quiz-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .score {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      color: #111827;
+      background: var(--green);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .quiz-card {
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .quiz-card h3 {
+      color: var(--soft);
+      font-size: 1.05rem;
+      line-height: 1.32;
+    }
+
+    .answer-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .answer {
+      min-height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--soft);
+      padding: 9px 11px;
+      cursor: pointer;
+      font-weight: 760;
+      text-align: left;
+    }
+
+    .answer:hover,
+    .answer:focus-visible {
+      border-color: rgba(255, 255, 255, 0.28);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .answer.correct {
+      border-color: rgba(52, 211, 153, 0.72);
+      background: rgba(52, 211, 153, 0.16);
+      color: #bbf7d0;
+    }
+
+    .answer.wrong {
+      border-color: rgba(251, 113, 133, 0.72);
+      background: rgba(251, 113, 133, 0.15);
+      color: #fecdd3;
+    }
+
+    .feedback {
+      min-height: 48px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .summary-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px 28px;
+      margin: 28px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .summary-list li {
+      padding: 13px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      color: var(--soft);
+    }
+
+    .summary-list strong {
+      color: var(--amber-2);
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .section-head,
+      .solid-detail,
+      .calculator {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-stage {
+        min-height: auto;
+      }
+
+      .solid-lab {
+        grid-template-columns: 1fr;
+      }
+
+      .solid-tabs {
+        flex-direction: row;
+        overflow-x: auto;
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .solid-tab {
+        min-width: 190px;
+      }
+
+      .formula-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .examples,
+      .idea-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page,
+      .topbar-inner {
+        width: min(100% - 24px, 1160px);
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px 0;
+      }
+
+      .top-nav {
+        width: 100%;
+      }
+
+      .hero {
+        padding: 34px 0 22px;
+        gap: 28px;
+      }
+
+      h1 {
+        font-size: clamp(2.35rem, 13vw, 3.6rem);
+      }
+
+      .lead {
+        font-size: 1.02rem;
+      }
+
+      .section {
+        padding: 52px 0;
+      }
+
+      .solid-scene {
+        min-height: 360px;
+        padding: 14px;
+      }
+
+      .solid-scene::before {
+        inset: 14px;
+      }
+
+      .hero-svg {
+        min-height: 270px;
+      }
+
+      .scene-caption {
+        grid-template-columns: 1fr;
+      }
+
+      .solid-detail {
+        padding: 14px;
+      }
+
+      .diagram-zone {
+        min-height: 290px;
+      }
+
+      .formula-grid,
+      .quiz-grid,
+      .summary-list {
+        grid-template-columns: 1fr;
+      }
+
+      .formula-card {
+        min-height: auto;
+      }
+
+      .examples {
+        gap: 12px;
+      }
+
+      .calculator {
+        padding: 14px;
+      }
+
+      .result-row {
+        grid-template-columns: 1fr;
+      }
+
+      .result-row strong {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="home-link" href="index.html" aria-label="Volver al catálogo">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Catálogo
+      </a>
+      <nav class="top-nav" aria-label="Navegación de la página">
+        <a href="#idea">Idea clave</a>
+        <a href="#explorador">Explorador</a>
+        <a href="#formulas">Fórmulas</a>
+        <a href="#calculadora">Calculadora</a>
+        <a href="#practica">Práctica</a>
+      </nav>
+    </div>
+  </div>
+
+  <main>
+    <header class="page hero">
+      <div class="hero-copy">
+        <div class="meta-line" aria-label="Clasificación del recurso">
+          <span>Matemáticas</span>
+          <span>2º ESO</span>
+          <span>Geometría 3D</span>
+        </div>
+        <h1>Cuerpos geométricos</h1>
+        <p class="lead">Aprende a reconocer cubo o hexaedro regular, octaedro, dodecaedro, prismas y cilindros. Verás qué mide la superficie, qué mide el volumen y qué fórmula se usa en cada caso.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#explorador">Ver cuerpos</a>
+          <a class="btn ghost" href="#calculadora">Calcular ahora</a>
+        </div>
+      </div>
+
+      <div class="hero-stage" aria-hidden="true">
+        <div class="solid-scene">
+          <div class="scene-grid"></div>
+          <svg class="hero-svg" viewBox="0 0 620 430" role="img" aria-label="Cuerpos geométricos en perspectiva">
+            <defs>
+              <linearGradient id="gold" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#fef3c7" />
+                <stop offset="1" stop-color="#f59e0b" />
+              </linearGradient>
+              <linearGradient id="cyan" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#a5f3fc" />
+                <stop offset="1" stop-color="#0891b2" />
+              </linearGradient>
+              <linearGradient id="green" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#bbf7d0" />
+                <stop offset="1" stop-color="#059669" />
+              </linearGradient>
+              <linearGradient id="rose" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#fecdd3" />
+                <stop offset="1" stop-color="#e11d48" />
+              </linearGradient>
+              <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000" flood-opacity="0.28" />
+              </filter>
+            </defs>
+
+            <g filter="url(#softShadow)">
+              <path d="M78 142l76-44 76 44-76 45z" fill="#fde68a" opacity="0.9" />
+              <path d="M78 142v88l76 48v-91z" fill="url(#gold)" opacity="0.78" />
+              <path d="M154 187l76-45v90l-76 46z" fill="#d97706" opacity="0.78" />
+              <path d="M78 142l76-44 76 44-76 45zM78 142v88l76 48m0-91v91m0-91l76-45v90l-76 46" fill="none" stroke="#fff7d6" stroke-width="2" opacity="0.85" />
+              <text x="102" y="318" fill="#ffe0a6" font-size="20" font-weight="800">cubo</text>
+            </g>
+
+            <g filter="url(#softShadow)">
+              <ellipse cx="392" cy="138" rx="62" ry="22" fill="#a5f3fc" opacity="0.9" />
+              <path d="M330 138v132c0 13 28 23 62 23s62-10 62-23V138" fill="url(#cyan)" opacity="0.68" />
+              <ellipse cx="392" cy="270" rx="62" ry="23" fill="#06b6d4" opacity="0.72" />
+              <path d="M330 138c0 13 28 23 62 23s62-10 62-23M330 138v132c0 13 28 23 62 23s62-10 62-23V138" fill="none" stroke="#ecfeff" stroke-width="2" opacity="0.86" />
+              <text x="384" y="327" fill="#cffafe" font-size="20" font-weight="800">cilindro</text>
+            </g>
+
+            <g filter="url(#softShadow)">
+              <path d="M330 76l76 40-25 84H280l-25-84z" fill="#bbf7d0" opacity="0.87" />
+              <path d="M290 108l76 40-25 84H240l-25-84z" fill="url(#green)" opacity="0.7" />
+              <path d="M330 76l76 40-40 32-76-40z" fill="#a7f3d0" opacity="0.72" />
+              <path d="M406 116l-40 32-25 84 40-32z" fill="#047857" opacity="0.68" />
+              <path d="M280 200l-40 32-25-84 40-32z" fill="#059669" opacity="0.58" />
+              <path d="M330 76l76 40-25 84H280l-25-84zM290 108l76 40-25 84H240l-25-84zM330 76l-40 32M406 116l-40 32M381 200l-40 32M280 200l-40 32M255 116l-40 32" fill="none" stroke="#dcfce7" stroke-width="2" opacity="0.84" stroke-linejoin="round" />
+              <text x="278" y="323" fill="#bbf7d0" font-size="20" font-weight="800">prisma</text>
+            </g>
+
+            <g filter="url(#softShadow)">
+              <path d="M542 112l-58 78 58 30z" fill="#fb7185" opacity="0.74" />
+              <path d="M542 112l58 78-58 30z" fill="#e11d48" opacity="0.66" />
+              <path d="M542 268l-58-78 58 30z" fill="#be123c" opacity="0.62" />
+              <path d="M542 268l58-78-58 30z" fill="#9f1239" opacity="0.58" />
+              <path d="M484 190l58-36 58 36-58 30z" fill="#fecdd3" opacity="0.16" />
+              <path d="M542 112l-58 78 58 78 58-78zM484 190l58 30 58-30M542 154l58 36M542 154l-58 36M542 112l58 78M542 268l58-78" fill="none" stroke="#ffe4e6" stroke-width="2" opacity="0.86" />
+              <path d="M542 112l0 42M542 154l0 66M542 220l0 48" fill="none" stroke="#ffe4e6" stroke-width="2" opacity="0.62" stroke-dasharray="5 5" />
+              <text x="503" y="320" fill="#fecdd3" font-size="20" font-weight="800">octaedro</text>
+            </g>
+
+            <g filter="url(#softShadow)">
+              <path d="M154 34l40 16 20 38-18 43-43 14-38-22-13-41 16-32z" fill="#6d5bd0" opacity="0.42" />
+              <path d="M154 34l40 16-18 27-22-11-24 14-12-30z" fill="#a78bfa" opacity="0.68" />
+              <path d="M176 77l18-27 20 38-18 43-19-24z" fill="#7c6ae6" opacity="0.68" />
+              <path d="M130 80l24-14 22 11 1 30-32 16z" fill="#c4b5fd" opacity="0.78" />
+              <path d="M130 80l15 43-30 0-13-41 16-32z" fill="#6d5bd0" opacity="0.68" />
+              <path d="M154 34l40 16 20 38-18 43-43 14-38-22-13-41 16-32zM130 80l24-14 22 11 1 30-32 16zM118 50l12 30M194 50l-18 27M102 82l43 41M214 88l-37 19M153 145l-8-22M196 131l-19-24" fill="none" stroke="#ede9fe" stroke-width="1.8" opacity="0.82" stroke-linejoin="round" />
+              <text x="74" y="32" fill="#ddd6fe" font-size="20" font-weight="800">dodecaedro</text>
+            </g>
+          </svg>
+          <div class="scene-caption">
+            <span><strong>Superficie</strong>Lo que podrías cubrir con papel.</span>
+            <span><strong>Volumen</strong>Lo que cabe dentro del cuerpo.</span>
+            <span><strong>Unidad</strong>u² para superficie y u³ para volumen.</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="page section" id="idea">
+      <div class="section-head">
+        <div>
+          <span class="section-label">Idea clave</span>
+          <h2>No confundas superficie con volumen.</h2>
+        </div>
+        <p>En geometría 3D casi todos los ejercicios se resuelven identificando primero qué te piden: cubrir el exterior o llenar el interior.</p>
+      </div>
+
+      <div class="idea-strip">
+        <article class="idea">
+          <h3>La superficie total mide el exterior.</h3>
+          <p>Es la suma de las áreas de todas las caras o zonas curvas. Se expresa en cm², m², dm²...</p>
+        </article>
+        <article class="idea">
+          <h3>El volumen mide el espacio interior.</h3>
+          <p>Indica cuánto cabe dentro del cuerpo. Se expresa en cm³, m³, dm³...</p>
+        </article>
+        <article class="idea">
+          <h3>La arista, el radio y la altura son datos.</h3>
+          <p>La arista se suele llamar <span class="math">a</span>, el radio <span class="math">r</span> y la altura <span class="math">h</span>.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section alt" id="explorador">
+      <div class="page">
+        <div class="section-head">
+          <div>
+            <span class="section-label">Explorador</span>
+            <h2>Elige un cuerpo y mira sus fórmulas.</h2>
+          </div>
+          <p>Las fórmulas de octaedro y dodecaedro se refieren a cuerpos regulares: todas sus aristas miden lo mismo y sus caras son polígonos regulares.</p>
+        </div>
+
+        <div class="solid-lab">
+          <div class="solid-tabs" role="tablist" aria-label="Cuerpos geométricos">
+            <button class="solid-tab active" type="button" data-solid="cube"><span>Cubo</span><span class="short">a</span></button>
+            <button class="solid-tab" type="button" data-solid="octa"><span>Octaedro</span><span class="short">a</span></button>
+            <button class="solid-tab" type="button" data-solid="dodeca"><span>Dodecaedro</span><span class="short">a</span></button>
+            <button class="solid-tab" type="button" data-solid="prism"><span>Prisma recto</span><span class="short">Ab, Pb, h</span></button>
+            <button class="solid-tab" type="button" data-solid="cylinder"><span>Cilindro</span><span class="short">r, h</span></button>
+          </div>
+
+          <div class="solid-detail">
+            <div class="diagram-zone" id="solidDiagram" aria-hidden="true"></div>
+            <article class="solid-copy" aria-live="polite">
+              <h3 id="solidName">Cubo o hexaedro regular</h3>
+              <span class="tag" id="solidTag">6 caras cuadradas</span>
+              <p id="solidIntro">Es un hexaedro regular: tiene seis caras iguales y todas son cuadrados.</p>
+              <ul class="fact-list" id="solidFacts"></ul>
+              <div class="formula-line" aria-label="Fórmulas del cuerpo seleccionado">
+                <div id="solidSurface">Superficie total: S = 6a²</div>
+                <div id="solidVolume">Volumen: V = a³</div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page section" id="formulas">
+      <div class="section-head">
+        <div>
+          <span class="section-label">Fórmulas</span>
+          <h2>Resumen rápido para estudiar.</h2>
+        </div>
+        <p>Lee cada fórmula con sus letras: <span class="math">a</span> es arista, <span class="math">r</span> es radio, <span class="math">h</span> es altura, <span class="math">Ab</span> es área de la base y <span class="math">Pb</span> es perímetro de la base.</p>
+      </div>
+
+      <div class="formula-grid">
+        <article class="formula-card">
+          <div class="formula-art" aria-hidden="true">
+            <svg viewBox="0 0 140 110">
+              <path d="M35 38l36-20 36 20-36 21z" fill="#fde68a" />
+              <path d="M35 38v42l36 22V59z" fill="#f59e0b" opacity="0.72" />
+              <path d="M71 59l36-21v42l-36 22z" fill="#b45309" opacity="0.72" />
+              <path d="M35 38l36-20 36 20-36 21zM35 38v42l36 22m0-43v43m0-43l36-21v42l-36 22" fill="none" stroke="#fff7d6" stroke-width="2" />
+            </svg>
+          </div>
+          <div class="formula-copy">
+            <h3>Cubo o hexaedro regular</h3>
+            <div class="rule">S = 6a²<br>V = a³</div>
+            <p>Hay 6 caras cuadradas. Cada cara mide <span class="math">a²</span>.</p>
+          </div>
+        </article>
+
+        <article class="formula-card">
+          <div class="formula-art" aria-hidden="true">
+            <svg viewBox="0 0 140 110">
+              <path d="M70 10L28 56l42 22z" fill="#fb7185" opacity="0.76" />
+              <path d="M70 10l42 46-42 22z" fill="#e11d48" opacity="0.66" />
+              <path d="M70 100L28 56l42 22z" fill="#be123c" opacity="0.62" />
+              <path d="M70 100l42-44-42 22z" fill="#9f1239" opacity="0.58" />
+              <path d="M28 56l42-24 42 24-42 22z" fill="#fecdd3" opacity="0.16" />
+              <path d="M70 10L28 56l42 44 42-44zM28 56l42 22 42-22M70 32l42 24M70 32L28 56M70 10l42 46M70 100l42-44" fill="none" stroke="#ffe4e6" stroke-width="2" />
+              <path d="M70 10v22M70 32v46M70 78v22" fill="none" stroke="#ffe4e6" stroke-width="2" opacity="0.58" stroke-dasharray="4 4" />
+            </svg>
+          </div>
+          <div class="formula-copy">
+            <h3>Octaedro regular</h3>
+            <div class="rule">S = 2√3 a²<br>V = (√2 / 3) a³</div>
+            <p>Tiene 8 triángulos equiláteros iguales.</p>
+          </div>
+        </article>
+
+        <article class="formula-card">
+          <div class="formula-art" aria-hidden="true">
+            <svg viewBox="0 0 140 110">
+              <path d="M70 8l43 18 13 39-30 37H44L14 65l13-39z" fill="#6d5bd0" opacity="0.42" />
+              <path d="M70 8l43 18-20 25-23-17-23 17-20-25z" fill="#a78bfa" opacity="0.7" />
+              <path d="M93 51l20-25 13 39-30 37-12-28z" fill="#7c6ae6" opacity="0.72" />
+              <path d="M47 51L27 26 14 65l30 37 12-28z" fill="#6d5bd0" opacity="0.72" />
+              <path d="M47 51l23-17 23 17-9 23H56z" fill="#c4b5fd" opacity="0.82" />
+              <path d="M56 74h28l12 28H44z" fill="#5b4bc4" opacity="0.66" />
+              <path d="M70 8l43 18 13 39-30 37H44L14 65l13-39zM47 51l23-17 23 17-9 23H56zM27 26l20 25M113 26L93 51M14 65l42 9M126 65l-42 9M44 102l12-28M96 102L84 74" fill="none" stroke="#ede9fe" stroke-width="2" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="formula-copy">
+            <h3>Dodecaedro regular</h3>
+            <div class="rule">S = 3√(25 + 10√5) a²<br>V = ((15 + 7√5) / 4) a³</div>
+            <p>Tiene 12 caras pentagonales iguales.</p>
+          </div>
+        </article>
+
+        <article class="formula-card">
+          <div class="formula-art" aria-hidden="true">
+            <svg viewBox="0 0 140 110">
+              <path d="M71 12l42 22-14 46H43L29 34z" fill="#bbf7d0" opacity="0.92" />
+              <path d="M50 29l42 22-14 46H22L8 51z" fill="#34d399" opacity="0.7" />
+              <path d="M71 12l42 22-21 17-42-22z" fill="#a7f3d0" opacity="0.76" />
+              <path d="M113 34L92 51 78 97 99 80z" fill="#047857" opacity="0.7" />
+              <path d="M43 80L22 97 8 51 29 34z" fill="#059669" opacity="0.62" />
+              <path d="M71 12l42 22-14 46H43L29 34zM50 29l42 22-14 46H22L8 51zM71 12L50 29M113 34L92 51M99 80L78 97M43 80L22 97M29 34L8 51" fill="none" stroke="#dcfce7" stroke-width="2" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="formula-copy">
+            <h3>Prisma recto</h3>
+            <div class="rule">S = 2Ab + Pb·h<br>V = Ab·h</div>
+            <p>Sirve para prismas con bases paralelas e iguales.</p>
+          </div>
+        </article>
+
+        <article class="formula-card">
+          <div class="formula-art" aria-hidden="true">
+            <svg viewBox="0 0 140 110">
+              <ellipse cx="70" cy="27" rx="38" ry="13" fill="#a5f3fc" />
+              <path d="M32 27v57c0 8 17 14 38 14s38-6 38-14V27" fill="#22d3ee" opacity="0.68" />
+              <ellipse cx="70" cy="84" rx="38" ry="14" fill="#0891b2" opacity="0.74" />
+              <path d="M32 27c0 8 17 14 38 14s38-6 38-14M32 27v57c0 8 17 14 38 14s38-6 38-14V27" fill="none" stroke="#ecfeff" stroke-width="2" />
+            </svg>
+          </div>
+          <div class="formula-copy">
+            <h3>Cilindro</h3>
+            <div class="rule">S = 2πr² + 2πrh<br>V = πr²h</div>
+            <p>La superficie total suma dos círculos y la zona lateral.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section alt" id="ejemplos">
+      <div class="page">
+        <div class="section-head">
+          <div>
+            <span class="section-label">Ejemplos resueltos</span>
+            <h2>Cómo se sustituyen los datos.</h2>
+          </div>
+          <p>El truco es escribir primero la fórmula, después sustituir y por último poner bien las unidades.</p>
+        </div>
+
+        <div class="examples">
+          <article class="example">
+            <h3>Cubo de arista 4 cm</h3>
+            <div class="steps">
+              <div class="step"><b>1</b><span>Fórmulas: <span class="math">S = 6a²</span> y <span class="math">V = a³</span>.</span></div>
+              <div class="step"><b>2</b><span>Sustituimos <span class="math">a = 4</span>: <span class="math">S = 6·4² = 6·16</span>.</span></div>
+              <div class="step"><b>3</b><span>Resultado: <span class="math">S = 96 cm²</span> y <span class="math">V = 64 cm³</span>.</span></div>
+            </div>
+          </article>
+
+          <article class="example">
+            <h3>Prisma con Ab = 18 cm², Pb = 20 cm y h = 7 cm</h3>
+            <div class="steps">
+              <div class="step"><b>1</b><span>Superficie: <span class="math">S = 2Ab + Pb·h</span>.</span></div>
+              <div class="step"><b>2</b><span>Sustituimos: <span class="math">S = 2·18 + 20·7 = 36 + 140</span>.</span></div>
+              <div class="step"><b>3</b><span>Resultado: <span class="math">S = 176 cm²</span> y <span class="math">V = 18·7 = 126 cm³</span>.</span></div>
+            </div>
+          </article>
+
+          <article class="example">
+            <h3>Cilindro de radio 3 cm y altura 8 cm</h3>
+            <div class="steps">
+              <div class="step"><b>1</b><span>Volumen: <span class="math">V = πr²h</span>.</span></div>
+              <div class="step"><b>2</b><span>Sustituimos: <span class="math">V = π·3²·8 = 72π</span>.</span></div>
+              <div class="step"><b>3</b><span>Aproximamos: <span class="math">V ≈ 226,19 cm³</span>. Superficie: <span class="math">S = 66π ≈ 207,35 cm²</span>.</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="page section" id="calculadora">
+      <div class="section-head">
+        <div>
+          <span class="section-label">Calculadora</span>
+          <h2>Practica con tus propios datos.</h2>
+        </div>
+        <p>Usa números positivos. La calculadora trabaja con unidades genéricas: si escribes cm, el resultado será cm² y cm³.</p>
+      </div>
+
+      <div class="calculator">
+        <div class="calc-controls">
+          <label>
+            Cuerpo geométrico
+            <select id="calcSolid">
+              <option value="cube">Cubo o hexaedro regular</option>
+              <option value="octa">Octaedro regular</option>
+              <option value="dodeca">Dodecaedro regular</option>
+              <option value="prism">Prisma recto</option>
+              <option value="cylinder">Cilindro</option>
+            </select>
+          </label>
+          <div class="calc-fields" id="calcFields"></div>
+          <button class="btn primary" type="button" id="calcButton">Calcular superficie y volumen</button>
+        </div>
+
+        <div class="calc-result" aria-live="polite">
+          <div class="result-row">
+            <span>Superficie total</span>
+            <strong id="surfaceResult">96 u²</strong>
+          </div>
+          <div class="result-row">
+            <span>Volumen</span>
+            <strong id="volumeResult">64 u³</strong>
+          </div>
+          <p class="calc-note" id="calcExplanation">Para un cubo de arista 4: S = 6·4² y V = 4³.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="practica">
+      <div class="page">
+        <div class="quiz-head">
+          <div>
+            <span class="section-label">Práctica autocorregible</span>
+            <h2>Comprueba si sabes elegir la fórmula.</h2>
+          </div>
+          <span class="score" id="score">0 / 6</span>
+        </div>
+        <div class="quiz-grid" id="quizGrid"></div>
+      </div>
+    </section>
+
+    <section class="page section" id="resumen">
+      <div class="section-head">
+        <div>
+          <span class="section-label">Resumen final</span>
+          <h2>Qué debes recordar.</h2>
+        </div>
+        <p>Antes de hacer cuentas, localiza el cuerpo, apunta los datos con letras y decide si te piden superficie, volumen o ambas cosas.</p>
+      </div>
+      <ul class="summary-list">
+        <li><strong>Cubo:</strong> seis caras cuadradas. <span class="math">S = 6a²</span>, <span class="math">V = a³</span>.</li>
+        <li><strong>Octaedro regular:</strong> ocho triángulos equiláteros. <span class="math">S = 2√3a²</span>.</li>
+        <li><strong>Dodecaedro regular:</strong> doce pentágonos regulares. Sus fórmulas son más largas, pero solo usan la arista.</li>
+        <li><strong>Prisma recto:</strong> dos bases iguales y caras laterales rectangulares. <span class="math">V = Ab·h</span>.</li>
+        <li><strong>Cilindro:</strong> dos bases circulares y una superficie lateral curva. <span class="math">V = πr²h</span>.</li>
+        <li><strong>Unidades:</strong> superficie en unidades cuadradas y volumen en unidades cúbicas.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const solids = {
+      cube: {
+        name: "Cubo o hexaedro regular",
+        tag: "6 caras cuadradas",
+        intro: "Es un hexaedro regular: tiene seis caras iguales y todas son cuadrados.",
+        facts: [
+          "Caras: 6 cuadrados iguales.",
+          "Aristas: 12. Vértices: 8.",
+          "Dato necesario: la arista a."
+        ],
+        surface: "Superficie total: S = 6a²",
+        volume: "Volumen: V = a³",
+        svg: `<svg viewBox="0 0 360 300" role="img" aria-label="Cubo en perspectiva">
+          <path d="M82 96l98-56 98 56-98 58z" fill="#fde68a" opacity="0.95" />
+          <path d="M82 96v112l98 58V154z" fill="#f59e0b" opacity="0.76" />
+          <path d="M180 154l98-58v112l-98 58z" fill="#b45309" opacity="0.76" />
+          <path d="M82 96l98-56 98 56-98 58zM82 96v112l98 58m0-112v112m0-112l98-58v112l-98 58" fill="none" stroke="#fff7d6" stroke-width="3" />
+          <path d="M92 224h80" stroke="#ffe0a6" stroke-width="3" stroke-linecap="round" />
+          <text x="121" y="248" fill="#ffe0a6" font-size="22" font-weight="800">a</text>
+        </svg>`
+      },
+      octa: {
+        name: "Octaedro regular",
+        tag: "8 caras triangulares",
+        intro: "Está formado por ocho triángulos equiláteros iguales. Es como dos pirámides cuadradas pegadas por la base.",
+        facts: [
+          "Caras: 8 triángulos equiláteros.",
+          "Aristas: 12. Vértices: 6.",
+          "Dato necesario: la arista a."
+        ],
+        surface: "Superficie total: S = 2√3 a²",
+        volume: "Volumen: V = (√2 / 3) a³",
+        svg: `<svg viewBox="0 0 360 300" role="img" aria-label="Octaedro en perspectiva">
+          <path d="M180 28L66 150l114 58z" fill="#fb7185" opacity="0.78" />
+          <path d="M180 28l114 122-114 58z" fill="#e11d48" opacity="0.68" />
+          <path d="M180 272L66 150l114 58z" fill="#be123c" opacity="0.62" />
+          <path d="M180 272l114-122-114 58z" fill="#9f1239" opacity="0.58" />
+          <path d="M66 150l114-64 114 64-114 58z" fill="#fecdd3" opacity="0.14" />
+          <path d="M180 28L66 150l114 122 114-122zM66 150l114 58 114-58M180 86l114 64M180 86L66 150M180 28l114 122M180 272l114-122" fill="none" stroke="#ffe4e6" stroke-width="3" />
+          <path d="M180 28v58M180 86v122M180 208v64" fill="none" stroke="#ffe4e6" stroke-width="3" opacity="0.58" stroke-dasharray="8 7" />
+          <path d="M78 165h98" stroke="#fecdd3" stroke-width="3" stroke-linecap="round" />
+          <text x="121" y="192" fill="#fecdd3" font-size="22" font-weight="800">a</text>
+        </svg>`
+      },
+      dodeca: {
+        name: "Dodecaedro regular",
+        tag: "12 caras pentagonales",
+        intro: "Tiene doce pentágonos regulares iguales. Sus fórmulas parecen largas porque dependen de la geometría del pentágono.",
+        facts: [
+          "Caras: 12 pentágonos regulares.",
+          "Aristas: 30. Vértices: 20.",
+          "Dato necesario: la arista a."
+        ],
+        surface: "Superficie total: S = 3√(25 + 10√5) a²",
+        volume: "Volumen: V = ((15 + 7√5) / 4) a³",
+        svg: `<svg viewBox="0 0 360 300" role="img" aria-label="Dodecaedro regular esquemático">
+          <path d="M180 24l100 42 30 94-70 88H120l-70-88 30-94z" fill="#6d5bd0" opacity="0.42" />
+          <path d="M180 24l100 42-46 58-54-40-54 40-46-58z" fill="#a78bfa" opacity="0.7" />
+          <path d="M234 124l46-58 30 94-70 88-28-66z" fill="#7c6ae6" opacity="0.72" />
+          <path d="M126 124L80 66 50 160l70 88 28-66z" fill="#6d5bd0" opacity="0.72" />
+          <path d="M126 124l54-40 54 40-22 58h-64z" fill="#c4b5fd" opacity="0.82" />
+          <path d="M148 182h64l28 66H120z" fill="#5b4bc4" opacity="0.66" />
+          <path d="M180 24l100 42 30 94-70 88H120l-70-88 30-94zM126 124l54-40 54 40-22 58h-64zM80 66l46 58M280 66l-46 58M50 160l98 22M310 160l-98 22M120 248l28-66M240 248l-28-66" fill="none" stroke="#ede9fe" stroke-width="3" stroke-linejoin="round" />
+          <path d="M108 235h92" stroke="#ddd6fe" stroke-width="3" stroke-linecap="round" />
+          <text x="146" y="262" fill="#ddd6fe" font-size="22" font-weight="800">a</text>
+        </svg>`
+      },
+      prism: {
+        name: "Prisma recto",
+        tag: "2 bases iguales",
+        intro: "Tiene dos bases iguales y paralelas. Si es recto, las caras laterales son rectángulos.",
+        facts: [
+          "Ab es el área de una base.",
+          "Pb es el perímetro de una base.",
+          "h es la altura entre las dos bases."
+        ],
+        surface: "Superficie total: S = 2Ab + Pb·h",
+        volume: "Volumen: V = Ab·h",
+        svg: `<svg viewBox="0 0 360 300" role="img" aria-label="Prisma recto de base pentagonal en perspectiva">
+          <path d="M184 32l102 54-34 112H116L82 86z" fill="#bbf7d0" opacity="0.92" />
+          <path d="M132 74l102 54-34 112H64L30 128z" fill="#34d399" opacity="0.7" />
+          <path d="M184 32l102 54-52 42-102-54z" fill="#a7f3d0" opacity="0.76" />
+          <path d="M286 86l-52 42-34 112 52-42z" fill="#047857" opacity="0.7" />
+          <path d="M116 198l-52 42-34-112 52-42z" fill="#059669" opacity="0.62" />
+          <path d="M184 32l102 54-34 112H116L82 86zM132 74l102 54-34 112H64L30 128zM184 32L132 74M286 86l-52 42M252 198l-52 42M116 198l-52 42M82 86l-52 42" fill="none" stroke="#dcfce7" stroke-width="3" stroke-linejoin="round" />
+          <path d="M306 90l-52 42" stroke="#bbf7d0" stroke-width="3" stroke-linecap="round" />
+          <text x="298" y="126" fill="#bbf7d0" font-size="22" font-weight="800">h</text>
+          <text x="137" y="63" fill="#dcfce7" font-size="19" font-weight="800">base pentagonal</text>
+        </svg>`
+      },
+      cylinder: {
+        name: "Cilindro",
+        tag: "2 bases circulares",
+        intro: "Tiene dos círculos iguales y una superficie lateral curva. En las fórmulas aparecen el radio y la altura.",
+        facts: [
+          "r es el radio de cada base circular.",
+          "h es la altura del cilindro.",
+          "La superficie lateral mide 2πrh."
+        ],
+        surface: "Superficie total: S = 2πr² + 2πrh = 2πr(r + h)",
+        volume: "Volumen: V = πr²h",
+        svg: `<svg viewBox="0 0 360 300" role="img" aria-label="Cilindro en perspectiva">
+          <ellipse cx="180" cy="62" rx="86" ry="31" fill="#a5f3fc" opacity="0.95" />
+          <path d="M94 62v154c0 18 38 32 86 32s86-14 86-32V62" fill="#22d3ee" opacity="0.66" />
+          <ellipse cx="180" cy="216" rx="86" ry="32" fill="#0891b2" opacity="0.72" />
+          <path d="M94 62c0 18 38 32 86 32s86-14 86-32M94 62v154c0 18 38 32 86 32s86-14 86-32V62" fill="none" stroke="#ecfeff" stroke-width="3" />
+          <path d="M180 62h86" stroke="#cffafe" stroke-width="3" stroke-linecap="round" />
+          <text x="218" y="53" fill="#cffafe" font-size="22" font-weight="800">r</text>
+          <path d="M287 66v145" stroke="#cffafe" stroke-width="3" stroke-linecap="round" />
+          <text x="300" y="145" fill="#cffafe" font-size="22" font-weight="800">h</text>
+        </svg>`
+      }
+    };
+
+    const calcConfig = {
+      cube: {
+        fields: [{ id: "a", label: "Arista a", value: 4 }],
+        calculate: ({ a }) => ({
+          surface: 6 * a * a,
+          volume: a * a * a,
+          explanation: `Cubo: S = 6·${fmtPlain(a)}² y V = ${fmtPlain(a)}³.`
+        })
+      },
+      octa: {
+        fields: [{ id: "a", label: "Arista a", value: 5 }],
+        calculate: ({ a }) => ({
+          surface: 2 * Math.sqrt(3) * a * a,
+          volume: Math.sqrt(2) / 3 * a * a * a,
+          explanation: `Octaedro regular: S = 2√3·${fmtPlain(a)}² y V = (√2/3)·${fmtPlain(a)}³.`
+        })
+      },
+      dodeca: {
+        fields: [{ id: "a", label: "Arista a", value: 3 }],
+        calculate: ({ a }) => ({
+          surface: 3 * Math.sqrt(25 + 10 * Math.sqrt(5)) * a * a,
+          volume: ((15 + 7 * Math.sqrt(5)) / 4) * a * a * a,
+          explanation: `Dodecaedro regular: las dos fórmulas dependen solo de la arista ${fmtPlain(a)}.`
+        })
+      },
+      prism: {
+        fields: [
+          { id: "baseArea", label: "Área de la base Ab", value: 18 },
+          { id: "basePerimeter", label: "Perímetro de la base Pb", value: 20 },
+          { id: "height", label: "Altura h", value: 7 }
+        ],
+        calculate: ({ baseArea, basePerimeter, height }) => ({
+          surface: 2 * baseArea + basePerimeter * height,
+          volume: baseArea * height,
+          explanation: `Prisma: S = 2·${fmtPlain(baseArea)} + ${fmtPlain(basePerimeter)}·${fmtPlain(height)} y V = ${fmtPlain(baseArea)}·${fmtPlain(height)}.`
+        })
+      },
+      cylinder: {
+        fields: [
+          { id: "radius", label: "Radio r", value: 3 },
+          { id: "height", label: "Altura h", value: 8 }
+        ],
+        calculate: ({ radius, height }) => ({
+          surface: 2 * Math.PI * radius * radius + 2 * Math.PI * radius * height,
+          volume: Math.PI * radius * radius * height,
+          explanation: `Cilindro: S = 2π·${fmtPlain(radius)}² + 2π·${fmtPlain(radius)}·${fmtPlain(height)} y V = π·${fmtPlain(radius)}²·${fmtPlain(height)}.`
+        })
+      }
+    };
+
+    const quizQuestions = [
+      {
+        question: "Un cubo tiene arista 5 cm. ¿Cuál es su volumen?",
+        answers: ["25 cm²", "125 cm³", "150 cm³"],
+        correct: 1,
+        explanation: "El volumen del cubo es V = a³. Por eso V = 5³ = 125 cm³."
+      },
+      {
+        question: "¿Qué fórmula da la superficie total de un prisma recto?",
+        answers: ["S = 2Ab + Pb·h", "S = Ab·h", "S = πr²h"],
+        correct: 0,
+        explanation: "La superficie suma dos bases y el lateral: S = 2Ab + Pb·h."
+      },
+      {
+        question: "En un cilindro, ¿qué representa r?",
+        answers: ["La altura", "El radio de la base", "El perímetro de la base"],
+        correct: 1,
+        explanation: "r es el radio de los círculos que forman las bases."
+      },
+      {
+        question: "¿En qué unidades se expresa una superficie?",
+        answers: ["cm", "cm²", "cm³"],
+        correct: 1,
+        explanation: "La superficie mide área, por eso usa unidades cuadradas."
+      },
+      {
+        question: "¿Cuántas caras tiene un dodecaedro regular?",
+        answers: ["8", "10", "12"],
+        correct: 2,
+        explanation: "Dodeca significa doce: tiene 12 caras pentagonales."
+      },
+      {
+        question: "Un cilindro tiene r = 3 y h = 10. ¿Cuál es su volumen exacto?",
+        answers: ["30π", "90π", "180π"],
+        correct: 1,
+        explanation: "V = πr²h = π·3²·10 = 90π."
+      }
+    ];
+
+    const tabs = document.querySelectorAll(".solid-tab");
+    const solidDiagram = document.getElementById("solidDiagram");
+    const solidName = document.getElementById("solidName");
+    const solidTag = document.getElementById("solidTag");
+    const solidIntro = document.getElementById("solidIntro");
+    const solidFacts = document.getElementById("solidFacts");
+    const solidSurface = document.getElementById("solidSurface");
+    const solidVolume = document.getElementById("solidVolume");
+    const calcSolid = document.getElementById("calcSolid");
+    const calcFields = document.getElementById("calcFields");
+    const calcButton = document.getElementById("calcButton");
+    const surfaceResult = document.getElementById("surfaceResult");
+    const volumeResult = document.getElementById("volumeResult");
+    const calcExplanation = document.getElementById("calcExplanation");
+    const quizGrid = document.getElementById("quizGrid");
+    const scoreEl = document.getElementById("score");
+
+    let score = 0;
+    const answered = new Set();
+
+    function fmtPlain(value) {
+      return Number(value).toLocaleString("es-ES", {
+        maximumFractionDigits: 2
+      });
+    }
+
+    function fmt(value) {
+      return Number(value).toLocaleString("es-ES", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: Number.isInteger(value) ? 0 : 2
+      });
+    }
+
+    function renderSolid(key) {
+      const solid = solids[key];
+      solidDiagram.innerHTML = solid.svg;
+      solidName.textContent = solid.name;
+      solidTag.textContent = solid.tag;
+      solidIntro.textContent = solid.intro;
+      solidSurface.textContent = solid.surface;
+      solidVolume.textContent = solid.volume;
+      solidFacts.innerHTML = solid.facts.map(fact => `<li>${fact}</li>`).join("");
+      tabs.forEach(tab => tab.classList.toggle("active", tab.dataset.solid === key));
+    }
+
+    function renderCalcFields() {
+      const key = calcSolid.value;
+      const config = calcConfig[key];
+      calcFields.innerHTML = config.fields.map(field => `
+        <label>
+          ${field.label}
+          <input type="number" min="0" step="0.1" id="field-${field.id}" value="${field.value}" inputmode="decimal" />
+        </label>
+      `).join("");
+      calcFields.querySelectorAll("input").forEach(input => {
+        input.addEventListener("input", calculate);
+      });
+      calculate();
+    }
+
+    function getValues(config) {
+      const values = {};
+      for (const field of config.fields) {
+        const input = document.getElementById(`field-${field.id}`);
+        values[field.id] = Number(String(input.value).replace(",", "."));
+      }
+      return values;
+    }
+
+    function valuesAreValid(values) {
+      return Object.values(values).every(value => Number.isFinite(value) && value > 0);
+    }
+
+    function calculate() {
+      const key = calcSolid.value;
+      const config = calcConfig[key];
+      const values = getValues(config);
+
+      if (!valuesAreValid(values)) {
+        surfaceResult.textContent = "-";
+        volumeResult.textContent = "-";
+        calcExplanation.textContent = "Introduce medidas positivas para poder calcular.";
+        return;
+      }
+
+      const result = config.calculate(values);
+      surfaceResult.textContent = `${fmt(result.surface)} u²`;
+      volumeResult.textContent = `${fmt(result.volume)} u³`;
+      calcExplanation.textContent = result.explanation;
+    }
+
+    function renderQuiz() {
+      quizGrid.innerHTML = quizQuestions.map((item, questionIndex) => `
+        <article class="quiz-card">
+          <h3>${questionIndex + 1}. ${item.question}</h3>
+          <div class="answer-list">
+            ${item.answers.map((answer, answerIndex) => `
+              <button class="answer" type="button" data-question="${questionIndex}" data-answer="${answerIndex}">${answer}</button>
+            `).join("")}
+          </div>
+          <p class="feedback" id="feedback-${questionIndex}"></p>
+        </article>
+      `).join("");
+    }
+
+    function handleQuizAnswer(event) {
+      const button = event.target.closest(".answer");
+      if (!button) return;
+
+      const questionIndex = Number(button.dataset.question);
+      const answerIndex = Number(button.dataset.answer);
+      if (answered.has(questionIndex)) return;
+
+      const item = quizQuestions[questionIndex];
+      const card = button.closest(".quiz-card");
+      const buttons = card.querySelectorAll(".answer");
+      const feedback = document.getElementById(`feedback-${questionIndex}`);
+      const correct = answerIndex === item.correct;
+
+      buttons.forEach(option => {
+        option.disabled = true;
+        if (Number(option.dataset.answer) === item.correct) option.classList.add("correct");
+      });
+
+      if (!correct) button.classList.add("wrong");
+      feedback.textContent = `${correct ? "Correcto." : "Revisa la fórmula."} ${item.explanation}`;
+
+      answered.add(questionIndex);
+      if (correct) score += 1;
+      scoreEl.textContent = `${score} / ${quizQuestions.length}`;
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => renderSolid(tab.dataset.solid));
+    });
+
+    calcSolid.addEventListener("change", renderCalcFields);
+    calcButton.addEventListener("click", calculate);
+    quizGrid.addEventListener("click", handleQuizAnswer);
+
+    renderSolid("cube");
+    renderCalcFields();
+    renderQuiz();
+  </script>
+</body>
+</html>

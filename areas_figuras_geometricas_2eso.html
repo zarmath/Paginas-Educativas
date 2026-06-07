@@ -840,6 +840,14 @@
       stroke-dasharray: 7 6;
     }
 
+    .angle-mark {
+      fill: none;
+      stroke: rgba(238, 246, 255, 0.82);
+      stroke-width: 2;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+    }
+
     @media (max-width: 980px) {
       .hero,
       .section-head,
@@ -1181,10 +1189,10 @@
             <div class="formula-figure">
               <svg viewBox="0 0 210 140" aria-label="Polígono regular">
                 <polygon points="105,18 150,43 150,96 105,122 60,96 60,43" class="shape-fill-green" stroke-width="4"></polygon>
-                <line x1="105" y1="70" x2="150" y2="96" class="dash"></line>
-                <line x1="105" y1="70" x2="105" y2="122" class="dash"></line>
-                <text x="112" y="99" class="measure">a</text>
-                <text x="120" y="125" class="measure-small">lado</text>
+                <line x1="105" y1="70" x2="150" y2="70" class="dash"></line>
+                <path d="M150 76 H144 V70" class="angle-mark"></path>
+                <text x="123" y="62" class="measure">a</text>
+                <text x="154" y="73" class="measure-small">lado</text>
               </svg>
             </div>
             <div class="formula-copy">
@@ -1662,7 +1670,7 @@
         question: "Hexágono regular de lado 5 cm y apotema 4,3 cm. Calcula el área.",
         answer: 64.5,
         unit: "cm²",
-        svg: `<svg viewBox="0 0 260 220" aria-label="Hexágono regular con lado 5 centímetros y apotema 4,3 centímetros"><polygon points="130,34 194,72 194,148 130,186 66,148 66,72" class="shape-fill-green" stroke-width="4"></polygon><line x1="130" y1="110" x2="130" y2="186" class="dash"></line><text x="138" y="153" class="measure">4,3 cm</text><text x="100" y="207" class="measure">lado 5 cm</text></svg>`,
+        svg: `<svg viewBox="0 0 260 220" aria-label="Hexágono regular con lado 5 centímetros y apotema 4,3 centímetros"><polygon points="130,34 194,72 194,148 130,186 66,148 66,72" class="shape-fill-green" stroke-width="4"></polygon><line x1="130" y1="110" x2="194" y2="110" class="dash"></line><path d="M194 118 H186 V110" class="angle-mark"></path><text x="150" y="101" class="measure">4,3 cm</text><text x="100" y="207" class="measure">lado 5 cm</text></svg>`,
         steps: [
           "Figura: hexágono regular. Tiene 6 lados iguales.",
           "Primero calculamos el perímetro: P = 6 x 5 = 30 cm.",

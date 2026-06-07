@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probabilidad 2º ESO - Teoría y ejercicios resueltos</title>
+  <style>
+    :root {
+      --bg: #08111f;
+      --bg-soft: #0c1729;
+      --panel: #111f35;
+      --panel-2: #162640;
+      --text: #edf4ff;
+      --muted: #aec0da;
+      --faint: #7f91ad;
+      --border: rgba(255,255,255,0.12);
+      --accent: #f59e0b;
+      --accent-2: #22d3ee;
+      --green: #34d399;
+      --red: #fb7185;
+      --violet: #a78bfa;
+      --blue: #60a5fa;
+      --shadow: 0 24px 80px rgba(0,0,0,0.34);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(145deg, #08111f 0%, #0e1828 48%, #07101d 100%);
+      background-size: 56px 56px, 56px 56px, auto;
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: -60px;
+      background: var(--accent);
+      color: #111827;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-weight: 800;
+      z-index: 20;
+      transition: top 0.2s ease;
+    }
+
+    .skip-link:focus { top: 12px; }
+
+    .page {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      min-height: 42px;
+      padding: 8px 10px;
+      border-radius: var(--radius);
+    }
+
+    .back-link:hover,
+    .back-link:focus-visible {
+      background: rgba(255,255,255,0.07);
+      outline: none;
+    }
+
+    .course-line {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 10px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      font-weight: 700;
+      font-size: 0.84rem;
+    }
+
+    header.hero {
+      padding: 28px 0 46px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.98fr);
+      gap: 34px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      display: grid;
+      gap: 22px;
+    }
+
+    h1 {
+      font-size: 4rem;
+      line-height: 0.95;
+      max-width: 720px;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.22rem;
+      max-width: 680px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+      font-size: 0.96rem;
+      font-family: inherit;
+    }
+
+    .button.primary {
+      background: var(--accent);
+      color: #101827;
+      border-color: transparent;
+      box-shadow: 0 14px 34px rgba(245,158,11,0.22);
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.28);
+      outline: none;
+    }
+
+    .formula-hero {
+      display: grid;
+      gap: 12px;
+      width: min(520px, 100%);
+      padding: 18px;
+      border: 1px solid rgba(245,158,11,0.28);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(245,158,11,0.13), rgba(34,211,238,0.07));
+      box-shadow: var(--shadow);
+    }
+
+    .formula-hero .formula-main {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #fff6d6;
+      line-height: 1.25;
+    }
+
+    .fraction {
+      display: inline-grid;
+      grid-template-rows: auto auto;
+      align-items: center;
+      text-align: center;
+      vertical-align: middle;
+      min-width: 92px;
+    }
+
+    .fraction span {
+      display: block;
+      padding: 0 7px;
+    }
+
+    .fraction span:first-child {
+      border-bottom: 2px solid currentColor;
+    }
+
+    .formula-hero p {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .lab {
+      min-height: 560px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 28px 18px;
+      background:
+        linear-gradient(155deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03)),
+        linear-gradient(180deg, rgba(245,158,11,0.09), rgba(34,211,238,0.08));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .lab::before {
+      content: "";
+      position: absolute;
+      inset: 20px;
+      border: 1px dashed rgba(255,255,255,0.14);
+      border-radius: var(--radius);
+      pointer-events: none;
+    }
+
+    .lab-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: grid;
+      gap: 18px;
+      justify-items: center;
+    }
+
+    .urn-scene {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: center;
+      width: min(520px, 100%);
+    }
+
+    .urn {
+      position: relative;
+      width: min(220px, 100%);
+      aspect-ratio: 0.78;
+      margin: 0 auto;
+      border: 4px solid rgba(226,232,240,0.55);
+      border-top-width: 10px;
+      border-radius: 8px 8px 42px 42px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      box-shadow: inset 0 -18px 40px rgba(0,0,0,0.22);
+    }
+
+    .ball {
+      --x: 50%;
+      --y: 50%;
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: 28px;
+      height: 28px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.45);
+      box-shadow: inset -5px -6px 12px rgba(0,0,0,0.18);
+    }
+
+    .ball.yellow { background: #facc15; }
+    .ball.red { background: #fb7185; }
+    .ball.green { background: #34d399; }
+    .ball.blue { background: #60a5fa; }
+
+    .hero-stat {
+      display: grid;
+      gap: 12px;
+      align-self: stretch;
+      padding: 14px;
+      border-left: 4px solid var(--accent);
+      background: rgba(8,17,31,0.44);
+      border-radius: var(--radius);
+    }
+
+    .hero-stat strong {
+      font-size: 1.05rem;
+      color: #fff6d6;
+    }
+
+    .hero-stat code {
+      font-size: 1.1rem;
+      color: var(--accent-2);
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 900;
+    }
+
+    .mini-dice {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      width: min(420px, 100%);
+    }
+
+    .die-face {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      background: #f8fafc;
+      color: #111827;
+      font-weight: 900;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+    }
+
+    .die-face.good {
+      background: var(--accent);
+      color: #111827;
+    }
+
+    .quick-nav {
+      position: sticky;
+      top: 0;
+      z-index: 8;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 0 12px;
+      background: rgba(8,17,31,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .quick-nav a {
+      flex: 0 0 auto;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .quick-nav a:hover,
+    .quick-nav a:focus-visible {
+      color: var(--text);
+      border-color: rgba(245,158,11,0.5);
+      outline: none;
+    }
+
+    main {
+      display: grid;
+      gap: 44px;
+      padding: 34px 0 64px;
+    }
+
+    .section {
+      scroll-margin-top: 78px;
+    }
+
+    .section-head {
+      display: grid;
+      gap: 8px;
+      max-width: 780px;
+      margin-bottom: 20px;
+    }
+
+    .section-head h2 {
+      font-size: 2.1rem;
+      line-height: 1.08;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 1.06rem;
+    }
+
+    .theory-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .concept {
+      min-height: 226px;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.055);
+      border: 1px solid var(--border);
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 10px;
+    }
+
+    .concept h3 {
+      font-size: 1.15rem;
+      color: #fff6d6;
+    }
+
+    .concept p,
+    .concept li {
+      color: var(--muted);
+    }
+
+    .concept ul {
+      padding-left: 19px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .symbol {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      color: #101827;
+      background: var(--accent);
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .wide-band {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+      gap: 24px;
+      align-items: center;
+      padding: 28px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(34,211,238,0.11), rgba(255,255,255,0.04));
+      border: 1px solid var(--border);
+    }
+
+    .laplace {
+      display: grid;
+      gap: 16px;
+    }
+
+    .laplace h3 {
+      font-size: 1.65rem;
+      line-height: 1.12;
+    }
+
+    .laplace p {
+      color: var(--muted);
+    }
+
+    .formula-box {
+      display: grid;
+      gap: 8px;
+      padding: 18px;
+      background: #fff7df;
+      color: #111827;
+      border-radius: var(--radius);
+      border: 1px solid rgba(245,158,11,0.45);
+      box-shadow: 0 18px 44px rgba(0,0,0,0.22);
+    }
+
+    .formula-box .big {
+      font-size: 1.75rem;
+      line-height: 1.2;
+      font-weight: 950;
+    }
+
+    .formula-box p { color: #334155; }
+
+    .number-line {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .line {
+      position: relative;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--red), var(--accent), var(--green));
+    }
+
+    .line::before,
+    .line::after {
+      position: absolute;
+      top: 16px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .line::before { content: "0 imposible"; left: 0; }
+    .line::after { content: "1 seguro"; right: 0; }
+
+    .method {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .method-step {
+      padding: 16px;
+      border-top: 4px solid var(--accent);
+      background: rgba(255,255,255,0.045);
+      border-radius: 0 0 var(--radius) var(--radius);
+    }
+
+    .method-step span {
+      color: var(--accent);
+      font-weight: 950;
+      font-size: 1.25rem;
+    }
+
+    .method-step h3 {
+      font-size: 1.05rem;
+      margin: 8px 0 6px;
+    }
+
+    .method-step p {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .exercise-list {
+      display: grid;
+      gap: 24px;
+    }
+
+    .exercise {
+      display: grid;
+      grid-template-columns: minmax(0, 0.94fr) minmax(330px, 1.06fr);
+      gap: 20px;
+      align-items: start;
+      padding: 22px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.045);
+      border: 1px solid var(--border);
+    }
+
+    .exercise h3 {
+      font-size: 1.34rem;
+      line-height: 1.18;
+      margin-bottom: 8px;
+    }
+
+    .exercise .statement {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .mini-note {
+      color: var(--faint);
+      font-size: 0.92rem;
+    }
+
+    .step-list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      counter-reset: steps;
+    }
+
+    .step-list li {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      color: var(--muted);
+    }
+
+    .step-list li::before {
+      counter-increment: steps;
+      content: counter(steps);
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      background: var(--accent);
+      color: #111827;
+      border-radius: 50%;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .step-list strong {
+      color: var(--text);
+    }
+
+    .math {
+      color: #fff6d6;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 900;
+      font-size: 1.06em;
+    }
+
+    .visual-panel {
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      gap: 14px;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: rgba(8,17,31,0.48);
+      border: 1px dashed rgba(255,255,255,0.16);
+    }
+
+    .set-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .set-token {
+      min-width: 42px;
+      min-height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: #f8fafc;
+      color: #111827;
+      font-weight: 950;
+    }
+
+    .set-token.highlight {
+      background: var(--accent);
+    }
+
+    .prob-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .prob-table th,
+    .prob-table td {
+      padding: 11px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.09);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .prob-table th {
+      color: #fff6d6;
+      font-size: 0.92rem;
+      background: rgba(245,158,11,0.12);
+    }
+
+    .prob-table td {
+      color: var(--muted);
+    }
+
+    .prob-table tr:last-child td { border-bottom: 0; }
+
+    .ball-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 28px);
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .ball-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.42);
+      box-shadow: inset -4px -5px 10px rgba(0,0,0,0.18);
+    }
+
+    .ball-dot.yellow { background: #facc15; }
+    .ball-dot.red { background: #fb7185; }
+    .ball-dot.green { background: #34d399; }
+
+    .roulette-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      width: 100%;
+    }
+
+    .roulette-card {
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .wheel {
+      width: 108px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 5px solid rgba(255,255,255,0.78);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+    }
+
+    .wheel.w1 {
+      background: conic-gradient(var(--blue) 0deg 120deg, var(--green) 120deg 240deg, var(--red) 240deg 360deg);
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+      border-radius: 0;
+    }
+
+    .wheel.w2 {
+      background: conic-gradient(var(--blue) 0deg 120deg, var(--green) 120deg 180deg, var(--red) 180deg 360deg);
+    }
+
+    .wheel.w3 {
+      background: conic-gradient(var(--blue) 0deg 90deg, var(--green) 90deg 225deg, var(--red) 225deg 360deg);
+    }
+
+    .tree {
+      width: 100%;
+      max-width: 560px;
+      min-height: 250px;
+    }
+
+    .tree text {
+      fill: var(--text);
+      font: 700 15px "Segoe UI", system-ui, sans-serif;
+    }
+
+    .tree .muted-text {
+      fill: var(--muted);
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .tree path {
+      fill: none;
+      stroke: rgba(255,255,255,0.48);
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+
+    .tree .good-path {
+      stroke: var(--accent);
+      stroke-width: 6;
+    }
+
+    .combo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(54px, 1fr));
+      gap: 8px;
+      width: 100%;
+    }
+
+    .combo {
+      min-height: 58px;
+      display: grid;
+      place-items: center;
+      gap: 2px;
+      padding: 6px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    .combo.good {
+      border-color: rgba(245,158,11,0.75);
+      background: rgba(245,158,11,0.14);
+      color: #fff6d6;
+    }
+
+    .lab-controls {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1.15fr);
+      gap: 22px;
+      align-items: stretch;
+      padding: 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025));
+    }
+
+    .control-group {
+      display: grid;
+      gap: 14px;
+    }
+
+    .slider-row {
+      display: grid;
+      gap: 6px;
+    }
+
+    .slider-row label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    select {
+      width: 100%;
+      min-height: 44px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: #111f35;
+      color: var(--text);
+      padding: 9px 10px;
+      font: inherit;
+      font-weight: 700;
+    }
+
+    .result-box {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .result-main {
+      padding: 18px;
+      border-radius: var(--radius);
+      background: #fff7df;
+      color: #111827;
+    }
+
+    .result-main strong {
+      display: block;
+      font-size: 1.65rem;
+      line-height: 1.1;
+      margin-bottom: 5px;
+    }
+
+    .meter {
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .meter span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      transition: width 0.25s ease;
+    }
+
+    .dynamic-balls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      min-height: 74px;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: rgba(8,17,31,0.48);
+      border: 1px dashed rgba(255,255,255,0.14);
+    }
+
+    .quiz {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1.15fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .quiz-panel,
+    .summary-panel {
+      padding: 20px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+    }
+
+    .quiz-panel h3,
+    .summary-panel h3 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+
+    .question {
+      color: var(--text);
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .options {
+      display: grid;
+      gap: 9px;
+    }
+
+    .option {
+      width: 100%;
+      min-height: 46px;
+      text-align: left;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      padding: 10px 12px;
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .option:hover,
+    .option:focus-visible {
+      border-color: rgba(245,158,11,0.55);
+      outline: none;
+    }
+
+    .option.correct {
+      background: rgba(52,211,153,0.18);
+      border-color: rgba(52,211,153,0.62);
+    }
+
+    .option.incorrect {
+      background: rgba(251,113,133,0.15);
+      border-color: rgba(251,113,133,0.55);
+    }
+
+    .feedback {
+      min-height: 54px;
+      margin-top: 12px;
+      color: var(--muted);
+    }
+
+    .quiz-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 14px;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .key-points {
+      display: grid;
+      gap: 10px;
+      list-style: none;
+    }
+
+    .key-points li {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .key-points li::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      margin-top: 6px;
+      background: var(--accent);
+      border-radius: 3px;
+    }
+
+    footer {
+      padding: 28px 0 44px;
+      color: var(--faint);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .wide-band,
+      .exercise,
+      .lab-controls,
+      .quiz {
+        grid-template-columns: 1fr;
+      }
+
+      .lab { min-height: auto; }
+      .theory-grid { grid-template-columns: 1fr; }
+      .method { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .page { width: min(100% - 24px, 1160px); }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .course-line { justify-content: flex-start; }
+
+      h1 { font-size: 2.75rem; }
+
+      .lead { font-size: 1.06rem; }
+
+      .hero-actions .button { width: 100%; }
+
+      .urn-scene,
+      .method,
+      .roulette-row {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head h2 { font-size: 1.68rem; }
+
+      .exercise,
+      .wide-band,
+      .lab-controls,
+      .quiz {
+        padding: 16px;
+      }
+
+      .formula-box .big,
+      .formula-hero .formula-main {
+        font-size: 1.28rem;
+      }
+
+      .mini-dice { grid-template-columns: repeat(3, 1fr); }
+      .combo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <div class="page">
+    <div class="topbar" aria-label="Información del recurso">
+      <a class="back-link" href="index.html">← Volver al catálogo</a>
+      <div class="course-line">
+        <span class="tag">Matemáticas</span>
+        <span class="tag">2º ESO</span>
+        <span class="tag">Probabilidad</span>
+      </div>
+    </div>
+
+    <header class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div>
+            <h1>Probabilidad</h1>
+            <p class="lead">Aprende a contar casos, escribir el espacio muestral, usar la regla de Laplace y resolver ejercicios con urnas, dados, ruletas y diagramas de árbol.</p>
+          </div>
+
+          <div class="formula-hero" aria-label="Fórmula básica de probabilidad">
+            <div class="formula-main">
+              P(A) =
+              <span class="fraction" aria-label="casos favorables dividido entre casos posibles">
+                <span>casos favorables</span>
+                <span>casos posibles</span>
+              </span>
+            </div>
+            <p>La pregunta clave siempre es la misma: de todos los resultados que pueden ocurrir, ¿cuántos me sirven?</p>
+          </div>
+
+          <div class="hero-actions">
+            <a class="button primary" href="#teoria">Estudiar teoría</a>
+            <a class="button" href="#ejercicios">Ver ejercicios resueltos</a>
+            <a class="button" href="#practica">Practicar</a>
+          </div>
+        </div>
+
+        <div class="lab" aria-label="Laboratorio visual de probabilidad">
+          <div class="lab-inner">
+            <div class="urn-scene">
+              <div class="urn" aria-hidden="true">
+                <span class="ball yellow" style="--x:28%;--y:30%"></span>
+                <span class="ball yellow" style="--x:48%;--y:24%"></span>
+                <span class="ball red" style="--x:70%;--y:32%"></span>
+                <span class="ball green" style="--x:34%;--y:50%"></span>
+                <span class="ball blue" style="--x:58%;--y:48%"></span>
+                <span class="ball green" style="--x:72%;--y:62%"></span>
+                <span class="ball blue" style="--x:32%;--y:70%"></span>
+                <span class="ball red" style="--x:54%;--y:74%"></span>
+              </div>
+
+              <div class="hero-stat">
+                <strong>Ejemplo rápido</strong>
+                <p>Si hay 8 bolas y 2 son amarillas:</p>
+                <code>P(amarilla) = 2/8 = 1/4</code>
+              </div>
+            </div>
+
+            <div class="mini-dice" aria-label="Dado con resultados pares resaltados">
+              <span class="die-face">1</span>
+              <span class="die-face good">2</span>
+              <span class="die-face">3</span>
+              <span class="die-face good">4</span>
+              <span class="die-face">5</span>
+              <span class="die-face good">6</span>
+            </div>
+            <p class="mini-note">Suceso "sacar par": 3 resultados favorables de 6.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="quick-nav" aria-label="Navegación del recurso">
+      <a href="#teoria">Teoría</a>
+      <a href="#metodo">Método</a>
+      <a href="#ejercicios">Ejercicios resueltos</a>
+      <a href="#laboratorio">Laboratorio</a>
+      <a href="#practica">Quiz</a>
+      <a href="#resumen">Resumen</a>
+    </nav>
+
+    <main id="contenido">
+      <section class="section" id="teoria">
+        <div class="section-head">
+          <h2>1. La idea esencial</h2>
+          <p>La probabilidad mide cómo de posible es que ocurra un suceso. Se expresa como fracción, decimal o porcentaje, y siempre está entre 0 y 1.</p>
+        </div>
+
+        <div class="theory-grid">
+          <article class="concept">
+            <span class="symbol">Ω</span>
+            <h3>Espacio muestral</h3>
+            <p>Es el conjunto de todos los resultados posibles de un experimento aleatorio.</p>
+            <ul>
+              <li>Dado: Ω = {1, 2, 3, 4, 5, 6}</li>
+              <li>Moneda: Ω = {cara, cruz}</li>
+              <li>Urna por color: Ω = {amarilla, roja, verde}</li>
+            </ul>
+          </article>
+
+          <article class="concept">
+            <span class="symbol">A</span>
+            <h3>Sucesos</h3>
+            <p>Un suceso es lo que queremos que ocurra. Puede tener uno o varios resultados.</p>
+            <ul>
+              <li>Elemental: {5}</li>
+              <li>Compuesto: {2, 4, 6}</li>
+              <li>Seguro: ocurre siempre</li>
+              <li>Imposible: no puede ocurrir</li>
+            </ul>
+          </article>
+
+          <article class="concept">
+            <span class="symbol">=</span>
+            <h3>Casos equiprobables</h3>
+            <p>La regla de Laplace se usa cuando todos los resultados tienen la misma posibilidad.</p>
+            <ul>
+              <li>Un dado justo: todos los números valen lo mismo.</li>
+              <li>Una bola al azar: las bolas tienen el mismo tamaño.</li>
+              <li>Una ruleta: cuenta sectores iguales.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section wide-band" aria-labelledby="laplace-title">
+        <div class="laplace">
+          <h2 id="laplace-title">2. Regla de Laplace</h2>
+          <p>Si todos los resultados son igual de probables, no hay que adivinar: solo contar.</p>
+          <div class="number-line" aria-label="Escala de probabilidad de cero a uno">
+            <div class="line"></div>
+          </div>
+        </div>
+
+        <div class="formula-box">
+          <div class="big">
+            P(A) =
+            <span class="fraction">
+              <span>número de casos favorables</span>
+              <span>número de casos posibles</span>
+            </span>
+          </div>
+          <p><strong>Favorables</strong> son los que cumplen la condición. <strong>Posibles</strong> son todos los resultados que pueden salir.</p>
+        </div>
+      </section>
+
+      <section class="section" id="metodo">
+        <div class="section-head">
+          <h2>3. Método de resolución en 4 pasos</h2>
+          <p>Usa este esquema en casi cualquier ejercicio de probabilidad de 2º ESO.</p>
+        </div>
+
+        <div class="method">
+          <article class="method-step">
+            <span>1</span>
+            <h3>Entiende el experimento</h3>
+            <p>¿Se lanza un dado, se saca una bola, se elige ropa, se gira una ruleta?</p>
+          </article>
+          <article class="method-step">
+            <span>2</span>
+            <h3>Escribe los posibles</h3>
+            <p>Lista el espacio muestral o cuenta cuántas opciones hay en total.</p>
+          </article>
+          <article class="method-step">
+            <span>3</span>
+            <h3>Cuenta los favorables</h3>
+            <p>Marca solo los resultados que cumplen exactamente lo que pide el enunciado.</p>
+          </article>
+          <article class="method-step">
+            <span>4</span>
+            <h3>Calcula y simplifica</h3>
+            <p>Forma la fracción, simplifica si se puede y escribe una frase de respuesta.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="ejercicios">
+        <div class="section-head">
+          <h2>4. Ejercicios de los PDF resueltos paso a paso</h2>
+          <p>Los ejercicios están reescritos como guía de estudio: primero se identifica el tipo de problema, luego se resuelve contando casos.</p>
+        </div>
+
+        <div class="exercise-list">
+          <article class="exercise">
+            <div>
+              <h3>Ejercicio 1: lanzamiento de un dado</h3>
+              <p class="statement">Escribe el espacio muestral y dos sucesos elementales y dos compuestos.</p>
+              <ol class="step-list">
+                <li><span><strong>Espacio muestral:</strong> al lanzar un dado puede salir cualquier número del 1 al 6, así que <span class="math">Ω = {1,2,3,4,5,6}</span>.</span></li>
+                <li><span><strong>Sucesos elementales:</strong> tienen un solo resultado. Por ejemplo <span class="math">{2}</span> y <span class="math">{5}</span>.</span></li>
+                <li><span><strong>Sucesos compuestos:</strong> tienen varios resultados. Por ejemplo "sacar par" = <span class="math">{2,4,6}</span> y "sacar mayor que 4" = <span class="math">{5,6}</span>.</span></li>
+                <li><span><strong>Probabilidades:</strong> <span class="math">P(par)=3/6=1/2</span> y <span class="math">P(&gt;4)=2/6=1/3</span>.</span></li>
+              </ol>
+            </div>
+
+            <div class="visual-panel">
+              <div class="set-row" aria-label="Resultados posibles de un dado">
+                <span class="set-token">1</span>
+                <span class="set-token highlight">2</span>
+                <span class="set-token">3</span>
+                <span class="set-token highlight">4</span>
+                <span class="set-token">5</span>
+                <span class="set-token highlight">6</span>
+              </div>
+              <p class="mini-note">Resaltados: resultados favorables del suceso "sacar par".</p>
+            </div>
+          </article>
+
+          <article class="exercise">
+            <div>
+              <h3>Ejercicio 2: urna con 3 amarillas, 5 rojas y 6 verdes</h3>
+              <p class="statement">Todas las bolas tienen el mismo tamaño. Se extrae una bola al azar.</p>
+              <ol class="step-list">
+                <li><span><strong>Cuenta el total:</strong> <span class="math">3 + 5 + 6 = 14</span> bolas.</span></li>
+                <li><span><strong>Espacio muestral por color:</strong> si solo importa el color, <span class="math">Ω = {amarilla, roja, verde}</span>. Si distinguimos cada bola, hay 14 resultados.</span></li>
+                <li><span><strong>Aplica Laplace:</strong> cada probabilidad es "bolas de ese color / 14".</span></li>
+                <li><span><strong>Resultados:</strong> <span class="math">P(amarilla)=3/14</span>, <span class="math">P(roja)=5/14</span>, <span class="math">P(verde)=6/14=3/7</span>.</span></li>
+              </ol>
+            </div>
+
+            <div class="visual-panel">
+              <div class="ball-grid" aria-label="Urna con 14 bolas: 3 amarillas, 5 rojas y 6 verdes">
+                <span class="ball-dot yellow"></span><span class="ball-dot yellow"></span><span class="ball-dot yellow"></span>
+                <span class="ball-dot red"></span><span class="ball-dot red"></span><span class="ball-dot red"></span><span class="ball-dot red"></span><span class="ball-dot red"></span>
+                <span class="ball-dot green"></span><span class="ball-dot green"></span><span class="ball-dot green"></span><span class="ball-dot green"></span><span class="ball-dot green"></span><span class="ball-dot green"></span>
+              </div>
+              <table class="prob-table" aria-label="Probabilidades de la urna">
+                <thead>
+                  <tr><th>Color</th><th>Favorables</th><th>Probabilidad</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Amarilla</td><td>3</td><td>3/14</td></tr>
+                  <tr><td>Roja</td><td>5</td><td>5/14</td></tr>
+                  <tr><td>Verde</td><td>6</td><td>6/14 = 3/7</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="exercise">
+            <div>
+              <h3>Ejercicio 3: ¿en qué ruleta es más difícil sacar azul?</h3>
+              <p class="statement">Comparamos la parte azul de cada ruleta contando sectores iguales.</p>
+              <ol class="step-list">
+                <li><span><strong>Primera ruleta:</strong> 1 sector azul de 3. <span class="math">P(azul)=1/3</span>.</span></li>
+                <li><span><strong>Segunda ruleta:</strong> 2 sectores azules de 6. <span class="math">P(azul)=2/6=1/3</span>.</span></li>
+                <li><span><strong>Tercera ruleta:</strong> 2 sectores azules de 8. <span class="math">P(azul)=2/8=1/4</span>.</span></li>
+                <li><span><strong>Respuesta:</strong> es más difícil en la tercera ruleta, porque <span class="math">1/4 &lt; 1/3</span>.</span></li>
+              </ol>
+            </div>
+
+            <div class="visual-panel">
+              <div class="roulette-row">
+                <div class="roulette-card">
+                  <span class="wheel w1" aria-hidden="true"></span>
+                  <strong>1/3 azul</strong>
+                </div>
+                <div class="roulette-card">
+                  <span class="wheel w2" aria-hidden="true"></span>
+                  <strong>2/6 = 1/3 azul</strong>
+                </div>
+                <div class="roulette-card">
+                  <span class="wheel w3" aria-hidden="true"></span>
+                  <strong>2/8 = 1/4 azul</strong>
+                </div>
+              </div>
+              <p class="mini-note">Más difícil significa menor probabilidad.</p>
+            </div>
+          </article>
+
+          <article class="exercise">
+            <div>
+              <h3>Ejercicio 4: moneda y urna</h3>
+              <p class="statement">Lanzamos una moneda y después sacamos una bola de una urna con 2 bolas rojas y 1 verde. Queremos cara y bola roja.</p>
+              <ol class="step-list">
+                <li><span><strong>Primera parte:</strong> la moneda tiene 2 resultados, cara y cruz. <span class="math">P(cara)=1/2</span>.</span></li>
+                <li><span><strong>Segunda parte:</strong> en la urna hay 2 bolas rojas de 3. <span class="math">P(roja)=2/3</span>.</span></li>
+                <li><span><strong>Como pedimos "cara y roja":</strong> seguimos el mismo camino del árbol y multiplicamos. <span class="math">1/2 · 2/3 = 2/6</span>.</span></li>
+                <li><span><strong>Resultado final:</strong> <span class="math">P(cara y roja)=2/6=1/3</span>.</span></li>
+              </ol>
+            </div>
+
+            <div class="visual-panel">
+              <svg class="tree" viewBox="0 0 560 260" role="img" aria-labelledby="tree-title">
+                <title id="tree-title">Diagrama de árbol para moneda y urna</title>
+                <path class="good-path" d="M70 130 C150 70, 210 60, 280 55"></path>
+                <path d="M70 130 C150 190, 210 200, 280 205"></path>
+                <path class="good-path" d="M280 55 C370 30, 430 30, 500 32"></path>
+                <path d="M280 55 C370 82, 430 88, 500 96"></path>
+                <path d="M280 205 C370 168, 430 165, 500 160"></path>
+                <path d="M280 205 C370 228, 430 230, 500 232"></path>
+                <text x="42" y="137">Inicio</text>
+                <text x="260" y="42">Cara</text>
+                <text x="258" y="226">Cruz</text>
+                <text x="504" y="36">Roja</text>
+                <text x="504" y="101">Verde</text>
+                <text x="504" y="165">Roja</text>
+                <text x="504" y="237">Verde</text>
+                <text class="muted-text" x="164" y="72">1/2</text>
+                <text class="muted-text" x="164" y="195">1/2</text>
+                <text class="muted-text" x="380" y="28">2/3</text>
+                <text class="muted-text" x="380" y="98">1/3</text>
+                <text class="muted-text" x="380" y="158">2/3</text>
+                <text class="muted-text" x="380" y="235">1/3</text>
+              </svg>
+              <p class="mini-note">Camino marcado: cara y roja.</p>
+            </div>
+          </article>
+
+          <article class="exercise">
+            <div>
+              <h3>Ejercicio 5: camisas y corbatas</h3>
+              <p class="statement">Hay 3 camisas y 4 corbatas. En el dibujo se distinguen 1 camisa blanca, 2 camisas lisas, 1 camisa rayada, 2 corbatas rayadas y 2 lisas.</p>
+              <ol class="step-list">
+                <li><span><strong>Combinaciones totales:</strong> cada camisa puede ir con 4 corbatas. <span class="math">3 · 4 = 12</span>.</span></li>
+                <li><span><strong>Camisa blanca y corbata roja:</strong> 1 camisa blanca y 1 corbata roja. <span class="math">1 · 1 = 1</span> combinación favorable, así que <span class="math">P=1/12</span>.</span></li>
+                <li><span><strong>Camisa lisa y corbata rayada:</strong> 2 camisas lisas y 2 corbatas rayadas. <span class="math">2 · 2 = 4</span>. Entonces <span class="math">P=4/12=1/3</span>.</span></li>
+                <li><span><strong>Dos prendas rayadas:</strong> 1 camisa rayada y 2 corbatas rayadas. <span class="math">1 · 2 = 2</span>. Entonces <span class="math">P=2/12=1/6</span>.</span></li>
+              </ol>
+            </div>
+
+            <div class="visual-panel">
+              <div class="combo-grid" aria-label="Doce combinaciones de camisa y corbata">
+                <span class="combo good">Blanca<br>Roja</span>
+                <span class="combo">Blanca<br>Rayada 1</span>
+                <span class="combo">Blanca<br>Rayada 2</span>
+                <span class="combo">Blanca<br>Azul</span>
+                <span class="combo">Lisa<br>Roja</span>
+                <span class="combo good">Lisa<br>Rayada 1</span>
+                <span class="combo good">Lisa<br>Rayada 2</span>
+                <span class="combo">Lisa<br>Azul</span>
+                <span class="combo">Rayada<br>Roja</span>
+                <span class="combo good">Rayada<br>Rayada 1</span>
+                <span class="combo good">Rayada<br>Rayada 2</span>
+                <span class="combo">Rayada<br>Azul</span>
+              </div>
+              <p class="mini-note">La cuadrícula equivale al diagrama de árbol: 3 ramas de camisa y 4 ramas de corbata.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="laboratorio">
+        <div class="section-head">
+          <h2>5. Laboratorio de urna</h2>
+          <p>Cambia el número de bolas y observa cómo se actualiza la fracción, el porcentaje y el dibujo.</p>
+        </div>
+
+        <div class="lab-controls">
+          <div class="control-group">
+            <div class="slider-row">
+              <label for="yellowRange">Amarillas <span id="yellowCount">3</span></label>
+              <input id="yellowRange" type="range" min="0" max="12" value="3">
+            </div>
+            <div class="slider-row">
+              <label for="redRange">Rojas <span id="redCount">5</span></label>
+              <input id="redRange" type="range" min="0" max="12" value="5">
+            </div>
+            <div class="slider-row">
+              <label for="greenRange">Verdes <span id="greenCount">6</span></label>
+              <input id="greenRange" type="range" min="0" max="12" value="6">
+            </div>
+            <label class="slider-row" for="eventSelect">
+              <span>Suceso que quieres calcular</span>
+              <select id="eventSelect">
+                <option value="yellow">Sacar amarilla</option>
+                <option value="red">Sacar roja</option>
+                <option value="green">Sacar verde</option>
+                <option value="not-red">No sacar roja</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="result-box">
+            <div class="result-main" aria-live="polite">
+              <strong id="probabilityText">P(amarilla) = 3/14</strong>
+              <p id="probabilityExplain">3 favorables de 14 posibles. Aproximadamente 21,4%.</p>
+            </div>
+            <div class="meter" aria-label="Barra de probabilidad">
+              <span id="probabilityMeter"></span>
+            </div>
+            <div class="dynamic-balls" id="dynamicBalls" aria-label="Bolas de la urna interactiva"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="practica">
+        <div class="section-head">
+          <h2>6. Práctica autocorregible</h2>
+          <p>Responde y lee la explicación. Si fallas, vuelve a contar posibles y favorables antes de continuar.</p>
+        </div>
+
+        <div class="quiz">
+          <aside class="summary-panel">
+            <h3>Antes de contestar</h3>
+            <ul class="key-points">
+              <li>Comprueba si todos los casos son igual de probables.</li>
+              <li>Escribe el total antes de escribir la fracción.</li>
+              <li>En árboles, multiplica por un camino y suma caminos diferentes.</li>
+              <li>Más difícil significa menor probabilidad.</li>
+            </ul>
+          </aside>
+
+          <div class="quiz-panel">
+            <h3 id="quizTitle">Pregunta 1 de 5</h3>
+            <p class="question" id="questionText"></p>
+            <div class="options" id="options"></div>
+            <div class="feedback" id="feedback" aria-live="polite"></div>
+            <div class="quiz-footer">
+              <span id="scoreText">Puntuación: 0/0</span>
+              <button class="button primary" type="button" id="nextQuestion">Siguiente</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section wide-band" id="resumen">
+        <div class="laplace">
+          <h2>7. Resumen final</h2>
+          <p>Si te atascas en un ejercicio de probabilidad, vuelve a estas cinco ideas.</p>
+        </div>
+
+        <ul class="key-points">
+          <li>El espacio muestral contiene todos los resultados posibles.</li>
+          <li>Un suceso elemental tiene un resultado; uno compuesto tiene varios.</li>
+          <li>La probabilidad se calcula como favorables entre posibles cuando los casos son equiprobables.</li>
+          <li>En una urna, cada bola cuenta como un caso posible si todas tienen el mismo tamaño.</li>
+          <li>En un diagrama de árbol, cada camino completo representa una combinación.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      Recurso de Matemáticas para 2º ESO basado en las hojas de probabilidad proporcionadas.
+    </footer>
+  </div>
+
+  <script>
+    const yellowRange = document.getElementById('yellowRange');
+    const redRange = document.getElementById('redRange');
+    const greenRange = document.getElementById('greenRange');
+    const eventSelect = document.getElementById('eventSelect');
+    const yellowCount = document.getElementById('yellowCount');
+    const redCount = document.getElementById('redCount');
+    const greenCount = document.getElementById('greenCount');
+    const probabilityText = document.getElementById('probabilityText');
+    const probabilityExplain = document.getElementById('probabilityExplain');
+    const probabilityMeter = document.getElementById('probabilityMeter');
+    const dynamicBalls = document.getElementById('dynamicBalls');
+
+    const gcd = (a, b) => {
+      let x = Math.abs(a);
+      let y = Math.abs(b);
+      while (y) {
+        const t = y;
+        y = x % y;
+        x = t;
+      }
+      return x || 1;
+    };
+
+    function fractionText(numerator, denominator) {
+      if (denominator === 0) return '0/0';
+      const divisor = gcd(numerator, denominator);
+      const simpleNum = numerator / divisor;
+      const simpleDen = denominator / divisor;
+      const original = `${numerator}/${denominator}`;
+      const simplified = `${simpleNum}/${simpleDen}`;
+      return original === simplified ? original : `${original} = ${simplified}`;
+    }
+
+    function renderDynamicBalls(yellow, red, green) {
+      dynamicBalls.innerHTML = '';
+      const balls = [
+        ...Array(yellow).fill('yellow'),
+        ...Array(red).fill('red'),
+        ...Array(green).fill('green')
+      ];
+      if (balls.length === 0) {
+        dynamicBalls.textContent = 'Añade alguna bola para poder calcular una probabilidad.';
+        return;
+      }
+      balls.forEach(color => {
+        const dot = document.createElement('span');
+        dot.className = `ball-dot ${color}`;
+        dynamicBalls.appendChild(dot);
+      });
+    }
+
+    function updateLab() {
+      const yellow = Number(yellowRange.value);
+      const red = Number(redRange.value);
+      const green = Number(greenRange.value);
+      const total = yellow + red + green;
+      const event = eventSelect.value;
+
+      yellowCount.textContent = yellow;
+      redCount.textContent = red;
+      greenCount.textContent = green;
+
+      const eventMap = {
+        yellow: { label: 'amarilla', favorable: yellow },
+        red: { label: 'roja', favorable: red },
+        green: { label: 'verde', favorable: green },
+        'not-red': { label: 'no roja', favorable: yellow + green }
+      };
+
+      const current = eventMap[event];
+      const percent = total === 0 ? 0 : (current.favorable / total) * 100;
+      probabilityText.textContent = total === 0
+        ? `P(${current.label}) = 0/0`
+        : `P(${current.label}) = ${fractionText(current.favorable, total)}`;
+      probabilityExplain.textContent = total === 0
+        ? 'No hay casos posibles: añade bolas a la urna.'
+        : `${current.favorable} favorables de ${total} posibles. Aproximadamente ${percent.toFixed(1).replace('.', ',')}%.`;
+      probabilityMeter.style.width = `${percent}%`;
+      renderDynamicBalls(yellow, red, green);
+    }
+
+    [yellowRange, redRange, greenRange, eventSelect].forEach(control => {
+      control.addEventListener('input', updateLab);
+      control.addEventListener('change', updateLab);
+    });
+
+    updateLab();
+
+    const quizData = [
+      {
+        q: 'En un dado justo, ¿cuál es la probabilidad de sacar un número mayor que 4?',
+        options: ['2/6 = 1/3', '4/6 = 2/3', '1/6'],
+        answer: 0,
+        explain: 'Los resultados mayores que 4 son 5 y 6: hay 2 favorables de 6 posibles.'
+      },
+      {
+        q: 'Una urna tiene 3 amarillas, 5 rojas y 6 verdes. ¿Cuál es P(verde)?',
+        options: ['6/14 = 3/7', '6/11', '3/14'],
+        answer: 0,
+        explain: 'El total es 14 bolas. Verdes hay 6, por eso P(verde)=6/14=3/7.'
+      },
+      {
+        q: 'Si una ruleta tiene 2 sectores azules de 8 sectores iguales, ¿cuál es P(azul)?',
+        options: ['1/4', '1/8', '2/6'],
+        answer: 0,
+        explain: 'Son 2 sectores favorables de 8 posibles: 2/8 se simplifica a 1/4.'
+      },
+      {
+        q: 'Lanzas una moneda y luego sacas una bola de una urna con 2 rojas y 1 verde. ¿Cuál es P(cara y roja)?',
+        options: ['1/3', '2/3', '1/2'],
+        answer: 0,
+        explain: 'En un árbol se multiplica por el camino: P(cara)=1/2 y P(roja)=2/3. Producto: 1/3.'
+      },
+      {
+        q: 'Con 3 camisas y 4 corbatas, ¿cuántas combinaciones camisa-corbata hay?',
+        options: ['12', '7', '3'],
+        answer: 0,
+        explain: 'Cada una de las 3 camisas puede combinarse con 4 corbatas: 3 · 4 = 12.'
+      }
+    ];
+
+    let currentQuestion = 0;
+    let answered = false;
+    let score = 0;
+    let attempts = 0;
+
+    const quizTitle = document.getElementById('quizTitle');
+    const questionText = document.getElementById('questionText');
+    const options = document.getElementById('options');
+    const feedback = document.getElementById('feedback');
+    const scoreText = document.getElementById('scoreText');
+    const nextQuestion = document.getElementById('nextQuestion');
+
+    function renderQuiz() {
+      const item = quizData[currentQuestion];
+      answered = false;
+      quizTitle.textContent = `Pregunta ${currentQuestion + 1} de ${quizData.length}`;
+      questionText.textContent = item.q;
+      feedback.textContent = '';
+      nextQuestion.textContent = currentQuestion === quizData.length - 1 ? 'Reiniciar' : 'Siguiente';
+      options.innerHTML = '';
+
+      item.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'option';
+        button.textContent = option;
+        button.addEventListener('click', () => checkAnswer(index));
+        options.appendChild(button);
+      });
+
+      updateScore();
+    }
+
+    function checkAnswer(index) {
+      if (answered) return;
+      answered = true;
+      attempts += 1;
+      const item = quizData[currentQuestion];
+      const buttons = [...options.querySelectorAll('.option')];
+      buttons.forEach((button, buttonIndex) => {
+        button.disabled = true;
+        if (buttonIndex === item.answer) button.classList.add('correct');
+        if (buttonIndex === index && index !== item.answer) button.classList.add('incorrect');
+      });
+
+      if (index === item.answer) {
+        score += 1;
+        feedback.innerHTML = `<strong>Correcto.</strong> ${item.explain}`;
+      } else {
+        feedback.innerHTML = `<strong>Revisa el conteo.</strong> ${item.explain}`;
+      }
+      updateScore();
+    }
+
+    function updateScore() {
+      scoreText.textContent = `Puntuación: ${score}/${attempts}`;
+    }
+
+    nextQuestion.addEventListener('click', () => {
+      if (currentQuestion === quizData.length - 1) {
+        currentQuestion = 0;
+        score = 0;
+        attempts = 0;
+      } else {
+        currentQuestion += 1;
+      }
+      renderQuiz();
+    });
+
+    renderQuiz();
+  </script>
+</body>
+</html>
